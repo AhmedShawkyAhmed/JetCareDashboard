@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/presentation/widgets/percent_item.dart';
+import 'package:sizer/sizer.dart';
+
+class HomeCard extends StatelessWidget {
+  HomeCard({
+    Key? key,
+    required this.title,
+    required this.percent,
+    required this.total,
+    required this.percent2,
+    this.title1,
+    this.title2,
+    this.cHeight,
+    this.cWidth,
+    this.widget,
+  }) : super(key: key);
+
+  String title;
+  String? title1,title2;
+  num percent, total, percent2;
+  Widget? widget;
+  double? cHeight, cWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 2.h, bottom: 2.h),
+      width: cWidth ?? 18.w,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.black,
+            blurRadius: 5,
+            offset: Offset(0, 0), // Shadow position
+          ),
+        ],
+      ),
+      child: widget ??
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 1.h, left: 0.5.w),
+                child: DefaultText(
+                  text: title,
+                  fontSize: 4.sp,
+                ),
+              ),
+              PercentItem(
+                title: title1 ?? "Active",
+                cWidth: cWidth ?? 18.w,
+                percent: percent,
+                total: total,
+                color: Colors.blueAccent,
+              ),
+              PercentItem(
+                title: title2 ?? "Disabled",
+                cWidth: cWidth ?? 18.w,
+                percent: percent2,
+                total: total,
+                color: Colors.redAccent,
+              ),
+            ],
+          ),
+    );
+  }
+}

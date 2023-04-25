@@ -1,0 +1,159 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flutter/material.dart';
+import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
+import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:sizer/sizer.dart';
+
+class DefaultDropDownMenu extends StatefulWidget {
+  String? value;
+  String? hint;
+  List<String> list;
+  double? height;
+  Color? color;
+  Color? borderColor;
+  String type;
+  int? orderId;
+  int? index;
+  Function(String?)? onChanged;
+
+  DefaultDropDownMenu({
+    required this.list,
+    this.type = "data",
+    this.onChanged,
+    this.value,
+    this.borderColor,
+    this.height,
+    this.orderId,
+    this.color,
+    this.hint,
+    this.index,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<DefaultDropDownMenu> createState() => _DefaultDropDownMenuState();
+}
+
+class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.height ?? 8.h,
+      decoration: BoxDecoration(
+        color: widget.color ?? AppColors.lightGrey.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: widget.borderColor ?? AppColors.grey,
+          width: 1.5,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 12,
+          right: 12,
+          top: 5,
+        ),
+        child: DropdownButton<String>(
+          value: widget.value,
+          underline: const SizedBox(),
+          icon: Icon(
+            Icons.keyboard_arrow_down,
+            size: 4.sp,
+          ),
+          hint: Text(
+            widget.hint!,
+          ),
+          isExpanded: true,
+          elevation: 1,
+          style: TextStyle(
+            color: AppColors.black,
+            fontSize: 2.sp,
+            fontWeight: FontWeight.w300,
+          ),
+          onChanged: (String? value) {
+            setState(() {
+              widget.value = value!;
+              if (widget.type == "crew") {
+                if (userId[crews.indexOf(value.toString())].toString() == "0") {
+                  DefaultToast.showMyToast("Please Select Correct Crew");
+                } else {
+                  OrdersCubit.get(context).assignOrder(
+                    id: widget.orderId!,
+                    crewId: userId[crews.indexOf(value.toString())],
+                    afterSuccess: () {
+                      Navigator.pop(context);
+                      crews.clear();
+                      userId.clear();
+                      areaId = 0;
+                    },
+                  );
+                }
+              }
+              else if (widget.type == "area") {
+                if (AreaCubit.get(context)
+                        .areaId[AreaCubit.get(context)
+                            .areas
+                            .indexOf(value.toString())]
+                        .toString() ==
+                    "0") {
+                  DefaultToast.showMyToast("Please Select Correct Area");
+                } else {
+                  GlobalCubit.get(context).getCrews(AreaCubit.get(context)
+                          .areaId[
+                      AreaCubit.get(context).areas.indexOf(value.toString())]);
+                }
+              }
+              else if (widget.type == "newCrew") {
+                if (AreaCubit.get(context)
+                        .areaId[AreaCubit.get(context)
+                            .areas
+                            .indexOf(value.toString())]
+                        .toString() ==
+                    "0") {
+                  DefaultToast.showMyToast("Please Select Correct Area");
+                } else {
+                  registerAreaId = AreaCubit.get(context).areaId[
+                      AreaCubit.get(context).areas.indexOf(value.toString())];
+                  printResponse(registerAreaId.toString());
+                }
+              }
+              else if (widget.type == "year") {
+                GlobalCubit.get(context).getStatistics(
+                  month: (selectedMonth + 1).toString(),
+                  year: value,
+                  afterSuccess: () {},
+                );
+                year = value;
+              }
+              else if (widget.type == "status") {
+                OrdersCubit.get(context).updateOrderStatus(
+                  orderId: widget.orderId!,
+                  status: value,
+                  afterSuccess: () {
+                    setState(() {
+                      OrdersCubit.get(context).ordersList[widget.index!].status = value;
+                    });
+                    },
+                );
+              }
+              dropItemsInfo = value;
+              dropItemsItem = value;
+            });
+          },
+          items: widget.list.map<DropdownMenuItem<String>>((value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}
