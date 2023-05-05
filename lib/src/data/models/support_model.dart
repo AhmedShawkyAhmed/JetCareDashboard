@@ -4,6 +4,7 @@ class SupportModel {
 	String contact;
 	String subject;
 	String message;
+	String adminComment;
 
   SupportModel({
    required this.id,
@@ -11,7 +12,8 @@ class SupportModel {
    required this.contact,
    required this.subject,
    required this.message,
-   
+   required this.adminComment,
+
   });
 
 factory  SupportModel.fromJson(Map<String, dynamic> json) => SupportModel
@@ -21,6 +23,7 @@ factory  SupportModel.fromJson(Map<String, dynamic> json) => SupportModel
   contact: json['contact'],
     subject: json['subject'],
     message: json['message'],
+  adminComment: json['adminComment'],
   );
 
   Map<String, dynamic> toJson() {
@@ -30,7 +33,8 @@ factory  SupportModel.fromJson(Map<String, dynamic> json) => SupportModel
     data['contact'] = contact;
     data['subject'] = subject;
     data['message'] = message;
-    
+    data['adminComment'] = adminComment;
+
     return data;
   }
 }

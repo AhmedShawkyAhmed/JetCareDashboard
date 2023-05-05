@@ -188,9 +188,11 @@ class AdsDesktop extends StatelessWidget {
                                       SizedBox(
                                         height: 0.5.h,
                                       ),
-                                      Text(
+                                      DefaultText(
+                                        text:
                                         cubita.adsList[index].link,
-                                        style: TextStyle(fontSize: 3.sp),
+                                        maxLines: 1,
+                                        fontSize: 3.sp,
                                       ),
                                     ],
                                   )),

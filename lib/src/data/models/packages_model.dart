@@ -73,7 +73,7 @@ class PackagesItemsData {
   String? descriptionAr;
   String? descriptionEn;
   String? unit;
-  double? price;
+  num? price;
   String? type;
   int? active;
   int? relationId;

@@ -285,7 +285,7 @@ class _EndDrawerOrderState extends State<EndDrawerOrder> {
                               .itemsResponse!
                               .itemsModel![
                                   GlobalCubit.get(context).items.indexOf(val)]
-                              .price!;
+                              .price!.toDouble();
                           total = itemPrice * count;
                           printLog(itemId.toString());
                         });

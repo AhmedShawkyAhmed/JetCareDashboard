@@ -7,7 +7,7 @@ class CategoryRequest {
   String? descriptionAr;
   String? image;
   String? type;
-  double? price;
+  num? price;
   int? active;
   List<int>? package;
   List<int>? items;

@@ -2,7 +2,7 @@ class AreaModel {
   int id;
   String nameEn;
   String nameAr;
-  double? price;
+  num? price;
   int active;
 
   AreaModel({

@@ -19,6 +19,7 @@ class EndPoints {
   static const getSupport = "getSupport";
   static const deleteSupport = "deleteSupport";
   static const changeSupportStatus = "changeSupportStatus";
+  static const supportComment = "supportComment";
 
   static const addAds = "addAds";
   static const updateAds = "updateAds";

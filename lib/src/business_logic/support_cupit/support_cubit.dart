@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
 import 'package:jetboard/src/data/models/support_model.dart';
 import 'package:jetboard/src/data/network/requests/support_request.dart';
+import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/support_response.dart';
 import 'package:meta/meta.dart';
 
@@ -17,6 +19,7 @@ class SupportCubit extends Cubit<SupportState> {
 
   static SupportCubit get(context) => BlocProvider.of(context);
   SupportResponse? supportResponse, deleteSupportResponse, updateSupportResponse;
+  GlobalResponse? globalResponse;
   List<SupportModel> supportList = [];
   int listCount = 0;
   int index = 0;
@@ -103,6 +106,34 @@ class SupportCubit extends Cubit<SupportState> {
     } catch (e) {
       emit(ChangeSupportErrorState());
       printResponse(e.toString());
+    }
+  }
+
+
+  Future corporateAdminComment({
+    required int orderId,
+    required String comment,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(CommentSupportLoadingState());
+      await DioHelper.postData(url: EndPoints.supportComment, body: {
+        'id': orderId,
+        'comment':comment,
+      }).then((value) {
+        globalResponse = GlobalResponse.fromJson(value.data);
+        DefaultToast.showMyToast(globalResponse!.message.toString());
+        printSuccess(
+            "Update Corporate Comment Response ${globalResponse!.message.toString()}");
+        emit(CommentSupportSuccessState());
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(CommentSupportErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(CommentSupportErrorState());
+      printError(e.toString());
     }
   }
 }

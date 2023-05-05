@@ -24,3 +24,7 @@ class ChangeSupportLodingState extends SupportState {}
 class ChangeSupportSuccessState extends SupportState {}
 
 class ChangeSupportErrorState extends SupportState {}
+
+class CommentSupportLoadingState extends SupportState {}
+class CommentSupportSuccessState extends SupportState {}
+class CommentSupportErrorState extends SupportState {}

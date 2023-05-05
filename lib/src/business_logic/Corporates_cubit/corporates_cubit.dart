@@ -48,28 +48,6 @@ class CorporatesCubit extends Cubit<CorporatesState> {
     }
   }
 
-
-  Future readCorporate({
-    required int id,
-    required VoidCallback afterSuccess,
-  }) async {
-    try {
-      await DioHelper.getData(
-        url: EndPoints.readCorporate,
-        query: {
-          "id": id,
-        },
-      ).then((value) {
-        afterSuccess();
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      printError(n.toString());
-    } catch (e) {
-      printError(e.toString());
-    }
-  }
-
   Future corporateAdminComment({
     required int orderId,
     required String comment,

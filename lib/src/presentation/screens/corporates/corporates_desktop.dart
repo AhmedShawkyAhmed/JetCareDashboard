@@ -240,14 +240,6 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                                     ),
                                   ],
                                 )),
-                            Expanded(
-                              flex: 1,
-                              child: Image.network(
-                                imageDomain +
-                                    cubitC.corporatesList[index].item!.image,
-                                height: 6.h,
-                              ),
-                            ),
                             IconButton(
                               onPressed: () {
                                 showDialog(

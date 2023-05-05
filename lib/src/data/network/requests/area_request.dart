@@ -2,7 +2,7 @@ class AreaRequest {
 int? id;
 String? nameEn;
 String? nameAr;
-double? price;
+num? price;
 int? active;
  AreaRequest({
  this.id,

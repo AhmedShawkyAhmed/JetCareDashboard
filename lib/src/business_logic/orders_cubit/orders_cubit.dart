@@ -81,31 +81,31 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
-  // Future deleteOrder({
-  //   required int orderId,
-  //   required VoidCallback afterSuccess,
-  // }) async {
-  //   try {
-  //     emit(DeleteOrderStatusLoadingState());
-  //     await DioHelper.postData(url: EndPoints.deleteOrder, body: {
-  //       'id': orderId,
-  //     }).then((value) {
-  //       globalResponse = GlobalResponse.fromJson(value.data);
-  //       DefaultToast.showMyToast(globalResponse!.message.toString());
-  //       getOrders();
-  //       printSuccess(
-  //           "Delete Order Response ${globalResponse!.message.toString()}");
-  //       emit(DeleteOrderStatusSuccessState());
-  //       afterSuccess();
-  //     });
-  //   } on DioError catch (n) {
-  //     emit(DeleteOrderStatusErrorState());
-  //     printError(n.toString());
-  //   } catch (e) {
-  //     emit(DeleteOrderStatusErrorState());
-  //     printError(e.toString());
-  //   }
-  // }
+  Future deleteOrder({
+    required int orderId,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(DeleteOrderStatusLoadingState());
+      await DioHelper.postData(url: EndPoints.deleteOrder, body: {
+        'id': orderId,
+      }).then((value) {
+        globalResponse = GlobalResponse.fromJson(value.data);
+        DefaultToast.showMyToast(globalResponse!.message.toString());
+        getOrders();
+        printSuccess(
+            "Delete Order Response ${globalResponse!.message.toString()}");
+        emit(DeleteOrderStatusSuccessState());
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(DeleteOrderStatusErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(DeleteOrderStatusErrorState());
+      printError(e.toString());
+    }
+  }
 
   Future updateOrderStatus({
     required int orderId,

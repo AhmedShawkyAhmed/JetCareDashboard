@@ -150,27 +150,71 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                           child: RowData(
                             rowHeight: 8.h,
                             data: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Number',
-                                    style: TextStyle(fontSize: 3.sp),
-                                  ),
-                                  SizedBox(
-                                    height: 0.5.h,
-                                  ),
-                                  Text(
-                                    cubitO.ordersList[index].id.toString(),
-                                    style: TextStyle(fontSize: 3.sp),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                flex: 2,
+                              SizedBox(
+                                width: 8.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Number',
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      cubitO.ordersList[index].id.toString(),
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Client',
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      cubitO.ordersList[index].user!.name.toString(),
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Ordered At',
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      cubitO.ordersList[index].createdAt.toString().substring(0,10),
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
                                       'Date',
@@ -186,70 +230,8 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Total',
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    Text(
-                                      cubitO.ordersList[index].total.toString(),
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Order Name',
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    Text(
-                                      cubitO.ordersList[index].item == null
-                                          ? cubitO.ordersList[index].package!
-                                              .nameAr!
-                                          : cubitO
-                                              .ordersList[index].item!.nameAr!
-                                              .toString(),
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              cubitO.ordersList[index].item == null
-                                  ? Expanded(
-                                      flex: 1,
-                                      child: Image.network(
-                                        imageDomain +
-                                            cubitO.ordersList[index].package!
-                                                .image!,
-                                        height: 6.h,
-                                      ),
-                                    )
-                                  : Expanded(
-                                      flex: 1,
-                                      child: Image.network(
-                                        imageDomain +
-                                            cubitO
-                                                .ordersList[index].item!.image!,
-                                        height: 6.h,
-                                      ),
-                                    ),
-                              Expanded(
-                                flex: 1,
+                              SizedBox(
+                                width: 10.w,
                                 child: DefaultDropDownMenu(
                                   height: 4.h,
                                   hint: "Order Status",
@@ -262,8 +244,8 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                   orderId: cubitO.ordersList[index].id,
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
+                              SizedBox(
+                                width: 15.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -421,6 +403,73 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                 },
                                 icon: const Icon(Icons.comment),
                                 color: AppColors.grey,
+                              ),
+                              SizedBox(
+                                width: 1.w,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: AppColors.white,
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: const <Widget>[
+                                              DefaultText(text: "Are you Sure you want to Delete this Order !!")
+                                            ],
+                                          ),
+                                        ),
+                                        actionsAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                        actions: <Widget>[
+                                          DefaultAppButton(
+                                            title: "Delete",
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              OrdersCubit.get(context)
+                                                  .deleteOrder(
+                                                orderId:
+                                                cubitO.ordersList[index].id,
+                                                afterSuccess: () {
+                                                  setState(() {
+                                                    OrdersCubit.get(context)
+                                                        .ordersList.removeAt(index);
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                              );
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.white,
+                                            buttonColor: AppColors.darkRed,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                          DefaultAppButton(
+                                            title: "Cancel",
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.mainColor,
+                                            buttonColor: AppColors.lightGrey,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(Icons.delete),
+                                color: AppColors.darkRed,
                               ),
                               SizedBox(
                                 width: 2.w,

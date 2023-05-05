@@ -6,16 +6,25 @@ import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/endDrawer_support.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../widgets/default_text_field.dart';
 
-class SupportDesktop extends StatelessWidget {
+class SupportDesktop extends StatefulWidget {
+  SupportDesktop({super.key});
+
+  @override
+  State<SupportDesktop> createState() => _SupportDesktopState();
+}
+
+class _SupportDesktopState extends State<SupportDesktop> {
   TextEditingController search = TextEditingController();
+
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
 
-  SupportDesktop({super.key});
+  TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +95,9 @@ class SupportDesktop extends StatelessWidget {
                       .supportModel!
                       .isEmpty) {
                     return Padding(
-                      padding: EdgeInsets.only(top: 40.h,),
+                      padding: EdgeInsets.only(
+                        top: 40.h,
+                      ),
                       child: Center(
                         child: DefaultText(
                           text: "No Support Messages Yet !",
@@ -213,6 +224,176 @@ class SupportDesktop extends StatelessWidget {
                                     ),
                                   ],
                                 )),
+                            SizedBox(
+                              width: 1.w,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Details'),
+                                      content: SizedBox(
+                                        width: 50.w,
+                                        height: 35.h,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const DefaultText(
+                                              text: "Name",
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            DefaultText(
+                                              text: cubits
+                                                  .supportList[index].name
+                                                  .toString(),
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            const DefaultText(
+                                              text: "Phone",
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            DefaultText(
+                                              text: cubits
+                                                  .supportList[index].contact
+                                                  .toString(),
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            const DefaultText(
+                                              text: "Subject",
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            DefaultText(
+                                              text: cubits
+                                                  .supportList[index].subject
+                                                  .toString(),
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            const DefaultText(
+                                              text: "Message",
+                                              maxLines: 1,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            DefaultText(
+                                              text: cubits
+                                                  .supportList[index].message
+                                                  .toString(),
+                                              maxLines: 5,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(Icons.remove_red_eye),
+                              color: AppColors.grey,
+                            ),
+                            SizedBox(
+                              width: 1.w,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (cubits.supportList[index].adminComment !=
+                                      "") {
+                                    commentController.text =
+                                    cubits.supportList[index].adminComment;
+                                  }
+                                });
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: AppColors.white,
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            DefaultTextField(
+                                              width: 50.w,
+                                              height: 20.h,
+                                              hintText: "Write your Comment",
+                                              textColor: AppColors.mainColor,
+                                              maxLength: 10000,
+                                              fontSize: 4.sp,
+                                              validator: "",
+                                              maxLine: 5,
+                                              controller: commentController,
+                                              password: false,
+                                              haveShadow: false,
+                                              color: AppColors.white,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      actions: <Widget>[
+                                        DefaultAppButton(
+                                          title: "Save",
+                                          onTap: () {
+                                            SupportCubit.get(context)
+                                                .corporateAdminComment(
+                                              orderId:
+                                              SupportCubit.get(context)
+                                                      .supportList[index]
+                                                      .id,
+                                              comment: commentController.text,
+                                              afterSuccess: () {
+                                                setState(() {
+                                                  SupportCubit.get(context)
+                                                          .supportList[index]
+                                                          .adminComment =
+                                                      commentController.text;
+                                                });
+                                                commentController.clear();
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                          },
+                                          width: 10.w,
+                                          height: 4.h,
+                                          fontSize: 3.sp,
+                                          textColor: AppColors.white,
+                                          buttonColor: AppColors.pc,
+                                          isGradient: false,
+                                          radius: 10,
+                                        ),
+                                        DefaultAppButton(
+                                          title: "Cancel",
+                                          onTap: () {
+                                            commentController.clear();
+                                            Navigator.pop(context);
+                                          },
+                                          width: 10.w,
+                                          height: 4.h,
+                                          fontSize: 3.sp,
+                                          textColor: AppColors.mainColor,
+                                          buttonColor: AppColors.lightGrey,
+                                          isGradient: false,
+                                          radius: 10,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(Icons.comment),
+                              color: AppColors.grey,
+                            ),
                             SizedBox(
                               width: 1.w,
                             ),

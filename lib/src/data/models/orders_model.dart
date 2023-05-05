@@ -1,3 +1,5 @@
+import 'package:jetboard/src/data/models/cart_model.dart';
+
 class OrdersModel {
   int id;
   String? date;
@@ -6,8 +8,8 @@ class OrdersModel {
   String? createdAt;
   User? user;
   Address? address;
-  Package? package;
-  Package? item;
+  // Package? package;
+  // Package? item;
   Space? space;
   Calendar? calendar;
   Period? period;
@@ -15,6 +17,7 @@ class OrdersModel {
   String? comment;
   String? adminComment;
   List<Extras>? extras;
+  List<CartModel>? cart;
 
   OrdersModel({
     required this.id,
@@ -24,8 +27,8 @@ class OrdersModel {
     this.createdAt,
     this.user,
     this.address,
-    this.package,
-    this.item,
+    // this.package,
+    // this.item,
     this.space,
     this.calendar,
     this.period,
@@ -33,6 +36,7 @@ class OrdersModel {
     this.comment,
     this.adminComment,
     this.extras,
+    this.cart,
   });
 
   factory OrdersModel.fromJson(Map<String, dynamic> json) => OrdersModel(
@@ -40,15 +44,15 @@ class OrdersModel {
         date: json['date'] ?? "",
         total: json['total'] ?? 0,
         status: json['status'] ?? "",
-        createdAt: json['createdAt'] ?? "",
+        createdAt: json['created_at'] ?? "",
     comment: json['comment'] ?? "",
     adminComment: json['adminComment'] ?? "",
         user: json['user'] != null ? User.fromJson(json['user']) : null,
         address:
             json['address'] != null ? Address.fromJson(json['address']) : null,
-        package:
-            json['package'] != null ? Package.fromJson(json['package']) : null,
-        item: json['item'] != null ? Package.fromJson(json['item']) : null,
+        // package:
+        //     json['package'] != null ? Package.fromJson(json['package']) : null,
+        // item: json['item'] != null ? Package.fromJson(json['item']) : null,
         space: json['space'] != null ? Space.fromJson(json['space']) : null,
         calendar: json['calendar'] != null
             ? Calendar.fromJson(json['calendar'])
@@ -58,6 +62,9 @@ class OrdersModel {
         extras: json["extras"] != null
             ? List<Extras>.from(json["extras"].map((x) => Extras.fromJson(x)))
             : json["extras"],
+    cart: json["cart"] != null
+        ? List<CartModel>.from(json["cart"].map((x) => CartModel.fromJson(x)))
+        : json["cart"],
       );
 
   Map<String, dynamic> toJson() {
@@ -68,19 +75,19 @@ class OrdersModel {
     data['status'] = status;
     data['comment'] = comment;
     data['adminComment'] = adminComment;
-    data['createdAt'] = createdAt;
+    data['created_at'] = createdAt;
     if (user != null) {
       data['user'] = user;
     }
     if (address != null) {
       data['address'] = address;
     }
-    if (package != null) {
-      data['package'] = package;
-    }
-    if (item != null) {
-      data['item'] = item;
-    }
+    // if (package != null) {
+    //   data['package'] = package;
+    // }
+    // if (item != null) {
+    //   data['item'] = item;
+    // }
     if (space != null) {
       data["space"] = space;
     }
@@ -92,6 +99,9 @@ class OrdersModel {
     }
     if (extras != null) {
       data['extras'] = extras!.map((e) => e.toJson()).toList();
+    }
+    if (cart != null) {
+      data['cart'] = cart!.map((e) => e.toJson()).toList();
     }
     return data;
   }
@@ -176,7 +186,7 @@ class Package {
   String? descriptionAr;
   String? descriptionEn;
   String? image;
-  int? price;
+  num? price;
 
   Package(
       {this.id,

@@ -6,8 +6,8 @@ class ItemsModel {
   String? descriptionAr;
   String? image;
   String? unit;
-  double? price;
-  int? quantity;
+  num? price;
+  num? quantity;
   String? type;
   int? active;
 
