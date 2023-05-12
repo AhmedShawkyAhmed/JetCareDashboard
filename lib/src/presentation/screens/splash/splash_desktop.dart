@@ -1,5 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jetboard/main.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/presentation/router/app_router_names.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -15,6 +19,7 @@ class SplashDesktop extends StatefulWidget {
 class _SplashDesktopState extends State<SplashDesktop> {
   @override
   void initState() {
+    printLog(pushToken.toString());
     if (CacheHelper.getDataFromSharedPreference(key: "email") == null) {
       GlobalCubit.get(context).navigate(
         afterSuccess: () {

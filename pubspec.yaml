@@ -54,6 +54,8 @@ dependencies:
   dropdown_search: ^5.0.6
   flutter_screenutil: ^5.7.0
   date_time_picker: ^2.1.0
+  firebase_core: ^2.11.0
+  firebase_messaging: ^14.5.0
 
 
 dev_dependencies:

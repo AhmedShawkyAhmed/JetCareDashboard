@@ -22,7 +22,7 @@ class DrawerListDesktop extends StatelessWidget {
     "Periods",
     //"Spaces",
     "Support",
-    //"Notifications",
+    "Notifications",
     "Info",
     "Logout",
   ];
@@ -56,11 +56,7 @@ class DrawerListDesktop extends StatelessWidget {
       color: AppColors.white,
     ),
     const Icon(
-      Icons.person,
-      color: AppColors.white,
-    ),
-    const Icon(
-      Icons.notification_add_rounded,
+      Icons.ads_click_outlined,
       color: AppColors.white,
     ),
     const Icon(
@@ -76,17 +72,17 @@ class DrawerListDesktop extends StatelessWidget {
       color: AppColors.white,
     ),
     const Icon(
-      Icons.space_dashboard_rounded,
+      Icons.support_agent,
       color: AppColors.white,
     ),
     const Icon(
-      Icons.face_retouching_natural,
+      Icons.notification_important_outlined,
       color: AppColors.white,
     ),
-    // const Icon(
-    //   Icons.notification_important_outlined,
-    //   color: AppColors.white,
-    // ),
+    const Icon(
+      Icons.info_outline,
+      color: AppColors.white,
+    ),
     const Icon(
       Icons.logout_outlined,
       color: AppColors.white,

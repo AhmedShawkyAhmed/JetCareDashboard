@@ -15,3 +15,8 @@ class LoginSuccessState extends AuthState {}
 class LoginErrorState extends AuthState {}
 
 
+class FCMLoadingState extends AuthState {}
+class FCMSuccessState extends AuthState {}
+class FCMErrorState extends AuthState {}
+
+

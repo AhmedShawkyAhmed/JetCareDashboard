@@ -1,6 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jetboard/src/business_logic/Corporates_cubit/corporates_cubit.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
 import 'package:jetboard/src/business_logic/ads_cubit/ads_cubit.dart';
@@ -17,14 +20,28 @@ import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/business_logic/period_cubit/period_cubit.dart';
 import 'package:jetboard/src/business_logic/support_cupit/support_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
+import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/constants/shared_preference_keys.dart';
 import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
 import 'package:jetboard/src/presentation/router/app_router.dart';
 import 'package:jetboard/src/presentation/router/app_router_names.dart';
+import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
+
+String? pushToken;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyC36QGj3FRsMa4qomCOSVAA5DpnJU62kMU',
+      appId: '1:873102526889:web:459167752edf3695015cb8',
+      messagingSenderId: '873102526889',
+      projectId: 'jetcare-f4e39',
+      storageBucket: "jetcare-f4e39.appspot.com",
+    ),
+  );
   DioHelper.init();
   BlocOverrides.runZoned(
     () async {
@@ -47,6 +64,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    getToken();
+    FirebaseMessaging.onMessage.listen(showFlutterNotification);
+    super.initState();
+  }
+
+  void showFlutterNotification(RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    DefaultToast.showMyToast(notification!.title.toString(),toastLength: Toast.LENGTH_LONG);
+  }
+
+  getToken() async {
+    pushToken = await FirebaseMessaging.instance.getToken();
+    printLog(pushToken.toString());
+    CacheHelper.saveDataSharedPreference(key: SharedPreferenceKeys.fcm, value: pushToken);
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -61,8 +96,8 @@ class _MyAppState extends State<MyApp> {
               create: ((context) => GlobalCubit()
                 ..getPeriodsMobile()
                 ..getClients()
-              ..getPackages()
-              ..getItems()),
+                ..getPackages()
+                ..getItems()),
             ),
             BlocProvider(
               create: ((context) => AuthCubit()),
