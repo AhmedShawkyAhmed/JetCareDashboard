@@ -69,7 +69,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     const Periods(), //12
     //const Spaces(), //13
     const Support(), //14
-    const Notifications(),//5
+    //const Notifications(),//5
     const Info(), //8
     const Login(), //16
   ];

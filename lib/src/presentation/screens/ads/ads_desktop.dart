@@ -104,7 +104,7 @@ class AdsDesktop extends StatelessWidget {
               ),
               BlocBuilder<AdsCubit, AdsState>(
                 builder: (context, state) {
-                  if (AdsCubit.get(context).getAdsResponse?.adsModel == null) {
+                  if (state is AdsLodingState) {
                     return SizedBox(
                       height: 79.h,
                       child: ListView.builder(
@@ -119,7 +119,7 @@ class AdsDesktop extends StatelessWidget {
                               )),
                     );
                   }
-                  else if(AdsCubit.get(context).getAdsResponse!.adsModel!.isEmpty){
+                  else if(AdsCubit.get(context).adsList.isEmpty){
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
@@ -133,7 +133,7 @@ class AdsDesktop extends StatelessWidget {
                     child: SizedBox(
                       height: 90.h,
                       child: ListView.builder(
-                        itemCount: AdsCubit.get(context).listCount,
+                        itemCount: AdsCubit.get(context).adsList.length,
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(
                               top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
@@ -153,7 +153,7 @@ class AdsDesktop extends StatelessWidget {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        cubita.adsList[index].nameEn,
+                                        AdsCubit.get(context).adsList[index].nameEn,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -171,7 +171,7 @@ class AdsDesktop extends StatelessWidget {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        cubita.adsList[index].nameAr,
+                                        AdsCubit.get(context).adsList[index].nameAr,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -190,7 +190,7 @@ class AdsDesktop extends StatelessWidget {
                                       ),
                                       DefaultText(
                                         text:
-                                        cubita.adsList[index].link,
+                                        AdsCubit.get(context).adsList[index].link,
                                         maxLines: 1,
                                         fontSize: 3.sp,
                                       ),
@@ -199,7 +199,7 @@ class AdsDesktop extends StatelessWidget {
                               Expanded(
                                   flex: 1,
                                   child: Image.network(
-                                    imageDomain + cubita.adsList[index].image,
+                                    imageDomain + AdsCubit.get(context).adsList[index].image,
                                     height: 6.h,
                                   )),
                               SizedBox(
@@ -209,7 +209,7 @@ class AdsDesktop extends StatelessWidget {
                                 height: 3.h,
                                 child: CircleAvatar(
                                   backgroundColor:
-                                      cubita.adsList[index].active == 1
+                                  AdsCubit.get(context).adsList[index].active == 1
                                           ? AppColors.green
                                           : AppColors.red,
                                 ),
@@ -218,7 +218,7 @@ class AdsDesktop extends StatelessWidget {
                                 width: 3.w,
                               ),
                               Switch(
-                                  value: cubita.adsList[index].active == 1
+                                  value: AdsCubit.get(context).adsList[index].active == 1
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
@@ -231,9 +231,9 @@ class AdsDesktop extends StatelessWidget {
                                     cubita.updateAdsStatus(
                                       index: index,
                                       adsRequest: AdsRequest(
-                                        id: cubita.adsList[index].id,
+                                        id: AdsCubit.get(context).adsList[index].id,
                                         active:
-                                            cubita.adsList[index].active.isOdd
+                                        AdsCubit.get(context).adsList[index].active.isOdd
                                                 ? 1
                                                 : 0,
                                       ),
@@ -258,8 +258,8 @@ class AdsDesktop extends StatelessWidget {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    cubita.deleteAds(
-                                        adsModel: cubita.adsList[index]);
+                                    AdsCubit.get(context).deleteAds(
+                                        adsModel: AdsCubit.get(context).adsList[index]);
                                   },
                                   icon: const Icon(
                                     Icons.delete,
