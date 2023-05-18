@@ -184,7 +184,8 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].user!.name.toString(),
+                                      cubitO.ordersList[index].user!.name
+                                          .toString(),
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -204,7 +205,9 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].createdAt.toString().substring(0,10),
+                                      cubitO.ordersList[index].createdAt
+                                          .toString()
+                                          .substring(0, 10),
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -236,6 +239,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                   height: 4.h,
                                   hint: "Order Status",
                                   type: "status",
+                                  userId: cubitO.ordersList[index].user!.id,
                                   list: orderStatus,
                                   value: status == ""
                                       ? cubitO.ordersList[index].status
@@ -281,7 +285,9 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                               'canceled'
                                       ? AppColors.red
                                       : cubitO.ordersList[index].status ==
-                                              'accepted'
+                                                  'accepted' ||
+                                              cubitO.ordersList[index].status ==
+                                                  'confirmed'
                                           ? AppColors.blue
                                           : cubitO.ordersList[index].status ==
                                                   'completed'
@@ -418,12 +424,14 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: const <Widget>[
-                                              DefaultText(text: "Are you Sure you want to Delete this Order !!")
+                                              DefaultText(
+                                                  text:
+                                                      "Are you Sure you want to Delete this Order !!")
                                             ],
                                           ),
                                         ),
                                         actionsAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                         actions: <Widget>[
                                           DefaultAppButton(
                                             title: "Delete",
@@ -432,11 +440,12 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                               OrdersCubit.get(context)
                                                   .deleteOrder(
                                                 orderId:
-                                                cubitO.ordersList[index].id,
+                                                    cubitO.ordersList[index].id,
                                                 afterSuccess: () {
                                                   setState(() {
                                                     OrdersCubit.get(context)
-                                                        .ordersList.removeAt(index);
+                                                        .ordersList
+                                                        .removeAt(index);
                                                     Navigator.pop(context);
                                                   });
                                                 },

@@ -27,6 +27,10 @@ class EndPoints {
   static const changeAdsStatus = "changeAdStatus";
   static const getAds = "getAds";
   static const updateFCM = "updateFCM";
+  static const notifyUser = "notifyUser";
+  static const saveNotification = "saveNotification";
+  static const readNotification = "readNotification";
+  static const getNotifications = "getNotifications";
 
   static const addItem = "addItem";
   static const updateItem = "updateItem";

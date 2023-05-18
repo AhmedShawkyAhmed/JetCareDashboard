@@ -15,6 +15,7 @@ import 'package:jetboard/src/business_logic/category_cubit/category_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/info_cubit/info_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
+import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/business_logic/period_cubit/period_cubit.dart';
@@ -101,6 +102,9 @@ class _MyAppState extends State<MyApp> {
             ),
             BlocProvider(
               create: ((context) => AuthCubit()),
+            ),
+            BlocProvider(
+              create: ((context) => NotificationCubit()),
             ),
             BlocProvider(
               create: ((context) => InfoCubit()

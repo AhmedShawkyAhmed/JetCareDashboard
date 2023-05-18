@@ -45,10 +45,19 @@ class HomeCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 1.h, left: 0.5.w),
-                child: DefaultText(
-                  text: title,
-                  fontSize: 4.sp,
+                padding: EdgeInsets.only(bottom: 1.h, left: 0.5.w,right: 0.5.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DefaultText(
+                      text: title,
+                      fontSize: 4.sp,
+                    ),
+                    DefaultText(
+                      text: "${((percent / (total == 0?1:total)) * 100).toStringAsFixed(1)} %",
+                      fontSize: 4.sp,
+                    ),
+                  ],
                 ),
               ),
               PercentItem(

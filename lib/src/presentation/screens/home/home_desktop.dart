@@ -94,14 +94,14 @@ class _HomeDesktopState extends State<HomeDesktop> {
                     percent2: 1,
                     widget: Padding(
                       padding: EdgeInsets.only(
-                        left: 2.w,
-                        right: 2.w,
+                        left: 1.w,
+                        right: 1.w,
                         top: 1.h,
                         bottom: 1.h,
                       ),
                       child: Center(
                         child: Wrap(
-                          spacing: 2.w,
+                          spacing: 1.w,
                           runSpacing: 2.h,
                           children: [
                             CircularItem(
@@ -131,6 +131,20 @@ class _HomeDesktopState extends State<HomeDesktop> {
                                   1,
                               title: "Accepted",
                               color: Colors.blueAccent,
+                            ),
+                            CircularItem(
+                              percent: GlobalCubit.get(context)
+                                      .statisticsResponse
+                                      ?.orders
+                                      ?.confirmed ??
+                                  0,
+                              count: GlobalCubit.get(context)
+                                      .statisticsResponse
+                                      ?.orders
+                                      ?.count ??
+                                  1,
+                              title: "Confirmed",
+                              color: Colors.teal,
                             ),
                             CircularItem(
                               percent: GlobalCubit.get(context)
@@ -208,163 +222,168 @@ class _HomeDesktopState extends State<HomeDesktop> {
                     ),
                   ),
                   HomeCard(
+                    cWidth: 38.w,
                     title: "Orders",
                     title1: "Clients",
                     title2: "Corporate",
                     total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.orders
-                            ?.count ??
+                        .statisticsResponse
+                        ?.orders
+                        ?.count ??
                         1,
                     percent: ((GlobalCubit.get(context)
-                                .statisticsResponse
-                                ?.orders
-                                ?.count ??
-                            0) -
+                        .statisticsResponse
+                        ?.orders
+                        ?.count ??
+                        0) -
                         (GlobalCubit.get(context)
-                                .statisticsResponse
-                                ?.orders
-                                ?.corporate ??
-                            0)),
-                    percent2: GlobalCubit.get(context)
                             .statisticsResponse
                             ?.orders
                             ?.corporate ??
+                            0)),
+                    percent2: GlobalCubit.get(context)
+                        .statisticsResponse
+                        ?.orders
+                        ?.corporate ??
                         1,
                   ),
                   HomeCard(
+                    cWidth: 38.w,
                     title: "Payment",
                     title1: "Completed",
                     title2: "InProgress",
                     total: ((GlobalCubit.get(context)
-                                .statisticsResponse
-                                ?.orders
-                                ?.complete ??
-                            0) +
+                        .statisticsResponse
+                        ?.orders
+                        ?.complete ??
+                        0) +
                         (GlobalCubit.get(context)
-                                .statisticsResponse
-                                ?.orders
-                                ?.out ??
-                            1)),
-                    percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.orders
-                            ?.complete ??
-                        0,
-                    percent2: GlobalCubit.get(context)
                             .statisticsResponse
                             ?.orders
                             ?.out ??
+                            1)),
+                    percent: GlobalCubit.get(context)
+                        .statisticsResponse
+                        ?.orders
+                        ?.complete ??
+                        0,
+                    percent2: GlobalCubit.get(context)
+                        .statisticsResponse
+                        ?.orders
+                        ?.out ??
                         1,
                   ),
                   HomeCard(
+                    cWidth: 25.w,
                     title: "Clients",
                     total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.client
-                            ?.count ??
+                        .statisticsResponse
+                        ?.client
+                        ?.count ??
                         1,
                     percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.client
-                            ?.active ??
+                        .statisticsResponse
+                        ?.client
+                        ?.active ??
                         0,
                     percent2: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.client
-                            ?.disabled ??
+                        .statisticsResponse
+                        ?.client
+                        ?.disabled ??
                         0,
                   ),
                   HomeCard(
+                    cWidth: 25.w,
                     title: "Crews",
                     total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.crew
-                            ?.count ??
+                        .statisticsResponse
+                        ?.crew
+                        ?.count ??
                         1,
                     percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.crew
-                            ?.active ??
+                        .statisticsResponse
+                        ?.crew
+                        ?.active ??
                         0,
                     percent2: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.crew
-                            ?.disabled ??
+                        .statisticsResponse
+                        ?.crew
+                        ?.disabled ??
                         0,
                   ),
                   HomeCard(
+                    cWidth: 24.w,
                     title: "Ads",
                     total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.ads
-                            ?.count ??
+                        .statisticsResponse
+                        ?.ads
+                        ?.count ??
                         1,
                     percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.ads
-                            ?.active ??
+                        .statisticsResponse
+                        ?.ads
+                        ?.active ??
                         0,
                     percent2: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.ads
-                            ?.disabled ??
+                        .statisticsResponse
+                        ?.ads
+                        ?.disabled ??
                         0,
                   ),
-                  HomeCard(
-                    title: "Categories",
-                    total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.category
-                            ?.count ??
-                        1,
-                    percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.category
-                            ?.active ??
-                        0,
-                    percent2: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.category
-                            ?.disabled ??
-                        0,
-                  ),
-                  HomeCard(
-                    title: "Packages",
-                    total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.package
-                            ?.count ??
-                        1,
-                    percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.package
-                            ?.active ??
-                        0,
-                    percent2: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.package
-                            ?.disabled ??
-                        0,
-                  ),
-                  HomeCard(
-                    title: "Items",
-                    total: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.item
-                            ?.count ??
-                        1,
-                    percent: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.item
-                            ?.active ??
-                        0,
-                    percent2: GlobalCubit.get(context)
-                            .statisticsResponse
-                            ?.item
-                            ?.disabled ??
-                        0,
-                  ),
+                  // HomeCard(
+                  //   title: "Categories",
+                  //   total: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.category
+                  //           ?.count ??
+                  //       1,
+                  //   percent: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.category
+                  //           ?.active ??
+                  //       0,
+                  //   percent2: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.category
+                  //           ?.disabled ??
+                  //       0,
+                  // ),
+                  // HomeCard(
+                  //   title: "Packages",
+                  //   total: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.package
+                  //           ?.count ??
+                  //       1,
+                  //   percent: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.package
+                  //           ?.active ??
+                  //       0,
+                  //   percent2: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.package
+                  //           ?.disabled ??
+                  //       0,
+                  // ),
+                  // HomeCard(
+                  //   title: "Items",
+                  //   total: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.item
+                  //           ?.count ??
+                  //       1,
+                  //   percent: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.item
+                  //           ?.active ??
+                  //       0,
+                  //   percent2: GlobalCubit.get(context)
+                  //           .statisticsResponse
+                  //           ?.item
+                  //           ?.disabled ??
+                  //       0,
+                  // ),
                 ],
               );
             },

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
@@ -19,6 +20,7 @@ class DefaultDropDownMenu extends StatefulWidget {
   Color? borderColor;
   String type;
   int? orderId;
+  int? userId;
   int? index;
   Function(String?)? onChanged;
 
@@ -27,6 +29,7 @@ class DefaultDropDownMenu extends StatefulWidget {
     this.type = "data",
     this.onChanged,
     this.value,
+    this.userId,
     this.borderColor,
     this.height,
     this.orderId,
@@ -94,8 +97,7 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                     },
                   );
                 }
-              }
-              else if (widget.type == "area") {
+              } else if (widget.type == "area") {
                 if (AreaCubit.get(context)
                         .areaId[AreaCubit.get(context)
                             .areas
@@ -108,8 +110,7 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                           .areaId[
                       AreaCubit.get(context).areas.indexOf(value.toString())]);
                 }
-              }
-              else if (widget.type == "newCrew") {
+              } else if (widget.type == "newCrew") {
                 if (AreaCubit.get(context)
                         .areaId[AreaCubit.get(context)
                             .areas
@@ -122,24 +123,39 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                       AreaCubit.get(context).areas.indexOf(value.toString())];
                   printResponse(registerAreaId.toString());
                 }
-              }
-              else if (widget.type == "year") {
+              } else if (widget.type == "year") {
                 GlobalCubit.get(context).getStatistics(
                   month: (selectedMonth + 1).toString(),
                   year: value,
                   afterSuccess: () {},
                 );
                 year = value;
-              }
-              else if (widget.type == "status") {
+              } else if (widget.type == "status") {
                 OrdersCubit.get(context).updateOrderStatus(
                   orderId: widget.orderId!,
                   status: value,
                   afterSuccess: () {
                     setState(() {
-                      OrdersCubit.get(context).ordersList[widget.index!].status = value;
+                      OrdersCubit.get(context)
+                          .ordersList[widget.index!]
+                          .status = value;
                     });
-                    },
+                    NotificationCubit.get(context).notifyUser(
+                      id: widget.userId!,
+                      title: "الطلبات",
+                      message: "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
+                      afterSuccess: () {
+                        NotificationCubit.get(context).saveNotification(
+                          id: widget.userId!,
+                          title: "الطلبات",
+                          message: "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
+                          afterSuccess: () {
+
+                          },
+                        );
+                      },
+                    );
+                  },
                 );
               }
               dropItemsInfo = value;

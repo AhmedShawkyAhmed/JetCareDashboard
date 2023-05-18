@@ -8,6 +8,7 @@ class OrderHomeModel {
       rejected,
       corporate,
       complete,
+      confirmed,
       out;
 
   OrderHomeModel({
@@ -20,6 +21,7 @@ class OrderHomeModel {
     required this.rejected,
     required this.corporate,
     required this.complete,
+    required this.confirmed,
     required this.out,
   });
 
@@ -33,6 +35,7 @@ class OrderHomeModel {
         rejected: json['rejected'] ?? 0,
         corporate: json['corporate'] ?? 0,
         complete: json['complete'] ?? 0,
+    confirmed: json['confirmed'] ?? 0,
         out: json['out'] ?? 0,
       );
 
@@ -47,6 +50,7 @@ class OrderHomeModel {
     data['canceled'] = canceled;
     data['rejected'] = rejected;
     data['corporate'] = corporate;
+    data['confirmed'] = confirmed;
     data['complete'] = complete;
     data['out'] = out;
     return data;

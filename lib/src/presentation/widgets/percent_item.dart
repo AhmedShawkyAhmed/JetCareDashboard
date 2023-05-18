@@ -41,15 +41,7 @@ class PercentItem extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width:5.w,
-                child: DefaultText(
-                  text: "${((percent / (total == 0?1:total)) * 100).toStringAsFixed(1)} %",
-                  fontSize: 3.sp,
-                  align: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                width:5.w,
+                width:15.w,
                 child: DefaultText(
                   text: "$percent / $total",
                   fontSize: 3.sp,
