@@ -24,8 +24,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
   TextEditingController search = TextEditingController();
   int currentIndex = 0;
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
-  String dropdownvalue = 'Item 1';
-  
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,61 +75,21 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value){
+                        if(value == ""){
+                          cubiti.getInfo();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
                           cubiti.getInfo(keyword: search.text);
-                          print(search.text);
                         },
                         color: AppColors.black,
                       ),
                     ),
                     SizedBox(
                       width: 1.w,
-                    ),
-                    BlocBuilder<InfoCubit, InfoState>(
-                      builder: (context, state) {
-                        return InfoCubit.get(context).infoTypes.isEmpty
-                            ? const SizedBox()
-                            : Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(
-                                          1, 1), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                          width: 6.w,
-                                child: DropdownButton(
-                                  icon:  Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 4.sp,
-                                  ),
-                                  underline: const SizedBox(),
-                                  value: cubiti.infoTypes.first,
-                                  items: cubiti.infoTypes
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      dropdownvalue = value!;
-                                      cubiti.getInfo(type: value);
-                                      print(value);
-                                    });
-                                  },
-                                ),
-                              );
-                      },
                     ),
                     const Spacer(),
                     DefaultAppButton(
@@ -183,7 +142,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Information Yet !",
+                        text: "No Information Found !",
                         fontSize: 5.sp,
                       ),
                     );

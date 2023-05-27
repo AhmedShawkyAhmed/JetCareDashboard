@@ -1,29 +1,29 @@
 class SupportModel {
   int id;
-  String name;
-	String contact;
-	String subject;
-	String message;
-	String adminComment;
+  String? name;
+	String? contact;
+	String? subject;
+	String? message;
+	String? adminComment;
 
   SupportModel({
    required this.id,
-   required this.name,
-   required this.contact,
-   required this.subject,
-   required this.message,
-   required this.adminComment,
+    this.name,
+    this.contact,
+    this.subject,
+    this.message,
+    this.adminComment,
 
   });
 
 factory  SupportModel.fromJson(Map<String, dynamic> json) => SupportModel
     (
     id : json['id'],
-    name: json['name'],
-  contact: json['contact'],
-    subject: json['subject'],
-    message: json['message'],
-  adminComment: json['adminComment'],
+    name: json['name'] ?? "",
+  contact: json['contact'] ?? "",
+    subject: json['subject'] ?? "",
+    message: json['message'] ?? "",
+  adminComment: json['adminComment'] ?? "",
   );
 
   Map<String, dynamic> toJson() {

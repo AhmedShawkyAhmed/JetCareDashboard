@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
@@ -7,7 +8,6 @@ import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/requests/items_request.dart';
 import 'package:jetboard/src/data/network/responses/itemsType_response.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
-import 'package:meta/meta.dart';
 
 import '../../constants/constants_methods.dart';
 import '../../presentation/widgets/toast.dart';
@@ -120,7 +120,6 @@ class ItemsCubit extends Cubit<ItemsState> {
         for (var i = 0; i < itemsTypeResponse!.itemsTypeModel!.length; i++) {
           itemsTypes.add(itemsTypeResponse!.itemsTypeModel![i].titleAr.toString());
         }
-        itemsTypes.insert(0,'');
         emit(ItemsTypeSuccessState());
         printResponse(value.data.toString());
       });
@@ -191,6 +190,8 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'id': itemsRequest.id,
                 'nameEn': itemsRequest.nameEn,
                 'descriptionEn': itemsRequest.descriptionEn,
+          'nameAr': itemsRequest.nameAr,
+          'descriptionAr': itemsRequest.descriptionAr,
                 'unit': itemsRequest.unit,
                 'price': itemsRequest.price,
                 'quantity': itemsRequest.quantity,
@@ -202,6 +203,8 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'id': itemsRequest.id,
                 'nameEn': itemsRequest.nameEn,
                 'descriptionEn': itemsRequest.descriptionEn,
+          'nameAr': itemsRequest.nameAr,
+          'descriptionAr': itemsRequest.descriptionAr,
                 'unit': itemsRequest.unit,
                 'price': itemsRequest.price,
                 'quantity': itemsRequest.quantity,

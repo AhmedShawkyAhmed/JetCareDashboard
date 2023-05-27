@@ -8,7 +8,6 @@ import 'package:jetboard/src/data/models/info_model.dart';
 import 'package:jetboard/src/data/network/requests/info_request.dart';
 import 'package:jetboard/src/data/network/responses/info_response.dart';
 import 'package:jetboard/src/data/network/responses/type_response.dart';
-import 'package:meta/meta.dart';
 
 import '../../presentation/widgets/toast.dart';
 part 'info_state.dart';
@@ -19,7 +18,7 @@ class InfoCubit extends Cubit<InfoState> {
   static InfoCubit get(context) => BlocProvider.of(context);
 
   InfoResponse? infoResponse,deleteInfoResponse,addInfoResponse,updateInfoResponse;
-  TypeResponse? typeRespons;
+  TypeResponse? typeResponse;
   List<String> infoTypes = [];
   List<InfoModel> infoList = [];
   int listCount = 0;
@@ -32,7 +31,7 @@ class InfoCubit extends Cubit<InfoState> {
       await DioHelper.getData(
         url: EndPoints.getInfo,
         query: {
-          "type" : type,
+          "type" : "appInfo",
           "keyword" : keyword,
         },
       ).then((value) {
@@ -59,9 +58,9 @@ class InfoCubit extends Cubit<InfoState> {
       ).then((value) {
         printSuccess(value.data.toString());
         final myData = Map<String, dynamic>.from(value.data);
-        typeRespons = TypeResponse.fromJson(myData);
-        for (var i = 0; i < typeRespons!.typeModel!.length; i++) {
-          infoTypes.add(typeRespons!.typeModel![i].type.toString());
+        typeResponse = TypeResponse.fromJson(myData);
+        for (var i = 0; i < typeResponse!.typeModel!.length; i++) {
+          infoTypes.add(typeResponse!.typeModel![i].type.toString());
         }
         infoTypes.insert(0,' ');
         emit(InfoTypeSuccessState());
@@ -96,15 +95,14 @@ class InfoCubit extends Cubit<InfoState> {
           infoList.insert(0,addInfoResponse!.infoModell!);
           listCount +=1;
           emit(AddInfoSuccessState());
-          print(addInfoResponse!.infoModell);
           DefaultToast.showMyToast(value.data['message']);
         });
     } on DioError catch (n) {
       emit(AddInfoErrorState());
-      print(n.toString());
+      printError(n.toString());
     } catch (e) {
       emit(AddInfoErrorState());
-      print(e.toString());
+      printError(e.toString());
     }
   }
 
@@ -130,22 +128,20 @@ class InfoCubit extends Cubit<InfoState> {
          // infoList.indexOf(updateInfoResponse!.infoModell!);
           infoList[index] = updateInfoResponse!.infoModell!;
           emit(AddInfoSuccessState());
-          print(updateInfoResponse!.infoModell);
           DefaultToast.showMyToast(value.data['message']);
         });
     } on DioError catch (n) {
       emit(AddInfoErrorState());
-      print(n.toString());
+      printError(n.toString());
     } catch (e) {
       emit(AddInfoErrorState());
-      print(e.toString());
+      printError(e.toString());
     }
   }
 
   Future deleteInfo({
    required InfoModel infoModel
   }) async {
-     print(infoModel.id);
     try {
       emit(DeleteInfoLodingState());
       await DioHelper.postData(
@@ -163,10 +159,10 @@ class InfoCubit extends Cubit<InfoState> {
         });
     } on DioError catch (n) {
       emit(DeleteInfoErrorState());
-      print(n.toString());
+      printError(n.toString());
     } catch (e) {
       emit(DeleteInfoErrorState());
-      print(e.toString());
+      printError(e.toString());
     }
   }
 }

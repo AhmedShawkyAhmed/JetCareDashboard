@@ -16,3 +16,7 @@ class GetNotificationErrorState extends NotificationState {}
 class ReadNotificationLoadingState extends NotificationState {}
 class ReadNotificationSuccessState extends NotificationState {}
 class ReadNotificationErrorState extends NotificationState {}
+
+class SendNotificationLoadingState extends NotificationState {}
+class SendNotificationSuccessState extends NotificationState {}
+class SendNotificationErrorState extends NotificationState {}

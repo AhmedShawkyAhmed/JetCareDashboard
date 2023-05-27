@@ -67,15 +67,15 @@ class _EndDrawerWidgetAreaState extends State<EndDrawerWidgetArea> {
             sigmaX: 2.0,
             sigmaY: 2.0,
           ),
-          child: SingleChildScrollView(
-            child: Container(
-              height: 100.h,
-              width: widget.endDrawerWidth ?? 23.w,
-              color: AppColors.white,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 35.h, left: 1.w, top: 3.h),
-                child: Form(
-                  key: formKey,
+          child: Container(
+            height: 100.h,
+            width: widget.endDrawerWidth ?? 23.w,
+            color: AppColors.white,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 35.h, left: 1.w, top: 3.h),
+              child: Form(
+                key: formKey,
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,14 +133,11 @@ class _EndDrawerWidgetAreaState extends State<EndDrawerWidgetArea> {
                           blurRadius: 2,
                           color: AppColors.white,
                           shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'NameEn',
+                          hintText: 'English Name',
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 3.w,
-                          //vertical: 3.h,
-                        ),
+                        padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
                         child: DefaultTextField(
                           validator: nameAr.text,
                           password: false,
@@ -152,14 +149,11 @@ class _EndDrawerWidgetAreaState extends State<EndDrawerWidgetArea> {
                           blurRadius: 2,
                           color: AppColors.white,
                           shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'NameAr',
+                          hintText: 'Arabic Name',
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 3.w,
-                          //vertical: 3.h,
-                        ),
+                        padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
                         child: DefaultTextField(
                           validator: price.text,
                           password: false,

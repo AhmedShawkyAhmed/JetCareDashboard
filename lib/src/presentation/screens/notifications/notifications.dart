@@ -11,7 +11,7 @@ class Notifications extends StatelessWidget {
     return ScreenTypeLayout(
       mobile: const MobileLayout(),
       tablet: const MobileLayout(),
-      desktop: NotificationsDesktop(),
+      desktop: const NotificationsDesktop(),
     );
   }
 }

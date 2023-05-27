@@ -76,6 +76,11 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value){
+                        if(value == ""){
+                          cubitA.getAllAreas();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
@@ -136,7 +141,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Areas Yet !",
+                        text: "No Areas Found !",
                         fontSize: 5.sp,
                       ),
                     );
@@ -161,7 +166,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'NameEn',
+                                      'English Name',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(
@@ -182,7 +187,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'NameAr',
+                                      'Arabic Name',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(

@@ -27,6 +27,8 @@ class DefaultTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool haveShadow;
   final bool password;
+  final bool? expands;
+  final bool? collapsed;
   final int? maxLength;
   final double? horizontalPadding;
   final Function(String)? onChange;
@@ -35,6 +37,8 @@ class DefaultTextField extends StatelessWidget {
     required this.controller,
     this.hintText,
     this.onTap,
+    this.expands,
+    this.collapsed,
     this.validator,
     this.maxLength,
     this.height,
@@ -78,22 +82,23 @@ class DefaultTextField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          if (validator != "") {
-            if (value == '') {
-              return 'You Can\'t leave this field empty';
-            }
-            return null;
-          } else {
-            return null;
-          }
-        },
+        // autovalidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   if (validator != "") {
+        //     if (value == '') {
+        //       return 'You Can\'t leave this field empty';
+        //     }
+        //     return null;
+        //   } else {
+        //     return null;
+        //   }
+        // },
         textAlign: TextAlign.left,
         keyboardType: keyboardType ?? TextInputType.text,
         textAlignVertical: TextAlignVertical.center,
         enabled: readOnly ?? true,
         controller: controller,
+        expands: expands ?? false,
         maxLength: maxLength,
         textDirection: TextDirection.ltr,
         style: TextStyle(
@@ -101,7 +106,7 @@ class DefaultTextField extends StatelessWidget {
           fontSize: fontSize ?? 20.sp,
         ),
         cursorColor: cursorColor ?? AppColors.darkGrey,
-        maxLines: maxLine ?? 1,
+        maxLines: expands == true ? null : maxLine ?? 1,
         decoration: InputDecoration(
           prefixIcon: prefix,
           suffixIcon: suffix,
@@ -114,10 +119,11 @@ class DefaultTextField extends StatelessWidget {
           border: InputBorder.none,
           hintTextDirection: TextDirection.ltr,
           filled: true,
+          isCollapsed: collapsed ?? false,
           fillColor: AppColors.white,
           contentPadding: EdgeInsets.only(
             top: 15.sp,
-            bottom:  15.sp,
+            bottom: 15.sp,
             left: 10.sp,
             right: 10.sp,
           ),

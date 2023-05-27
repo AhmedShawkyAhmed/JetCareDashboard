@@ -8,7 +8,6 @@ import 'package:jetboard/src/data/models/support_model.dart';
 import 'package:jetboard/src/data/network/requests/support_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/support_response.dart';
-import 'package:meta/meta.dart';
 
 import '../../presentation/widgets/toast.dart';
 

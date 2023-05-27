@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/end_drawer_order.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/views/view_orders_detales.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_drop_down_menu.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -61,15 +62,20 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       password: false,
                       width: 25.w,
                       height: 5.h,
-                      fontSize: 4.sp,
+                      fontSize: 3.sp,
                       color: AppColors.white,
                       bottom: 0.5.h,
-                      hintText: 'Name',
+                      hintText: 'Order Number or Name',
                       spreadRadius: 2,
                       blurRadius: 2,
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value){
+                        if(value == ""){
+                          cubitO.getOrders();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
@@ -80,24 +86,24 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       ),
                     ),
                     const Spacer(),
-                    DefaultAppButton(
-                      width: 8.w,
-                      height: 5.h,
-                      haveShadow: true,
-                      offset: const Offset(0, 0),
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      radius: 10,
-                      gradientColors: const [
-                        AppColors.green,
-                        AppColors.lightgreen,
-                      ],
-                      fontSize: 5.sp,
-                      title: "Create",
-                      onTap: () {
-                        scaffoldkey.currentState!.openEndDrawer();
-                      },
-                    ),
+                    // DefaultAppButton(
+                    //   width: 8.w,
+                    //   height: 5.h,
+                    //   haveShadow: true,
+                    //   offset: const Offset(0, 0),
+                    //   spreadRadius: 2,
+                    //   blurRadius: 2,
+                    //   radius: 10,
+                    //   gradientColors: const [
+                    //     AppColors.green,
+                    //     AppColors.lightgreen,
+                    //   ],
+                    //   fontSize: 5.sp,
+                    //   title: "Create",
+                    //   onTap: () {
+                    //     scaffoldkey.currentState!.openEndDrawer();
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -129,7 +135,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Orders Yet !",
+                        text: "No Orders Found !",
                         fontSize: 5.sp,
                       ),
                     );
@@ -233,19 +239,48 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                width: 10.w,
-                                child: DefaultDropDownMenu(
-                                  height: 4.h,
-                                  hint: "Order Status",
-                                  type: "status",
-                                  userId: cubitO.ordersList[index].user!.id,
-                                  list: orderStatus,
-                                  value: status == ""
-                                      ? cubitO.ordersList[index].status
-                                      : status,
-                                  index: index,
-                                  orderId: cubitO.ordersList[index].id,
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 2.h),
+                                child: SizedBox(
+                                  width: 10.w,
+                                  child: DefaultDropdown<String>(
+                                    hint: "Status",
+                                    showSearchBox: true,
+                                    selectedItem: status == ""
+                                        ? cubitO.ordersList[index].status
+                                        : status,
+                                    items: orderStatus,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        OrdersCubit.get(context).updateOrderStatus(
+                                          orderId: cubitO.ordersList[index].id,
+                                          status: val!,
+                                          afterSuccess: () {
+                                            setState(() {
+                                              OrdersCubit.get(context)
+                                                  .ordersList[index]
+                                                  .status = val;
+                                            });
+                                            NotificationCubit.get(context).notifyUser(
+                                              id: cubitO.ordersList[index].user!.id!,
+                                              title: "الطلبات",
+                                              message: "تم تغيير حالة طلبك رقم ${cubitO.ordersList[index].id} إلي $val",
+                                              afterSuccess: () {
+                                                NotificationCubit.get(context).saveNotification(
+                                                  id: cubitO.ordersList[index].user!.id!,
+                                                  title: "الطلبات",
+                                                  message: "تم تغيير حالة طلبك رقم ${cubitO.ordersList[index].id} إلي $val",
+                                                  afterSuccess: () {
+
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(

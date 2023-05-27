@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/presentation/screens/mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'areas_mobile.dart';
 import 'areas_desktop.dart';
 
 class Area extends StatelessWidget {

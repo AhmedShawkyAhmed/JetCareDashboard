@@ -14,7 +14,8 @@ import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 
 class EndDrawerWidgetAds extends StatefulWidget {
-  EndDrawerWidgetAds({super.key, 
+  EndDrawerWidgetAds({
+    super.key,
     this.endDrawerWidth,
     this.heightBackButton,
     this.widthBackButton,
@@ -27,6 +28,7 @@ class EndDrawerWidgetAds extends StatefulWidget {
     this.adsModel,
     required this.isEdit,
   });
+
   double? endDrawerWidth;
   double? heightBackButton, widthBackButton, fontTitle, fontAllTextField;
   double? heightButton, widthButton, fontButton;
@@ -68,15 +70,15 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
             sigmaX: 2.0,
             sigmaY: 2.0,
           ),
-          child: SingleChildScrollView(
-            child: Container(
-              height: 100.h,
-              width: widget.endDrawerWidth ?? 23.w,
-              color: AppColors.white,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 25.h, left: 1.w, top: 3.h),
-                child: Form(
-                  key: formKey,
+          child: Container(
+            height: 100.h,
+            width: widget.endDrawerWidth ?? 23.w,
+            color: AppColors.white,
+            child: Padding(
+              padding: EdgeInsets.only( left: 1.w, top: 3.h),
+              child: Form(
+                key: formKey,
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,27 +123,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                         ],
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(top: 7.h, left: 3.w, right: 3.w),
-                        child: DefaultTextField(
-                          validator: nameControllerEn.text,
-                          password: false,
-                          controller: nameControllerEn,
-                          height: 7.h,
-                          fontSize: widget.fontAllTextField ?? 4.sp,
-                          haveShadow: true,
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'NameEn',
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 3.w,
-                          //vertical: 3.h,
-                        ),
+                        padding: EdgeInsets.only(top: 5.h, left: 3.w, right: 3.w),
                         child: DefaultTextField(
                           validator: nameControllerAr.text,
                           password: false,
@@ -153,14 +135,28 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                           blurRadius: 2,
                           color: AppColors.white,
                           shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'NameAr',
+                          hintText: 'Arabic Name',
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 3.w,
-                          //vertical: 3.h,
+                        padding:
+                        EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                        child: DefaultTextField(
+                          validator: nameControllerEn.text,
+                          password: false,
+                          controller: nameControllerEn,
+                          height: 7.h,
+                          fontSize: widget.fontAllTextField ?? 4.sp,
+                          haveShadow: true,
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          color: AppColors.white,
+                          shadowColor: AppColors.black.withOpacity(0.05),
+                          hintText: 'English Name',
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
                         child: DefaultTextField(
                           validator: link.text,
                           password: false,
@@ -176,10 +172,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 3.w,
-                            //vertical: 3.h,
-                          ),
+                          padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
                           child: Container(
                             height: 20.h,
                             width: 100.w,

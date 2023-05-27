@@ -178,22 +178,25 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                             shadowColor: AppColors.black.withOpacity(0.05),
                             hintText: 'Password',
                           ),
-                    DefaultDropdown<String>(
-                      hint: "User Type",
-                      showSearchBox: true,
-                      selectedItem: type != ""
-                          ? type == "client"
-                              ? "Client"
-                              : "Crew"
-                          : null,
-                      items: const ['Client', 'Crew'],
-                      onChanged: (val) {
-                        if (val == 'Client') {
-                          type = 'client';
-                        } else if (val == 'Crew') {
-                          type = 'crew';
-                        }
-                      },
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3.w),
+                      child: DefaultDropdown<String>(
+                        hint: "User Type",
+                        showSearchBox: true,
+                        selectedItem: type != ""
+                            ? type == "client"
+                                ? "Client"
+                                : "Crew"
+                            : null,
+                        items: const ['Client', 'Crew'],
+                        onChanged: (val) {
+                          if (val == 'Client') {
+                            type = 'client';
+                          } else if (val == 'Crew') {
+                            type = 'crew';
+                          }
+                        },
+                      ),
                     ),
                     // Padding(
                     //   padding: EdgeInsets.symmetric(

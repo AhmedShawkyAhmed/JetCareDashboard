@@ -5,7 +5,6 @@ import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/Corporates_cubit/corporates_cubit.dart';
-import '../../../constants/constants_variables.dart';
 import '../../styles/app_colors.dart';
 import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
@@ -22,7 +21,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
   TextEditingController search = TextEditingController();
   int currentIndex = 0;
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
-  String dropdownvalue = 'Item 1';
+
 
   TextEditingController commentController = TextEditingController();
 
@@ -64,6 +63,11 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value){
+                        if(value == ""){
+                          cubitC.getCorporates();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
@@ -109,7 +113,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Corporates Orders Yet !",
+                        text: "No Corporates Orders Found !",
                         fontSize: 5.sp,
                       ),
                     );

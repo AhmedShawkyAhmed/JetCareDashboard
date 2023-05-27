@@ -19,7 +19,6 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   Future getNotifications({
     required int userId,
-    required VoidCallback afterSuccess,
   }) async {
     try {
       emit(GetNotificationLoadingState());
@@ -29,7 +28,6 @@ class NotificationCubit extends Cubit<NotificationState> {
         notificationResponse = NotificationResponse.fromJson(value.data);
         printResponse(value.data.toString());
         emit(GetNotificationSuccessState());
-        afterSuccess();
       });
     } on DioError catch (n) {
       emit(GetNotificationErrorState());
@@ -70,7 +68,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     required VoidCallback afterSuccess,
   }) async {
     try {
-      emit(SaveNotificationLoadingState());
+      emit(SendNotificationLoadingState());
       await DioHelper.postData(
         url: EndPoints.notifyUser,
         body: {
@@ -80,14 +78,41 @@ class NotificationCubit extends Cubit<NotificationState> {
         },
       ).then((value) {
         printResponse(value.data.toString());
-        emit(SaveNotificationSuccessState());
+        emit(SendNotificationSuccessState());
         afterSuccess();
       });
     } on DioError catch (n) {
-      emit(SaveNotificationErrorState());
+      emit(SendNotificationErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(SaveNotificationErrorState());
+      emit(SendNotificationErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future notifyAll({
+    required String title,
+    required String message,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(SendNotificationLoadingState());
+      await DioHelper.postData(
+        url: EndPoints.notifyAll,
+        body: {
+          'title': title,
+          'message': message,
+        },
+      ).then((value) {
+        printResponse(value.data.toString());
+        emit(SendNotificationSuccessState());
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(SendNotificationErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(SendNotificationErrorState());
       printError(e.toString());
     }
   }

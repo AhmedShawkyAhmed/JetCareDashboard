@@ -8,6 +8,7 @@ import 'package:jetboard/src/data/network/requests/packages_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/endDrawer_packages.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../views/add_items.dart';
@@ -25,7 +26,6 @@ class PackagesDesktop extends StatefulWidget {
 
 class _PackagesDesktopState extends State<PackagesDesktop> {
   TextEditingController search = TextEditingController();
-  String dropdownvalue = 'Item 1';
 
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
   int currentIndex = 0;
@@ -81,6 +81,11 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value) {
+                        if (value == "") {
+                          cubitP.getPackages();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
@@ -97,41 +102,19 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                       builder: (context, state) {
                         return PackagesCubit.get(context).categoryTypes.isEmpty
                             ? const SizedBox()
-                            : Container(
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(
-                                          1, 1), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                width: 6.w,
-                                child: DropdownButton(
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 4.sp,
-                                  ),
-                                  underline: const SizedBox(),
-                                  value: cubitP.categoryTypes.first,
-                                  items: cubitP.categoryTypes
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
+                            : SizedBox(
+                                width: 8.w,
+                                height: 5.h,
+                                child: DefaultDropdown<String>(
+                                  hint: "Package",
+                                  showSearchBox: true,
+                                  selectedItem: package,
+                                  items: ['All']+cubitP.categoryTypes,
+                                  onChanged: (val) {
                                     setState(() {
-                                      dropdownvalue = value!;
-                                      cubitP.getPackages(type: value);
-                                      printResponse(value);
+                                      PackagesCubit.get(context).getPackages(
+                                          type: val == "All" ? " " : val);
+                                      package = val!;
                                     });
                                   },
                                 ),
@@ -190,7 +173,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Packages Yet !",
+                        text: "No Packages Found !",
                         fontSize: 5.sp,
                       ),
                     );
@@ -213,7 +196,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'NameEn',
+                                        'English Name',
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                       SizedBox(
@@ -232,7 +215,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'NameAr',
+                                        'Arabic Name',
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                       SizedBox(

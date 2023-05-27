@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
+import 'package:jetboard/src/data/models/notification_model.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/endDrawer_notification.dart';
+import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
@@ -69,8 +73,10 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                   children: <Widget>[
                                     const DefaultText(
                                         text:
-                                            "Select Users to Send Notifications to !!"),
-                                    SizedBox(height: 2.h,),
+                                            "Send Notifications to All Users !!"),
+                                    SizedBox(
+                                      height: 2.h,
+                                    ),
                                     DefaultTextField(
                                       controller: titleController,
                                       hintText: "Notification Title",
@@ -78,7 +84,9 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                       password: false,
                                       haveShadow: false,
                                     ),
-                                    SizedBox(height: 1.h,),
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
                                     DefaultTextField(
                                       controller: messageController,
                                       hintText: "Notification Message",
@@ -94,7 +102,29 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                 DefaultAppButton(
                                   title: "Send",
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    NotificationCubit.get(context).notifyAll(
+                                      title: titleController.text,
+                                      message: messageController.text,
+                                      afterSuccess: () {
+                                        setState(() {
+                                          NotificationCubit.get(context)
+                                              .notificationResponse!
+                                              .notifications!
+                                              .insert(
+                                                0,
+                                                NotificationModel(
+                                                  title: titleController.text,
+                                                  message:
+                                                      messageController.text,
+                                                  createdAt: DateTime.now()
+                                                      .toString()
+                                                      .substring(0, 19),
+                                                ),
+                                              );
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    );
                                   },
                                   width: 10.w,
                                   height: 4.h,
@@ -104,7 +134,7 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                   isGradient: false,
                                   radius: 10,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 DefaultAppButton(
@@ -129,36 +159,122 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 85.h,
-                child: ListView.builder(
-                  itemCount: 50,
-                  itemBuilder: (context, index) => Padding(
-                    padding: EdgeInsets.only(top: 2.h, left: 3.2.w, right: 43),
-                    child: RowData(
-                      data: [
-                        Expanded(
-                            flex: 1,
-                            child: Text(
-                              index.toString(),
-                              style: TextStyle(fontSize: 3.sp),
-                            )),
-                        Expanded(
-                            flex: 1,
-                            child: Text(
-                              'Gold',
-                              style: TextStyle(fontSize: 3.sp),
-                            )),
-                        Expanded(
-                            flex: 1,
-                            child: Text(
-                              '100',
-                              style: TextStyle(fontSize: 3.sp),
-                            )),
-                      ],
+              BlocBuilder<NotificationCubit, NotificationState>(
+                builder: (context, state) {
+                  if (NotificationCubit.get(context)
+                          .notificationResponse
+                          ?.notifications ==
+                      null) {
+                    return SizedBox(
+                      height: 79.h,
+                      child: ListView.builder(
+                          itemCount: 6,
+                          itemBuilder: (context, index) => Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.5.h, left: 2.8.w, right: 37),
+                                child: LoadingView(
+                                  width: 90.w,
+                                  height: 5.h,
+                                ),
+                              )),
+                    );
+                  } else if (NotificationCubit.get(context)
+                      .notificationResponse!
+                      .notifications!
+                      .isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.only(top: 40.h),
+                      child: DefaultText(
+                        text: "No Notification Found !",
+                        fontSize: 5.sp,
+                      ),
+                    );
+                  }
+                  return SizedBox(
+                    height: 85.h,
+                    child: ListView.builder(
+                      itemCount: NotificationCubit.get(context)
+                          .notificationResponse!
+                          .notifications!
+                          .length,
+                      itemBuilder: (context, index) => Padding(
+                        padding:
+                            EdgeInsets.only(top: 2.h, left: 3.2.w, right: 43),
+                        child: RowData(
+                          rowHeight: 8.h,
+                          data: [
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Title',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    NotificationCubit.get(context)
+                                        .notificationResponse!
+                                        .notifications![index]
+                                        .title!,
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Message',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    NotificationCubit.get(context)
+                                        .notificationResponse!
+                                        .notifications![index]
+                                        .message!,
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Date & Time',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    NotificationCubit.get(context)
+                                        .notificationResponse!
+                                        .notifications![index]
+                                        .createdAt!,
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),

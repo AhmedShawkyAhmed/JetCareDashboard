@@ -95,7 +95,7 @@ class _ViewPackagesState extends State<ViewPackages> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'NameEn',
+                                            'English Name',
                                             style: TextStyle(fontSize: 3.sp),
                                           ),
                                           SizedBox(
@@ -114,7 +114,7 @@ class _ViewPackagesState extends State<ViewPackages> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'NameAr',
+                                            'Arabic Name',
                                             style: TextStyle(fontSize: 3.sp),
                                           ),
                                           SizedBox(

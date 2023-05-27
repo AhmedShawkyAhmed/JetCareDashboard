@@ -74,13 +74,15 @@ class _MyAppState extends State<MyApp> {
 
   void showFlutterNotification(RemoteMessage message) {
     RemoteNotification? notification = message.notification;
-    DefaultToast.showMyToast(notification!.title.toString(),toastLength: Toast.LENGTH_LONG);
+    DefaultToast.showMyToast(notification!.title.toString(),
+        toastLength: Toast.LENGTH_LONG);
   }
 
   getToken() async {
     pushToken = await FirebaseMessaging.instance.getToken();
     printLog(pushToken.toString());
-    CacheHelper.saveDataSharedPreference(key: SharedPreferenceKeys.fcm, value: pushToken);
+    CacheHelper.saveDataSharedPreference(
+        key: SharedPreferenceKeys.fcm, value: pushToken);
   }
 
   // This widget is the root of your application.
@@ -98,17 +100,21 @@ class _MyAppState extends State<MyApp> {
                 ..getPeriodsMobile()
                 ..getClients()
                 ..getPackages()
+                ..getItemsForPackages()
                 ..getItems()),
             ),
             BlocProvider(
               create: ((context) => AuthCubit()),
             ),
             BlocProvider(
-              create: ((context) => NotificationCubit()),
+              create: ((context) => NotificationCubit()
+                ..getNotifications(
+                  userId: CacheHelper.getDataFromSharedPreference(key: "id"),
+                )),
             ),
             BlocProvider(
               create: ((context) => InfoCubit()
-                ..getInfo()
+                ..getInfo(type: "appInfo")
                 ..getInfoTypes()),
             ),
             BlocProvider(

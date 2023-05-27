@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
+import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -97,7 +100,8 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                     },
                   );
                 }
-              } else if (widget.type == "area") {
+              }
+              else if (widget.type == "area") {
                 if (AreaCubit.get(context)
                         .areaId[AreaCubit.get(context)
                             .areas
@@ -110,7 +114,8 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                           .areaId[
                       AreaCubit.get(context).areas.indexOf(value.toString())]);
                 }
-              } else if (widget.type == "newCrew") {
+              }
+              else if (widget.type == "newCrew") {
                 if (AreaCubit.get(context)
                         .areaId[AreaCubit.get(context)
                             .areas
@@ -123,14 +128,16 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                       AreaCubit.get(context).areas.indexOf(value.toString())];
                   printResponse(registerAreaId.toString());
                 }
-              } else if (widget.type == "year") {
+              }
+              else if (widget.type == "year") {
                 GlobalCubit.get(context).getStatistics(
                   month: (selectedMonth + 1).toString(),
                   year: value,
                   afterSuccess: () {},
                 );
                 year = value;
-              } else if (widget.type == "status") {
+              }
+              else if (widget.type == "status") {
                 OrdersCubit.get(context).updateOrderStatus(
                   orderId: widget.orderId!,
                   status: value,
@@ -157,6 +164,21 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                     );
                   },
                 );
+              }
+              else if (widget.type == "role") {
+                UsersCubit.get(context).getUser(type: value == "All"?" ":value);
+                role = value;
+              }
+              else if (widget.type == "package") {
+                PackagesCubit.get(context).getPackages(type: value == "All"?" ":value);
+                package = value;
+              }
+              else if (widget.type == "item") {
+                ItemsCubit.get(context).getItems(type: value == "All"?" ":value);
+                item = value;
+              }
+              else{
+                widget.onChanged;
               }
               dropItemsInfo = value;
               dropItemsItem = value;

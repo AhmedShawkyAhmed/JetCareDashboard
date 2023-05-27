@@ -93,6 +93,11 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value){
+                        if(value == ""){
+                          cubitC.getCategories();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
@@ -154,7 +159,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Categories Yet !",
+                        text: "No Categories Found !",
                         fontSize: 5.sp,
                       ),
                     );
@@ -177,7 +182,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'NameEn',
+                                        'English Name',
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                       SizedBox(
@@ -196,7 +201,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'NameAr',
+                                        'Arabic Name',
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                       SizedBox(

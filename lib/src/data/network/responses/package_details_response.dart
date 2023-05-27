@@ -1,6 +1,5 @@
 
 
-import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/models/packages_model.dart';
 
 class PackageDetailsResponse {

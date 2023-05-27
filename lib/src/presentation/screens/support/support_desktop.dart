@@ -13,7 +13,7 @@ import 'package:sizer/sizer.dart';
 import '../../widgets/default_text_field.dart';
 
 class SupportDesktop extends StatefulWidget {
-  SupportDesktop({super.key});
+  const SupportDesktop({super.key});
 
   @override
   State<SupportDesktop> createState() => _SupportDesktopState();
@@ -63,6 +63,11 @@ class _SupportDesktopState extends State<SupportDesktop> {
                   shadowColor: AppColors.black.withOpacity(0.05),
                   haveShadow: true,
                   controller: search,
+                  onChange: (value){
+                    if(value == ""){
+                      cubits.getSupport();
+                    }
+                  },
                   suffix: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
@@ -100,7 +105,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                       ),
                       child: Center(
                         child: DefaultText(
-                          text: "No Support Messages Yet !",
+                          text: "No Support Messages Found !",
                           fontSize: 5.sp,
                         ),
                       ),
@@ -146,7 +151,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubits.supportList[index].name,
+                                      cubits.supportList[index].name!,
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -164,7 +169,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubits.supportList[index].contact,
+                                      cubits.supportList[index].contact!,
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -182,7 +187,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubits.supportList[index].subject,
+                                      cubits.supportList[index].subject!,
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -208,7 +213,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                                 title: const Text('Message'),
                                                 content: Text(
                                                   cubits.supportList[index]
-                                                      .message,
+                                                      .message!,
                                                   style:
                                                       TextStyle(fontSize: 3.sp),
                                                 ),
@@ -216,7 +221,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                             });
                                       },
                                       child: Text(
-                                        cubits.supportList[index].message,
+                                        cubits.supportList[index].message!,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 3.sp),
@@ -310,7 +315,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                   if (cubits.supportList[index].adminComment !=
                                       "") {
                                     commentController.text =
-                                    cubits.supportList[index].adminComment;
+                                    cubits.supportList[index].adminComment ?? "";
                                   }
                                 });
                                 showDialog<void>(

@@ -91,7 +91,7 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'NameEn',
+                                        'English Name',
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                       SizedBox(

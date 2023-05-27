@@ -28,6 +28,7 @@ class EndPoints {
   static const getAds = "getAds";
   static const updateFCM = "updateFCM";
   static const notifyUser = "notifyUser";
+  static const notifyAll = "notifyAll";
   static const saveNotification = "saveNotification";
   static const readNotification = "readNotification";
   static const getNotifications = "getNotifications";
@@ -76,7 +77,7 @@ class EndPoints {
   static const deleteCategory = "deleteCategory";
   static const changeCategoryStatus = "changeCategoryStatus";
   static const addCategoryPackage = "addCategoryPackage";
-  static const deleteCategoryPackage = "deleteCategoryPackage";
+  static const deleteCategoryPackage = "deleteCategorySub";
   static const addCategoryItem = "addCategoryItem";
   static const deleteCategorySub = "deleteCategorySub";
 

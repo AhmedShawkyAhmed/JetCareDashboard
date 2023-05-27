@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/presentation/screens/ads/ads_desktop.dart';
-import 'package:jetboard/src/presentation/screens/ads/ads_mobile.dart';
 import 'package:jetboard/src/presentation/screens/mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

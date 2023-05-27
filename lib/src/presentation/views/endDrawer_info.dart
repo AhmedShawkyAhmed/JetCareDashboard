@@ -137,7 +137,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                           blurRadius: 2,
                           color: AppColors.white,
                           shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'NameEn',
+                          hintText: 'English Name',
                         ),
                       ),
                       Padding(
@@ -175,7 +175,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                           blurRadius: 2,
                           color: AppColors.white,
                           shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'NameAr',
+                          hintText: 'Arabic Name',
                         ),
                       ),
                       Padding(

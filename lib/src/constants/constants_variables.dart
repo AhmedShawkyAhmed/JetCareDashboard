@@ -12,6 +12,9 @@ List<int> lol = [
 ];
 String dropItemsInfo = '';
 String? imageApp;
+String role = "All";
+String package = "All";
+String item = "All";
 String dropItemsItem = '';
 String? imageItems;
 String imageDomain = "https://jetcare-api.ahmedshawky.fun/public/images/";

@@ -3,7 +3,6 @@ import 'package:jetboard/src/presentation/screens/mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'corporates_desktop.dart';
-import 'corporates_mobile.dart';
 
 class Corporates extends StatelessWidget {
   const Corporates({super.key});

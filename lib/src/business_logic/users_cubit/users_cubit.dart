@@ -83,7 +83,7 @@ class UsersCubit extends Cubit<UsersState> {
         for (var i = 0; i < roleResponse!.infoModel!.length; i++) {
           roleList.add(roleResponse!.infoModel![i].titleEn.toString());
         }
-        roleList.insert(0, ' ');
+        roleList.insert(0, 'All');
         emit(RoleUserSuccessState());
         printResponse(value.data.toString());
       });

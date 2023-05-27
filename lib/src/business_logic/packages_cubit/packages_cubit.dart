@@ -3,10 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/responses/categoryType_response.dart';
 import 'package:jetboard/src/data/network/responses/package_details_response.dart';
-import 'package:meta/meta.dart';
 
 import '../../constants/constants_methods.dart';
 import '../../constants/end_points.dart';
@@ -127,7 +125,6 @@ class PackagesCubit extends Cubit<PackagesState> {
         for (var i = 0; i < categoryResponse!.categoryModel!.length; i++) {
           categoryTypes.add(categoryResponse!.categoryModel![i].titleAr.toString());
         }
-        categoryTypes.insert(0,'');
         emit(CategoryTypeSuccessState());
         printResponse(value.data.toString());
       });
@@ -219,7 +216,7 @@ class PackagesCubit extends Cubit<PackagesState> {
                 'nameEn': packagesRequest.nameEn,
                 'descriptionEn': packagesRequest.descriptionEn,
                 'nameAr': packagesRequest.nameAr,
-                'discriptionAr': packagesRequest.descriptionAr,
+                'descriptionAr': packagesRequest.descriptionAr,
                 'price': packagesRequest.price,
                 'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
                     filename: fileResult!.files.first.name),
@@ -229,7 +226,7 @@ class PackagesCubit extends Cubit<PackagesState> {
                 'nameEn': packagesRequest.nameEn,
                 'descriptionEn': packagesRequest.descriptionEn,
                 'nameAr': packagesRequest.nameAr,
-                'discriptionAr': packagesRequest.descriptionAr,
+                'descriptionAr': packagesRequest.descriptionAr,
                 'price': packagesRequest.price,
               },
               formData: true,

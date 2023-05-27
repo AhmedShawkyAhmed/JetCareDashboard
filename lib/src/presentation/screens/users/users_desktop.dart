@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/end_drawer_users.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,7 +26,6 @@ class UsersDesktop extends StatefulWidget {
 
 class _UsersDesktopState extends State<UsersDesktop> {
   TextEditingController search = TextEditingController();
-  String dropdownvalue = 'All';
   int currentIndex = 0;
 
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
@@ -69,15 +70,20 @@ class _UsersDesktopState extends State<UsersDesktop> {
                         password: false,
                         width: 25.w,
                         height: 5.h,
-                        fontSize: 4.sp,
+                        fontSize: 3.sp,
                         color: AppColors.white,
                         bottom: 0.5.h,
-                        hintText: 'Phone Number',
+                        hintText: 'Name or Phone Number',
                         spreadRadius: 2,
                         blurRadius: 2,
                         shadowColor: AppColors.black.withOpacity(0.05),
                         haveShadow: true,
                         controller: search,
+                        onChange: (value) {
+                          if (value == "") {
+                            cubitU.getUser();
+                          }
+                        },
                         suffix: IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {
@@ -95,41 +101,19 @@ class _UsersDesktopState extends State<UsersDesktop> {
                         builder: (context, state) {
                           return UsersCubit.get(context).roleList.isEmpty
                               ? const SizedBox()
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 2,
-                                        offset: const Offset(
-                                            1, 1), // changes position of shadow
-                                      )
-                                    ],
-                                  ),
-                                  width: 4.w,
-                                  child: DropdownButton(
-                                    icon:  Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 4.sp,
-                                    ),
-                                    underline: const SizedBox(),
-                                    value: cubitU.roleList.first,
-                                    items: cubitU.roleList
-                                        .map<DropdownMenuItem<String>>((value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
+                              : SizedBox(
+                                  width: 8.w,
+                                  height: 5.h,
+                                  child: DefaultDropdown<String>(
+                                    hint: "Role",
+                                    showSearchBox: true,
+                                    selectedItem: role,
+                                    items: UsersCubit.get(context).roleList,
+                                    onChanged: (val) {
                                       setState(() {
-                                        dropdownvalue = value!;
-                                        cubitU.getUser(type: value);
-                                        // cubitU.getUser(keyword: "");
-                                        printResponse(value);
+                                        UsersCubit.get(context).getUser(
+                                            type: val == "All" ? " " : val);
+                                        role = val!;
                                       });
                                     },
                                   ),
@@ -137,20 +121,20 @@ class _UsersDesktopState extends State<UsersDesktop> {
                         },
                       ),
                       const Spacer(),
-                      DefaultAppButton(
-                        width: 8.w,
-                        height: 5.h,
-                        radius: 10,
-                        isGradient: false,
-                        haveShadow: true,
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: const Offset(0, 0),
-                        buttonColor: AppColors.black,
-                        fontSize: 5.sp,
-                        title: "Export",
-                        onTap: () {},
-                      ),
+                      // DefaultAppButton(
+                      //   width: 8.w,
+                      //   height: 5.h,
+                      //   radius: 10,
+                      //   isGradient: false,
+                      //   haveShadow: true,
+                      //   spreadRadius: 2,
+                      //   blurRadius: 2,
+                      //   offset: const Offset(0, 0),
+                      //   buttonColor: AppColors.black,
+                      //   fontSize: 5.sp,
+                      //   title: "Export",
+                      //   onTap: () {},
+                      // ),
                       SizedBox(
                         width: 2.w,
                       ),
@@ -178,30 +162,31 @@ class _UsersDesktopState extends State<UsersDesktop> {
                 ),
                 BlocBuilder<UsersCubit, UsersState>(
                   builder: (context, state) {
-                    if(UsersCubit.get(context).getUserResponse?.userModel == null){
+                    if (UsersCubit.get(context).getUserResponse?.userModel ==
+                        null) {
                       return SizedBox(
                         height: 79.h,
                         child: ListView.builder(
                             itemCount: 6,
                             itemBuilder: (context, index) => Padding(
-                              padding: EdgeInsets.only(
-                                  top: 0.5.h, left: 2.8.w, right: 37),
-                              child: LoadingView(
-                                width: 90.w,
-                                height: 5.h,
-                              ),
-                            )),
+                                  padding: EdgeInsets.only(
+                                      top: 0.5.h, left: 2.8.w, right: 37),
+                                  child: LoadingView(
+                                    width: 90.w,
+                                    height: 5.h,
+                                  ),
+                                )),
                       );
-                    }
-                    else if (UsersCubit.get(context).userList.isEmpty) {
+                    } else if (UsersCubit.get(context).userList.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
-                          text: "No Users Yet !",
+                          text: "No Users Found !",
                           fontSize: 5.sp,
                         ),
                       );
                     }
+
                     return Padding(
                       padding: EdgeInsets.only(top: 2.h),
                       child: SizedBox(
@@ -218,24 +203,24 @@ class _UsersDesktopState extends State<UsersDesktop> {
                               rowHeight: 8.h,
                               data: [
                                 Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Name',
-                                          style: TextStyle(fontSize: 3.sp),
-                                        ),
-                                        SizedBox(
-                                          height: 0.5.h,
-                                        ),
-                                        Text(
-                                          cubitU.userList[index].name,
-                                          style: TextStyle(fontSize: 3.sp),
-                                        ),
-                                      ],
-                                    )),
+                                  flex: 2,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Name',
+                                        style: TextStyle(fontSize: 3.sp),
+                                      ),
+                                      SizedBox(
+                                        height: 0.5.h,
+                                      ),
+                                      Text(
+                                        cubitU.userList[index].name,
+                                        style: TextStyle(fontSize: 3.sp),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 Expanded(
                                     flex: 1,
                                     child: Column(
@@ -315,7 +300,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                         ),
                                       ],
                                     )),
-                                
+
                                 SizedBox(
                                   height: 2.5.h,
                                   child: CircleAvatar(
@@ -373,11 +358,13 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      if(cubitU.userList[index].role == "crew"){
+                                      if (cubitU.userList[index].role ==
+                                          "crew") {
                                         cubitU.deleteUser(
                                             userModel: cubitU.userList[index]);
-                                      }else{
-                                        DefaultToast.showMyToast("You Can't Delete Client Account");
+                                      } else {
+                                        DefaultToast.showMyToast(
+                                            "You Can't Delete Client Account");
                                       }
                                     },
                                     icon: const Icon(

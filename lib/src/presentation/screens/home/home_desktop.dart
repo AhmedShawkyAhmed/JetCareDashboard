@@ -7,7 +7,7 @@ import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/home_card.dart';
 import 'package:jetboard/src/presentation/views/month_item.dart';
 import 'package:jetboard/src/presentation/widgets/circular_item.dart';
-import 'package:jetboard/src/presentation/widgets/default_drop_down_menu.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeDesktop extends StatefulWidget {
@@ -37,20 +37,32 @@ class _HomeDesktopState extends State<HomeDesktop> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: 8.w,
-                          child: DefaultDropDownMenu(
-                            height: 5.h,
-                            hint: "Year",
-                            type: "year",
-                            list: [
-                              (DateTime.now().year - 3).toString(),
-                              (DateTime.now().year - 2).toString(),
-                              (DateTime.now().year - 1).toString(),
-                              (DateTime.now().year).toString(),
-                              (DateTime.now().year + 1).toString(),
-                            ],
-                            value: year,
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 1.h),
+                          child: SizedBox(
+                            width: 10.w,
+                            child: DefaultDropdown<String>(
+                              hint: "Year",
+                              showSearchBox: true,
+                              selectedItem: year,
+                              items: [
+                                (DateTime.now().year - 3).toString(),
+                                (DateTime.now().year - 2).toString(),
+                                (DateTime.now().year - 1).toString(),
+                                (DateTime.now().year).toString(),
+                                (DateTime.now().year + 1).toString(),
+                              ],
+                              onChanged: (val) {
+                                setState(() {
+                                  GlobalCubit.get(context).getStatistics(
+                                    month: (selectedMonth + 1).toString(),
+                                    year: val,
+                                    afterSuccess: () {},
+                                  );
+                                  year = val!;
+                                });
+                              },
+                            ),
                           ),
                         ),
                         SizedBox(

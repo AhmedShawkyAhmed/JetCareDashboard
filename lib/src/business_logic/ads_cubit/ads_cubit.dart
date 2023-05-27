@@ -61,7 +61,6 @@ class AdsCubit extends Cubit<AdsState> {
       ).then((value) {
         getAdsResponse = AdsResponse.fromJson(value.data);
         adsList.addAll(getAdsResponse!.adsModel!);
-        DefaultToast.showMyToast(adsList.last.nameAr);
         listCount = getAdsResponse!.adsModel!.length;
         emit(AdsSuccessState());
       });

@@ -70,151 +70,148 @@ class DefaultDropdown<T> extends StatelessWidget {
         width: 0.5,
       ),
     );
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 50.w),
-      child: DropdownSearch<T>(
-        key: dropDownKey,
-        enabled: enabled,
-        popupProps: PopupProps.menu(
-          showSearchBox: showSearchBox,
-          searchFieldProps: TextFieldProps(
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              isCollapsed: false,
-              constraints: const BoxConstraints(),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 4.w,
-                vertical: 2.h,
-              ),
+    return DropdownSearch<T>(
+      key: dropDownKey,
+      enabled: enabled,
+      popupProps: PopupProps.menu(
+        showSearchBox: showSearchBox,
+        searchFieldProps: TextFieldProps(
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            isCollapsed: false,
+            constraints: const BoxConstraints(),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 4.w,
+              vertical: 2.h,
             ),
           ),
-          itemBuilder: (ctx, item, b) => Container(
-            alignment: dropdownAlign ?? AlignmentDirectional.center,
-            padding: EdgeInsetsDirectional.fromSTEB(5.w, 5.h, 5.w, 5.h),
-            child: Row(
-              children: [
-                dropdownLeadingWidget?.call(ctx, item, b) ?? const SizedBox(),
-                Expanded(
-                  child: Container(
-                    alignment: dropdownAlign ?? AlignmentDirectional.center,
-                    child: Text(
-                      itemAsString != null
-                          ? itemAsString!(item)
-                          : item.toString(),
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: dropdownTextStyle ??
-                          TextStyle(
-                            color: enabled
-                                ? AppColors.pc
-                                : const Color(0xff636363),
-                            fontSize: 20.sp,
-                          ),
-                    ),
+        ),
+        itemBuilder: (ctx, item, b) => Container(
+          alignment: dropdownAlign ?? AlignmentDirectional.center,
+          padding: EdgeInsetsDirectional.fromSTEB(5.w, 5.h, 5.w, 5.h),
+          child: Row(
+            children: [
+              dropdownLeadingWidget?.call(ctx, item, b) ?? const SizedBox(),
+              Expanded(
+                child: Container(
+                  alignment: dropdownAlign ?? AlignmentDirectional.center,
+                  child: Text(
+                    itemAsString != null
+                        ? itemAsString!(item)
+                        : item.toString(),
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: dropdownTextStyle ??
+                        TextStyle(
+                          color: enabled
+                              ? AppColors.pc
+                              : const Color(0xff636363),
+                          fontSize: 20.sp,
+                        ),
                   ),
                 ),
-              ],
+              ),
+            ],
+          ),
+        ),
+        menuProps: MenuProps(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7).r),
+        ),
+        constraints: BoxConstraints(
+          maxHeight: maxHeight ??
+              (relativeMenuHeight > 200.h ? 200.h : relativeMenuHeight),
+        ),
+      ),
+      selectedItem: selectedItem,
+      itemAsString: itemAsString,
+      dropdownButtonProps: DropdownButtonProps(
+        constraints: const BoxConstraints(minHeight: 0, minWidth: 0),
+        splashRadius: 12,
+        iconSize: 20.r,
+        icon: dropdownButtonBuilder ??
+            Icon(
+              Icons.keyboard_arrow_down,
+              color: enabled ? AppColors.pc : const Color(0xff636363),
+              size: 20.r,
             ),
-          ),
-          menuProps: MenuProps(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7).r),
-          ),
-          constraints: BoxConstraints(
-            maxHeight: maxHeight ??
-                (relativeMenuHeight > 200.h ? 200.h : relativeMenuHeight),
-          ),
+        selectedIcon: dropdownButtonBuilder ??
+            Icon(
+              Icons.keyboard_arrow_down,
+              color: enabled ? AppColors.pc : const Color(0xff636363),
+              size: 20.r,
+            ),
+      ),
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        textAlignVertical: TextAlignVertical.center,
+        dropdownSearchDecoration: InputDecoration(
+          suffixIconConstraints:
+              const BoxConstraints(minHeight: 0, minWidth: 0),
+          isCollapsed: isCollapsed,
+          fillColor: AppColors.white,
+          filled: filled,
+          border: inputBorder,
+          contentPadding: EdgeInsetsDirectional.only(end: 5.w),
         ),
-        selectedItem: selectedItem,
-        itemAsString: itemAsString,
-        dropdownButtonProps: DropdownButtonProps(
-          constraints: const BoxConstraints(minHeight: 0, minWidth: 0),
-          splashRadius: 12,
-          iconSize: 20.r,
-          icon: dropdownButtonBuilder ??
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: enabled ? AppColors.pc : const Color(0xff636363),
-                size: 20.r,
-              ),
-          selectedIcon: dropdownButtonBuilder ??
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: enabled ? AppColors.pc : const Color(0xff636363),
-                size: 20.r,
-              ),
-        ),
-        dropdownDecoratorProps: DropDownDecoratorProps(
-          textAlignVertical: TextAlignVertical.center,
-          dropdownSearchDecoration: InputDecoration(
-            suffixIconConstraints:
-                const BoxConstraints(minHeight: 0, minWidth: 0),
-            isCollapsed: isCollapsed,
-            fillColor: AppColors.white,
-            filled: filled,
-            border: inputBorder,
-            contentPadding: EdgeInsetsDirectional.only(end: 5.w),
-          ),
-        ),
-        items: items,
-        dropdownBuilder: (ctx, value) {
-          if (value == null || (value is String && (value == ''))) {
-            return Container(
-              alignment: selectedAlign ?? AlignmentDirectional.center,
-              padding: const EdgeInsetsDirectional.only(start: 10),
-              child: FittedBox(
-                alignment: selectedAlign ?? AlignmentDirectional.center,
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  hint ?? '',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: hintStyle ??
-                      TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 20.sp,
-                      ),
-                ),
-              ),
-            );
-          }
+      ),
+      items: items,
+      dropdownBuilder: (ctx, value) {
+        if (value == null || (value is String && (value == ''))) {
           return Container(
             alignment: selectedAlign ?? AlignmentDirectional.center,
             padding: const EdgeInsetsDirectional.only(start: 10),
-            child: Row(
-              children: [
-                selectedLeadingWidget?.call(ctx, value) ?? const SizedBox(),
-                Expanded(
-                  child: FittedBox(
-                    alignment: selectedAlign ?? AlignmentDirectional.center,
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      value is String
-                          ? value
-                          : itemAsString == null
-                              ? value.toString()
-                              : itemAsString!(value),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: selectedTextStyle ??
-                          TextStyle(
-                            color: enabled
-                                ? AppColors.pc
-                                : const Color(0xff636363),
-                            fontSize: 20.sp,
-                          ),
+            child: FittedBox(
+              alignment: selectedAlign ?? AlignmentDirectional.center,
+              fit: BoxFit.scaleDown,
+              child: Text(
+                hint ?? '',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: hintStyle ??
+                    TextStyle(
+                      color: AppColors.mainColor,
+                      fontSize: 20.sp,
                     ),
-                  ),
-                ),
-              ],
+              ),
             ),
           );
-        },
-        onChanged: onChanged,
-        onBeforeChange: onBeforeChange,
-      ),
+        }
+        return Container(
+          alignment: selectedAlign ?? AlignmentDirectional.center,
+          padding: const EdgeInsetsDirectional.only(start: 10),
+          child: Row(
+            children: [
+              selectedLeadingWidget?.call(ctx, value) ?? const SizedBox(),
+              Expanded(
+                child: FittedBox(
+                  alignment: selectedAlign ?? AlignmentDirectional.center,
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    value is String
+                        ? value
+                        : itemAsString == null
+                            ? value.toString()
+                            : itemAsString!(value),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: selectedTextStyle ??
+                        TextStyle(
+                          color: enabled
+                              ? AppColors.pc
+                              : const Color(0xff636363),
+                          fontSize: 20.sp,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      onChanged: onChanged,
+      onBeforeChange: onBeforeChange,
     );
   }
 }

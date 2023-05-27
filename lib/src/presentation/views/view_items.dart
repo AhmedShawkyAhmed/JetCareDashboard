@@ -68,7 +68,7 @@ class _ViewItemsState extends State<ViewItems> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'NameAr',
+                                      'Arabic Name',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(
@@ -80,7 +80,7 @@ class _ViewItemsState extends State<ViewItems> {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialog(
-                                                title: const Text('NameAr'),
+                                                title: const Text('Arabic Name'),
                                                 content: Text(
                                                   widget.items[index].nameAr!
                                                       .toString(),
@@ -105,7 +105,7 @@ class _ViewItemsState extends State<ViewItems> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'NameEn',
+                                    'English Name',
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
                                   SizedBox(
@@ -117,7 +117,7 @@ class _ViewItemsState extends State<ViewItems> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: const Text('NameEn'),
+                                              title: const Text('English Name'),
                                               content: Text(
                                                 widget.items[index].nameEn!
                                                     .toString(),

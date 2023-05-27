@@ -3,7 +3,6 @@ import 'package:jetboard/src/presentation/screens/mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'category_desktop.dart';
-import 'category_mobile.dart';
 
 class Category extends StatelessWidget {
   const Category({super.key});

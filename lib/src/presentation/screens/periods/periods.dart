@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/presentation/screens/mobile.dart';
 import 'package:jetboard/src/presentation/screens/periods/periods_desktop.dart';
-import 'package:jetboard/src/presentation/screens/periods/periods_mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class Periods extends StatelessWidget {

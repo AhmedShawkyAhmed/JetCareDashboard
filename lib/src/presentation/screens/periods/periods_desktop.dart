@@ -22,8 +22,6 @@ class PeriodsDesktop extends StatefulWidget {
 
 class _PeriodsDesktopState extends State<PeriodsDesktop> {
   TextEditingController search = TextEditingController();
-  String dropdownvalue = 'Item 1';
-
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
   int currentIndex = 0;
   List<bool> isChecked = List.generate(2000, (index) => false);
@@ -65,7 +63,6 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     const Spacer(),
                     DefaultAppButton(
                       width: 8.w,
@@ -91,29 +88,33 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
               ),
               BlocBuilder<PeriodCubit, PeriodState>(
                 builder: (context, state) {
-                  if (PeriodCubit.get(context).getPeriodResponse?.periodModel == null) {
+                  if (PeriodCubit.get(context).getPeriodResponse?.periodModel ==
+                      null) {
                     return Padding(
                       padding: EdgeInsets.only(top: 2.h),
                       child: SizedBox(
                         height: 79.h,
                         child: ListView.builder(
-                            itemCount: 6,
-                            itemBuilder: (context, index) => Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 0.5.h, left: 3.2.w, right: 2.5),
-                                  child: LoadingView(
-                                    width: 90.w,
-                                    height: 5.h,
-                                  ),
-                                )),
+                          itemCount: 6,
+                          itemBuilder: (context, index) => Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.5.h, left: 3.2.w, right: 2.5),
+                            child: LoadingView(
+                              width: 90.w,
+                              height: 5.h,
+                            ),
+                          ),
+                        ),
                       ),
                     );
-                  }
-                  else if (PeriodCubit.get(context).getPeriodResponse!.periodModel!.isEmpty) {
+                  } else if (PeriodCubit.get(context)
+                      .getPeriodResponse!
+                      .periodModel!
+                      .isEmpty) {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Periods Yet !",
+                        text: "No Periods Found !",
                         fontSize: 5.sp,
                       ),
                     );
@@ -162,13 +163,11 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        cubitP.periodList[index].to
-                                            .toString(),
+                                        cubitP.periodList[index].to.toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
                                   )),
-                             
                               SizedBox(
                                 height: 3.h,
                                 child: CircleAvatar(
@@ -221,12 +220,10 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              
                               IconButton(
                                   onPressed: () {
                                     cubitP.deletePeriod(
-                                        periodModel:
-                                            cubitP.periodList[index]);
+                                        periodModel: cubitP.periodList[index]);
                                   },
                                   icon: const Icon(
                                     Icons.delete,

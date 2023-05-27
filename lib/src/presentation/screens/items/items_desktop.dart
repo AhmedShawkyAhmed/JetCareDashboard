@@ -8,6 +8,7 @@ import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/endDrawer_items.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -60,7 +61,8 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 5.h, left: 3.w, right: 50,bottom: 1.h),
+                padding: EdgeInsets.only(
+                    top: 5.h, left: 3.w, right: 50, bottom: 1.h),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,6 +79,11 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
+                      onChange: (value) {
+                        if (value == "") {
+                          cubitI.getItems();
+                        }
+                      },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
@@ -93,41 +100,19 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                       builder: (context, state) {
                         return ItemsCubit.get(context).itemsTypes.isEmpty
                             ? const SizedBox()
-                            : Container(
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(
-                                          1, 1), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                width: 6.w,
-                                child: DropdownButton(
-                                  icon:  Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 4.sp,
-                                  ),
-                                  underline: const SizedBox(),
-                                  value: cubitI.itemsTypes.first,
-                                  items: cubitI.itemsTypes
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
+                            : SizedBox(
+                                width: 8.w,
+                                height: 5.h,
+                                child: DefaultDropdown<String>(
+                                  hint: "Items",
+                                  showSearchBox: true,
+                                  selectedItem: item,
+                                  items: ['All']+ItemsCubit.get(context).itemsTypes,
+                                  onChanged: (val) {
                                     setState(() {
-                                      dropdownvalue = value!;
-                                      cubitI.getItems(type: value);
-                                      printResponse(value);
+                                      ItemsCubit.get(context).getItems(
+                                          type: val == "All" ? " " : val);
+                                      item = val!;
                                     });
                                   },
                                 ),
@@ -135,20 +120,20 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                       },
                     ),
                     const Spacer(),
-                    DefaultAppButton(
-                      width: 8.w,
-                      height: 5.h,
-                      radius: 10,
-                      isGradient: false,
-                      haveShadow: true,
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 0),
-                      buttonColor: AppColors.black,
-                      fontSize: 5.sp,
-                      title: "Export",
-                      onTap: () {},
-                    ),
+                    // DefaultAppButton(
+                    //   width: 8.w,
+                    //   height: 5.h,
+                    //   radius: 10,
+                    //   isGradient: false,
+                    //   haveShadow: true,
+                    //   spreadRadius: 2,
+                    //   blurRadius: 2,
+                    //   offset: const Offset(0, 0),
+                    //   buttonColor: AppColors.black,
+                    //   fontSize: 5.sp,
+                    //   title: "Export",
+                    //   onTap: () {},
+                    // ),
                     SizedBox(
                       width: 2.w,
                     ),
@@ -183,8 +168,8 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                       child: ListView.builder(
                         itemCount: 6,
                         itemBuilder: (context, index) => Padding(
-                          padding: EdgeInsets.only(
-                              top: 1.h, left: 2.8.w, right: 37),
+                          padding:
+                              EdgeInsets.only(top: 1.h, left: 2.8.w, right: 37),
                           child: LoadingView(
                             width: 90.w,
                             height: 5.h,
@@ -199,7 +184,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Items Yet !",
+                        text: "No Items Found !",
                         fontSize: 5.sp,
                       ),
                     );
@@ -220,7 +205,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'NameEn',
+                                      'English Name',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(
@@ -260,7 +245,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'NameAr',
+                                      'Arabic Name',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(
@@ -291,7 +276,9 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                     ),
                                   ],
                                 )),
-                                SizedBox(width: 1.w,),
+                            SizedBox(
+                              width: 1.w,
+                            ),
                             Expanded(
                                 flex: 1,
                                 child: Column(
@@ -312,7 +299,8 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                               return AlertDialog(
                                                 title: const Text('Message'),
                                                 content: Text(
-                                                  cubitI.itemList[index].descriptionEn
+                                                  cubitI.itemList[index]
+                                                      .descriptionEn
                                                       .toString(),
                                                   style:
                                                       TextStyle(fontSize: 3.sp),
@@ -359,9 +347,28 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                     SizedBox(
                                       height: 0.5.h,
                                     ),
-                                    Text(
-                                      cubitI.itemList[index].unit!,
-                                      style: TextStyle(fontSize: 3.sp),
+                                    GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: const Text('Message'),
+                                                content: Text(
+                                                  cubitI.itemList[index].unit
+                                                      .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 3.sp),
+                                                ),
+                                              );
+                                            });
+                                      },
+                                      child: Text(
+                                        cubitI.itemList[index].unit!,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 3.sp),
+                                      ),
                                     ),
                                   ],
                                 )),
