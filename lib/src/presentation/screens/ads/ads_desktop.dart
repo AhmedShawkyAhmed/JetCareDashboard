@@ -6,7 +6,6 @@ import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/network/requests/ads_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
-import 'package:jetboard/src/presentation/views/endDrawer_ads.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -14,14 +13,24 @@ import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 
-class AdsDesktop extends StatelessWidget {
-  TextEditingController search = TextEditingController();
-  final TextEditingController nameControllerEn = TextEditingController();
-  final TextEditingController nameControllerAr = TextEditingController();
-  final TextEditingController link = TextEditingController();
-  int currentIndex = 0;
+class AdsDesktop extends StatefulWidget {
 
-  AdsDesktop({super.key});
+  const AdsDesktop({super.key});
+
+  @override
+  State<AdsDesktop> createState() => _AdsDesktopState();
+}
+
+class _AdsDesktopState extends State<AdsDesktop> {
+  TextEditingController search = TextEditingController();
+
+  final TextEditingController nameControllerEn = TextEditingController();
+
+  final TextEditingController nameControllerAr = TextEditingController();
+
+  final TextEditingController link = TextEditingController();
+
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +100,13 @@ class AdsDesktop extends StatelessWidget {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
+                        setState(() {
+                          cubit.isedit = false;
+                          nameControllerEn.clear();
+                          nameControllerAr.clear();
+                          link.clear();
+                          imageApp = null;
+                        });
                         showDialog<void>(
                           context: context,
                           barrierDismissible: true,
@@ -515,8 +531,281 @@ class AdsDesktop extends StatelessWidget {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    currentIndex = index;
-                                    cubit.isedit = true;
+                                    setState(() {
+                                      cubit.isedit = true;
+                                      nameControllerEn.text = AdsCubit.get(context)
+                                          .adsList[index].nameEn;
+                                      nameControllerAr.text = AdsCubit.get(context)
+                                          .adsList[index].nameAr;
+                                      link.text = AdsCubit.get(context)
+                                          .adsList[index].link;
+                                      imageApp = AdsCubit.get(context)
+                                          .adsList[index].image;
+                                    });
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                const DefaultText(
+                                                    text: "Update Ads",
+                                                    align: TextAlign.center),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                  child: DefaultTextField(
+                                                    validator: nameControllerAr.text,
+                                                    password: false,
+                                                    controller: nameControllerAr,
+                                                    height: 5.h,
+                                                    fontSize: 3.sp,
+                                                    haveShadow: true,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 2,
+                                                    color: AppColors.white,
+                                                    shadowColor:
+                                                    AppColors.black.withOpacity(0.05),
+                                                    hintText: 'Arabic Name',
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                  child: DefaultTextField(
+                                                    validator: nameControllerEn.text,
+                                                    password: false,
+                                                    controller: nameControllerEn,
+                                                    height: 5.h,
+                                                    fontSize: 3.sp,
+                                                    haveShadow: true,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 2,
+                                                    color: AppColors.white,
+                                                    shadowColor:
+                                                    AppColors.black.withOpacity(0.05),
+                                                    hintText: 'English Name',
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                  child: DefaultTextField(
+                                                    validator: link.text,
+                                                    password: false,
+                                                    height: 5.h,
+                                                    fontSize: 3.sp,
+                                                    controller: link,
+                                                    haveShadow: true,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 2,
+                                                    color: AppColors.white,
+                                                    shadowColor:
+                                                    AppColors.black.withOpacity(0.05),
+                                                    hintText: 'Link',
+                                                  ),
+                                                ),
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 2.h, left: 3.w, right: 3.w),
+                                                    child: BlocBuilder<AdsCubit, AdsState>(
+                                                      builder: (context, state) {
+                                                        return Container(
+                                                          height: 20.h,
+                                                          width: 20.w,
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: AppColors.grey),
+                                                              borderRadius:
+                                                              BorderRadius.circular(
+                                                                  20)),
+                                                          child: cubit.isedit
+                                                              ? Stack(
+                                                            children: [
+                                                              ClipRRect(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  child: imageApp ==
+                                                                      null
+                                                                      ? cubita.fileResult ==
+                                                                      null
+                                                                      ? Container()
+                                                                      : Image
+                                                                      .memory(
+                                                                    cubita
+                                                                        .fileResult!
+                                                                        .files
+                                                                        .first
+                                                                        .bytes!,
+                                                                    fit: BoxFit
+                                                                        .fitWidth,
+                                                                    width:
+                                                                    100.w,
+                                                                  )
+                                                                      : Image.network(
+                                                                    imageDomain +
+                                                                        imageApp!,
+                                                                    fit: BoxFit
+                                                                        .fitWidth,
+                                                                    width:
+                                                                    100.w,
+                                                                  )),
+                                                              Container(
+                                                                height: 4.h,
+                                                                width: 3.w,
+                                                                decoration: const BoxDecoration(
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius
+                                                                            .circular(
+                                                                            20),
+                                                                        bottomRight: Radius
+                                                                            .circular(
+                                                                            20)),
+                                                                    color: AppColors
+                                                                        .green),
+                                                                child: IconButton(
+                                                                    onPressed: () {
+                                                                      cubita
+                                                                          .pickImage();
+                                                                      imageApp = null;
+                                                                      printSuccess(cubita
+                                                                          .fileResult
+                                                                          .toString());
+                                                                    },
+                                                                    icon: const Icon(
+                                                                      Icons.edit,
+                                                                      color: AppColors
+                                                                          .white,
+                                                                    )),
+                                                              )
+                                                            ],
+                                                          )
+                                                              : cubita.fileResult == null
+                                                              ? Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                            children: [
+                                                              const Icon(
+                                                                  Icons.image),
+                                                              TextButton(
+                                                                  onPressed: () {
+                                                                    cubita
+                                                                        .pickImage();
+                                                                  },
+                                                                  child: const Text(
+                                                                      'Select Image'))
+                                                            ],
+                                                          )
+                                                              : Stack(
+                                                            children: [
+                                                              ClipRRect(
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      20),
+                                                                  child: Image
+                                                                      .memory(
+                                                                    cubita
+                                                                        .fileResult!
+                                                                        .files
+                                                                        .first
+                                                                        .bytes!,
+                                                                    fit: BoxFit
+                                                                        .fitWidth,
+                                                                    width: 100.w,
+                                                                  )),
+                                                              Container(
+                                                                height: 4.h,
+                                                                width: 3.w,
+                                                                decoration: const BoxDecoration(
+                                                                    borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius
+                                                                            .circular(
+                                                                            20),
+                                                                        bottomRight:
+                                                                        Radius.circular(
+                                                                            20)),
+                                                                    color: AppColors
+                                                                        .green),
+                                                                child: IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      cubita
+                                                                          .pickImage();
+                                                                    },
+                                                                    icon:
+                                                                    const Icon(
+                                                                      Icons.edit,
+                                                                      color: AppColors
+                                                                          .white,
+                                                                    )),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                          actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                          actions: <Widget>[
+                                            DefaultAppButton(
+                                              title: "Save",
+                                              onTap: () {
+                                                cubita.updateAds(
+                                                  index: index,
+                                                  adsRequest: AdsRequest(
+                                                    id: AdsCubit.get(context)
+                                                        .adsList[index].id,
+                                                    nameEn: nameControllerEn.text,
+                                                    nameAr: nameControllerAr.text,
+                                                    link: link.text,
+                                                  ),
+                                                );
+                                                nameControllerEn.clear();
+                                                nameControllerAr.clear();
+                                                link.clear();
+                                                cubita.fileResult = null;
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.white,
+                                              buttonColor: AppColors.pc,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            DefaultAppButton(
+                                              title: "Cancel",
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.mainColor,
+                                              buttonColor: AppColors.lightGrey,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.edit,

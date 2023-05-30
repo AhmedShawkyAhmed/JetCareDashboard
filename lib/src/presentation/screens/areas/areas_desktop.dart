@@ -5,7 +5,6 @@ import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -148,6 +147,12 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
+                        setState(() {
+                          cubit.isedit = false;
+                          nameEn.clear();
+                          nameAr.clear();
+                          price.clear();
+                        });
                         showDialog<void>(
                           context: context,
                           barrierDismissible: true,
@@ -159,7 +164,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   children: <Widget>[
                                     const DefaultText(
                                         text:
-                                        "Add New Area"),
+                                        "Add New Area",align: TextAlign.center),
                                     Padding(
                                       padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
@@ -279,8 +284,6 @@ class _AreaDesktopState extends State<AreaDesktop> {
                             );
                           },
                         );
-                        // cubit.isedit = false;
-                        // scaffoldkey.currentState!.openEndDrawer();
                       },
                     )
                   ],
@@ -436,9 +439,144 @@ class _AreaDesktopState extends State<AreaDesktop> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  currentIndex = index;
-                                  cubit.isedit = true;
-                                  scaffoldkey.currentState!.openEndDrawer();
+                                  setState(() {
+                                    cubit.isedit = true;
+                                    nameEn.text = cubitA.areaList[index].nameEn;
+                                    nameAr.text = cubitA.areaList[index].nameAr;
+                                    price.text = cubitA.areaList[index].price.toString();
+                                  });
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: AppColors.white,
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              const DefaultText(
+                                                  text:
+                                                  "Update Area",align: TextAlign.center),
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: nameEn.text,
+                                                  password: false,
+                                                  controller: nameEn,
+                                                  height: 7.h,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black.withOpacity(0.05),
+                                                  hintText: 'English Name',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: nameAr.text,
+                                                  password: false,
+                                                  controller: nameAr,
+                                                  height: 7.h,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Arabic Name',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: price.text,
+                                                  password: false,
+                                                  height: 7.h,
+                                                  controller: price,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Price',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                child: SizedBox(
+                                                  height: 4.h,
+                                                  child: DefaultDropdown<String>(
+                                                    hint: "States",
+                                                    showSearchBox: true,
+                                                    selectedItem: dropState,
+                                                    items: StatesCubit.get(context).statesList,
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        dropState = val!;
+                                                        stateId = StatesCubit.get(context)
+                                                            .allStatesResponse!
+                                                            .statesList![StatesCubit.get(context)
+                                                            .statesList
+                                                            .indexOf(val)]
+                                                            .id;
+                                                        printSuccess(stateId.toString());
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                        actions: <Widget>[
+                                          DefaultAppButton(
+                                            title: 'Add',
+                                            radius: 10,
+                                            width: 8.w,
+                                            height:  5.h,
+                                            fontSize: 3.sp,
+                                            onTap: () {
+                                              cubitA.updateArea(
+                                                  index: index,
+                                                  areaRequest: AreaRequest(
+                                                    id: cubitA.areaList[index].id,
+                                                    nameEn: nameEn.text,
+                                                    nameAr: nameAr.text,
+                                                    price: double.parse(price.text),
+                                                  ));
+                                              nameEn.clear();
+                                              nameAr.clear();
+                                              price.clear();
+                                              Navigator.pop(context);
+                                            },
+                                            haveShadow: false,
+                                            gradientColors: const [
+                                              AppColors.green,
+                                              AppColors.lightgreen,
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          DefaultAppButton(
+                                            title: "Cancel",
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.mainColor,
+                                            buttonColor: AppColors.lightGrey,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.edit,

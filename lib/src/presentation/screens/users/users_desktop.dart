@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
-import 'package:jetboard/src/presentation/views/end_drawer_users.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
@@ -35,7 +33,6 @@ class _UsersDesktopState extends State<UsersDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
     var cubitU = UsersCubit.get(context);
 
     return Scaffold(

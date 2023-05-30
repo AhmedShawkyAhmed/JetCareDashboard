@@ -29,7 +29,6 @@ class _InfoDesktopState extends State<InfoDesktop> {
   final TextEditingController contentAr = TextEditingController();
   int currentIndex = 0;
 
-
   @override
   Widget build(BuildContext context) {
     var cubit = GlobalCubit.get(context);
@@ -68,8 +67,8 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
-                      onChange: (value){
-                        if(value == ""){
+                      onChange: (value) {
+                        if (value == "") {
                           cubiti.getInfo();
                         }
                       },
@@ -100,6 +99,14 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
+                        setState(() {
+                          cubit.isedit = false;
+                          titleEn.clear();
+                          contentEn.clear();
+                          titleAr.clear();
+                          contentAr.clear();
+                          dropItemsItem = '';
+                        });
                         showDialog<void>(
                           context: context,
                           barrierDismissible: true,
@@ -110,71 +117,78 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                 child: ListBody(
                                   children: <Widget>[
                                     const DefaultText(
-                                        text:
-                                        "Add New Info",align: TextAlign.center,),
-
+                                      text: "Add New Info",
+                                      align: TextAlign.center,
+                                    ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: titleAr.text,
                                         password: false,
                                         controller: titleAr,
                                         height: 5.h,
-                                        fontSize:3.sp,
+                                        fontSize: 3.sp,
                                         haveShadow: true,
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'Arabic Name',
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                      EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: titleEn.text,
                                         password: false,
                                         controller: titleEn,
                                         height: 5.h,
-                                        fontSize:3.sp,
+                                        fontSize: 3.sp,
                                         haveShadow: true,
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'English Name',
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: contentAr.text,
                                         password: false,
                                         height: 5.h,
-                                        fontSize:3.sp,
+                                        fontSize: 3.sp,
                                         controller: contentAr,
                                         haveShadow: true,
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'ContentAr',
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: contentEn.text,
                                         password: false,
                                         height: 5.h,
-                                        fontSize:3.sp,
+                                        fontSize: 3.sp,
                                         controller: contentEn,
                                         haveShadow: true,
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'ContentEn',
                                       ),
                                     ),
@@ -185,7 +199,9 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                         hint: "Info Type",
                                         showSearchBox: true,
                                         selectedItem: dropItemsItem == ''
-                                            ? InfoCubit.get(context).infoTypes.first
+                                            ? InfoCubit.get(context)
+                                                .infoTypes
+                                                .first
                                             : dropItemsItem,
                                         items: InfoCubit.get(context).infoTypes,
                                         onChanged: (val) {
@@ -205,12 +221,12 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                   onTap: () {
                                     cubiti.addInfo(
                                         infoRequest: InfoRequest(
-                                          titleEn: titleEn.text,
-                                          contentEn: contentEn.text,
-                                          titleAr: titleAr.text,
-                                          contentAr: contentAr.text,
-                                          type: dropItemsItem,
-                                        ));
+                                      titleEn: titleEn.text,
+                                      contentEn: contentEn.text,
+                                      titleAr: titleAr.text,
+                                      contentAr: contentAr.text,
+                                      type: dropItemsItem,
+                                    ));
                                     titleEn.clear();
                                     contentEn.clear();
                                     titleAr.clear();
@@ -398,8 +414,195 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  currentIndex = index;
-                                  cubit.isedit = true;
+                                  setState(() {
+                                    cubit.isedit = true;
+                                    titleEn.text = InfoCubit.get(context)
+                                        .infoList[index]
+                                        .titleEn;
+                                    contentEn.text = InfoCubit.get(context)
+                                        .infoList[index]
+                                        .contentEn;
+                                    titleAr.text = InfoCubit.get(context)
+                                        .infoList[index]
+                                        .titleAr;
+                                    contentAr.text = InfoCubit.get(context)
+                                        .infoList[index]
+                                        .contentAr;
+                                    dropItemsItem = InfoCubit.get(context)
+                                        .infoList[index]
+                                        .type;
+                                  });
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: AppColors.white,
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              const DefaultText(
+                                                text: "Update Info",
+                                                align: TextAlign.center,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: titleAr.text,
+                                                  password: false,
+                                                  controller: titleAr,
+                                                  height: 5.h,
+                                                  fontSize: 3.sp,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText: 'Arabic Name',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: titleEn.text,
+                                                  password: false,
+                                                  controller: titleEn,
+                                                  height: 5.h,
+                                                  fontSize: 3.sp,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText: 'English Name',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: contentAr.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  fontSize: 3.sp,
+                                                  controller: contentAr,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText: 'ContentAr',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: contentEn.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  fontSize: 3.sp,
+                                                  controller: contentEn,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText: 'ContentEn',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultDropdown<String>(
+                                                  hint: "Info Type",
+                                                  showSearchBox: true,
+                                                  selectedItem: dropItemsItem ==
+                                                          ''
+                                                      ? InfoCubit.get(context)
+                                                          .infoTypes
+                                                          .first
+                                                      : dropItemsItem,
+                                                  items: InfoCubit.get(context)
+                                                      .infoTypes,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      dropItemsItem = val!;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actionsAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        actions: <Widget>[
+                                          DefaultAppButton(
+                                            title: "Save",
+                                            onTap: () {
+                                              cubiti.updateInfo(
+                                                  index: index,
+                                                  infoRequest: InfoRequest(
+                                                    id: InfoCubit.get(context)
+                                                        .infoList[index]
+                                                        .id,
+                                                    titleEn: titleEn.text,
+                                                    contentEn: contentEn.text,
+                                                    titleAr: titleAr.text,
+                                                    contentAr: contentAr.text,
+                                                    type: dropItemsItem,
+                                                  ));
+                                              titleEn.clear();
+                                              contentEn.clear();
+                                              titleAr.clear();
+                                              contentAr.clear();
+                                              Navigator.pop(context);
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.white,
+                                            buttonColor: AppColors.pc,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          DefaultAppButton(
+                                            title: "Cancel",
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.mainColor,
+                                            buttonColor: AppColors.lightGrey,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.edit,

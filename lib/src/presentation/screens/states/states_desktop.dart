@@ -99,7 +99,7 @@ class _StatesDesktopState extends State<StatesDesktop> {
                               content: SingleChildScrollView(
                                 child: ListBody(
                                   children: <Widget>[
-                                    const DefaultText(text: "Add New State !!"),
+                                    const DefaultText(text: "Add New State",align: TextAlign.center),
                                     SizedBox(
                                       height: 2.h,
                                     ),

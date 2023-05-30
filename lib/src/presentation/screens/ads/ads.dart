@@ -11,7 +11,7 @@ class Ads extends StatelessWidget {
     return ScreenTypeLayout(
       mobile: const MobileLayout(),
       tablet: const MobileLayout(),
-      desktop: AdsDesktop(),
+      desktop: const AdsDesktop(),
     );
   }
 }

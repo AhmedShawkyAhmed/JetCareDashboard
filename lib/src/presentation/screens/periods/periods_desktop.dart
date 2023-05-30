@@ -9,7 +9,6 @@ import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../business_logic/period_cubit/period_cubit.dart';
 import '../../../constants/constants_methods.dart';
 import '../../styles/app_colors.dart';
-import '../../views/endDrawer_period.dart';
 import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../widgets/default_app_button.dart';
@@ -70,6 +69,11 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
+                        setState(() {
+                          cubit.isedit = false;
+                          from.clear();
+                          to.clear();
+                        });
                         showDialog<void>(
                           context: context,
                           barrierDismissible: true,
@@ -80,11 +84,11 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                 child: ListBody(
                                   children: <Widget>[
                                     const DefaultText(
-                                        text:
-                                        "Add New Time Period",align: TextAlign.center),
-
+                                        text: "Add New Time Period",
+                                        align: TextAlign.center),
                                     Container(
-                                      margin: EdgeInsets.only(left: 3.w, right: 3.w,top: 2.h),
+                                      margin: EdgeInsets.only(
+                                          left: 3.w, right: 3.w, top: 2.h),
                                       padding: EdgeInsets.only(left: 1.w),
                                       height: 5.h,
                                       width: 20.w,
@@ -96,8 +100,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                             color: Colors.white,
                                             spreadRadius: 5,
                                             blurRadius: 5,
-                                            offset:
-                                            Offset(1, 1), // changes position of shadow
+                                            offset: Offset(1,
+                                                1), // changes position of shadow
                                           )
                                         ],
                                         border: Border.all(
@@ -107,7 +111,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                       ),
                                       child: TextFormField(
                                         textAlign: TextAlign.left,
-                                        textAlignVertical: TextAlignVertical.center,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
                                         style: TextStyle(
                                           color: AppColors.darkGrey,
                                           fontSize: 3.sp,
@@ -119,7 +124,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                           hintText: 'From',
                                           alignLabelWithHint: true,
                                           hintStyle: TextStyle(
-                                            color: AppColors.darkGrey.withOpacity(0.7),
+                                            color: AppColors.darkGrey
+                                                .withOpacity(0.7),
                                             fontSize: 3.sp,
                                           ),
                                           border: InputBorder.none,
@@ -127,34 +133,43 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                           fillColor: AppColors.transparent,
                                           icon: Icon(
                                             Icons.watch_later,
-                                            color: AppColors.darkGrey.withOpacity(0.7),
+                                            color: AppColors.darkGrey
+                                                .withOpacity(0.7),
                                           ),
                                         ),
                                         readOnly: true,
                                         onTap: () async {
-                                          TimeOfDay? pickedTime = await showTimePicker(
+                                          TimeOfDay? pickedTime =
+                                              await showTimePicker(
                                             initialTime: TimeOfDay.now(),
                                             context: context,
                                           );
 
                                           if (pickedTime != null) {
-                                            printResponse(pickedTime.format(context));
-                                            DateTime parsedTime = DateFormat.jm()
-                                                .parse(pickedTime.format(context).toString());
+                                            printResponse(
+                                                pickedTime.format(context));
+                                            DateTime parsedTime =
+                                                DateFormat.jm().parse(pickedTime
+                                                    .format(context)
+                                                    .toString());
                                             String formattedTime =
-                                            DateFormat('hh:mm:ss').format(parsedTime);
+                                                DateFormat('hh:mm:ss')
+                                                    .format(parsedTime);
                                             printResponse(formattedTime);
                                             setState(() {
-                                              from.text = pickedTime.format(context);
+                                              from.text =
+                                                  pickedTime.format(context);
                                             });
                                           } else {
-                                            printResponse("Time is not selected");
+                                            printResponse(
+                                                "Time is not selected");
                                           }
                                         },
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(left: 3.w, right: 3.w,top: 2.h),
+                                      margin: EdgeInsets.only(
+                                          left: 3.w, right: 3.w, top: 2.h),
                                       padding: EdgeInsets.only(left: 1.w),
                                       height: 5.h,
                                       width: 20.w,
@@ -166,8 +181,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                             color: Colors.white,
                                             spreadRadius: 5,
                                             blurRadius: 5,
-                                            offset:
-                                            Offset(1, 1), // changes position of shadow
+                                            offset: Offset(1,
+                                                1), // changes position of shadow
                                           )
                                         ],
                                         border: Border.all(
@@ -176,9 +191,9 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                         ),
                                       ),
                                       child: TextFormField(
-
                                         textAlign: TextAlign.left,
-                                        textAlignVertical: TextAlignVertical.center,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
                                         style: TextStyle(
                                           color: AppColors.darkGrey,
                                           fontSize: 3.sp,
@@ -190,7 +205,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                           alignLabelWithHint: true,
                                           hintText: 'To',
                                           hintStyle: TextStyle(
-                                            color: AppColors.darkGrey.withOpacity(0.7),
+                                            color: AppColors.darkGrey
+                                                .withOpacity(0.7),
                                             fontSize: 3.sp,
                                           ),
                                           border: InputBorder.none,
@@ -198,27 +214,35 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                           fillColor: AppColors.transparent,
                                           icon: Icon(
                                             Icons.watch_later,
-                                            color: AppColors.darkGrey.withOpacity(0.7),
+                                            color: AppColors.darkGrey
+                                                .withOpacity(0.7),
                                           ),
                                         ),
                                         readOnly: true,
                                         onTap: () async {
-                                          TimeOfDay? pickedTime = await showTimePicker(
+                                          TimeOfDay? pickedTime =
+                                              await showTimePicker(
                                             initialTime: TimeOfDay.now(),
                                             context: context,
                                           );
 
                                           if (pickedTime != null) {
-                                            DateTime parsedTime = DateFormat.jm()
-                                                .parse(pickedTime.format(context).toString());
+                                            DateTime parsedTime =
+                                                DateFormat.jm().parse(pickedTime
+                                                    .format(context)
+                                                    .toString());
                                             String formattedTime =
-                                            DateFormat('hh:mm:ss').format(parsedTime);
-                                            printResponse(formattedTime); //output 14:59:00
+                                                DateFormat('hh:mm:ss')
+                                                    .format(parsedTime);
+                                            printResponse(
+                                                formattedTime); //output 14:59:00
                                             setState(() {
-                                              to.text = pickedTime.format(context);
+                                              to.text =
+                                                  pickedTime.format(context);
                                             });
                                           } else {
-                                            printResponse("Time is not selected");
+                                            printResponse(
+                                                "Time is not selected");
                                           }
                                         },
                                       ),
@@ -233,9 +257,9 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                   onTap: () {
                                     cubitP.addPeriod(
                                         periodRequest: PeriodRequest(
-                                          from: from.text,
-                                          to: to.text,
-                                        ));
+                                      from: from.text,
+                                      to: to.text,
+                                    ));
                                     from.clear();
                                     to.clear();
                                     Navigator.pop(context);
@@ -395,9 +419,267 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    currentIndex = index;
-                                    cubit.isedit = true;
-                                    printSuccess(currentIndex.toString());
+                                    setState(() {
+                                      cubit.isedit = true;
+                                      from.text =
+                                          cubitP.periodList[index].from ?? "";
+                                      to.text =
+                                          cubitP.periodList[index].to ?? "";
+                                    });
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                const DefaultText(
+                                                    text: "Update Time Period",
+                                                    align: TextAlign.center),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 3.w,
+                                                      right: 3.w,
+                                                      top: 2.h),
+                                                  padding: EdgeInsets.only(
+                                                      left: 1.w),
+                                                  height: 5.h,
+                                                  width: 20.w,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color: Colors.white,
+                                                        spreadRadius: 5,
+                                                        blurRadius: 5,
+                                                        offset: Offset(1,
+                                                            1), // changes position of shadow
+                                                      )
+                                                    ],
+                                                    border: Border.all(
+                                                      color: AppColors.grey,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  child: TextFormField(
+                                                    textAlign: TextAlign.left,
+                                                    textAlignVertical:
+                                                        TextAlignVertical
+                                                            .center,
+                                                    style: TextStyle(
+                                                      color: AppColors.darkGrey,
+                                                      fontSize: 3.sp,
+                                                    ),
+                                                    cursorColor:
+                                                        AppColors.darkGrey,
+                                                    maxLines: 1,
+                                                    controller: from,
+                                                    decoration: InputDecoration(
+                                                      hintText: 'From',
+                                                      alignLabelWithHint: true,
+                                                      hintStyle: TextStyle(
+                                                        color: AppColors
+                                                            .darkGrey
+                                                            .withOpacity(0.7),
+                                                        fontSize: 3.sp,
+                                                      ),
+                                                      border: InputBorder.none,
+                                                      filled: true,
+                                                      fillColor:
+                                                          AppColors.transparent,
+                                                      icon: Icon(
+                                                        Icons.watch_later,
+                                                        color: AppColors
+                                                            .darkGrey
+                                                            .withOpacity(0.7),
+                                                      ),
+                                                    ),
+                                                    readOnly: true,
+                                                    onTap: () async {
+                                                      TimeOfDay? pickedTime =
+                                                          await showTimePicker(
+                                                        initialTime:
+                                                            TimeOfDay.now(),
+                                                        context: context,
+                                                      );
+
+                                                      if (pickedTime != null) {
+                                                        printResponse(pickedTime
+                                                            .format(context));
+                                                        DateTime parsedTime =
+                                                            DateFormat.jm()
+                                                                .parse(pickedTime
+                                                                    .format(
+                                                                        context)
+                                                                    .toString());
+                                                        String formattedTime =
+                                                            DateFormat(
+                                                                    'hh:mm:ss')
+                                                                .format(
+                                                                    parsedTime);
+                                                        printResponse(
+                                                            formattedTime);
+                                                        setState(() {
+                                                          from.text = pickedTime
+                                                              .format(context);
+                                                        });
+                                                      } else {
+                                                        printResponse(
+                                                            "Time is not selected");
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      left: 3.w,
+                                                      right: 3.w,
+                                                      top: 2.h),
+                                                  padding: EdgeInsets.only(
+                                                      left: 1.w),
+                                                  height: 5.h,
+                                                  width: 20.w,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color: Colors.white,
+                                                        spreadRadius: 5,
+                                                        blurRadius: 5,
+                                                        offset: Offset(1,
+                                                            1), // changes position of shadow
+                                                      )
+                                                    ],
+                                                    border: Border.all(
+                                                      color: AppColors.grey,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  child: TextFormField(
+                                                    textAlign: TextAlign.left,
+                                                    textAlignVertical:
+                                                        TextAlignVertical
+                                                            .center,
+                                                    style: TextStyle(
+                                                      color: AppColors.darkGrey,
+                                                      fontSize: 3.sp,
+                                                    ),
+                                                    cursorColor:
+                                                        AppColors.darkGrey,
+                                                    maxLines: 1,
+                                                    controller: to,
+                                                    decoration: InputDecoration(
+                                                      alignLabelWithHint: true,
+                                                      hintText: 'To',
+                                                      hintStyle: TextStyle(
+                                                        color: AppColors
+                                                            .darkGrey
+                                                            .withOpacity(0.7),
+                                                        fontSize: 3.sp,
+                                                      ),
+                                                      border: InputBorder.none,
+                                                      filled: true,
+                                                      fillColor:
+                                                          AppColors.transparent,
+                                                      icon: Icon(
+                                                        Icons.watch_later,
+                                                        color: AppColors
+                                                            .darkGrey
+                                                            .withOpacity(0.7),
+                                                      ),
+                                                    ),
+                                                    readOnly: true,
+                                                    onTap: () async {
+                                                      TimeOfDay? pickedTime =
+                                                          await showTimePicker(
+                                                        initialTime:
+                                                            TimeOfDay.now(),
+                                                        context: context,
+                                                      );
+
+                                                      if (pickedTime != null) {
+                                                        DateTime parsedTime =
+                                                            DateFormat.jm()
+                                                                .parse(pickedTime
+                                                                    .format(
+                                                                        context)
+                                                                    .toString());
+                                                        String formattedTime =
+                                                            DateFormat(
+                                                                    'hh:mm:ss')
+                                                                .format(
+                                                                    parsedTime);
+                                                        printResponse(
+                                                            formattedTime); //output 14:59:00
+                                                        setState(() {
+                                                          to.text = pickedTime
+                                                              .format(context);
+                                                        });
+                                                      } else {
+                                                        printResponse(
+                                                            "Time is not selected");
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actionsAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          actions: <Widget>[
+                                            DefaultAppButton(
+                                              title: "Save",
+                                              onTap: () {
+                                                cubitP.updatePeriod(
+                                                  index: index,
+                                                  periodRequest: PeriodRequest(
+                                                    id: cubitP
+                                                        .periodList[index].id,
+                                                    from: from.text,
+                                                    to: to.text,
+                                                  ),
+                                                );
+                                                from.clear();
+                                                to.clear();
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.white,
+                                              buttonColor: AppColors.pc,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            DefaultAppButton(
+                                              title: "Cancel",
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.mainColor,
+                                              buttonColor: AppColors.lightGrey,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.edit,
