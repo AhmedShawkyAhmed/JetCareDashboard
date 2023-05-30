@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
@@ -14,15 +15,16 @@ part 'area_state.dart';
 
 class AreaCubit extends Cubit<AreaState> {
   AreaCubit() : super(AreaInitial());
+
   static AreaCubit get(context) => BlocProvider.of(context);
 
-   AreaResponse? getAreaResponse,
-       getAllAreaResponse,
+  AreaResponse? getAreaResponse,
+      getAllAreaResponse,
       addAreaResponse,
       deleteAreaResponse,
       updateAreaResponse,
       updateAreaStatusResponse;
-  List<AreaModel> areaList= [];
+  List<AreaModel> areaList = [];
   int listCount = 0;
   int areasCount = 0;
   int index = 0;
@@ -36,25 +38,21 @@ class AreaCubit extends Cubit<AreaState> {
     emit(PickedSwitchState());
   }
 
-
-  Future getArea() async {
-    areasCount= 0;
-    areas.clear();
-    areaId.clear();
+  Future getArea({String? keyword}) async {
+    areaList.clear();
+    listCount = 0;
     try {
       emit(AreaLodingState());
       await DioHelper.getData(
-        url: EndPoints.getAreas,
+        url: EndPoints.getAllAreas,
+        query: {
+          "keyword": keyword,
+        },
       ).then((value) {
         printSuccess(value.data.toString());
-        getAllAreaResponse = AreaResponse.fromJson(value.data);
-        areasCount = getAllAreaResponse!.areaModel!.length;
-        areas.insert(0, "Areas");
-        areaId.insert(0, 0);
-        for (var i = 0; i < getAllAreaResponse!.areaModel!.length; i++) {
-          areas.add(getAllAreaResponse!.areaModel![i].nameAr);
-          areaId.add(getAllAreaResponse!.areaModel![i].id);
-        }
+        getAreaResponse = AreaResponse.fromJson(value.data);
+        areaList.addAll(getAreaResponse!.areaModel!);
+        listCount = getAreaResponse!.areaModel!.length;
         emit(AreaSuccessState());
       });
     } on DioError catch (n) {
@@ -66,15 +64,15 @@ class AreaCubit extends Cubit<AreaState> {
     }
   }
 
-  Future getAllAreas({String? keyword}) async {
+  Future getAllAreas({int? stateId}) async {
     areaList.clear();
-    listCount= 0;
+    listCount = 0;
     try {
       emit(AreaLodingState());
       await DioHelper.getData(
-        url: EndPoints.getAllAreas,
+        url: EndPoints.getAreasOfState,
         query: {
-          "keyword" : keyword,
+          "stateId": stateId,
         },
       ).then((value) {
         printSuccess(value.data.toString());
@@ -95,14 +93,12 @@ class AreaCubit extends Cubit<AreaState> {
   Future addArea({
     required AreaRequest areaRequest,
   }) async {
-    printSuccess(areaRequest.nameEn.toString());
-    printSuccess(areaRequest.nameAr.toString());
-    printSuccess(areaRequest.price.toString());
     try {
       emit(AddAreaLodingState());
       await DioHelper.postData(
         url: EndPoints.addArea,
         body: {
+          'stateId': areaRequest.stateId,
           'nameEn': areaRequest.nameEn,
           'nameAr': areaRequest.nameAr,
           'price': areaRequest.price,
@@ -114,7 +110,6 @@ class AreaCubit extends Cubit<AreaState> {
         areaList.insert(0, addAreaResponse!.areaModell!);
         listCount += 1;
         emit(AddAreaSuccessState());
-        DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
       emit(AddAreaErrorState());
@@ -134,12 +129,12 @@ class AreaCubit extends Cubit<AreaState> {
       await DioHelper.postData(
         url: EndPoints.updatearea,
         body: {
-                'id': areaRequest.id,
-                'nameEn': areaRequest.nameEn,
-                'nameAr': areaRequest.nameAr,
-                'price': areaRequest.price,
-              },
-              formData: true,
+          'id': areaRequest.id,
+          'nameEn': areaRequest.nameEn,
+          'nameAr': areaRequest.nameAr,
+          'price': areaRequest.price,
+        },
+        formData: true,
       ).then((value) {
         printSuccess(value.data.toString());
         updateAreaResponse = AreaResponse.fromJson(value.data);
@@ -183,7 +178,6 @@ class AreaCubit extends Cubit<AreaState> {
       printError(e.toString());
     }
   }
-
 
   Future deleteArea({required AreaModel areaModel}) async {
     try {

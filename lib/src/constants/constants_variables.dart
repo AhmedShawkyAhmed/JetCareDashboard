@@ -1,3 +1,5 @@
+import 'package:jetboard/src/data/models/area_model.dart';
+
 List<int> lol = [
   0,
   1,
@@ -12,10 +14,12 @@ List<int> lol = [
 ];
 String dropItemsInfo = '';
 String? imageApp;
+AreaModel selectedState = AreaModel(id: 0, nameEn: "All", nameAr: "الكل", active: 1);
 String role = "All";
 String package = "All";
 String item = "All";
 String dropItemsItem = '';
+String dropState = '';
 String? imageItems;
 String imageDomain = "https://jetcare-api.ahmedshawky.fun/public/images/";
 int areaId = 0;

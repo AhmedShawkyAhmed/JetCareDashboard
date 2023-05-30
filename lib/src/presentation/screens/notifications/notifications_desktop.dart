@@ -64,7 +64,7 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                       onTap: () {
                         showDialog<void>(
                           context: context,
-                          barrierDismissible: false,
+                          barrierDismissible: true,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               backgroundColor: AppColors.white,

@@ -354,7 +354,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                                 });
                                 showDialog<void>(
                                   context: context,
-                                  barrierDismissible: false,
+                                  barrierDismissible: true,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       backgroundColor: AppColors.white,

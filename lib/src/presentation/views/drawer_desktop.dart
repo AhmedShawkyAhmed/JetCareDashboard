@@ -17,6 +17,7 @@ class DrawerListDesktop extends StatelessWidget {
     "Packages",
     "Items",
     "Ads",
+    "States",
     "Area",
     //"calendar",
     "Periods",
@@ -57,6 +58,10 @@ class DrawerListDesktop extends StatelessWidget {
     ),
     const Icon(
       Icons.ads_click_outlined,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.map_outlined,
       color: AppColors.white,
     ),
     const Icon(

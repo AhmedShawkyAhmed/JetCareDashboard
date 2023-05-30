@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
+import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/endDrawer_area.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
@@ -23,6 +27,10 @@ class AreaDesktop extends StatefulWidget {
 
 class _AreaDesktopState extends State<AreaDesktop> {
   TextEditingController search = TextEditingController();
+  final TextEditingController nameEn = TextEditingController();
+  final TextEditingController nameAr = TextEditingController();
+  final TextEditingController price = TextEditingController();
+  int stateId = 0;
   int currentIndex = 0;
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
   String dropdownvalue = 'Item 1';
@@ -76,15 +84,15 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
-                      onChange: (value){
-                        if(value == ""){
-                          cubitA.getAllAreas();
+                      onChange: (value) {
+                        if (value == "") {
+                          cubitA.getArea();
                         }
                       },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          cubitA.getAllAreas(keyword: search.text);
+                          cubitA.getArea(keyword: search.text);
                           printResponse(search.text);
                         },
                         color: AppColors.black,
@@ -92,6 +100,37 @@ class _AreaDesktopState extends State<AreaDesktop> {
                     ),
                     SizedBox(
                       width: 1.w,
+                    ),
+                    BlocBuilder<StatesCubit, StatesState>(
+                      builder: (context, state) {
+                        return StatesCubit.get(context)
+                                    .allStatesResponse
+                                    ?.statesList ==
+                                null
+                            ? const SizedBox()
+                            : SizedBox(
+                                width: 8.w,
+                                height: 5.h,
+                                child: DefaultDropdown<AreaModel>(
+                                  hint: "States",
+                                  showSearchBox: true,
+                                  itemAsString: (AreaModel? u) =>
+                                      u?.nameAr ?? "",
+                                  items: StatesCubit.get(context)
+                                      .allStatesResponse
+                                      !.statesList!,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      AreaCubit.get(context).getAllAreas(
+                                          stateId: val!.id == 0
+                                              ? 0
+                                              : val.id);
+                                      selectedState = val;
+                                    });
+                                  },
+                                ),
+                              );
+                      },
                     ),
                     const Spacer(),
                     DefaultAppButton(
@@ -109,9 +148,139 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
-                        cubit.isedit = false;
-                        dropItemsInfo = 'select';
-                        scaffoldkey.currentState!.openEndDrawer();
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: AppColors.white,
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    const DefaultText(
+                                        text:
+                                        "Add New Area"),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: nameEn.text,
+                                        password: false,
+                                        controller: nameEn,
+                                        height: 7.h,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'English Name',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: nameAr.text,
+                                        password: false,
+                                        controller: nameAr,
+                                        height: 7.h,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Arabic Name',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: price.text,
+                                        password: false,
+                                        height: 7.h,
+                                        controller: price,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Price',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: SizedBox(
+                                        height: 4.h,
+                                        child: DefaultDropdown<String>(
+                                          hint: "States",
+                                          showSearchBox: true,
+                                          selectedItem: dropState,
+                                          items: StatesCubit.get(context).statesList,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              dropState = val!;
+                                              stateId = StatesCubit.get(context)
+                                                  .allStatesResponse!
+                                                  .statesList![StatesCubit.get(context)
+                                                  .statesList
+                                                  .indexOf(val)]
+                                                  .id;
+                                              printSuccess(stateId.toString());
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actionsAlignment: MainAxisAlignment.spaceEvenly,
+                              actions: <Widget>[
+                                DefaultAppButton(
+                                  title: 'Add',
+                                  radius: 10,
+                                  width: 8.w,
+                                  height:  5.h,
+                                  fontSize: 3.sp,
+                                  onTap: () {
+                                    cubitA.addArea(
+                                        areaRequest: AreaRequest(
+                                          stateId: stateId,
+                                          nameEn: nameEn.text,
+                                          nameAr: nameAr.text,
+                                          price: double.parse(price.text),
+                                        ));
+                                    nameEn.clear();
+                                    nameAr.clear();
+                                    price.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  haveShadow: false,
+                                  gradientColors: const [
+                                    AppColors.green,
+                                    AppColors.lightgreen,
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                DefaultAppButton(
+                                  title: "Cancel",
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  width: 10.w,
+                                  height: 4.h,
+                                  fontSize: 3.sp,
+                                  textColor: AppColors.mainColor,
+                                  buttonColor: AppColors.lightGrey,
+                                  isGradient: false,
+                                  radius: 10,
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        // cubit.isedit = false;
+                        // scaffoldkey.currentState!.openEndDrawer();
                       },
                     )
                   ],
@@ -119,7 +288,8 @@ class _AreaDesktopState extends State<AreaDesktop> {
               ),
               BlocBuilder<AreaCubit, AreaState>(
                 builder: (context, state) {
-                  if (AreaCubit.get(context).getAreaResponse?.areaModel == null) {
+                  if (AreaCubit.get(context).getAreaResponse?.areaModel ==
+                      null) {
                     return SizedBox(
                       height: 79.h,
                       child: ListView.builder(
@@ -137,7 +307,10 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                 ),
                               )),
                     );
-                  } else if (AreaCubit.get(context).getAreaResponse!.areaModel!.isEmpty) {
+                  } else if (AreaCubit.get(context)
+                      .getAreaResponse!
+                      .areaModel!
+                      .isEmpty) {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(

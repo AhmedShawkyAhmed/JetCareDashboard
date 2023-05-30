@@ -48,7 +48,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
   final TextEditingController unit = TextEditingController();
   final TextEditingController price = TextEditingController();
   final TextEditingController quantity = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -86,7 +85,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
             child: Padding(
               padding: EdgeInsets.only(left: 1.w, top: 3.h),
               child: Form(
-                key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -410,8 +408,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                     dropItemsItem = 'select';
                                   }
                                 : () {
-                                    var formdata = formKey.currentState;
-                                    if (formdata!.validate()) {
+
                                       cubitI.addItems(
                                           itemsRequest: ItemsRequest(
                                         nameEn: nameEn.text,
@@ -432,9 +429,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                       quantity.clear();
                                       cubitI.fileResult = null;
                                       Navigator.pop(context);
-                                    } else {
-                                      printResponse('not valid');
-                                    }
+
                                   },
                             haveShadow: false,
                             gradientColors: const [

@@ -19,6 +19,7 @@ import 'package:jetboard/src/business_logic/notification_cubit/notification_cubi
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/business_logic/period_cubit/period_cubit.dart';
+import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/business_logic/support_cupit/support_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
@@ -140,9 +141,12 @@ class _MyAppState extends State<MyApp> {
                 ..getCategoryTypes()),
             ),
             BlocProvider(
+              create: ((context) => StatesCubit()
+                ..getAllStates()),
+            ),
+            BlocProvider(
               create: ((context) => AreaCubit()
-                ..getAllAreas()
-                ..getArea()),
+                ..getAllAreas()),
             ),
             BlocProvider(
               create: ((context) => CalendarCubit()..getcalendar()),

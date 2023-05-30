@@ -54,12 +54,18 @@ class EndPoints {
   static const getItemsMobile = "getItemsMobile";
   static const getCategory = "getCategory";
 
-  static const getAreas = "getAreas";
+  static const getAreasOfState = "getAreasOfState";
   static const getAllAreas = "getAllAreas";
   static const addArea = "addArea";
   static const updatearea = "updatearea";
   static const deleteArea = "deleteArea";
   static const changeAreaStatus = "changeAreaStatus";
+
+  static const getAllStates = "getAllStates";
+  static const addState = "addState";
+  static const updateState = "updateState";
+  static const deleteState = "deleteState";
+  static const changeStateStatus = "changeStateStatus";
 
   static const getDates = "getDates";
   static const addDate = "addDate";

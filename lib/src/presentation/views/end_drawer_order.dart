@@ -317,7 +317,7 @@ class _EndDrawerOrderState extends State<EndDrawerOrder> {
                                   onTap: () {
                                     showDialog<void>(
                                       context: context,
-                                      barrierDismissible: false,
+                                      barrierDismissible: true,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           backgroundColor: AppColors.white,

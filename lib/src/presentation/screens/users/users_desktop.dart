@@ -26,9 +26,12 @@ class UsersDesktop extends StatefulWidget {
 
 class _UsersDesktopState extends State<UsersDesktop> {
   TextEditingController search = TextEditingController();
+  TextEditingController fullName = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  String type = '';
   int currentIndex = 0;
-
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +41,8 @@ class _UsersDesktopState extends State<UsersDesktop> {
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
       backgroundColor: AppColors.green,
-      key: scaffoldkey,
-      endDrawer: BlocBuilder<UsersCubit, UsersState>(
-        builder: (context, state) {
-          return EndDrawerWidgetUsers(
-            index: currentIndex,
-            userModel:
-                cubitU.userList.isEmpty ? null : cubitU.userList[currentIndex],
-          );
-        },
-      ),
+
+
       body: SafeArea(
         child: Container(
           height: 100.h,
@@ -153,8 +148,186 @@ class _UsersDesktopState extends State<UsersDesktop> {
                         fontSize: 5.sp,
                         title: "Add",
                         onTap: () {
-                          cubit.isedit = false;
-                          scaffoldkey.currentState!.openEndDrawer();
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: AppColors.white,
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      const DefaultText(
+                                          text:
+                                          "Add New User",align: TextAlign.center),
+                                      SizedBox(
+                                        height: 2.h,
+                                      ),
+                                      DefaultTextField(
+                                        validator: fullName.text,
+                                        password: false,
+                                        controller: fullName,
+                                        height: 5.h,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        horizontalPadding: 50,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Full Name',
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      DefaultTextField(
+                                        validator: phone.text,
+                                        password: false,
+                                        height: 5.h,
+                                        controller: phone,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        horizontalPadding: 50,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Phone',
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      DefaultTextField(
+                                        validator: email.text,
+                                        password: false,
+                                        height: 5.h,
+                                        controller: email,
+                                        haveShadow: true,
+                                        horizontalPadding: 50,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Email',
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      DefaultTextField(
+                                        validator: password.text,
+                                        password: cubitU.pass,
+                                        controller: password,
+                                        haveShadow: true,
+                                        height: 5.h,
+                                        horizontalPadding: 50,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        suffix: IconButton(
+                                            onPressed: () {
+                                              cubitU.isPassword();
+                                            },
+                                            icon: Icon(
+                                              cubitU.pass
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: AppColors.darkGrey.withOpacity(0.7),
+                                            )),
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Password',
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                                        child: DefaultDropdown<String>(
+                                          hint: "User Type",
+                                          showSearchBox: true,
+                                          selectedItem: type != ""
+                                              ? type == "client"
+                                              ? "Client"
+                                              : "Crew"
+                                              : null,
+                                          items: const ['Client', 'Crew'],
+                                          onChanged: (val) {
+                                            if (val == 'Client') {
+                                              type = 'client';
+                                            } else if (val == 'Crew') {
+                                              type = 'crew';
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                actions: <Widget>[
+                                  DefaultAppButton(
+                                    title: "Save",
+                                    onTap: () {
+                                      if (fullName.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter the Full Name");
+                                      } else if (phone.text == "" ||
+                                          phone.text.length < 11) {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Correct Phone Number");
+                                      } else if (email.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Correct Email Address");
+                                      } else if (password.text == "" ||
+                                          password.text.length < 8) {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Password more than 8 Characters");
+                                      } else if (type == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Select User Type");
+                                      } else {
+                                        cubitU.addUser(
+                                            userRequset: UserRequset(
+                                              name: fullName.text,
+                                              phone: phone.text,
+                                              email: email.text,
+                                              password: password.text,
+                                              role: type,
+                                            ));
+                                        Navigator.pop(context);
+                                        fullName.clear();
+                                        phone.clear();
+                                        email.clear();
+                                        password.clear();
+                                        type = "";
+                                        dropItemsItem = "";
+                                      }
+                                    },
+                                    width: 10.w,
+                                    height: 4.h,
+                                    fontSize: 3.sp,
+                                    textColor: AppColors.white,
+                                    buttonColor: AppColors.pc,
+                                    isGradient: false,
+                                    radius: 10,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  DefaultAppButton(
+                                    title: "Cancel",
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    width: 10.w,
+                                    height: 4.h,
+                                    fontSize: 3.sp,
+                                    textColor: AppColors.mainColor,
+                                    buttonColor: AppColors.lightGrey,
+                                    isGradient: false,
+                                    radius: 10,
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                       )
                     ],

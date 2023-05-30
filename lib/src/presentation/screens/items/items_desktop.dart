@@ -25,8 +25,13 @@ class ItemsDesktop extends StatefulWidget {
 
 class _ItemsDesktopState extends State<ItemsDesktop> {
   TextEditingController search = TextEditingController();
-
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
+  final TextEditingController nameEn = TextEditingController();
+  final TextEditingController descriptionEn = TextEditingController();
+  final TextEditingController nameAr = TextEditingController();
+  final TextEditingController descriptionAr = TextEditingController();
+  final TextEditingController unit = TextEditingController();
+  final TextEditingController price = TextEditingController();
+  final TextEditingController quantity = TextEditingController();
   String dropdownvalue = 'Item 1';
   int currentIndex = 0;
 
@@ -36,17 +41,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
     var cubitI = ItemsCubit.get(context);
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
-      key: scaffoldkey,
-      endDrawer: BlocBuilder<ItemsCubit, ItemsState>(
-        builder: (context, state) {
-          return EndDrawerWidgetItems(
-            index: currentIndex,
-            isEdit: cubit.isedit,
-            itemsModel:
-                cubitI.itemList.isEmpty ? null : cubitI.itemList[currentIndex],
-          );
-        },
-      ),
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -107,7 +101,8 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                   hint: "Items",
                                   showSearchBox: true,
                                   selectedItem: item,
-                                  items: ['All']+ItemsCubit.get(context).itemsTypes,
+                                  items: ['All'] +
+                                      ItemsCubit.get(context).itemsTypes,
                                   onChanged: (val) {
                                     setState(() {
                                       ItemsCubit.get(context).getItems(
@@ -152,8 +147,366 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
-                        cubit.isedit = false;
-                        scaffoldkey.currentState!.openEndDrawer();
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: AppColors.white,
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    const DefaultText(
+                                      text: "Add New Item",
+                                      align: TextAlign.center,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: nameAr.text,
+                                        password: false,
+                                        controller: nameAr,
+                                        height: 5.h,
+                                        fontSize: 3.sp,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Arabic Name',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: nameEn.text,
+                                        password: false,
+                                        controller: nameEn,
+                                        height: 5.h,
+                                        fontSize: 3.sp,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'English Name',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: SizedBox(
+                                        height: 20.h,
+                                        child: DefaultTextField(
+                                          validator: descriptionAr.text,
+                                          password: false,
+                                          controller: descriptionAr,
+                                          height: 20.h,
+                                          keyboardType: TextInputType.multiline,
+                                          fontSize: 3.sp,
+                                          haveShadow: true,
+                                          spreadRadius: 2,
+                                          blurRadius: 2,
+                                          maxLine: 7,
+                                          collapsed: true,
+                                          color: AppColors.white,
+                                          shadowColor:
+                                              AppColors.black.withOpacity(0.05),
+                                          hintText: 'Arabic Description',
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: descriptionEn.text,
+                                        password: false,
+                                        controller: descriptionEn,
+                                        height: 20.h,
+                                        keyboardType: TextInputType.multiline,
+                                        fontSize:
+                                           3.sp,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        maxLine: 7,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'English Description',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: unit.text,
+                                        password: false,
+                                        height: 5.h,
+                                        fontSize:  3.sp,
+                                        controller: unit,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Unit',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: price.text,
+                                        password: false,
+                                        height: 5.h,
+                                        fontSize:  3.sp,
+                                        controller: price,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Price',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: quantity.text,
+                                        password: false,
+                                        height: 5.h,
+                                        fontSize:  3.sp,
+                                        controller: quantity,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Quantity',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultDropdown<String>(
+                                        hint: "Type",
+                                        showSearchBox: true,
+                                        selectedItem: dropItemsItem == ''
+                                            ? cubitI.itemsTypes.first
+                                            : dropItemsItem,
+                                        items: cubitI.itemsTypes,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            dropItemsItem = val!;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 2.h, left: 3.w, right: 3.w),
+                                        child: BlocBuilder<ItemsCubit, ItemsState>(
+  builder: (context, state) {
+    return Container(
+                                          height: 20.h,
+                                          width: 20.w,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors.grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: cubit.isedit
+                                              ? Stack(
+                                                  children: [
+                                                    ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        child: imageItems ==
+                                                                null
+                                                            ? cubitI.fileResult ==
+                                                                    null
+                                                                ? Container()
+                                                                : Image.memory(
+                                                                    cubitI
+                                                                        .fileResult!
+                                                                        .files
+                                                                        .first
+                                                                        .bytes!,
+                                                                    fit: BoxFit
+                                                                        .fitWidth,
+                                                                    width:
+                                                                        100.w,
+                                                                  )
+                                                            : Image.network(
+                                                                imageDomain +
+                                                                    imageItems!,
+                                                                fit: BoxFit
+                                                                    .fitWidth,
+                                                                width: 100.w,
+                                                              )),
+                                                    Container(
+                                                      height: 4.h,
+                                                      width: 3.w,
+                                                      decoration: const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          20)),
+                                                          color:
+                                                              AppColors.green),
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            cubitI.pickImage();
+                                                            imageItems = null;
+                                                            printSuccess(cubitI
+                                                                .fileResult
+                                                                .toString());
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.edit,
+                                                            color:
+                                                                AppColors.white,
+                                                          )),
+                                                    )
+                                                  ],
+                                                )
+                                              : cubitI.fileResult == null
+                                                  ? Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Icon(Icons.image),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              cubitI
+                                                                  .pickImage();
+                                                            },
+                                                            child: const Text(
+                                                                'Select Image'))
+                                                      ],
+                                                    )
+                                                  : Stack(
+                                                      children: [
+                                                        ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            child: Image.memory(
+                                                              cubitI
+                                                                  .fileResult!
+                                                                  .files
+                                                                  .first
+                                                                  .bytes!,
+                                                              fit: BoxFit
+                                                                  .fitWidth,
+                                                              width: 100.w,
+                                                            )),
+                                                        Container(
+                                                          height: 4.h,
+                                                          width: 3.w,
+                                                          decoration: const BoxDecoration(
+                                                              borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          20)),
+                                                              color: AppColors
+                                                                  .green),
+                                                          child: IconButton(
+                                                              onPressed: () {
+                                                                cubitI
+                                                                    .pickImage();
+                                                              },
+                                                              icon: const Icon(
+                                                                Icons.edit,
+                                                                color: AppColors
+                                                                    .white,
+                                                              )),
+                                                        )
+                                                      ],
+                                                    ),
+                                        );
+  },
+)),
+                                  ],
+                                ),
+                              ),
+                              actionsAlignment: MainAxisAlignment.spaceEvenly,
+                              actions: <Widget>[
+                                DefaultAppButton(
+                                  title: "Save",
+                                  onTap: () {
+                                    cubitI.addItems(
+                                        itemsRequest: ItemsRequest(
+                                          nameEn: nameEn.text,
+                                          descriptionEn: descriptionEn.text,
+                                          nameAr: nameAr.text,
+                                          descriptionAr: descriptionAr.text,
+                                          unit: unit.text,
+                                          price: int.parse(price.text),
+                                          quantity: int.parse(quantity.text),
+                                          type: dropItemsItem,
+                                        ));
+                                    nameEn.clear();
+                                    descriptionEn.clear();
+                                    nameAr.clear();
+                                    descriptionAr.clear();
+                                    unit.clear();
+                                    price.clear();
+                                    quantity.clear();
+                                    cubitI.fileResult = null;
+                                    Navigator.pop(context);
+                                  },
+                                  width: 10.w,
+                                  height: 4.h,
+                                  fontSize: 3.sp,
+                                  textColor: AppColors.white,
+                                  buttonColor: AppColors.pc,
+                                  isGradient: false,
+                                  radius: 10,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                DefaultAppButton(
+                                  title: "Cancel",
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  width: 10.w,
+                                  height: 4.h,
+                                  fontSize: 3.sp,
+                                  textColor: AppColors.mainColor,
+                                  buttonColor: AppColors.lightGrey,
+                                  isGradient: false,
+                                  radius: 10,
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                     )
                   ],
@@ -437,7 +790,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                 onPressed: () {
                                   cubit.isedit = true;
                                   currentIndex = index;
-                                  scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(
                                   Icons.edit,

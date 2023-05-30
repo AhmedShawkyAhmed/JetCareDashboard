@@ -368,7 +368,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                   });
                                   showDialog<void>(
                                     context: context,
-                                    barrierDismissible: false,
+                                    barrierDismissible: true,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         backgroundColor: AppColors.white,
@@ -452,7 +452,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                 onPressed: () {
                                   showDialog<void>(
                                     context: context,
-                                    barrierDismissible: false,
+                                    barrierDismissible: true,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         backgroundColor: AppColors.white,
