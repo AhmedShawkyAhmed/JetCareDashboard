@@ -73,7 +73,7 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                   children: <Widget>[
                                     const DefaultText(
                                         text:
-                                            "Send Notifications to All Users !!"),
+                                            "Send Notifications to All Users !!",align: TextAlign.center,),
                                     SizedBox(
                                       height: 2.h,
                                     ),

@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/info_cubit/info_cubit.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
-import 'package:jetboard/src/presentation/views/endDrawer_info.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../constants/constants_variables.dart';
+import '../../../data/network/requests/info_request.dart';
 import '../../widgets/default_app_button.dart';
 import '../../widgets/default_text_field.dart';
 
@@ -22,8 +23,11 @@ class InfoDesktop extends StatefulWidget {
 
 class _InfoDesktopState extends State<InfoDesktop> {
   TextEditingController search = TextEditingController();
+  final TextEditingController titleEn = TextEditingController();
+  final TextEditingController contentEn = TextEditingController();
+  final TextEditingController titleAr = TextEditingController();
+  final TextEditingController contentAr = TextEditingController();
   int currentIndex = 0;
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
 
 
   @override
@@ -33,17 +37,6 @@ class _InfoDesktopState extends State<InfoDesktop> {
 
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
-      key: scaffoldkey,
-      endDrawer: BlocBuilder<InfoCubit, InfoState>(
-        builder: (context, state) {
-          return EndDrawerWidgetInfo(
-            index: currentIndex,
-            isEdit: cubit.isedit,
-            infoModel:
-                cubiti.infoList.isEmpty ? null : cubiti.infoList[currentIndex],
-          );
-        },
-      ),
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -107,9 +100,151 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       fontSize: 5.sp,
                       title: "Add",
                       onTap: () {
-                        cubit.isedit = false;
-                        dropItemsInfo = 'select';
-                        scaffoldkey.currentState!.openEndDrawer();
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: AppColors.white,
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    const DefaultText(
+                                        text:
+                                        "Add New Info",align: TextAlign.center,),
+
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: titleAr.text,
+                                        password: false,
+                                        controller: titleAr,
+                                        height: 5.h,
+                                        fontSize:3.sp,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'Arabic Name',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                      EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: titleEn.text,
+                                        password: false,
+                                        controller: titleEn,
+                                        height: 5.h,
+                                        fontSize:3.sp,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'English Name',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: contentAr.text,
+                                        password: false,
+                                        height: 5.h,
+                                        fontSize:3.sp,
+                                        controller: contentAr,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'ContentAr',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: contentEn.text,
+                                        password: false,
+                                        height: 5.h,
+                                        fontSize:3.sp,
+                                        controller: contentEn,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        hintText: 'ContentEn',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultDropdown<String>(
+                                        hint: "Info Type",
+                                        showSearchBox: true,
+                                        selectedItem: dropItemsItem == ''
+                                            ? InfoCubit.get(context).infoTypes.first
+                                            : dropItemsItem,
+                                        items: InfoCubit.get(context).infoTypes,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            dropItemsItem = val!;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actionsAlignment: MainAxisAlignment.spaceEvenly,
+                              actions: <Widget>[
+                                DefaultAppButton(
+                                  title: "Save",
+                                  onTap: () {
+                                    cubiti.addInfo(
+                                        infoRequest: InfoRequest(
+                                          titleEn: titleEn.text,
+                                          contentEn: contentEn.text,
+                                          titleAr: titleAr.text,
+                                          contentAr: contentAr.text,
+                                          type: dropItemsItem,
+                                        ));
+                                    titleEn.clear();
+                                    contentEn.clear();
+                                    titleAr.clear();
+                                    contentAr.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  width: 10.w,
+                                  height: 4.h,
+                                  fontSize: 3.sp,
+                                  textColor: AppColors.white,
+                                  buttonColor: AppColors.pc,
+                                  isGradient: false,
+                                  radius: 10,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                DefaultAppButton(
+                                  title: "Cancel",
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  width: 10.w,
+                                  height: 4.h,
+                                  fontSize: 3.sp,
+                                  textColor: AppColors.mainColor,
+                                  buttonColor: AppColors.lightGrey,
+                                  isGradient: false,
+                                  radius: 10,
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                     )
                   ],
@@ -265,7 +400,6 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                 onPressed: () {
                                   currentIndex = index;
                                   cubit.isedit = true;
-                                  scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(
                                   Icons.edit,
