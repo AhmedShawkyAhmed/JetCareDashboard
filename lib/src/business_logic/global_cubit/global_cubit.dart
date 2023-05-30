@@ -103,8 +103,6 @@ class GlobalCubit extends Cubit<GlobalState> {
       ).then((value) {
         printSuccess(value.data.toString());
         crewResponse = UserResponse.fromJson(value.data);
-        crews.insert(0, "Crew");
-        userId.insert(0, 0);
         for (var i = 0; i < crewResponse!.userModel!.length; i++) {
           crews.add(crewResponse!.userModel![i].name);
           userId.add(crewResponse!.userModel![i].id);

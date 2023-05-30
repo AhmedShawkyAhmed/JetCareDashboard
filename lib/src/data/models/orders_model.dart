@@ -1,3 +1,4 @@
+import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/models/cart_model.dart';
 
 class OrdersModel {
@@ -8,6 +9,7 @@ class OrdersModel {
   String? createdAt;
   User? user;
   Address? address;
+
   // Package? package;
   // Package? item;
   Space? space;
@@ -45,8 +47,8 @@ class OrdersModel {
         total: json['total'] ?? 0,
         status: json['status'] ?? "",
         createdAt: json['created_at'] ?? "",
-    comment: json['comment'] ?? "",
-    adminComment: json['adminComment'] ?? "",
+        comment: json['comment'] ?? "",
+        adminComment: json['adminComment'] ?? "",
         user: json['user'] != null ? User.fromJson(json['user']) : null,
         address:
             json['address'] != null ? Address.fromJson(json['address']) : null,
@@ -62,9 +64,10 @@ class OrdersModel {
         extras: json["extras"] != null
             ? List<Extras>.from(json["extras"].map((x) => Extras.fromJson(x)))
             : json["extras"],
-    cart: json["cart"] != null
-        ? List<CartModel>.from(json["cart"].map((x) => CartModel.fromJson(x)))
-        : json["cart"],
+        cart: json["cart"] != null
+            ? List<CartModel>.from(
+                json["cart"].map((x) => CartModel.fromJson(x)))
+            : json["cart"],
       );
 
   Map<String, dynamic> toJson() {
@@ -140,41 +143,37 @@ class User {
 class Address {
   int? id;
   String? phone;
-  int? floor;
-  String? building;
-  String? street;
-  String? area;
-  String? district;
+  String? address;
+  AreaModel? state;
+  AreaModel? area;
 
   Address({
     this.id,
     this.phone,
-    this.floor,
-    this.building,
-    this.street,
+    this.address,
+    this.state,
     this.area,
-    this.district,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json['id'],
         phone: json['phone'],
-        floor: json['floor'],
-        building: json['building'],
-        street: json['street'],
-        area: json['area'],
-        district: json['district'],
+        address: json['address'],
+        state: json['state'] != null ? AreaModel.fromJson(json['state']) : null,
+        area: json['area'] != null ? AreaModel.fromJson(json['area']) : null,
       );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['phone'] = phone;
-    data['floor'] = floor;
-    data['building'] = building;
-    data['street'] = street;
-    data['area'] = area;
-    data['district'] = district;
+    data['address'] = address;
+    if (state != null) {
+      data["state"] = state;
+    }
+    if (area != null) {
+      data["area"] = area;
+    }
     return data;
   }
 }

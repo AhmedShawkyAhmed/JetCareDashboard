@@ -341,6 +341,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                 onPressed: () {
                                   showDialog(
                                       context: context,
+                                      barrierDismissible: true,
                                       builder: (context) {
                                         return ViewOrdersDetails(
                                           orderModel: cubitO.ordersList[index],

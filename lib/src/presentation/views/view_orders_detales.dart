@@ -6,7 +6,9 @@ import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_drop_down_menu.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../data/models/orders_model.dart';
@@ -286,11 +288,10 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                         SizedBox(
                           width: 47.w,
                           child: DefaultText(
-                            text: "الدور ${widget.orderModel.address!.floor},"
-                                "عمارة ${widget.orderModel.address!.building},"
-                                " ${widget.orderModel.address!.street},"
-                                " ${widget.orderModel.address!.area},"
-                                " ${widget.orderModel.address!.district}",
+                            text:
+                                "${widget.orderModel.address!.address} ,"
+                                "${widget.orderModel.address!.area!.nameAr} ,"
+                                "${widget.orderModel.address!.state!.nameAr}",
                             align: TextAlign.right,
                           ),
                         ),
@@ -423,7 +424,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                           children: [
                             BlocBuilder<AreaCubit, AreaState>(
                               builder: (context, state) {
-                                if (AreaCubit.get(context).areasCount == 0) {
+                                if (AreaCubit.get(context).areas.isEmpty) {
                                   return SizedBox(
                                     width: 15.w,
                                     child: const DefaultText(
@@ -434,13 +435,28 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                 }
                                 return SizedBox(
                                   width: 15.w,
-                                  child: DefaultDropDownMenu(
-                                    height: 4.h,
+                                  height: 4.h,
+                                  child: DefaultDropdown<String>(
                                     hint: "Areas",
-                                    type: "area",
-                                    list: AreaCubit.get(context).areas,
-                                    value: AreaCubit.get(context).areas.first,
-                                    orderId: widget.orderModel.id,
+                                    showSearchBox: true,
+                                    selectedItem: AreaCubit.get(context).areas.first,
+                                    items: AreaCubit.get(context).areas,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        if (AreaCubit.get(context)
+                                            .areaId[AreaCubit.get(context)
+                                            .areas
+                                            .indexOf(val.toString())]
+                                            .toString() ==
+                                            "0") {
+                                          DefaultToast.showMyToast("Please Select Correct Area");
+                                        } else {
+                                          GlobalCubit.get(context).getCrews(AreaCubit.get(context)
+                                              .areaId[
+                                          AreaCubit.get(context).areas.indexOf(val.toString())]);
+                                        }
+                                      });
+                                    },
                                   ),
                                 );
                               },
@@ -461,13 +477,30 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                 }
                                 return SizedBox(
                                   width: 15.w,
-                                  child: DefaultDropDownMenu(
-                                    height: 4.h,
+                                  height: 4.h,
+                                  child: DefaultDropdown<String>(
                                     hint: "Crew",
-                                    type: "crew",
-                                    list: crews,
-                                    value: crews.first,
-                                    orderId: widget.orderModel.id,
+                                    showSearchBox: true,
+                                    selectedItem: crews.first,
+                                    items: crews,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        if (userId[crews.indexOf(val.toString())].toString() == "0") {
+                                          DefaultToast.showMyToast("Please Select Correct Crew");
+                                        } else {
+                                          OrdersCubit.get(context).assignOrder(
+                                            id:widget.orderModel.id,
+                                            crewId: userId[crews.indexOf(val.toString())],
+                                            afterSuccess: () {
+                                              Navigator.pop(context);
+                                              crews.clear();
+                                              userId.clear();
+                                              areaId = 0;
+                                            },
+                                          );
+                                        }
+                                      });
+                                    },
                                   ),
                                 );
                               },

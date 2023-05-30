@@ -79,6 +79,10 @@ class AreaCubit extends Cubit<AreaState> {
         getAreaResponse = AreaResponse.fromJson(value.data);
         areaList.addAll(getAreaResponse!.areaModel!);
         listCount = getAreaResponse!.areaModel!.length;
+        for(int i = 0; i< areaList.length ; i++){
+          areas.add(areaList[i].nameAr);
+          areaId.add(areaList[i].id);
+        }
         emit(AreaSuccessState());
       });
     } on DioError catch (n) {
