@@ -307,7 +307,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     try {
       emit(PackagesItemsDeleteLodingState());
       await DioHelper.postData(
-        url: EndPoints.deletePackageItem,
+        url: EndPoints.deleteCategorySub,
         body: {
           'id': packagesItemsData.relationId,
         },
@@ -315,7 +315,6 @@ class PackagesCubit extends Cubit<PackagesState> {
         final myData = Map<String, dynamic>.from(value.data);
         deletePackagesItemsResponse = PackagesResponse.fromJson(myData);
         packageList[indexs!].items!.remove(packagesItemsData);
-
         emit(PackagesItemsDeleteSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });

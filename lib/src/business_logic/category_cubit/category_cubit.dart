@@ -326,18 +326,25 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future deleteCategoryPackages({
     required PackagesItemsData packagesItemsData,
-    int? index,
+    required String type,
+    required VoidCallback afterSuccess,
   }) async {
     try {
       emit(DeletePackagesCategoryLodingState());
       await DioHelper.postData(
-        url: EndPoints.deleteCategoryPackage,
+        url: EndPoints.deleteCategorySub,
         body: {
           'id': packagesItemsData.relationId,
         },
       ).then((value) {
         deleteCategoryPackagesResponse = CategoryResponse.fromJson(value.data);
-        categoryPackagesList.remove(packagesItemsData);
+        if(type == "package"){
+          categoryPackagesList.remove(packagesItemsData);
+
+        }else{
+          categoryItemsList.remove(packagesItemsData);
+        }
+        afterSuccess();
         emit(DeletePackagesCategorySuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });

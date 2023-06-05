@@ -551,11 +551,16 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                   onPressed: () {
                                     setState(() {
                                       cubit.isedit = true;
-                                      nameEn.text = cubitC.categoryList[index].nameEn;
-                                      descriptionEn.text = cubitC.categoryList[index].descriptionEn;
-                                      nameAr.text = cubitC.categoryList[index].nameAr;
-                                      descriptionAr.text = cubitC.categoryList[index].descriptionAr;
-                                      imageApp = cubitC.categoryList[index].image;
+                                      nameEn.text =
+                                          cubitC.categoryList[index].nameEn;
+                                      descriptionEn.text = cubitC
+                                          .categoryList[index].descriptionEn;
+                                      nameAr.text =
+                                          cubitC.categoryList[index].nameAr;
+                                      descriptionAr.text = cubitC
+                                          .categoryList[index].descriptionAr;
+                                      imageApp =
+                                          cubitC.categoryList[index].image;
                                     });
                                     showDialog<void>(
                                       context: context,
@@ -571,7 +576,9 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                     align: TextAlign.center),
                                                 Padding(
                                                   padding: EdgeInsets.only(
-                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                      top: 2.h,
+                                                      left: 3.w,
+                                                      right: 3.w),
                                                   child: DefaultTextField(
                                                     validator: nameAr.text,
                                                     password: false,
@@ -582,14 +589,16 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                     spreadRadius: 2,
                                                     blurRadius: 2,
                                                     color: AppColors.white,
-                                                    shadowColor:
-                                                    AppColors.black.withOpacity(0.05),
+                                                    shadowColor: AppColors.black
+                                                        .withOpacity(0.05),
                                                     hintText: 'Arabic Name',
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
-                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                      top: 2.h,
+                                                      left: 3.w,
+                                                      right: 3.w),
                                                   child: DefaultTextField(
                                                     validator: nameEn.text,
                                                     password: false,
@@ -600,22 +609,27 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                     spreadRadius: 2,
                                                     blurRadius: 2,
                                                     color: AppColors.white,
-                                                    shadowColor:
-                                                    AppColors.black.withOpacity(0.05),
+                                                    shadowColor: AppColors.black
+                                                        .withOpacity(0.05),
                                                     hintText: 'English Name',
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
-                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                      top: 2.h,
+                                                      left: 3.w,
+                                                      right: 3.w),
                                                   child: SizedBox(
                                                     height: 20.h,
                                                     child: DefaultTextField(
-                                                      validator: descriptionAr.text,
+                                                      validator:
+                                                          descriptionAr.text,
                                                       password: false,
                                                       controller: descriptionAr,
                                                       height: 20.h,
-                                                      keyboardType: TextInputType.multiline,
+                                                      keyboardType:
+                                                          TextInputType
+                                                              .multiline,
                                                       fontSize: 3.sp,
                                                       haveShadow: true,
                                                       spreadRadius: 2,
@@ -623,195 +637,181 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                       maxLine: 7,
                                                       collapsed: true,
                                                       color: AppColors.white,
-                                                      shadowColor:
-                                                      AppColors.black.withOpacity(0.05),
-                                                      hintText: 'Arabic Description',
+                                                      shadowColor: AppColors
+                                                          .black
+                                                          .withOpacity(0.05),
+                                                      hintText:
+                                                          'Arabic Description',
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
-                                                      top: 2.h, left: 3.w, right: 3.w),
+                                                      top: 2.h,
+                                                      left: 3.w,
+                                                      right: 3.w),
                                                   child: DefaultTextField(
-                                                    validator: descriptionEn.text,
+                                                    validator:
+                                                        descriptionEn.text,
                                                     password: false,
                                                     controller: descriptionEn,
                                                     height: 20.h,
-                                                    keyboardType: TextInputType.multiline,
+                                                    keyboardType:
+                                                        TextInputType.multiline,
                                                     fontSize: 3.sp,
                                                     haveShadow: true,
                                                     spreadRadius: 2,
                                                     blurRadius: 2,
                                                     maxLine: 7,
                                                     color: AppColors.white,
-                                                    shadowColor:
-                                                    AppColors.black.withOpacity(0.05),
-                                                    hintText: 'English Description',
+                                                    shadowColor: AppColors.black
+                                                        .withOpacity(0.05),
+                                                    hintText:
+                                                        'English Description',
                                                   ),
                                                 ),
                                                 Padding(
                                                     padding: EdgeInsets.only(
-                                                        top: 2.h, left: 3.w, right: 3.w),
-                                                    child: BlocBuilder<CategoryCubit,
+                                                        top: 2.h,
+                                                        left: 3.w,
+                                                        right: 3.w),
+                                                    child: BlocBuilder<
+                                                        CategoryCubit,
                                                         CategoryState>(
-                                                      builder: (context, state) {
+                                                      builder:
+                                                          (context, state) {
                                                         return Container(
                                                           height: 20.h,
                                                           width: 20.w,
                                                           decoration: BoxDecoration(
                                                               border: Border.all(
-                                                                  color: AppColors.grey),
+                                                                  color:
+                                                                      AppColors
+                                                                          .grey),
                                                               borderRadius:
-                                                              BorderRadius.circular(
-                                                                  20)),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20)),
                                                           child: cubit.isedit
                                                               ? Stack(
-                                                            children: [
-                                                              ClipRRect(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      20),
-                                                                  child: imageApp ==
+                                                                  children: [
+                                                                    ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                20),
+                                                                        child: imageApp ==
+                                                                                null
+                                                                            ? cubitC.fileResult == null
+                                                                                ? Container()
+                                                                                : Image.memory(
+                                                                                    cubitC.fileResult!.files.first.bytes!,
+                                                                                    fit: BoxFit.fitWidth,
+                                                                                    width: 100.w,
+                                                                                  )
+                                                                            : Image.network(
+                                                                                imageDomain + imageApp!,
+                                                                                fit: BoxFit.fitWidth,
+                                                                                width: 100.w,
+                                                                              )),
+                                                                    Container(
+                                                                      height:
+                                                                          4.h,
+                                                                      width:
+                                                                          3.w,
+                                                                      decoration: const BoxDecoration(
+                                                                          borderRadius: BorderRadius.only(
+                                                                              topLeft: Radius.circular(20),
+                                                                              bottomRight: Radius.circular(20)),
+                                                                          color: AppColors.green),
+                                                                      child: IconButton(
+                                                                          onPressed: () {
+                                                                            cubitC.pickImage();
+                                                                            imageApp =
+                                                                                null;
+                                                                            printSuccess(cubitC.fileResult.toString());
+                                                                          },
+                                                                          icon: const Icon(
+                                                                            Icons.edit,
+                                                                            color:
+                                                                                AppColors.white,
+                                                                          )),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              : cubitC.fileResult ==
                                                                       null
-                                                                      ? cubitC.fileResult ==
-                                                                      null
-                                                                      ? Container()
-                                                                      : Image
-                                                                      .memory(
-                                                                    cubitC
-                                                                        .fileResult!
-                                                                        .files
-                                                                        .first
-                                                                        .bytes!,
-                                                                    fit: BoxFit
-                                                                        .fitWidth,
-                                                                    width:
-                                                                    100.w,
-                                                                  )
-                                                                      : Image.network(
-                                                                    imageDomain +
-                                                                        imageApp!,
-                                                                    fit: BoxFit
-                                                                        .fitWidth,
-                                                                    width:
-                                                                    100.w,
-                                                                  )),
-                                                              Container(
-                                                                height: 4.h,
-                                                                width: 3.w,
-                                                                decoration: const BoxDecoration(
-                                                                    borderRadius: BorderRadius.only(
-                                                                        topLeft: Radius
-                                                                            .circular(
-                                                                            20),
-                                                                        bottomRight: Radius
-                                                                            .circular(
-                                                                            20)),
-                                                                    color: AppColors
-                                                                        .green),
-                                                                child: IconButton(
-                                                                    onPressed: () {
-                                                                      cubitC
-                                                                          .pickImage();
-                                                                      imageApp = null;
-                                                                      printSuccess(cubitC
-                                                                          .fileResult
-                                                                          .toString());
-                                                                    },
-                                                                    icon: const Icon(
-                                                                      Icons.edit,
-                                                                      color: AppColors
-                                                                          .white,
-                                                                    )),
-                                                              )
-                                                            ],
-                                                          )
-                                                              : cubitC.fileResult == null
-                                                              ? Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                            children: [
-                                                              const Icon(
-                                                                  Icons.image),
-                                                              TextButton(
-                                                                  onPressed: () {
-                                                                    cubitC
-                                                                        .pickImage();
-                                                                  },
-                                                                  child: const Text(
-                                                                      'Select Image'))
-                                                            ],
-                                                          )
-                                                              : Stack(
-                                                            children: [
-                                                              ClipRRect(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      20),
-                                                                  child: Image
-                                                                      .memory(
-                                                                    cubitC
-                                                                        .fileResult!
-                                                                        .files
-                                                                        .first
-                                                                        .bytes!,
-                                                                    fit: BoxFit
-                                                                        .fitWidth,
-                                                                    width: 100.w,
-                                                                  )),
-                                                              Container(
-                                                                height: 4.h,
-                                                                width: 3.w,
-                                                                decoration: const BoxDecoration(
-                                                                    borderRadius: BorderRadius.only(
-                                                                        topLeft: Radius
-                                                                            .circular(
-                                                                            20),
-                                                                        bottomRight:
-                                                                        Radius.circular(
-                                                                            20)),
-                                                                    color: AppColors
-                                                                        .green),
-                                                                child: IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      cubitC
-                                                                          .pickImage();
-                                                                    },
-                                                                    icon:
-                                                                    const Icon(
-                                                                      Icons.edit,
-                                                                      color: AppColors
-                                                                          .white,
-                                                                    )),
-                                                              )
-                                                            ],
-                                                          ),
+                                                                  ? Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        const Icon(
+                                                                            Icons.image),
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              cubitC.pickImage();
+                                                                            },
+                                                                            child:
+                                                                                const Text('Select Image'))
+                                                                      ],
+                                                                    )
+                                                                  : Stack(
+                                                                      children: [
+                                                                        ClipRRect(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(20),
+                                                                            child: Image.memory(
+                                                                              cubitC.fileResult!.files.first.bytes!,
+                                                                              fit: BoxFit.fitWidth,
+                                                                              width: 100.w,
+                                                                            )),
+                                                                        Container(
+                                                                          height:
+                                                                              4.h,
+                                                                          width:
+                                                                              3.w,
+                                                                          decoration: const BoxDecoration(
+                                                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                                                                              color: AppColors.green),
+                                                                          child: IconButton(
+                                                                              onPressed: () {
+                                                                                cubitC.pickImage();
+                                                                              },
+                                                                              icon: const Icon(
+                                                                                Icons.edit,
+                                                                                color: AppColors.white,
+                                                                              )),
+                                                                        )
+                                                                      ],
+                                                                    ),
                                                         );
                                                       },
                                                     )),
                                               ],
                                             ),
                                           ),
-                                          actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                          actionsAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           actions: <Widget>[
                                             DefaultAppButton(
                                               title: "Save",
                                               onTap: () {
                                                 cubitC.updateCategories(
                                                   index: index,
-                                                  categoryRequest: CategoryRequest(
-                                                    id: cubitC.categoryList[index].id,
+                                                  categoryRequest:
+                                                      CategoryRequest(
+                                                    id: cubitC
+                                                        .categoryList[index].id,
                                                     nameEn: nameEn.text,
-                                                    descriptionEn: descriptionEn.text,
+                                                    descriptionEn:
+                                                        descriptionEn.text,
                                                     nameAr: nameAr.text,
-                                                    descriptionAr: descriptionAr.text,
+                                                    descriptionAr:
+                                                        descriptionAr.text,
                                                   ),
                                                 );
                                                 nameEn.clear();
@@ -917,10 +917,8 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
-                                                return ViewPackages(
-                                                  package: cubitC
-                                                      .categoryPackagesList,
-                                                  indexs: index,
+                                                return const ViewPackages(
+
                                                 );
                                               });
                                         },
@@ -932,11 +930,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
-                                                return ViewCategoryItems(
-                                                  itmes:
-                                                      cubitC.categoryItemsList,
-                                                  indexs: index,
-                                                );
+                                                return const ViewCategoryItems();
                                               });
                                         },
                                       );

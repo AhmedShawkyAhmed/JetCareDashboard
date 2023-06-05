@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../business_logic/packages_cubit/packages_cubit.dart';
-import '../../data/models/packages_model.dart';
+import '../../business_logic/category_cubit/category_cubit.dart';
 import '../styles/app_colors.dart';
 
 class ViewCategoryItems extends StatefulWidget {
-  List<PackagesItemsData>? itmes;
-  int? indexs;
-  ViewCategoryItems({super.key, 
-    this.itmes,
-    this.indexs,
+  const ViewCategoryItems({
+    super.key,
   });
+
   @override
   State<ViewCategoryItems> createState() => _ViewCategoryItemsState();
 }
@@ -25,41 +23,49 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
   @override
   Widget build(BuildContext context) {
     //var cubitI = ItemsCubit.get(context);
-    var cubitP = PackagesCubit.get(context);
-    return BlocBuilder<PackagesCubit, PackagesState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppColors.transparent,
-          body: Container(
-            decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(15)),
-            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-            padding: EdgeInsets.only(left: 1.w, top: 1.h),
-            height: 80.h,
-            width: 80.w,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                  color: AppColors.darkGrey.withOpacity(0.5),
-                ),
-                Padding(
-                  padding:  EdgeInsets.only(left: 25.w),
-                  child: Text(
-                    'View Items',
-                    style: TextStyle(fontSize: 5.sp),
-                  ),
-                ),
-                SizedBox(
-                  height: 50.h,
-                  width: 57.w,
-                  child: ListView.builder(
-                      itemCount: widget.itmes!.length,
+    var cubitC = CategoryCubit.get(context);
+    return Scaffold(
+      backgroundColor: AppColors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(15)),
+        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+        padding: EdgeInsets.only(left: 1.w, top: 1.h),
+        height: 80.h,
+        width: 80.w,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios),
+              color: AppColors.darkGrey.withOpacity(0.5),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 25.w),
+              child: Text(
+                'View Items',
+                style: TextStyle(fontSize: 5.sp),
+              ),
+            ),
+            SizedBox(
+              height: 50.h,
+              width: 57.w,
+              child: BlocBuilder<CategoryCubit, CategoryState>(
+                builder: (context, state) {
+                  if(cubitC.categoryItemsList.isEmpty){
+                    return Center(
+                      child: DefaultText(
+                        text: "No Items Found !",
+                        fontSize: 3.sp,
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                      itemCount: cubitC.categoryItemsList.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(
@@ -79,7 +85,8 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                     height: 0.5.h,
                                   ),
                                   Text(
-                                    widget.itmes![index].id.toString(),
+                                    cubitC.categoryItemsList[index].id
+                                        .toString(),
                                     style: TextStyle(fontSize: 3.sp),
                                   )
                                 ],
@@ -105,7 +112,10 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                                 return AlertDialog(
                                                   title: const Text('NameAr'),
                                                   content: Text(
-                                                    widget.itmes![index].nameEn!
+                                                    cubitC
+                                                        .categoryItemsList[
+                                                    index]
+                                                        .nameEn!
                                                         .toString(),
                                                     style: TextStyle(
                                                         fontSize: 3.sp),
@@ -114,7 +124,8 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                               });
                                         },
                                         child: Text(
-                                          widget.itmes![index].nameEn!,
+                                          cubitC
+                                              .categoryItemsList[index].nameEn!,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 3.sp),
@@ -142,7 +153,10 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                                 return AlertDialog(
                                                   title: const Text('NameAr'),
                                                   content: Text(
-                                                    widget.itmes![index].nameAr!
+                                                    cubitC
+                                                        .categoryItemsList[
+                                                    index]
+                                                        .nameAr!
                                                         .toString(),
                                                     style: TextStyle(
                                                         fontSize: 3.sp),
@@ -151,7 +165,8 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                               });
                                         },
                                         child: Text(
-                                          widget.itmes![index].nameAr!,
+                                          cubitC
+                                              .categoryItemsList[index].nameAr!,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 3.sp),
@@ -172,7 +187,8 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        widget.itmes![index].price.toString(),
+                                        cubitC.categoryItemsList[index].price
+                                            .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -190,7 +206,7 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        widget.itmes![index].unit!,
+                                        cubitC.categoryItemsList[index].unit!,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -208,31 +224,36 @@ class _ViewCategoryItemsState extends State<ViewCategoryItems> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        widget.itmes![index].type!,
+                                        cubitC.categoryItemsList[index].type!,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
                                   )),
                               IconButton(
-                                  onPressed: () {
-                                    cubitP.deletePackagesItems(
-                                        packagesItemsData: widget.itmes![index],
-                                        indexs: widget.indexs);
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: AppColors.red,
-                                  )),
+                                onPressed: () {
+                                  cubitC.deleteCategoryPackages(
+                                      type: "item",
+                                      packagesItemsData:
+                                      cubitC.categoryItemsList[index],
+                                      afterSuccess: () {
+                                        setState(() {});
+                                      });
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: AppColors.red,
+                                ),
+                              ),
                             ],
                           ),
                         );
-                      }),
-                ),
-              ],
+                      });
+                },
+              ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
