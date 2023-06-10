@@ -99,10 +99,7 @@ class _MyAppState extends State<MyApp> {
             BlocProvider(
               create: ((context) => GlobalCubit()
                 ..getPeriodsMobile()
-                ..getClients()
-                ..getPackages()
-                ..getItemsForPackages()
-                ..getItems()),
+                ..getClients()),
             ),
             BlocProvider(
               create: ((context) => AuthCubit()),
@@ -141,12 +138,10 @@ class _MyAppState extends State<MyApp> {
                 ..getCategoryTypes()),
             ),
             BlocProvider(
-              create: ((context) => StatesCubit()
-                ..getAllStates()),
+              create: ((context) => StatesCubit()..getAllStates()),
             ),
             BlocProvider(
-              create: ((context) => AreaCubit()
-                ..getAllAreas()),
+              create: ((context) => AreaCubit()..getAllAreas()),
             ),
             BlocProvider(
               create: ((context) => CalendarCubit()..getcalendar()),

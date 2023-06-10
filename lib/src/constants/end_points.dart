@@ -53,6 +53,9 @@ class EndPoints {
   static const getPackageDetails = "getPackageDetails";
   static const getItemsMobile = "getItemsMobile";
   static const getCategory = "getCategory";
+  static const getCorporates = "getCorporates";
+  static const addCorporateOrder = "addCorporateOrder";
+  static const addToCart = "addToCart";
 
   static const getAreasOfState = "getAreasOfState";
   static const getAllAreas = "getAllAreas";

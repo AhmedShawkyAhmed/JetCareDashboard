@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
+import 'package:jetboard/src/data/network/requests/corporate_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
+import 'package:jetboard/src/data/network/responses/items_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import '../../constants/constants_methods.dart';
 import '../../constants/end_points.dart';
@@ -15,9 +18,65 @@ class CorporatesCubit extends Cubit<CorporatesState> {
   static CorporatesCubit get(context) => BlocProvider.of(context);
   CorporatesResponse? getCorporatesResponse;
   GlobalResponse? globalResponse;
+  ItemsResponse? corporateItems;
   List<CorporatesModel> corporatesList = [];
   int listCount = 0;
   int index = 0;
+  List<String> corporateNames = [];
+  List<int> corporateIds = [];
+
+
+  Future corporateOrder({
+    required CorporateRequest corporateRequest,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(CreateCorporateLoadingState());
+      await DioHelper.postData(url: EndPoints.addCorporateOrder, body: {
+        'userId':CacheHelper.getDataFromSharedPreference(key: "id"),
+        'name': corporateRequest.name,
+        'email': corporateRequest.email,
+        'phone': corporateRequest.phone,
+        'message': corporateRequest.message,
+        'itemId': corporateRequest.itemId,
+      }).then((value) {
+        DefaultToast.showMyToast("Order Created Successfully");
+        emit(CreateCorporateSuccessState());
+        getCorporates();
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(CreateCorporateErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(CreateCorporateErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future getCorporatesItems({required VoidCallback afterSuccess,}) async {
+    try {
+      emit(CorporateItemsLoadingState());
+      await DioHelper.getData(
+        url: EndPoints.getCorporates,
+      ).then((value) {
+        corporateItems = ItemsResponse.fromJson(value.data);
+        for(int i = 0; i< corporateItems!.corporate!.length; i++){
+          corporateNames.add(corporateItems!.corporate![i].nameAr.toString());
+          corporateIds.add(corporateItems!.corporate![i].id!);
+        }
+        emit(CorporateItemsSuccessState());
+        afterSuccess();
+        printSuccess(value.data.toString());
+      });
+    } on DioError catch (n) {
+      emit(CorporateItemsErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(CorporateItemsErrorState());
+      printError(e.toString());
+    }
+  }
 
   Future getCorporates({
     String? keyword,

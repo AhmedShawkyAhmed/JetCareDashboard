@@ -1,15 +1,13 @@
 class AddressRequest {
-  final int userId;
-  final String phone, floor, building, street, area, district, latitude, longitude;
+  final int userId,stateId,areaId;
+  final String phone, address, latitude, longitude;
 
   AddressRequest({
     required this.userId,
-    required this.floor,
+    required this.stateId,
+    required this.areaId,
+    required this.address,
     required this.phone,
-    required this.building,
-    required this.street,
-    required this.area,
-    required this.district,
     required this.latitude,
     required this.longitude,
   });

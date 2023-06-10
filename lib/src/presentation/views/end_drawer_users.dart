@@ -257,14 +257,15 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                                 email: email.text,
                                 password: password.text,
                                 role: type,
-                              ));
-                              Navigator.pop(context);
-                              fullName.clear();
-                              phone.clear();
-                              email.clear();
-                              password.clear();
-                              type = "";
-                              dropItemsItem = "";
+                              ),afterSuccess: (){
+                                Navigator.pop(context);
+                                fullName.clear();
+                                phone.clear();
+                                email.clear();
+                                password.clear();
+                                type = "";
+                                dropItemsItem = "";
+                              });
                             }
                           },
                           haveShadow: false,

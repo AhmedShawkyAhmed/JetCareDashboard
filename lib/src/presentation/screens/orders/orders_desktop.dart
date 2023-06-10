@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
-import 'package:jetboard/src/presentation/views/end_drawer_order.dart';
+import 'package:jetboard/src/presentation/views/create_order.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/views/view_orders_detales.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -25,12 +25,6 @@ class OrdersDesktop extends StatefulWidget {
 
 class _OrdersDesktopState extends State<OrdersDesktop> {
   TextEditingController search = TextEditingController();
-  String dropdownvalue = 'Item 1';
-
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
-  int currentIndex = 0;
-  List<bool> isChecked = List.generate(2000, (index) => false);
-  List<int> itemsId = [];
   TextEditingController commentController = TextEditingController();
 
   @override
@@ -38,8 +32,6 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
     var cubitO = OrdersCubit.get(context);
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
-      key: scaffoldkey,
-      endDrawer: const EndDrawerOrder(),
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -86,24 +78,30 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       ),
                     ),
                     const Spacer(),
-                    // DefaultAppButton(
-                    //   width: 8.w,
-                    //   height: 5.h,
-                    //   haveShadow: true,
-                    //   offset: const Offset(0, 0),
-                    //   spreadRadius: 2,
-                    //   blurRadius: 2,
-                    //   radius: 10,
-                    //   gradientColors: const [
-                    //     AppColors.green,
-                    //     AppColors.lightgreen,
-                    //   ],
-                    //   fontSize: 5.sp,
-                    //   title: "Create",
-                    //   onTap: () {
-                    //     scaffoldkey.currentState!.openEndDrawer();
-                    //   },
-                    // ),
+                    DefaultAppButton(
+                      width: 8.w,
+                      height: 5.h,
+                      haveShadow: true,
+                      offset: const Offset(0, 0),
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      radius: 10,
+                      gradientColors: const [
+                        AppColors.green,
+                        AppColors.lightgreen,
+                      ],
+                      fontSize: 5.sp,
+                      title: "Create",
+                      onTap: () {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return const CreateOrder();
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

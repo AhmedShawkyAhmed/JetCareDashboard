@@ -85,23 +85,7 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
           onChanged: (String? value) {
             setState(() {
               widget.value = value!;
-              if (widget.type == "crew") {
-                if (userId[crews.indexOf(value.toString())].toString() == "0") {
-                  DefaultToast.showMyToast("Please Select Correct Crew");
-                } else {
-                  OrdersCubit.get(context).assignOrder(
-                    id: widget.orderId!,
-                    crewId: userId[crews.indexOf(value.toString())],
-                    afterSuccess: () {
-                      Navigator.pop(context);
-                      crews.clear();
-                      userId.clear();
-                      areaId = 0;
-                    },
-                  );
-                }
-              }
-              else if (widget.type == "area") {
+              if (widget.type == "area") {
                 if (AreaCubit.get(context)
                         .areaId[AreaCubit.get(context)
                             .areas

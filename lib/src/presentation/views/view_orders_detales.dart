@@ -148,15 +148,16 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Total",
+                                    text: "Period",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: "${widget.orderModel.total} EGP",
+                                      text:
+                                      "${widget.orderModel.period!.from} - ${widget.orderModel.period!.to}",
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -227,17 +228,15 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Space",
+                                    text: "Price",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: widget.orderModel.space == null
-                                          ? "No Space"
-                                          : "${widget.orderModel.space!.from} - ${widget.orderModel.space!.to} M²",
+                                      text: "${widget.orderModel.price} EGP",
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -245,16 +244,31 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Period",
+                                    text: "Shipping",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text:
-                                          "${widget.orderModel.period!.from} - ${widget.orderModel.period!.to}",
+                                      text: "${widget.orderModel.shipping} EGP",
+                                      align: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const DefaultText(
+                                    text: "Total",
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                    child: DefaultText(
+                                      text: "${widget.orderModel.total} EGP",
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -490,6 +504,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                           OrdersCubit.get(context).assignOrder(
                                             id:widget.orderModel.id,
                                             crewId: userId[crews.indexOf(val.toString())],
+                                            date: widget.orderModel.date!,
                                             afterSuccess: () {
                                               Navigator.pop(context);
                                               crews.clear();

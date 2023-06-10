@@ -14,10 +14,10 @@ class DrawerListDesktop extends StatelessWidget {
     "Corporates",
     "Users",
     "Category",
-    "Packages",
+    "Offers",
     "Items",
     "Ads",
-    "States",
+    "Governorate",
     "Area",
     //"calendar",
     "Periods",
@@ -49,7 +49,7 @@ class DrawerListDesktop extends StatelessWidget {
       color: AppColors.white,
     ),
     const Icon(
-      Icons.playlist_add_check_circle_outlined,
+      Icons.local_offer_rounded,
       color: AppColors.white,
     ),
     const Icon(

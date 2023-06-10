@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
@@ -98,11 +99,8 @@ class UsersCubit extends Cubit<UsersState> {
 
   Future addUser({
     required UserRequset userRequset,
+    required VoidCallback afterSuccess,
   }) async {
-    printSuccess(userRequset.name.toString());
-    printSuccess(userRequset.phone.toString());
-    printSuccess(userRequset.email.toString());
-    printSuccess(userRequset.role.toString());
     try {
       emit(AddUserLodingState());
       await DioHelper.postData(
@@ -110,7 +108,7 @@ class UsersCubit extends Cubit<UsersState> {
         body: {
           'name': userRequset.name,
           'phone': userRequset.phone,
-          'email': userRequset.email,
+          'email': userRequset.email ?? "empty",
           'password': userRequset.password,
           'role': userRequset.role,
         },
@@ -120,6 +118,7 @@ class UsersCubit extends Cubit<UsersState> {
         userList.insert(0, addUserResponse!.userModell!);
         listCount += 1;
         emit(AddUserSuccessState());
+        afterSuccess();
         DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {

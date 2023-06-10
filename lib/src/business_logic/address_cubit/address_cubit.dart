@@ -34,7 +34,7 @@ class AddressCubit extends Cubit<AddressState> {
         if(addressResponse?.address != null){
           for (int i = 0; i < addressResponse!.address!.length; i++) {
             address.add(
-                "${addressResponse!.address![i].floor},${addressResponse!.address![i].building},${addressResponse!.address![i].street},${addressResponse!.address![i].area},${addressResponse!.address![i].district}");
+                "${addressResponse!.address![i].address},${addressResponse!.address![i].area!.nameAr},${addressResponse!.address![i].state!.nameAr}");
           }
         }
         emit(AddressSuccessState());
@@ -58,17 +58,13 @@ class AddressCubit extends Cubit<AddressState> {
       await DioHelper.postData(url: EndPoints.addAddress, body: {
         'userId': addressRequest.userId,
         'phone': addressRequest.phone,
-        'floor': addressRequest.floor,
-        'building': addressRequest.building,
-        'street': addressRequest.street,
-        'area': addressRequest.area,
-        'district': addressRequest.district,
+        'address': addressRequest.address,
+        'stateId': addressRequest.stateId,
+        'areaId': addressRequest.areaId,
         'latitude': "0.0",
         'longitude': "0.0",
       }).then((value) {
         addAddressResponse = AddressResponse.fromJson(value.data);
-        printSuccess(
-            "Add Address Response ${addAddressResponse!.message.toString()}");
         afterSuccess();
       });
     } on DioError catch (n) {

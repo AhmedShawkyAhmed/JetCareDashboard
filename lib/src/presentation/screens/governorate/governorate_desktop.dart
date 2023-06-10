@@ -10,14 +10,14 @@ import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 
-class StatesDesktop extends StatefulWidget {
-  const StatesDesktop({super.key});
+class GovernorateDesktop extends StatefulWidget {
+  const GovernorateDesktop({super.key});
 
   @override
-  State<StatesDesktop> createState() => _StatesDesktopState();
+  State<GovernorateDesktop> createState() => _GovernorateDesktopState();
 }
 
-class _StatesDesktopState extends State<StatesDesktop> {
+class _GovernorateDesktopState extends State<GovernorateDesktop> {
   TextEditingController search = TextEditingController();
   TextEditingController nameAr = TextEditingController();
   TextEditingController nameEn = TextEditingController();
@@ -99,7 +99,7 @@ class _StatesDesktopState extends State<StatesDesktop> {
                               content: SingleChildScrollView(
                                 child: ListBody(
                                   children: <Widget>[
-                                    const DefaultText(text: "Add New State",align: TextAlign.center),
+                                    const DefaultText(text: "Add New Governorate",align: TextAlign.center),
                                     SizedBox(
                                       height: 2.h,
                                     ),

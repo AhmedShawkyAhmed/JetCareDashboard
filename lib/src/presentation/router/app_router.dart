@@ -6,6 +6,7 @@ import 'package:jetboard/src/presentation/screens/layout/layout.dart';
 import 'package:jetboard/src/presentation/screens/login/login.dart';
 import 'package:jetboard/src/presentation/screens/splash/splash.dart';
 import 'package:jetboard/src/presentation/screens/users/users_desktop.dart';
+import 'package:jetboard/src/presentation/views/create_order.dart';
 
 
 class AppRouter {
@@ -30,7 +31,11 @@ class AppRouter {
       case AppRouterNames.info:
         return CustomPageRouteTransiton.fadeOut(
           page:  const Info(),
-        ); 
+        );
+      case AppRouterNames.createOrder:
+        return CustomPageRouteTransiton.fadeOut(
+          page:  const CreateOrder(),
+        );
       default:
         return null;
     }

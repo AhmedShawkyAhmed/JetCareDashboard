@@ -5,6 +5,8 @@ class OrdersModel {
   int id;
   String? date;
   num? total;
+  num? shipping;
+  num? price;
   String? status;
   String? createdAt;
   User? user;
@@ -28,6 +30,8 @@ class OrdersModel {
     this.status,
     this.createdAt,
     this.user,
+    this.shipping,
+    this.price,
     this.address,
     // this.package,
     // this.item,
@@ -45,6 +49,8 @@ class OrdersModel {
         id: json['id'] ?? 0,
         date: json['date'] ?? "",
         total: json['total'] ?? 0,
+        shipping: json['shipping'] ?? 0,
+        price: json['price'] ?? 0,
         status: json['status'] ?? "",
         createdAt: json['created_at'] ?? "",
         comment: json['comment'] ?? "",
@@ -75,6 +81,8 @@ class OrdersModel {
     data['id'] = id;
     data['date'] = date;
     data['total'] = total;
+    data['shipping'] = shipping;
+    data['price'] = price;
     data['status'] = status;
     data['comment'] = comment;
     data['adminComment'] = adminComment;

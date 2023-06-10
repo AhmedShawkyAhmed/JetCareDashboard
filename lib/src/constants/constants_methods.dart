@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart' as intl;
 
+bool isRTL(String text) => intl.Bidi.detectRtlDirectionality(text==''?'ض':text);
 void printResponse(String text) {
   if (kDebugMode) {
     print('\x1B[33m$text\x1B[0m');

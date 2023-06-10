@@ -467,38 +467,38 @@ class _EndDrawerOrderState extends State<EndDrawerOrder> {
                                                   DefaultToast.showMyToast(
                                                       "District Name is Required");
                                                 } else {
-                                                  AddressCubit.get(context)
-                                                      .addAddress(
-                                                    addressRequest:
-                                                        AddressRequest(
-                                                      userId: clientId,
-                                                      floor:
-                                                          floorController.text,
-                                                      phone:
-                                                          phoneController.text,
-                                                      building:
-                                                          buildingController
-                                                              .text,
-                                                      street:
-                                                          streetController.text,
-                                                      area: areaController.text,
-                                                      district:
-                                                          districtController
-                                                              .text,
-                                                      latitude: "0.0",
-                                                      longitude: "0.0",
-                                                    ),
-                                                    afterSuccess: () {
-                                                      AddressCubit.get(context)
-                                                          .getMyAddresses(
-                                                        userId: clientId,
-                                                        afterSuccess: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      );
-                                                    },
-                                                  );
+                                                  // AddressCubit.get(context)
+                                                  //     .addAddress(
+                                                  //   addressRequest:
+                                                  //       AddressRequest(
+                                                  //     userId: clientId,
+                                                  //     floor:
+                                                  //         floorController.text,
+                                                  //     phone:
+                                                  //         phoneController.text,
+                                                  //     building:
+                                                  //         buildingController
+                                                  //             .text,
+                                                  //     street:
+                                                  //         streetController.text,
+                                                  //     area: areaController.text,
+                                                  //     district:
+                                                  //         districtController
+                                                  //             .text,
+                                                  //     latitude: "0.0",
+                                                  //     longitude: "0.0",
+                                                  //   ),
+                                                  //   afterSuccess: () {
+                                                  //     AddressCubit.get(context)
+                                                  //         .getMyAddresses(
+                                                  //       userId: clientId,
+                                                  //       afterSuccess: () {
+                                                  //         Navigator.pop(
+                                                  //             context);
+                                                  //       },
+                                                  //     );
+                                                  //   },
+                                                  // );
                                                 }
                                               },
                                               width: 10.w,
@@ -558,7 +558,8 @@ class _EndDrawerOrderState extends State<EndDrawerOrder> {
                         },
                       ),
                     ),
-                  ] else ...[
+                  ]
+                  else ...[
                     Padding(
                       padding: EdgeInsets.only(
                         top: 2.h,
@@ -636,23 +637,23 @@ class _EndDrawerOrderState extends State<EndDrawerOrder> {
                           }else if(packageId == 0 && itemId == 0){
                             DefaultToast.showMyToast("Order is Required ( Package | Item )");
                           }else{
-                            OrdersCubit.get(context).createOrder(
-                              orderRequest: OrderRequest(
-                                userId: clientId,
-                                total: total,
-                                addressId: addressId,
-                                date: dateController.text,
-                                packageId: packageId,
-                                itemId:itemId,
-                                periodId: periodId,
-                                extraIds: [],
-                                comment: null,
-                              ),
-                              afterSuccess: () {
-                                OrdersCubit.get(context).getOrders();
-                                Navigator.pop(context);
-                              },
-                            );
+                            // OrdersCubit.get(context).createOrder(
+                            //   orderRequest: OrderRequest(
+                            //     userId: clientId,
+                            //     total: total,
+                            //     addressId: addressId,
+                            //     date: dateController.text,
+                            //     packageId: packageId,
+                            //     itemId:itemId,
+                            //     periodId: periodId,
+                            //     extraIds: [],
+                            //     comment: null,
+                            //   ),
+                            //   afterSuccess: () {
+                            //     OrdersCubit.get(context).getOrders();
+                            //     Navigator.pop(context);
+                            //   },
+                            // );
                           }
                         },
                         haveShadow: false,

@@ -28,3 +28,7 @@ class UpdateOrderStatusErrorState extends OrdersState {}
 class CreateOrdersLoadingState extends OrdersState {}
 class CreateOrdersSuccessState extends OrdersState {}
 class CreateOrdersErrorState extends OrdersState {}
+
+class AddCartLoadingState extends OrdersState {}
+class AddCartSuccessState extends OrdersState {}
+class AddCartErrorState extends OrdersState {}

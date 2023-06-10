@@ -4,5 +4,6 @@ class AppRouterNames {
   static const layout = "layout";
   static const users = "users";
   static const info = "info";
-  
+  static const createOrder = "createOrder";
+
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/data/network/requests/corporate_request.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
+import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/Corporates_cubit/corporates_cubit.dart';
 import '../../styles/app_colors.dart';
@@ -20,10 +24,14 @@ class CorporatesDesktop extends StatefulWidget {
 class _CorporatesDesktopState extends State<CorporatesDesktop> {
   TextEditingController search = TextEditingController();
   int currentIndex = 0;
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
 
-
+  String selectedItem = '';
+  int serviceId = 0;
   TextEditingController commentController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +39,6 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
 
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
-      key: scaffoldkey,
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -63,8 +70,8 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
-                      onChange: (value){
-                        if(value == ""){
+                      onChange: (value) {
+                        if (value == "") {
                           cubitC.getCorporates();
                         }
                       },
@@ -77,11 +84,226 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                         color: AppColors.black,
                       ),
                     ),
-                    SizedBox(
-                      width: 1.w,
+                    const Spacer(),
+                    DefaultAppButton(
+                      width: 8.w,
+                      height: 5.h,
+                      haveShadow: true,
+                      offset: const Offset(0, 0),
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      radius: 10,
+                      gradientColors: const [
+                        AppColors.green,
+                        AppColors.lightgreen,
+                      ],
+                      fontSize: 5.sp,
+                      title: "Create",
+                      onTap: () {
+                        CorporatesCubit.get(context).getCorporatesItems(
+                            afterSuccess: () {
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: AppColors.white,
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      const DefaultText(
+                                        text: "Create Corporate Order",
+                                        align: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                        height: 2.h,
+                                      ),
+                                      DefaultTextField(
+                                        password: false,
+                                        controller: nameController,
+                                        height: 5.h,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        horizontalPadding: 50,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Corporate Name',
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      DefaultTextField(
+                                        password: false,
+                                        height: 5.h,
+                                        controller: emailController,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        horizontalPadding: 50,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Email',
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      DefaultTextField(
+                                        password: false,
+                                        height: 5.h,
+                                        controller: phoneController,
+                                        haveShadow: true,
+                                        horizontalPadding: 50,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Phone Number',
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 1.h, right: 50, left: 50),
+                                        child: SizedBox(
+                                          height: 20.h,
+                                          child: DefaultTextField(
+                                            password: false,
+                                            controller: messageController,
+                                            height: 20.h,
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            fontSize: 3.sp,
+                                            haveShadow: true,
+                                            spreadRadius: 2,
+                                            blurRadius: 2,
+                                            maxLine: 7,
+                                            collapsed: true,
+                                            color: AppColors.white,
+                                            shadowColor: AppColors.black
+                                                .withOpacity(0.05),
+                                            hintText: 'Description Message',
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 1.h,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3.w),
+                                        child: DefaultDropdown<String>(
+                                          hint: "Corporate Service",
+                                          showSearchBox: true,
+                                          selectedItem: selectedItem,
+                                          items: CorporatesCubit.get(context)
+                                              .corporateNames,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              selectedItem = val!;
+                                              serviceId = CorporatesCubit.get(
+                                                          context)
+                                                      .corporateIds[
+                                                  CorporatesCubit.get(context)
+                                                      .corporateNames
+                                                      .indexOf(selectedItem)];
+                                            });
+                                            printLog(serviceId.toString());
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                actions: <Widget>[
+                                  DefaultAppButton(
+                                    title: "Create",
+                                    onTap: () {
+                                      if (nameController.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Corporate Name");
+                                      } else if (phoneController.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Phone Number");
+                                      } else if (emailController.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Email Address");
+                                      } else if (messageController.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter Description Message");
+                                      }else if (serviceId == 0) {
+                                        DefaultToast.showMyToast(
+                                            "Please Select Service");
+                                      } else {
+                                        IndicatorView.showIndicator(context);
+                                        CorporatesCubit.get(context)
+                                            .corporateOrder(
+                                          corporateRequest: CorporateRequest(
+                                            itemId: serviceId,
+                                            name: nameController.text,
+                                            email: emailController.text,
+                                            phone: phoneController.text,
+                                            message: messageController.text,
+                                          ),
+                                          afterSuccess: () {
+                                            selectedItem = '';
+                                            serviceId = 0;
+                                            commentController.clear();
+                                            nameController.clear();
+                                            emailController.clear();
+                                            phoneController.clear();
+                                            messageController.clear();
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      }
+                                    },
+                                    width: 10.w,
+                                    height: 4.h,
+                                    fontSize: 3.sp,
+                                    textColor: AppColors.white,
+                                    buttonColor: AppColors.pc,
+                                    isGradient: false,
+                                    radius: 10,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  DefaultAppButton(
+                                    title: "Cancel",
+                                    onTap: () {
+                                      selectedItem = '';
+                                      serviceId = 0;
+                                      commentController.clear();
+                                      nameController.clear();
+                                      emailController.clear();
+                                      phoneController.clear();
+                                      messageController.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    width: 10.w,
+                                    height: 4.h,
+                                    fontSize: 3.sp,
+                                    textColor: AppColors.mainColor,
+                                    buttonColor: AppColors.lightGrey,
+                                    isGradient: false,
+                                    radius: 10,
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        });
+                      },
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 1.h,
               ),
               BlocBuilder<CorporatesCubit, CorporatesState>(
                 builder: (context, state) {

@@ -111,7 +111,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                 width: 8.w,
                                 height: 5.h,
                                 child: DefaultDropdown<AreaModel>(
-                                  hint: "States",
+                                  hint: "Governorate",
                                   showSearchBox: true,
                                   itemAsString: (AreaModel? u) =>
                                       u?.nameAr ?? "",
@@ -215,7 +215,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                       child: SizedBox(
                                         height: 4.h,
                                         child: DefaultDropdown<String>(
-                                          hint: "States",
+                                          hint: "Governorate",
                                           showSearchBox: true,
                                           selectedItem: dropState,
                                           items: StatesCubit.get(context).statesList,
@@ -507,7 +507,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                                 child: SizedBox(
                                                   height: 4.h,
                                                   child: DefaultDropdown<String>(
-                                                    hint: "States",
+                                                    hint: "Governorate",
                                                     showSearchBox: true,
                                                     selectedItem: dropState,
                                                     items: StatesCubit.get(context).statesList,
