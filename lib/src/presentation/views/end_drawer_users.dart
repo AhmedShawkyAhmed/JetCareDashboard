@@ -251,13 +251,16 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                                   "Please Select User Type");
                             } else {
                               cubitU.addUser(
-                                  userRequset: UserRequset(
+                                  userRequest: UserRequset(
                                 name: fullName.text,
                                 phone: phone.text,
                                 email: email.text,
                                 password: password.text,
                                 role: type,
-                              ),afterSuccess: (){
+                              ),
+                                  onError: (){
+                                    Navigator.pop(context);
+                                  },afterSuccess: (){
                                 Navigator.pop(context);
                                 fullName.clear();
                                 phone.clear();

@@ -31,6 +31,8 @@ import 'package:jetboard/src/presentation/router/app_router_names.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
+import 'src/business_logic/crew_cubit/crew_cubit.dart';
+
 String? pushToken;
 
 void main() async {
@@ -129,7 +131,6 @@ class _MyAppState extends State<MyApp> {
             ),
             BlocProvider(
               create: ((context) => UsersCubit()
-                ..getUser()
                 ..getRoles()),
             ),
             BlocProvider(
@@ -160,6 +161,9 @@ class _MyAppState extends State<MyApp> {
             ),
             BlocProvider(
               create: ((context) => AddressCubit()),
+            ),
+            BlocProvider(
+              create: ((context) => CrewCubit()),
             ),
           ],
           child: BlocConsumer<GlobalCubit, GlobalState>(

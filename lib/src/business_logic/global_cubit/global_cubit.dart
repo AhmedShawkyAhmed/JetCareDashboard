@@ -5,10 +5,12 @@ import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
 import 'package:jetboard/src/data/network/responses/period_response.dart';
 import 'package:jetboard/src/data/network/responses/statistics_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/screens/ads/ads.dart';
+import 'package:jetboard/src/presentation/screens/crews/crews.dart';
 import 'package:jetboard/src/presentation/screens/home/home.dart';
 import 'package:jetboard/src/presentation/screens/info/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
@@ -21,6 +23,7 @@ import 'package:jetboard/src/presentation/screens/support/support.dart';
 import 'package:jetboard/src/presentation/screens/users/users.dart';
 
 import '../../data/models/items_model.dart';
+import '../../data/models/orders_model.dart';
 import '../../data/network/responses/items_response.dart';
 import '../../data/network/responses/packages_response.dart';
 import '../../presentation/screens/areas/areas.dart';
@@ -45,6 +48,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   PackagesResponse? packagesResponse;
   ItemsResponse? getItemsResponse,itemsResponse;
   StatisticsResponse? statisticsResponse;
+  CrewAreaResponse? crewAreaResponse;
   int listCount = 0;
   int selectedIndex = 0;
   bool isShadow = true;
@@ -54,6 +58,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   List<String> clients = [];
   List<String> packages = [];
   List<String> items = [];
+  List<User> crews = [];
   List<ItemsModel> itemListForPackages = [];
 
   List<Widget> pages = [
@@ -61,6 +66,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     const Orders(), //2
     const Corporates(), //3
     const Users(), //4
+    const Crews(), //4
     const Category(), //5
     const Packages(), //6
     const Items(), //7
@@ -96,16 +102,15 @@ class GlobalCubit extends Cubit<GlobalState> {
     try {
       emit(CrewLoadingState());
       await DioHelper.getData(
-        url: EndPoints.getCrew,
+        url: EndPoints.getCrewOfAreas,
         query: {
           "areaId": areaId,
         },
       ).then((value) {
         printSuccess(value.data.toString());
-        crewResponse = UserResponse.fromJson(value.data);
-        for (var i = 0; i < crewResponse!.userModel!.length; i++) {
-          crews.add(crewResponse!.userModel![i].name);
-          userId.add(crewResponse!.userModel![i].id);
+        crewAreaResponse = CrewAreaResponse.fromJson(value.data);
+        for (var i = 0; i < crewAreaResponse!.crews!.length; i++) {
+          crews.add(crewAreaResponse!.crews![i].crew!);
         }
         emit(CrewSuccessState());
       });

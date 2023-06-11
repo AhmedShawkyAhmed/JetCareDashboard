@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/data/network/responses/area_response.dart';
-import 'package:meta/meta.dart';
 
 import '../../constants/constants_methods.dart';
 import '../../constants/end_points.dart';

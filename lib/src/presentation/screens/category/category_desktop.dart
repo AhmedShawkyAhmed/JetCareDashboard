@@ -5,7 +5,6 @@ import 'package:jetboard/src/presentation/views/add_category_items.dart';
 import 'package:jetboard/src/presentation/views/add_packages.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../business_logic/category_cubit/category_cubit.dart';
 import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../constants/constants_methods.dart';
@@ -38,18 +37,10 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
   TextEditingController nameAr = TextEditingController();
   TextEditingController descriptionEn = TextEditingController();
   TextEditingController descriptionAr = TextEditingController();
-  String dropdownvalue = 'Item 1';
   SampleItem? selectedMenu;
-  int currentIndex = 0;
-  List<bool> isChecked = List.generate(2000, (index) => false);
-  List<int> itemsId = [];
 
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
-    var cubitC = CategoryCubit.get(context);
-    //var cubitP = PackagesCubit.get(context);
-
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
       backgroundColor: AppColors.green,
@@ -85,13 +76,14 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                       controller: search,
                       onChange: (value) {
                         if (value == "") {
-                          cubitC.getCategories();
+                          CategoryCubit.get(context).getCategories();
                         }
                       },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          cubitC.getCategories(keyword: search.text);
+                          CategoryCubit.get(context)
+                              .getCategories(keyword: search.text);
                           printResponse(search.text);
                         },
                         color: AppColors.black,
@@ -101,7 +93,6 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -110,11 +101,12 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                         AppColors.green,
                         AppColors.lightgreen,
                       ],
-                      fontSize: 5.sp,
+                      fontSize: 4.sp,
+                      haveShadow: false,
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          cubit.isedit = false;
+                          GlobalCubit.get(context).isedit = false;
                           nameEn.clear();
                           descriptionEn.clear();
                           nameAr.clear();
@@ -131,11 +123,15 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                 child: ListBody(
                                   children: <Widget>[
                                     const DefaultText(
-                                        text: "Add New Category",
-                                        align: TextAlign.center),
+                                      text: "Add New Category",
+                                      align: TextAlign.center,
+                                    ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: DefaultTextField(
                                         validator: nameAr.text,
                                         password: false,
@@ -153,7 +149,10 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: DefaultTextField(
                                         validator: nameEn.text,
                                         password: false,
@@ -171,7 +170,10 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: SizedBox(
                                         height: 20.h,
                                         child: DefaultTextField(
@@ -195,7 +197,10 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: DefaultTextField(
                                         validator: descriptionEn.text,
                                         password: false,
@@ -214,152 +219,175 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                       ),
                                     ),
                                     Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 2.h, left: 3.w, right: 3.w),
-                                        child: BlocBuilder<CategoryCubit,
-                                            CategoryState>(
-                                          builder: (context, state) {
-                                            return Container(
-                                              height: 20.h,
-                                              width: 20.w,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: AppColors.grey),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20)),
-                                              child: cubit.isedit
-                                                  ? Stack(
-                                                      children: [
-                                                        ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20),
-                                                            child: imageApp ==
+                                      padding: EdgeInsets.only(
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
+                                      child: BlocBuilder<CategoryCubit,
+                                          CategoryState>(
+                                        builder: (context, state) {
+                                          return Container(
+                                            height: 20.h,
+                                            width: 20.w,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: AppColors.grey,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: GlobalCubit.get(context)
+                                                    .isedit
+                                                ? Stack(
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        child: imageApp == null
+                                                            ? CategoryCubit.get(
+                                                                            context)
+                                                                        .fileResult ==
                                                                     null
-                                                                ? cubitC.fileResult ==
-                                                                        null
-                                                                    ? Container()
-                                                                    : Image
-                                                                        .memory(
-                                                                        cubitC
-                                                                            .fileResult!
-                                                                            .files
-                                                                            .first
-                                                                            .bytes!,
-                                                                        fit: BoxFit
-                                                                            .fitWidth,
-                                                                        width:
-                                                                            100.w,
-                                                                      )
-                                                                : Image.network(
-                                                                    imageDomain +
-                                                                        imageApp!,
+                                                                ? Container()
+                                                                : Image.memory(
+                                                                    CategoryCubit.get(
+                                                                            context)
+                                                                        .fileResult!
+                                                                        .files
+                                                                        .first
+                                                                        .bytes!,
                                                                     fit: BoxFit
                                                                         .fitWidth,
                                                                     width:
                                                                         100.w,
-                                                                  )),
-                                                        Container(
-                                                          height: 4.h,
-                                                          width: 3.w,
-                                                          decoration: const BoxDecoration(
-                                                              borderRadius: BorderRadius.only(
+                                                                  )
+                                                            : Image.network(
+                                                                imageDomain +
+                                                                    imageApp!,
+                                                                fit: BoxFit
+                                                                    .fitWidth,
+                                                                width: 100.w,
+                                                              ),
+                                                      ),
+                                                      Container(
+                                                        height: 4.h,
+                                                        width: 3.w,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
                                                                   topLeft: Radius
                                                                       .circular(
                                                                           20),
                                                                   bottomRight: Radius
                                                                       .circular(
-                                                                          20)),
-                                                              color: AppColors
-                                                                  .green),
-                                                          child: IconButton(
-                                                              onPressed: () {
-                                                                cubitC
-                                                                    .pickImage();
-                                                                imageApp = null;
-                                                                printSuccess(cubitC
+                                                                          20),
+                                                                ),
+                                                                color: AppColors
+                                                                    .green),
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            CategoryCubit.get(
+                                                                    context)
+                                                                .pickImage();
+                                                            imageApp = null;
+                                                            printSuccess(
+                                                                CategoryCubit.get(
+                                                                        context)
                                                                     .fileResult
                                                                     .toString());
-                                                              },
-                                                              icon: const Icon(
-                                                                Icons.edit,
-                                                                color: AppColors
-                                                                    .white,
-                                                              )),
-                                                        )
-                                                      ],
-                                                    )
-                                                  : cubitC.fileResult == null
-                                                      ? Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            const Icon(
-                                                                Icons.image),
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  cubitC
-                                                                      .pickImage();
-                                                                },
-                                                                child: const Text(
-                                                                    'Select Image'))
-                                                          ],
-                                                        )
-                                                      : Stack(
-                                                          children: [
-                                                            ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20),
-                                                                child: Image
-                                                                    .memory(
-                                                                  cubitC
-                                                                      .fileResult!
-                                                                      .files
-                                                                      .first
-                                                                      .bytes!,
-                                                                  fit: BoxFit
-                                                                      .fitWidth,
-                                                                  width: 100.w,
-                                                                )),
-                                                            Container(
-                                                              height: 4.h,
-                                                              width: 3.w,
-                                                              decoration: const BoxDecoration(
-                                                                  borderRadius: BorderRadius.only(
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.edit,
+                                                            color:
+                                                                AppColors.white,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                : CategoryCubit.get(context)
+                                                            .fileResult ==
+                                                        null
+                                                    ? Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          const Icon(
+                                                              Icons.image),
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              CategoryCubit.get(
+                                                                      context)
+                                                                  .pickImage();
+                                                            },
+                                                            child: const Text(
+                                                                'Select Image'),
+                                                          )
+                                                        ],
+                                                      )
+                                                    : Stack(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            child: Image.memory(
+                                                              CategoryCubit.get(
+                                                                      context)
+                                                                  .fileResult!
+                                                                  .files
+                                                                  .first
+                                                                  .bytes!,
+                                                              fit: BoxFit
+                                                                  .fitWidth,
+                                                              width: 100.w,
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            height: 4.h,
+                                                            width: 3.w,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
                                                                       topLeft: Radius
                                                                           .circular(
                                                                               20),
                                                                       bottomRight:
                                                                           Radius.circular(
-                                                                              20)),
-                                                                  color: AppColors
-                                                                      .green),
-                                                              child: IconButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    cubitC
-                                                                        .pickImage();
-                                                                  },
-                                                                  icon:
-                                                                      const Icon(
-                                                                    Icons.edit,
+                                                                              20),
+                                                                    ),
                                                                     color: AppColors
-                                                                        .white,
-                                                                  )),
-                                                            )
-                                                          ],
-                                                        ),
-                                            );
-                                          },
-                                        )),
+                                                                        .green),
+                                                            child: IconButton(
+                                                              onPressed: () {
+                                                                CategoryCubit.get(
+                                                                        context)
+                                                                    .pickImage();
+                                                              },
+                                                              icon: const Icon(
+                                                                Icons.edit,
+                                                                color: AppColors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -368,18 +396,20 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                 DefaultAppButton(
                                   title: "Save",
                                   onTap: () {
-                                    cubitC.addCategories(
-                                        categoryRequest: CategoryRequest(
-                                      nameEn: nameEn.text,
-                                      descriptionEn: descriptionEn.text,
-                                      nameAr: nameAr.text,
-                                      descriptionAr: descriptionAr.text,
-                                    ));
+                                    CategoryCubit.get(context).addCategories(
+                                      categoryRequest: CategoryRequest(
+                                        nameEn: nameEn.text,
+                                        descriptionEn: descriptionEn.text,
+                                        nameAr: nameAr.text,
+                                        descriptionAr: descriptionAr.text,
+                                      ),
+                                    );
                                     nameEn.clear();
                                     descriptionEn.clear();
                                     nameAr.clear();
                                     descriptionAr.clear();
-                                    cubitC.fileResult = null;
+                                    CategoryCubit.get(context).fileResult =
+                                        null;
                                     Navigator.pop(context);
                                   },
                                   width: 10.w,
@@ -426,15 +456,19 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                       child: SizedBox(
                         height: 79.h,
                         child: ListView.builder(
-                            itemCount: 6,
-                            itemBuilder: (context, index) => Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 0.5.h, left: 3.2.w, right: 2.5),
-                                  child: LoadingView(
-                                    width: 90.w,
-                                    height: 5.h,
-                                  ),
-                                )),
+                          itemCount: 6,
+                          itemBuilder: (context, index) => Padding(
+                            padding: EdgeInsets.only(
+                              top: 0.5.h,
+                              left: 3.2.w,
+                              right: 2.5,
+                            ),
+                            child: LoadingView(
+                              width: 90.w,
+                              height: 5.h,
+                            ),
+                          ),
+                        ),
                       ),
                     );
                   } else if (CategoryCubit.get(context)
@@ -454,207 +488,208 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                     child: SizedBox(
                       height: 90.h,
                       child: ListView.builder(
-                        itemCount: cubitC.listCount,
+                        itemCount: CategoryCubit.get(context).listCount,
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(
-                              top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
+                            top: 2.h,
+                            left: 3.2.w,
+                            right: 2.5.w,
+                            bottom: 1.h,
+                          ),
                           child: RowData(
                             rowHeight: 8.h,
                             data: [
                               Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'English Name',
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 0.5.h,
-                                      ),
-                                      Text(
-                                        cubitC.categoryList[index].nameEn
-                                            .toString(),
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                    ],
-                                  )),
+                                flex: 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'English Name',
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      CategoryCubit.get(context)
+                                          .categoryList[index]
+                                          .nameEn
+                                          .toString(),
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Arabic Name',
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 0.5.h,
-                                      ),
-                                      Text(
-                                        cubitC.categoryList[index].nameAr
-                                            .toString(),
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                    ],
-                                  )),
+                                flex: 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Arabic Name',
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      CategoryCubit.get(context)
+                                          .categoryList[index]
+                                          .nameAr
+                                          .toString(),
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Expanded(
-                                  flex: 1,
-                                  child: Image.network(
-                                    imageDomain +
-                                        cubitC.categoryList[index].image,
-                                    height: 6.h,
-                                  )),
+                                flex: 1,
+                                child: Image.network(
+                                  imageDomain +
+                                      CategoryCubit.get(context)
+                                          .categoryList[index]
+                                          .image,
+                                  height: 6.h,
+                                ),
+                              ),
                               SizedBox(
                                 width: 2.w,
                               ),
                               SizedBox(
                                 height: 3.h,
                                 child: CircleAvatar(
-                                  backgroundColor:
-                                      cubitC.categoryList[index].active == 1
-                                          ? AppColors.green
-                                          : AppColors.red,
+                                  backgroundColor: CategoryCubit.get(context)
+                                              .categoryList[index]
+                                              .active ==
+                                          1
+                                      ? AppColors.green
+                                      : AppColors.red,
                                 ),
                               ),
                               SizedBox(
                                 width: 3.w,
                               ),
                               Switch(
-                                  value: cubitC.categoryList[index].active == 1
-                                      ? true
-                                      : false,
-                                  activeColor: AppColors.green,
-                                  activeTrackColor: AppColors.lightgreen,
-                                  inactiveThumbColor: AppColors.red,
-                                  inactiveTrackColor: AppColors.lightGrey,
-                                  splashRadius: 3.0,
-                                  onChanged: (value) {
-                                    cubitC.switched(index);
-                                    cubitC.updateCategoriesStatus(
-                                      index: index,
-                                      categoryRequest: CategoryRequest(
-                                        id: cubitC.categoryList[index].id,
-                                        active: cubitC.categoryList[index]
-                                                .active.isOdd
-                                            ? 1
-                                            : 0,
-                                      ),
-                                      //indexs: index,
-                                    );
-                                  }),
+                                value: CategoryCubit.get(context)
+                                            .categoryList[index]
+                                            .active ==
+                                        1
+                                    ? true
+                                    : false,
+                                activeColor: AppColors.green,
+                                activeTrackColor: AppColors.lightgreen,
+                                inactiveThumbColor: AppColors.red,
+                                inactiveTrackColor: AppColors.lightGrey,
+                                splashRadius: 3.0,
+                                onChanged: (value) {
+                                  CategoryCubit.get(context).switched(index);
+                                  CategoryCubit.get(context)
+                                      .updateCategoriesStatus(
+                                    index: index,
+                                    categoryRequest: CategoryRequest(
+                                      id: CategoryCubit.get(context)
+                                          .categoryList[index]
+                                          .id,
+                                      active: CategoryCubit.get(context)
+                                              .categoryList[index]
+                                              .active
+                                              .isOdd
+                                          ? 1
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                              ),
                               SizedBox(
                                 width: 1.w,
                               ),
                               IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      cubit.isedit = true;
-                                      nameEn.text =
-                                          cubitC.categoryList[index].nameEn;
-                                      descriptionEn.text = cubitC
-                                          .categoryList[index].descriptionEn;
-                                      nameAr.text =
-                                          cubitC.categoryList[index].nameAr;
-                                      descriptionAr.text = cubitC
-                                          .categoryList[index].descriptionAr;
-                                      imageApp =
-                                          cubitC.categoryList[index].image;
-                                    });
-                                    showDialog<void>(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          backgroundColor: AppColors.white,
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: <Widget>[
-                                                const DefaultText(
-                                                    text: "Update Category",
-                                                    align: TextAlign.center),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 2.h,
-                                                      left: 3.w,
-                                                      right: 3.w),
-                                                  child: DefaultTextField(
-                                                    validator: nameAr.text,
-                                                    password: false,
-                                                    controller: nameAr,
-                                                    height: 5.h,
-                                                    fontSize: 3.sp,
-                                                    haveShadow: true,
-                                                    spreadRadius: 2,
-                                                    blurRadius: 2,
-                                                    color: AppColors.white,
-                                                    shadowColor: AppColors.black
-                                                        .withOpacity(0.05),
-                                                    hintText: 'Arabic Name',
-                                                  ),
+                                onPressed: () {
+                                  setState(() {
+                                    GlobalCubit.get(context).isedit = true;
+                                    nameEn.text = CategoryCubit.get(context)
+                                        .categoryList[index]
+                                        .nameEn;
+                                    descriptionEn.text =
+                                        CategoryCubit.get(context)
+                                            .categoryList[index]
+                                            .descriptionEn;
+                                    nameAr.text = CategoryCubit.get(context)
+                                        .categoryList[index]
+                                        .nameAr;
+                                    descriptionAr.text =
+                                        CategoryCubit.get(context)
+                                            .categoryList[index]
+                                            .descriptionAr;
+                                    imageApp = CategoryCubit.get(context)
+                                        .categoryList[index]
+                                        .image;
+                                  });
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: AppColors.white,
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              const DefaultText(
+                                                  text: "Update Category",
+                                                  align: TextAlign.center),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: nameAr.text,
+                                                  password: false,
+                                                  controller: nameAr,
+                                                  height: 5.h,
+                                                  fontSize: 3.sp,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText: 'Arabic Name',
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 2.h,
-                                                      left: 3.w,
-                                                      right: 3.w),
-                                                  child: DefaultTextField(
-                                                    validator: nameEn.text,
-                                                    password: false,
-                                                    controller: nameEn,
-                                                    height: 5.h,
-                                                    fontSize: 3.sp,
-                                                    haveShadow: true,
-                                                    spreadRadius: 2,
-                                                    blurRadius: 2,
-                                                    color: AppColors.white,
-                                                    shadowColor: AppColors.black
-                                                        .withOpacity(0.05),
-                                                    hintText: 'English Name',
-                                                  ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: nameEn.text,
+                                                  password: false,
+                                                  controller: nameEn,
+                                                  height: 5.h,
+                                                  fontSize: 3.sp,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText: 'English Name',
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 2.h,
-                                                      left: 3.w,
-                                                      right: 3.w),
-                                                  child: SizedBox(
-                                                    height: 20.h,
-                                                    child: DefaultTextField(
-                                                      validator:
-                                                          descriptionAr.text,
-                                                      password: false,
-                                                      controller: descriptionAr,
-                                                      height: 20.h,
-                                                      keyboardType:
-                                                          TextInputType
-                                                              .multiline,
-                                                      fontSize: 3.sp,
-                                                      haveShadow: true,
-                                                      spreadRadius: 2,
-                                                      blurRadius: 2,
-                                                      maxLine: 7,
-                                                      collapsed: true,
-                                                      color: AppColors.white,
-                                                      shadowColor: AppColors
-                                                          .black
-                                                          .withOpacity(0.05),
-                                                      hintText:
-                                                          'Arabic Description',
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 2.h,
-                                                      left: 3.w,
-                                                      right: 3.w),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: SizedBox(
+                                                  height: 20.h,
                                                   child: DefaultTextField(
                                                     validator:
-                                                        descriptionEn.text,
+                                                        descriptionAr.text,
                                                     password: false,
-                                                    controller: descriptionEn,
+                                                    controller: descriptionAr,
                                                     height: 20.h,
                                                     keyboardType:
                                                         TextInputType.multiline,
@@ -663,56 +698,177 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                     spreadRadius: 2,
                                                     blurRadius: 2,
                                                     maxLine: 7,
+                                                    collapsed: true,
                                                     color: AppColors.white,
                                                     shadowColor: AppColors.black
                                                         .withOpacity(0.05),
                                                     hintText:
-                                                        'English Description',
+                                                        'Arabic Description',
                                                   ),
                                                 ),
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 2.h,
-                                                        left: 3.w,
-                                                        right: 3.w),
-                                                    child: BlocBuilder<
-                                                        CategoryCubit,
-                                                        CategoryState>(
-                                                      builder:
-                                                          (context, state) {
-                                                        return Container(
-                                                          height: 20.h,
-                                                          width: 20.w,
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color:
-                                                                      AppColors
-                                                                          .grey),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20)),
-                                                          child: cubit.isedit
-                                                              ? Stack(
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
+                                                child: DefaultTextField(
+                                                  validator: descriptionEn.text,
+                                                  password: false,
+                                                  controller: descriptionEn,
+                                                  height: 20.h,
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  fontSize: 3.sp,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  maxLine: 7,
+                                                  color: AppColors.white,
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
+                                                  hintText:
+                                                      'English Description',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 2.h,
+                                                  left: 3.w,
+                                                  right: 3.w,
+                                                ),
+                                                child: BlocBuilder<
+                                                    CategoryCubit,
+                                                    CategoryState>(
+                                                  builder: (context, state) {
+                                                    return Container(
+                                                      height: 20.h,
+                                                      width: 20.w,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: AppColors.grey,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                      child: GlobalCubit.get(
+                                                                  context)
+                                                              .isedit
+                                                          ? Stack(
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  child: imageApp ==
+                                                                          null
+                                                                      ? CategoryCubit.get(context).fileResult ==
+                                                                              null
+                                                                          ? Container()
+                                                                          : Image
+                                                                              .memory(
+                                                                              CategoryCubit.get(context).fileResult!.files.first.bytes!,
+                                                                              fit: BoxFit.fitWidth,
+                                                                              width: 100.w,
+                                                                            )
+                                                                      : Image
+                                                                          .network(
+                                                                          imageDomain +
+                                                                              imageApp!,
+                                                                          fit: BoxFit
+                                                                              .fitWidth,
+                                                                          width:
+                                                                              100.w,
+                                                                        ),
+                                                                ),
+                                                                Container(
+                                                                  height: 4.h,
+                                                                  width: 3.w,
+                                                                  decoration:
+                                                                      const BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .only(
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              20),
+                                                                      bottomRight:
+                                                                          Radius.circular(
+                                                                              20),
+                                                                    ),
+                                                                    color: AppColors
+                                                                        .green,
+                                                                  ),
+                                                                  child:
+                                                                      IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      CategoryCubit.get(
+                                                                              context)
+                                                                          .pickImage();
+                                                                      imageApp =
+                                                                          null;
+                                                                      printSuccess(CategoryCubit.get(
+                                                                              context)
+                                                                          .fileResult
+                                                                          .toString());
+                                                                    },
+                                                                    icon:
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .edit,
+                                                                      color: AppColors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )
+                                                          : CategoryCubit.get(
+                                                                          context)
+                                                                      .fileResult ==
+                                                                  null
+                                                              ? Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    const Icon(Icons
+                                                                        .image),
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        CategoryCubit.get(context)
+                                                                            .pickImage();
+                                                                      },
+                                                                      child: const Text(
+                                                                          'Select Image'),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              : Stack(
                                                                   children: [
                                                                     ClipRRect(
                                                                         borderRadius:
                                                                             BorderRadius.circular(
                                                                                 20),
-                                                                        child: imageApp ==
-                                                                                null
-                                                                            ? cubitC.fileResult == null
-                                                                                ? Container()
-                                                                                : Image.memory(
-                                                                                    cubitC.fileResult!.files.first.bytes!,
-                                                                                    fit: BoxFit.fitWidth,
-                                                                                    width: 100.w,
-                                                                                  )
-                                                                            : Image.network(
-                                                                                imageDomain + imageApp!,
-                                                                                fit: BoxFit.fitWidth,
-                                                                                width: 100.w,
-                                                                              )),
+                                                                        child: Image
+                                                                            .memory(
+                                                                          CategoryCubit.get(context)
+                                                                              .fileResult!
+                                                                              .files
+                                                                              .first
+                                                                              .bytes!,
+                                                                          fit: BoxFit
+                                                                              .fitWidth,
+                                                                          width:
+                                                                              100.w,
+                                                                        )),
                                                                     Container(
                                                                       height:
                                                                           4.h,
@@ -723,137 +879,95 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                                               topLeft: Radius.circular(20),
                                                                               bottomRight: Radius.circular(20)),
                                                                           color: AppColors.green),
-                                                                      child: IconButton(
-                                                                          onPressed: () {
-                                                                            cubitC.pickImage();
-                                                                            imageApp =
-                                                                                null;
-                                                                            printSuccess(cubitC.fileResult.toString());
-                                                                          },
-                                                                          icon: const Icon(
-                                                                            Icons.edit,
-                                                                            color:
-                                                                                AppColors.white,
-                                                                          )),
+                                                                      child:
+                                                                          IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          CategoryCubit.get(context)
+                                                                              .pickImage();
+                                                                        },
+                                                                        icon:
+                                                                            const Icon(
+                                                                          Icons
+                                                                              .edit,
+                                                                          color:
+                                                                              AppColors.white,
+                                                                        ),
+                                                                      ),
                                                                     )
                                                                   ],
-                                                                )
-                                                              : cubitC.fileResult ==
-                                                                      null
-                                                                  ? Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        const Icon(
-                                                                            Icons.image),
-                                                                        TextButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              cubitC.pickImage();
-                                                                            },
-                                                                            child:
-                                                                                const Text('Select Image'))
-                                                                      ],
-                                                                    )
-                                                                  : Stack(
-                                                                      children: [
-                                                                        ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(20),
-                                                                            child: Image.memory(
-                                                                              cubitC.fileResult!.files.first.bytes!,
-                                                                              fit: BoxFit.fitWidth,
-                                                                              width: 100.w,
-                                                                            )),
-                                                                        Container(
-                                                                          height:
-                                                                              4.h,
-                                                                          width:
-                                                                              3.w,
-                                                                          decoration: const BoxDecoration(
-                                                                              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                                                              color: AppColors.green),
-                                                                          child: IconButton(
-                                                                              onPressed: () {
-                                                                                cubitC.pickImage();
-                                                                              },
-                                                                              icon: const Icon(
-                                                                                Icons.edit,
-                                                                                color: AppColors.white,
-                                                                              )),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                        );
-                                                      },
-                                                    )),
-                                              ],
-                                            ),
+                                                                ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          actionsAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          actions: <Widget>[
-                                            DefaultAppButton(
-                                              title: "Save",
-                                              onTap: () {
-                                                cubitC.updateCategories(
-                                                  index: index,
-                                                  categoryRequest:
-                                                      CategoryRequest(
-                                                    id: cubitC
-                                                        .categoryList[index].id,
-                                                    nameEn: nameEn.text,
-                                                    descriptionEn:
-                                                        descriptionEn.text,
-                                                    nameAr: nameAr.text,
-                                                    descriptionAr:
-                                                        descriptionAr.text,
-                                                  ),
-                                                );
-                                                nameEn.clear();
-                                                descriptionEn.clear();
-                                                nameAr.clear();
-                                                descriptionAr.clear();
-                                                cubitC.fileResult = null;
-                                                Navigator.pop(context);
-                                              },
-                                              width: 10.w,
-                                              height: 4.h,
-                                              fontSize: 3.sp,
-                                              textColor: AppColors.white,
-                                              buttonColor: AppColors.pc,
-                                              isGradient: false,
-                                              radius: 10,
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            DefaultAppButton(
-                                              title: "Cancel",
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              width: 10.w,
-                                              height: 4.h,
-                                              fontSize: 3.sp,
-                                              textColor: AppColors.mainColor,
-                                              buttonColor: AppColors.lightGrey,
-                                              isGradient: false,
-                                              radius: 10,
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: AppColors.grey,
-                                  )),
+                                        ),
+                                        actionsAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        actions: <Widget>[
+                                          DefaultAppButton(
+                                            title: "Save",
+                                            onTap: () {
+                                              CategoryCubit.get(context)
+                                                  .updateCategories(
+                                                index: index,
+                                                categoryRequest:
+                                                    CategoryRequest(
+                                                  id: CategoryCubit.get(context)
+                                                      .categoryList[index]
+                                                      .id,
+                                                  nameEn: nameEn.text,
+                                                  descriptionEn:
+                                                      descriptionEn.text,
+                                                  nameAr: nameAr.text,
+                                                  descriptionAr:
+                                                      descriptionAr.text,
+                                                ),
+                                              );
+                                              nameEn.clear();
+                                              descriptionEn.clear();
+                                              nameAr.clear();
+                                              descriptionAr.clear();
+                                              CategoryCubit.get(context)
+                                                  .fileResult = null;
+                                              Navigator.pop(context);
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.white,
+                                            buttonColor: AppColors.pc,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          DefaultAppButton(
+                                            title: "Cancel",
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            width: 10.w,
+                                            height: 4.h,
+                                            fontSize: 3.sp,
+                                            textColor: AppColors.mainColor,
+                                            buttonColor: AppColors.lightGrey,
+                                            isGradient: false,
+                                            radius: 10,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: AppColors.grey,
+                                ),
+                              ),
                               SizedBox(
                                 width: 1.w,
                               ),
@@ -864,29 +978,37 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                 ),
                                 initialValue: selectedMenu,
                                 onSelected: (SampleItem item) {
-                                  setState(() {
-                                    selectedMenu = item;
-                                    printSuccess(item.toString());
-                                    if (item == SampleItem.addPackage) {
-                                      showDialog(
+                                  setState(
+                                    () {
+                                      selectedMenu = item;
+                                      printSuccess(item.toString());
+                                      if (item == SampleItem.addPackage) {
+                                        showDialog(
                                           context: context,
                                           builder: (context) {
                                             return AddPackages(
                                               packageId:
-                                                  cubitC.categoryList[index].id,
+                                                  CategoryCubit.get(context)
+                                                      .categoryList[index]
+                                                      .id,
                                             );
-                                          });
-                                    } else if (item == SampleItem.addItems) {
-                                      showDialog(
+                                          },
+                                        );
+                                      } else if (item == SampleItem.addItems) {
+                                        showDialog(
                                           context: context,
                                           builder: (context) {
                                             return AddCategoryItems(
                                               CategoryId:
-                                                  cubitC.categoryList[index].id,
+                                                  CategoryCubit.get(context)
+                                                      .categoryList[index]
+                                                      .id,
                                             );
-                                          });
-                                    }
-                                  });
+                                          },
+                                        );
+                                      }
+                                    },
+                                  );
                                 },
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<SampleItem>>[
@@ -907,35 +1029,43 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                 ),
                                 initialValue: selectedMenu,
                                 onSelected: (SampleItem item) {
-                                  setState(() {
-                                    selectedMenu = item;
-                                    printSuccess(item.toString());
-                                    if (item == SampleItem.viewPackage) {
-                                      cubitC.getCategoriesPackages(
-                                        id: cubitC.categoryList[index].id,
-                                        afterSucccess: () {
-                                          showDialog(
+                                  setState(
+                                    () {
+                                      selectedMenu = item;
+                                      printSuccess(item.toString());
+                                      if (item == SampleItem.viewPackage) {
+                                        CategoryCubit.get(context)
+                                            .getCategoriesPackages(
+                                          id: CategoryCubit.get(context)
+                                              .categoryList[index]
+                                              .id,
+                                          afterSucccess: () {
+                                            showDialog(
                                               context: context,
                                               builder: (context) {
-                                                return const ViewPackages(
-
-                                                );
-                                              });
-                                        },
-                                      );
-                                    } else if (item == SampleItem.viewItems) {
-                                      cubitC.getCategoriesItems(
-                                        id: cubitC.categoryList[index].id,
-                                        afterSucccess: () {
-                                          showDialog(
+                                                return const ViewPackages();
+                                              },
+                                            );
+                                          },
+                                        );
+                                      } else if (item == SampleItem.viewItems) {
+                                        CategoryCubit.get(context)
+                                            .getCategoriesItems(
+                                          id: CategoryCubit.get(context)
+                                              .categoryList[index]
+                                              .id,
+                                          afterSucccess: () {
+                                            showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return const ViewCategoryItems();
-                                              });
-                                        },
-                                      );
-                                    }
-                                  });
+                                              },
+                                            );
+                                          },
+                                        );
+                                      }
+                                    },
+                                  );
                                 },
                                 itemBuilder: (BuildContext context) =>
                                     <PopupMenuEntry<SampleItem>>[
@@ -949,35 +1079,15 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                   ),
                                 ],
                               ),
-                              // IconButton(
-                              //     onPressed: () {
-                              //       cubitC.getCategoriesPackages(
-                              //         id: cubitC.categoryList[index].id,
-                              //         afterSucccess: () {
-                              //           showDialog(
-                              //             context: context,
-                              //             builder: (context) {
-                              //               return ViewPackages(
-                              //                 package:
-                              //                     cubitC.categoryPackagesList,
-                              //                 indexs: index,
-                              //               );
-                              //             });
-                              //         },
-                              //       );
-                              //     },
-                              //     icon: const Icon(
-                              //       Icons.remove_red_eye,
-                              //       color: AppColors.grey,
-                              //     )),
                               SizedBox(
                                 width: 2.w,
                               ),
                               IconButton(
                                   onPressed: () {
-                                    cubitC.deleteCategories(
-                                        packagesModel:
-                                            cubitC.categoryList[index]);
+                                    CategoryCubit.get(context).deleteCategories(
+                                      packagesModel: CategoryCubit.get(context)
+                                          .categoryList[index],
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.delete,

@@ -78,7 +78,7 @@ class _CreateOrderState extends State<CreateOrder> {
   int clientId = 0;
   String address = "";
   int addressId = 0;
-  bool newClient = false;
+  bool newClient = true;
   int stateId = 0;
   int areaId = 0;
   int packageId = 0;
@@ -97,8 +97,9 @@ class _CreateOrderState extends State<CreateOrder> {
         child: Container(
           width: 70.w,
           height: 75.h,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.white,
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             children: [
@@ -766,7 +767,7 @@ class _CreateOrderState extends State<CreateOrder> {
                               } else {
                                 IndicatorView.showIndicator(context);
                                 UsersCubit.get(context).addUser(
-                                  userRequset: UserRequset(
+                                  userRequest: UserRequset(
                                     phone: phoneController.text,
                                     email: emailController.text == ""
                                         ? "empty"
@@ -775,6 +776,9 @@ class _CreateOrderState extends State<CreateOrder> {
                                     role: "client",
                                     name: nameController.text,
                                   ),
+                                  onError: (){
+                                    Navigator.pop(context);
+                                  },
                                   afterSuccess: () {
                                     AddressCubit.get(context).addAddress(
                                       addressRequest: AddressRequest(

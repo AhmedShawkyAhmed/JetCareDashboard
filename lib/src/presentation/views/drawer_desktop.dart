@@ -13,6 +13,7 @@ class DrawerListDesktop extends StatelessWidget {
     "Orders",
     "Corporates",
     "Users",
+    "Crews",
     "Category",
     "Offers",
     "Items",
@@ -42,6 +43,10 @@ class DrawerListDesktop extends StatelessWidget {
     ),
     const Icon(
       Icons.person,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.perm_contact_cal_sharp,
       color: AppColors.white,
     ),
     const Icon(

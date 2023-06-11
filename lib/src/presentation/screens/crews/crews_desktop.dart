@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/business_logic/crew_cubit/crew_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
+import '../../views/crew_area.dart';
 import '../../views/loading_view.dart';
 import '../../widgets/default_app_button.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/default_text_field.dart';
 
-class UsersDesktop extends StatefulWidget {
-  const UsersDesktop({super.key});
+class CrewsDesktop extends StatefulWidget {
+  const CrewsDesktop({super.key});
 
   @override
-  State<UsersDesktop> createState() => _UsersDesktopState();
+  State<CrewsDesktop> createState() => _CrewsDesktopState();
 }
 
-class _UsersDesktopState extends State<UsersDesktop> {
+class _CrewsDesktopState extends State<CrewsDesktop> {
   TextEditingController search = TextEditingController();
   TextEditingController fullName = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -30,7 +33,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UsersCubit()..getUser(type: "client"),
+      create: (context) => UsersCubit()..getUser(type: "crew"),
       child: Scaffold(
         drawerScrimColor: AppColors.transparent,
         backgroundColor: AppColors.green,
@@ -67,15 +70,14 @@ class _UsersDesktopState extends State<UsersDesktop> {
                           controller: search,
                           onChange: (value) {
                             if (value == "") {
-                              UsersCubit.get(context).getUser(type: "client");
+                              UsersCubit.get(context).getUser(type: "crew");
                             }
                           },
                           suffix: IconButton(
                             icon: const Icon(Icons.search),
                             onPressed: () {
-                              UsersCubit.get(context).getUser(
-                                  type: "client", keyword: search.text);
-                              //cubitU.getUser(type: '');
+                              UsersCubit.get(context)
+                                  .getUser(type: "crew", keyword: search.text);
                               printResponse(search.text);
                             },
                             color: AppColors.black,
@@ -216,13 +218,14 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                           DefaultToast.showMyToast(
                                               "Please Enter Password more than 8 Characters");
                                         } else {
+                                          IndicatorView.showIndicator(context);
                                           UsersCubit.get(context).addUser(
                                             userRequest: UserRequset(
                                               name: fullName.text,
                                               phone: phone.text,
                                               email: email.text,
                                               password: password.text,
-                                              role: "client",
+                                              role: "crew",
                                             ),
                                             onError: () {
                                               Navigator.pop(context);
@@ -231,7 +234,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               UsersCubit.get(context)
-                                                  .getUser(type: "client");
+                                                  .getUser(type: "crew");
                                               fullName.clear();
                                               phone.clear();
                                               email.clear();
@@ -304,7 +307,6 @@ class _UsersDesktopState extends State<UsersDesktop> {
                           ),
                         );
                       }
-
                       return Padding(
                         padding: EdgeInsets.only(top: 2.h),
                         child: SizedBox(
@@ -455,6 +457,52 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                         ),
                                       );
                                     },
+                                  ),
+                                  SizedBox(
+                                    width: 1.w,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      int crewId = UsersCubit.get(context)
+                                          .userList[index]
+                                          .id;
+                                      IndicatorView.showIndicator(context);
+                                      CrewCubit.get(context).getArea(
+                                        crewId: crewId,
+                                        afterSuccess: () {
+                                          Navigator.pop(context);
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return CrewArea(
+                                                crewId: crewId,
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.area_chart,
+                                      color: AppColors.grey,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 1.w,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      UsersCubit.get(context).deleteUser(
+                                          userModel: UsersCubit.get(context)
+                                              .userList[index]);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: AppColors.red,
+                                      size: 20,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 2.w,

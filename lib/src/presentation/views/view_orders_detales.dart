@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../data/models/orders_model.dart';
@@ -59,6 +59,101 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                 ),
               ],
             ),
+            if (widget.orderModel.status != "canceled") ...[
+              SizedBox(
+                height: 10.h,
+                width: 60.w,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      top: 2.h, left: 2.5.w, right: 2.5.w, bottom: 1.h),
+                  child: RowData(
+                    rowHeight: 5.h,
+                    data: [
+                      SizedBox(
+                        width: 50.w,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BlocBuilder<AreaCubit, AreaState>(
+                              builder: (context, state) {
+                                if (AreaCubit.get(context).areas.isEmpty) {
+                                  return SizedBox(
+                                    width: 15.w,
+                                    child: const DefaultText(
+                                      text: "No Areas",
+                                      align: TextAlign.right,
+                                    ),
+                                  );
+                                }
+                                return SizedBox(
+                                  width: 15.w,
+                                  height: 4.h,
+                                  child: DefaultDropdown<AreaModel>(
+                                    hint: "Areas",
+                                    showSearchBox: true,
+                                    itemAsString: (AreaModel? u) =>
+                                    u?.nameAr ?? "",
+                                    items: AreaCubit.get(context).areaList,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        GlobalCubit.get(context)
+                                            .getCrews(val!.id);
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              width: 20.w,
+                            ),
+                            BlocBuilder<GlobalCubit, GlobalState>(
+                              builder: (context, state) {
+                                if (GlobalCubit.get(context).crews.isEmpty) {
+                                  return SizedBox(
+                                    width: 15.w,
+                                    child: const DefaultText(
+                                      text: "No Crew",
+                                      align: TextAlign.right,
+                                    ),
+                                  );
+                                }
+                                return SizedBox(
+                                  width: 15.w,
+                                  height: 4.h,
+                                  child: DefaultDropdown<User>(
+                                    hint: "Crew",
+                                    showSearchBox: true,
+                                    itemAsString: (User? u) =>
+                                    u?.name ?? "",
+                                    items: GlobalCubit.get(context).crews,
+                                    onChanged: (val) {
+                                      setState(() {
+                                          OrdersCubit.get(context).assignOrder(
+                                            id: widget.orderModel.id,
+                                            crewId: val!.id!,
+                                            date: widget.orderModel.date!,
+                                            afterSuccess: () {
+                                              Navigator.pop(context);
+                                              userId.clear();
+                                              areaId = 0;
+                                            },
+                                          );
+
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
             SizedBox(
               height: 30.h,
               width: 60.w,
@@ -148,7 +243,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
                                     text: "Period",
@@ -157,7 +252,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                     width: 10.w,
                                     child: DefaultText(
                                       text:
-                                      "${widget.orderModel.period!.from} - ${widget.orderModel.period!.to}",
+                                          "${widget.orderModel.period!.from} - ${widget.orderModel.period!.to}",
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -228,7 +323,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
                                     text: "Price",
@@ -244,7 +339,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
                                     text: "Shipping",
@@ -260,7 +355,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
                                     text: "Total",
@@ -301,8 +396,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                         SizedBox(
                           width: 47.w,
                           child: DefaultText(
-                            text:
-                                "${widget.orderModel.address!.address} ,"
+                            text: "${widget.orderModel.address!.address} ,"
                                 "${widget.orderModel.address!.area!.nameAr} ,"
                                 "${widget.orderModel.address!.state!.nameAr}",
                             align: TextAlign.right,
@@ -330,11 +424,13 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                           width: 50.w,
                           child: ListView.builder(
                             padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount:  widget.orderModel.cart?.length ?? 0,
+                            itemCount: widget.orderModel.cart?.length ?? 0,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10,),
+                                  vertical: 15,
+                                  horizontal: 10,
+                                ),
                                 child: RowData(
                                   rowHeight: 6.h,
                                   data: [
@@ -356,9 +452,11 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                                         .package ==
                                                     null
                                                 ? widget.orderModel.cart![index]
-                                                    .item?.nameAr ?? ""
+                                                        .item?.nameAr ??
+                                                    ""
                                                 : widget.orderModel.cart![index]
-                                                    .package?.nameAr ?? "",
+                                                        .package?.nameAr ??
+                                                    "",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(fontSize: 3.sp),
@@ -380,7 +478,8 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                             height: 0.5.h,
                                           ),
                                           Text(
-                                            widget.orderModel.cart![index].count.toString(),
+                                            widget.orderModel.cart![index].count
+                                                .toString(),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(fontSize: 3.sp),
@@ -402,7 +501,8 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                             height: 0.5.h,
                                           ),
                                           Text(
-                                            widget.orderModel.cart![index].price.toString(),
+                                            widget.orderModel.cart![index].price
+                                                .toString(),
                                             style: TextStyle(fontSize: 3.sp),
                                           ),
                                         ],
@@ -420,113 +520,6 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                 },
               ),
             ),
-            if (widget.orderModel.status != "canceled") ...[
-              SizedBox(
-                height: 10.h,
-                width: 60.w,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      top: 2.h, left: 2.5.w, right: 2.5.w, bottom: 1.h),
-                  child: RowData(
-                    rowHeight: 5.h,
-                    data: [
-                      SizedBox(
-                        width: 50.w,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            BlocBuilder<AreaCubit, AreaState>(
-                              builder: (context, state) {
-                                if (AreaCubit.get(context).areas.isEmpty) {
-                                  return SizedBox(
-                                    width: 15.w,
-                                    child: const DefaultText(
-                                      text: "No Areas",
-                                      align: TextAlign.right,
-                                    ),
-                                  );
-                                }
-                                return SizedBox(
-                                  width: 15.w,
-                                  height: 4.h,
-                                  child: DefaultDropdown<String>(
-                                    hint: "Areas",
-                                    showSearchBox: true,
-                                    selectedItem: AreaCubit.get(context).areas.first,
-                                    items: AreaCubit.get(context).areas,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        if (AreaCubit.get(context)
-                                            .areaId[AreaCubit.get(context)
-                                            .areas
-                                            .indexOf(val.toString())]
-                                            .toString() ==
-                                            "0") {
-                                          DefaultToast.showMyToast("Please Select Correct Area");
-                                        } else {
-                                          GlobalCubit.get(context).getCrews(AreaCubit.get(context)
-                                              .areaId[
-                                          AreaCubit.get(context).areas.indexOf(val.toString())]);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            BlocBuilder<GlobalCubit, GlobalState>(
-                              builder: (context, state) {
-                                if (crews.isEmpty) {
-                                  return SizedBox(
-                                    width: 15.w,
-                                    child: const DefaultText(
-                                      text: "No Crew",
-                                      align: TextAlign.right,
-                                    ),
-                                  );
-                                }
-                                return SizedBox(
-                                  width: 15.w,
-                                  height: 4.h,
-                                  child: DefaultDropdown<String>(
-                                    hint: "Crew",
-                                    showSearchBox: true,
-                                    selectedItem: crews.first,
-                                    items: crews,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        if (userId[crews.indexOf(val.toString())].toString() == "0") {
-                                          DefaultToast.showMyToast("Please Select Correct Crew");
-                                        } else {
-                                          OrdersCubit.get(context).assignOrder(
-                                            id:widget.orderModel.id,
-                                            crewId: userId[crews.indexOf(val.toString())],
-                                            date: widget.orderModel.date!,
-                                            afterSuccess: () {
-                                              Navigator.pop(context);
-                                              crews.clear();
-                                              userId.clear();
-                                              areaId = 0;
-                                            },
-                                          );
-                                        }
-                                      });
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
           ],
         ),
       ),

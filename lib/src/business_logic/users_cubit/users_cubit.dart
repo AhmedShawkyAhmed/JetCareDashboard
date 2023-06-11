@@ -5,13 +5,10 @@ import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/role_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
-import 'package:meta/meta.dart';
-
 import '../../constants/constants_methods.dart';
 import '../../constants/end_points.dart';
 import '../../data/data_provider/remote/dio_helper.dart';
 import '../../presentation/widgets/toast.dart';
-
 part 'users_state.dart';
 
 class UsersCubit extends Cubit<UsersState> {
@@ -98,28 +95,32 @@ class UsersCubit extends Cubit<UsersState> {
   }
 
   Future addUser({
-    required UserRequset userRequset,
+    required UserRequset userRequest,
     required VoidCallback afterSuccess,
+    required VoidCallback onError,
   }) async {
     try {
       emit(AddUserLodingState());
       await DioHelper.postData(
         url: EndPoints.register,
         body: {
-          'name': userRequset.name,
-          'phone': userRequset.phone,
-          'email': userRequset.email ?? "empty",
-          'password': userRequset.password,
-          'role': userRequset.role,
+          'name': userRequest.name,
+          'phone': userRequest.phone,
+          'email': userRequest.email ?? "empty",
+          'password': userRequest.password,
+          'role': userRequest.role,
         },
       ).then((value) {
-        final myData = Map<String, dynamic>.from(value.data);
-        addUserResponse = UserResponse.fromJson(myData);
+        DefaultToast.showMyToast(value.data['message']);
+        if(value.data['status'] == 200){
+          afterSuccess();
+        }else{
+          onError();
+        }
+        addUserResponse = UserResponse.fromJson(value.data);
         userList.insert(0, addUserResponse!.userModell!);
         listCount += 1;
         emit(AddUserSuccessState());
-        afterSuccess();
-        DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
       emit(AddUserErrorState());

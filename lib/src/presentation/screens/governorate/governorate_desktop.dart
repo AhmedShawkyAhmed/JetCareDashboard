@@ -78,7 +78,6 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -87,7 +86,8 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                         AppColors.green,
                         AppColors.lightgreen,
                       ],
-                      fontSize: 5.sp,
+                      fontSize: 4.sp,
+                      haveShadow: false,
                       title: "Add",
                       onTap: () {
                         showDialog<void>(

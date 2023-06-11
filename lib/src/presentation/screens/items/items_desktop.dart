@@ -114,27 +114,9 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                       },
                     ),
                     const Spacer(),
-                    // DefaultAppButton(
-                    //   width: 8.w,
-                    //   height: 5.h,
-                    //   radius: 10,
-                    //   isGradient: false,
-                    //   haveShadow: true,
-                    //   spreadRadius: 2,
-                    //   blurRadius: 2,
-                    //   offset: const Offset(0, 0),
-                    //   buttonColor: AppColors.black,
-                    //   fontSize: 5.sp,
-                    //   title: "Export",
-                    //   onTap: () {},
-                    // ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -143,7 +125,8 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                         AppColors.green,
                         AppColors.lightgreen,
                       ],
-                      fontSize: 5.sp,
+                      fontSize: 4.sp,
+                      haveShadow: false,
                       title: "Add",
                       onTap: () {
                         setState(() {

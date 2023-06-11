@@ -10,7 +10,6 @@ import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../constants/constants_variables.dart';
 import '../../views/loading_view.dart';
@@ -29,7 +28,6 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    var cubitO = OrdersCubit.get(context);
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
       backgroundColor: AppColors.green,
@@ -46,7 +44,11 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 5.h, left: 3.w, right: 50),
+                padding: EdgeInsets.only(
+                  top: 5.h,
+                  left: 3.w,
+                  right: 50,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -63,15 +65,16 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
                       controller: search,
-                      onChange: (value){
-                        if(value == ""){
-                          cubitO.getOrders();
+                      onChange: (value) {
+                        if (value == "") {
+                          OrdersCubit.get(context).getOrders();
                         }
                       },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          cubitO.getOrders(keyword: search.text);
+                          OrdersCubit.get(context)
+                              .getOrders(keyword: search.text);
                           printResponse(search.text);
                         },
                         color: AppColors.black,
@@ -81,7 +84,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
+                      haveShadow: false,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -90,7 +93,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                         AppColors.green,
                         AppColors.lightgreen,
                       ],
-                      fontSize: 5.sp,
+                      fontSize: 4.sp,
                       title: "Create",
                       onTap: () {
                         showDialog<void>(
@@ -117,7 +120,10 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                           itemCount: 6,
                           itemBuilder: (context, index) => Padding(
                             padding: EdgeInsets.only(
-                                top: 0.5.h, left: 3.2.w, right: 2.5),
+                              top: 0.5.h,
+                              left: 3.2.w,
+                              right: 2.5,
+                            ),
                             child: LoadingView(
                               width: 90.w,
                               height: 5.h,
@@ -143,7 +149,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                     child: SizedBox(
                       height: 90.h,
                       child: ListView.builder(
-                        itemCount: cubitO.listCount,
+                        itemCount: OrdersCubit.get(context).listCount,
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(
                             top: 2.h,
@@ -168,7 +174,10 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].id.toString(),
+                                      OrdersCubit.get(context)
+                                          .ordersList[index]
+                                          .id
+                                          .toString(),
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -188,7 +197,10 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].user!.name
+                                      OrdersCubit.get(context)
+                                          .ordersList[index]
+                                          .user!
+                                          .name
                                           .toString(),
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
@@ -209,7 +221,9 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].createdAt
+                                      OrdersCubit.get(context)
+                                          .ordersList[index]
+                                          .createdAt
                                           .toString()
                                           .substring(0, 10),
                                       style: TextStyle(fontSize: 3.sp),
@@ -231,7 +245,10 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].date.toString(),
+                                      OrdersCubit.get(context)
+                                          .ordersList[index]
+                                          .date
+                                          .toString(),
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -245,38 +262,55 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                     hint: "Status",
                                     showSearchBox: true,
                                     selectedItem: status == ""
-                                        ? cubitO.ordersList[index].status
+                                        ? OrdersCubit.get(context)
+                                            .ordersList[index]
+                                            .status
                                         : status,
                                     items: orderStatus,
                                     onChanged: (val) {
-                                      setState(() {
-                                        OrdersCubit.get(context).updateOrderStatus(
-                                          orderId: cubitO.ordersList[index].id,
-                                          status: val!,
-                                          afterSuccess: () {
-                                            setState(() {
-                                              OrdersCubit.get(context)
-                                                  .ordersList[index]
-                                                  .status = val;
-                                            });
-                                            NotificationCubit.get(context).notifyUser(
-                                              id: cubitO.ordersList[index].user!.id!,
-                                              title: "الطلبات",
-                                              message: "تم تغيير حالة طلبك رقم ${cubitO.ordersList[index].id} إلي $val",
-                                              afterSuccess: () {
-                                                NotificationCubit.get(context).saveNotification(
-                                                  id: cubitO.ordersList[index].user!.id!,
-                                                  title: "الطلبات",
-                                                  message: "تم تغيير حالة طلبك رقم ${cubitO.ordersList[index].id} إلي $val",
-                                                  afterSuccess: () {
-
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          },
-                                        );
-                                      });
+                                      setState(
+                                        () {
+                                          OrdersCubit.get(context)
+                                              .updateOrderStatus(
+                                            orderId: OrdersCubit.get(context)
+                                                .ordersList[index]
+                                                .id,
+                                            status: val!,
+                                            afterSuccess: () {
+                                              setState(
+                                                () {
+                                                  OrdersCubit.get(context)
+                                                      .ordersList[index]
+                                                      .status = val;
+                                                },
+                                              );
+                                              NotificationCubit.get(context)
+                                                  .notifyUser(
+                                                id: OrdersCubit.get(context)
+                                                    .ordersList[index]
+                                                    .user!
+                                                    .id!,
+                                                title: "الطلبات",
+                                                message:
+                                                    "تم تغيير حالة طلبك رقم ${OrdersCubit.get(context).ordersList[index].id} إلي $val",
+                                                afterSuccess: () {
+                                                  NotificationCubit.get(context)
+                                                      .saveNotification(
+                                                    id: OrdersCubit.get(context)
+                                                        .ordersList[index]
+                                                        .user!
+                                                        .id!,
+                                                    title: "الطلبات",
+                                                    message:
+                                                        "تم تغيير حالة طلبك رقم ${OrdersCubit.get(context).ordersList[index].id} إلي $val",
+                                                    afterSuccess: () {},
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
                                 ),
@@ -294,14 +328,20 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubitO.ordersList[index].status ==
+                                      OrdersCubit.get(context)
+                                                  .ordersList[index]
+                                                  .status ==
                                               'canceled'
                                           ? "Order Canceled"
-                                          : cubitO.ordersList[index].crew ==
+                                          : OrdersCubit.get(context)
+                                                      .ordersList[index]
+                                                      .crew ==
                                                   null
                                               ? 'No Crew'
-                                              : cubitO
-                                                  .ordersList[index].crew!.name
+                                              : OrdersCubit.get(context)
+                                                  .ordersList[index]
+                                                  .crew!
+                                                  .name
                                                   .toString(),
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
@@ -311,21 +351,31 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                               SizedBox(
                                 height: 3.h,
                                 child: CircleAvatar(
-                                  backgroundColor: cubitO
-                                                  .ordersList[index].status ==
+                                  backgroundColor: OrdersCubit.get(context)
+                                                  .ordersList[index]
+                                                  .status ==
                                               'rejected' ||
-                                          cubitO.ordersList[index].status ==
+                                          OrdersCubit.get(context)
+                                                  .ordersList[index]
+                                                  .status ==
                                               'canceled'
                                       ? AppColors.red
-                                      : cubitO.ordersList[index].status ==
+                                      : OrdersCubit.get(context)
+                                                      .ordersList[index]
+                                                      .status ==
                                                   'accepted' ||
-                                              cubitO.ordersList[index].status ==
+                                              OrdersCubit.get(context)
+                                                      .ordersList[index]
+                                                      .status ==
                                                   'confirmed'
                                           ? AppColors.blue
-                                          : cubitO.ordersList[index].status ==
+                                          : OrdersCubit.get(context)
+                                                      .ordersList[index]
+                                                      .status ==
                                                   'completed'
                                               ? AppColors.green
-                                              : cubitO.ordersList[index]
+                                              : OrdersCubit.get(context)
+                                                          .ordersList[index]
                                                           .status ==
                                                       'assigned'
                                                   ? AppColors.orange
@@ -338,13 +388,15 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                               IconButton(
                                 onPressed: () {
                                   showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (context) {
-                                        return ViewOrdersDetails(
-                                          orderModel: cubitO.ordersList[index],
-                                        );
-                                      });
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (context) {
+                                      return ViewOrdersDetails(
+                                        orderModel: OrdersCubit.get(context)
+                                            .ordersList[index],
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: const Icon(Icons.remove_red_eye),
                                 color: AppColors.grey,
@@ -354,17 +406,19 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    if (OrdersCubit.get(context)
-                                            .ordersList[index]
-                                            .adminComment !=
-                                        null) {
-                                      commentController.text =
-                                          OrdersCubit.get(context)
+                                  setState(
+                                    () {
+                                      if (OrdersCubit.get(context)
                                               .ordersList[index]
-                                              .adminComment!;
-                                    }
-                                  });
+                                              .adminComment !=
+                                          null) {
+                                        commentController.text =
+                                            OrdersCubit.get(context)
+                                                .ordersList[index]
+                                                .adminComment!;
+                                      }
+                                    },
+                                  );
                                   showDialog<void>(
                                     context: context,
                                     barrierDismissible: true,
@@ -400,15 +454,20 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                               OrdersCubit.get(context)
                                                   .updateAdminComment(
                                                 orderId:
-                                                    cubitO.ordersList[index].id,
+                                                    OrdersCubit.get(context)
+                                                        .ordersList[index]
+                                                        .id,
                                                 comment: commentController.text,
                                                 afterSuccess: () {
-                                                  setState(() {
-                                                    OrdersCubit.get(context)
-                                                            .ordersList[index]
-                                                            .adminComment =
-                                                        commentController.text;
-                                                  });
+                                                  setState(
+                                                    () {
+                                                      OrdersCubit.get(context)
+                                                              .ordersList[index]
+                                                              .adminComment =
+                                                          commentController
+                                                              .text;
+                                                    },
+                                                  );
                                                   commentController.clear();
                                                   Navigator.pop(context);
                                                 },
@@ -474,14 +533,18 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                               OrdersCubit.get(context)
                                                   .deleteOrder(
                                                 orderId:
-                                                    cubitO.ordersList[index].id,
-                                                afterSuccess: () {
-                                                  setState(() {
                                                     OrdersCubit.get(context)
-                                                        .ordersList
-                                                        .removeAt(index);
-                                                    Navigator.pop(context);
-                                                  });
+                                                        .ordersList[index]
+                                                        .id,
+                                                afterSuccess: () {
+                                                  setState(
+                                                    () {
+                                                      OrdersCubit.get(context)
+                                                          .ordersList
+                                                          .removeAt(index);
+                                                      Navigator.pop(context);
+                                                    },
+                                                  );
                                                 },
                                               );
                                             },

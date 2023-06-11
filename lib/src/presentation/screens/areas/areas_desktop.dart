@@ -135,7 +135,6 @@ class _AreaDesktopState extends State<AreaDesktop> {
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -144,7 +143,8 @@ class _AreaDesktopState extends State<AreaDesktop> {
                         AppColors.green,
                         AppColors.lightgreen,
                       ],
-                      fontSize: 5.sp,
+                      fontSize: 4.sp,
+                      haveShadow: false,
                       title: "Add",
                       onTap: () {
                         setState(() {

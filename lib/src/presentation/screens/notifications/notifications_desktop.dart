@@ -50,7 +50,6 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -60,6 +59,7 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                         AppColors.lightgreen,
                       ],
                       fontSize: 4.sp,
+                      haveShadow: false,
                       title: "Create",
                       onTap: () {
                         showDialog<void>(

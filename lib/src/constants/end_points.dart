@@ -114,4 +114,9 @@ class EndPoints {
 
   static const getMyAddresses = "getMyAddresses";
   static const addAddress = "addAddress";
+
+  static const addAreaToCrew = "addAreaToCrew";
+  static const deleteCrewArea = "deleteCrewArea";
+  static const getCrewAreas = "getCrewAreas";
+  static const getCrewOfAreas = "getCrewOfAreas";
 }
