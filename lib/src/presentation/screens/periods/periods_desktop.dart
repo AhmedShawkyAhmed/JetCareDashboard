@@ -25,14 +25,10 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
   TextEditingController from = TextEditingController();
   TextEditingController to = TextEditingController();
   TimeOfDay selectedTime = TimeOfDay.now();
-  int currentIndex = 0;
-  List<bool> isChecked = List.generate(2000, (index) => false);
   List<int> itemsId = [];
 
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
-    var cubitP = PeriodCubit.get(context);
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
       backgroundColor: AppColors.green,
@@ -70,7 +66,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          cubit.isedit = false;
+                          GlobalCubit.get(context).isedit = false;
                           from.clear();
                           to.clear();
                         });
@@ -255,7 +251,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                 DefaultAppButton(
                                   title: "Save",
                                   onTap: () {
-                                    cubitP.addPeriod(
+                                    PeriodCubit.get(context).addPeriod(
                                         periodRequest: PeriodRequest(
                                       from: from.text,
                                       to: to.text,
@@ -335,7 +331,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                     child: SizedBox(
                       height: 90.h,
                       child: ListView.builder(
-                        itemCount: cubitP.listCount,
+                        itemCount: PeriodCubit.get(context).listCount,
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(
                               top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
@@ -355,7 +351,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        cubitP.periodList[index].from
+                                        PeriodCubit.get(context).periodList[index].from
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -374,7 +370,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        cubitP.periodList[index].to.toString(),
+                                        PeriodCubit.get(context).periodList[index].to.toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -383,7 +379,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                 height: 3.h,
                                 child: CircleAvatar(
                                   backgroundColor:
-                                      cubitP.periodList[index].active == 1
+                                      PeriodCubit.get(context).periodList[index].active == 1
                                           ? AppColors.green
                                           : AppColors.red,
                                 ),
@@ -392,7 +388,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                 width: 3.w,
                               ),
                               Switch(
-                                  value: cubitP.periodList[index].active == 1
+                                  value: PeriodCubit.get(context).periodList[index].active == 1
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
@@ -401,17 +397,16 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                   inactiveTrackColor: AppColors.lightGrey,
                                   splashRadius: 3.0,
                                   onChanged: (value) {
-                                    cubitP.switched(index);
-                                    cubitP.updatePeriodStatus(
+                                    PeriodCubit.get(context).switched(index);
+                                    PeriodCubit.get(context).updatePeriodStatus(
                                       indexs: index,
                                       periodRequest: PeriodRequest(
-                                        id: cubitP.periodList[index].id,
-                                        active: cubitP
+                                        id: PeriodCubit.get(context).periodList[index].id,
+                                        active: PeriodCubit.get(context)
                                                 .periodList[index].active!.isOdd
                                             ? 1
                                             : 0,
                                       ),
-                                      //indexs: index,
                                     );
                                   }),
                               SizedBox(
@@ -420,11 +415,11 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                               IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      cubit.isedit = true;
+                                      GlobalCubit.get(context).isedit = true;
                                       from.text =
-                                          cubitP.periodList[index].from ?? "";
+                                          PeriodCubit.get(context).periodList[index].from ?? "";
                                       to.text =
-                                          cubitP.periodList[index].to ?? "";
+                                          PeriodCubit.get(context).periodList[index].to ?? "";
                                     });
                                     showDialog<void>(
                                       context: context,
@@ -639,10 +634,10 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                             DefaultAppButton(
                                               title: "Save",
                                               onTap: () {
-                                                cubitP.updatePeriod(
+                                                PeriodCubit.get(context).updatePeriod(
                                                   index: index,
                                                   periodRequest: PeriodRequest(
-                                                    id: cubitP
+                                                    id: PeriodCubit.get(context)
                                                         .periodList[index].id,
                                                     from: from.text,
                                                     to: to.text,
@@ -690,8 +685,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    cubitP.deletePeriod(
-                                        periodModel: cubitP.periodList[index]);
+                                    PeriodCubit.get(context).deletePeriod(
+                                        periodModel: PeriodCubit.get(context).periodList[index]);
                                   },
                                   icon: const Icon(
                                     Icons.delete,

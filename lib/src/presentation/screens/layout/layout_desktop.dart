@@ -15,7 +15,6 @@ class LayoutDesktop extends StatefulWidget {
 class _LayoutDesktopState extends State<LayoutDesktop> {
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
     return BlocConsumer<GlobalCubit, GlobalState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -48,7 +47,7 @@ class _LayoutDesktopState extends State<LayoutDesktop> {
                           bottomLeft: Radius.circular(50),
                         ),
                       ),
-                      child: cubit.pages[cubit.selectedIndex],
+                      child: GlobalCubit.get(context).pages[GlobalCubit.get(context).selectedIndex],
                     ))
               ],
             ),

@@ -8,7 +8,6 @@ import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
-import 'package:jetboard/src/presentation/views/endDrawer_area.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -30,28 +29,10 @@ class _AreaDesktopState extends State<AreaDesktop> {
   final TextEditingController nameAr = TextEditingController();
   final TextEditingController price = TextEditingController();
   int stateId = 0;
-  int currentIndex = 0;
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
-  String dropdownvalue = 'Item 1';
 
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
-    var cubitA = AreaCubit.get(context);
-
     return Scaffold(
-      drawerScrimColor: AppColors.transparent,
-      key: scaffoldkey,
-      endDrawer: BlocBuilder<AreaCubit, AreaState>(
-        builder: (context, state) {
-          return EndDrawerWidgetArea(
-            index: currentIndex,
-            isEdit: cubit.isedit,
-            areaModel:
-                cubitA.areaList.isEmpty ? null : cubitA.areaList[currentIndex],
-          );
-        },
-      ),
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -85,13 +66,13 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       controller: search,
                       onChange: (value) {
                         if (value == "") {
-                          cubitA.getArea();
+                          AreaCubit.get(context).getArea();
                         }
                       },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          cubitA.getArea(keyword: search.text);
+                          AreaCubit.get(context).getArea(keyword: search.text);
                           printResponse(search.text);
                         },
                         color: AppColors.black,
@@ -116,14 +97,12 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   itemAsString: (AreaModel? u) =>
                                       u?.nameAr ?? "",
                                   items: StatesCubit.get(context)
-                                      .allStatesResponse
-                                      !.statesList!,
+                                      .allStatesResponse!
+                                      .statesList!,
                                   onChanged: (val) {
                                     setState(() {
                                       AreaCubit.get(context).getAllAreas(
-                                          stateId: val!.id == 0
-                                              ? 0
-                                              : val.id);
+                                          stateId: val!.id == 0 ? 0 : val.id);
                                       selectedState = val;
                                     });
                                   },
@@ -148,7 +127,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          cubit.isedit = false;
+                          GlobalCubit.get(context).isedit = false;
                           nameEn.clear();
                           nameAr.clear();
                           price.clear();
@@ -163,10 +142,11 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                 child: ListBody(
                                   children: <Widget>[
                                     const DefaultText(
-                                        text:
-                                        "Add New Area",align: TextAlign.center),
+                                        text: "Add New Area",
+                                        align: TextAlign.center),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: nameEn.text,
                                         password: false,
@@ -176,12 +156,14 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'English Name',
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: nameAr.text,
                                         password: false,
@@ -191,12 +173,14 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'Arabic Name',
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: DefaultTextField(
                                         validator: price.text,
                                         password: false,
@@ -206,27 +190,31 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                         spreadRadius: 2,
                                         blurRadius: 2,
                                         color: AppColors.white,
-                                        shadowColor: AppColors.black.withOpacity(0.05),
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
                                       child: SizedBox(
                                         height: 4.h,
                                         child: DefaultDropdown<String>(
                                           hint: "Governorate",
                                           showSearchBox: true,
                                           selectedItem: dropState,
-                                          items: StatesCubit.get(context).statesList,
+                                          items: StatesCubit.get(context)
+                                              .statesList,
                                           onChanged: (val) {
                                             setState(() {
                                               dropState = val!;
                                               stateId = StatesCubit.get(context)
                                                   .allStatesResponse!
-                                                  .statesList![StatesCubit.get(context)
-                                                  .statesList
-                                                  .indexOf(val)]
+                                                  .statesList![
+                                                      StatesCubit.get(context)
+                                                          .statesList
+                                                          .indexOf(val)]
                                                   .id;
                                               printSuccess(stateId.toString());
                                             });
@@ -243,16 +231,16 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   title: 'Add',
                                   radius: 10,
                                   width: 8.w,
-                                  height:  5.h,
+                                  height: 5.h,
                                   fontSize: 3.sp,
                                   onTap: () {
-                                    cubitA.addArea(
+                                    AreaCubit.get(context).addArea(
                                         areaRequest: AreaRequest(
-                                          stateId: stateId,
-                                          nameEn: nameEn.text,
-                                          nameAr: nameAr.text,
-                                          price: double.parse(price.text),
-                                        ));
+                                      stateId: stateId,
+                                      nameEn: nameEn.text,
+                                      nameAr: nameAr.text,
+                                      price: double.parse(price.text),
+                                    ));
                                     nameEn.clear();
                                     nameAr.clear();
                                     price.clear();
@@ -403,7 +391,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                               height: 3.h,
                               child: CircleAvatar(
                                 backgroundColor:
-                                    cubitA.areaList[index].active == 1
+                                    AreaCubit.get(context).areaList[index].active == 1
                                         ? AppColors.green
                                         : AppColors.red,
                               ),
@@ -412,7 +400,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                               width: 2.w,
                             ),
                             Switch(
-                                value: cubitA.areaList[index].active == 1
+                                value: AreaCubit.get(context).areaList[index].active == 1
                                     ? true
                                     : false,
                                 activeColor: AppColors.green,
@@ -421,13 +409,13 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                 inactiveTrackColor: AppColors.lightGrey,
                                 splashRadius: 3.0,
                                 onChanged: (value) {
-                                  cubitA.switched(index);
-                                  cubitA.updateAreaStatus(
+                                  AreaCubit.get(context).switched(index);
+                                  AreaCubit.get(context).updateAreaStatus(
                                     index: index,
                                     areaRequest: AreaRequest(
-                                      id: cubitA.areaList[index].id,
+                                      id: AreaCubit.get(context).areaList[index].id,
                                       active:
-                                          cubitA.areaList[index].active.isOdd
+                                          AreaCubit.get(context).areaList[index].active.isOdd
                                               ? 1
                                               : 0,
                                     ),
@@ -440,10 +428,11 @@ class _AreaDesktopState extends State<AreaDesktop> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    cubit.isedit = true;
-                                    nameEn.text = cubitA.areaList[index].nameEn;
-                                    nameAr.text = cubitA.areaList[index].nameAr;
-                                    price.text = cubitA.areaList[index].price.toString();
+                                    GlobalCubit.get(context).isedit = true;
+                                    nameEn.text = AreaCubit.get(context).areaList[index].nameEn;
+                                    nameAr.text = AreaCubit.get(context).areaList[index].nameAr;
+                                    price.text =
+                                        AreaCubit.get(context).areaList[index].price.toString();
                                   });
                                   showDialog<void>(
                                     context: context,
@@ -455,10 +444,13 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                           child: ListBody(
                                             children: <Widget>[
                                               const DefaultText(
-                                                  text:
-                                                  "Update Area",align: TextAlign.center),
+                                                  text: "Update Area",
+                                                  align: TextAlign.center),
                                               Padding(
-                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
                                                 child: DefaultTextField(
                                                   validator: nameEn.text,
                                                   password: false,
@@ -468,12 +460,16 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                                   spreadRadius: 2,
                                                   blurRadius: 2,
                                                   color: AppColors.white,
-                                                  shadowColor: AppColors.black.withOpacity(0.05),
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
                                                   hintText: 'English Name',
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
                                                 child: DefaultTextField(
                                                   validator: nameAr.text,
                                                   password: false,
@@ -483,12 +479,16 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                                   spreadRadius: 2,
                                                   blurRadius: 2,
                                                   color: AppColors.white,
-                                                  shadowColor: AppColors.black.withOpacity(0.05),
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
                                                   hintText: 'Arabic Name',
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
                                                 child: DefaultTextField(
                                                   validator: price.text,
                                                   password: false,
@@ -498,29 +498,41 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                                   spreadRadius: 2,
                                                   blurRadius: 2,
                                                   color: AppColors.white,
-                                                  shadowColor: AppColors.black.withOpacity(0.05),
+                                                  shadowColor: AppColors.black
+                                                      .withOpacity(0.05),
                                                   hintText: 'Price',
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
+                                                padding: EdgeInsets.only(
+                                                    top: 2.h,
+                                                    left: 3.w,
+                                                    right: 3.w),
                                                 child: SizedBox(
                                                   height: 4.h,
-                                                  child: DefaultDropdown<String>(
+                                                  child:
+                                                      DefaultDropdown<String>(
                                                     hint: "Governorate",
                                                     showSearchBox: true,
                                                     selectedItem: dropState,
-                                                    items: StatesCubit.get(context).statesList,
+                                                    items:
+                                                        StatesCubit.get(context)
+                                                            .statesList,
                                                     onChanged: (val) {
                                                       setState(() {
                                                         dropState = val!;
-                                                        stateId = StatesCubit.get(context)
+                                                        stateId = StatesCubit
+                                                                .get(context)
                                                             .allStatesResponse!
-                                                            .statesList![StatesCubit.get(context)
-                                                            .statesList
-                                                            .indexOf(val)]
+                                                            .statesList![
+                                                                StatesCubit.get(
+                                                                        context)
+                                                                    .statesList
+                                                                    .indexOf(
+                                                                        val)]
                                                             .id;
-                                                        printSuccess(stateId.toString());
+                                                        printSuccess(
+                                                            stateId.toString());
                                                       });
                                                     },
                                                   ),
@@ -529,22 +541,25 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                             ],
                                           ),
                                         ),
-                                        actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                        actionsAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         actions: <Widget>[
                                           DefaultAppButton(
                                             title: 'Add',
                                             radius: 10,
                                             width: 8.w,
-                                            height:  5.h,
+                                            height: 5.h,
                                             fontSize: 3.sp,
                                             onTap: () {
-                                              cubitA.updateArea(
+                                              AreaCubit.get(context).updateArea(
                                                   index: index,
                                                   areaRequest: AreaRequest(
-                                                    id: cubitA.areaList[index].id,
+                                                    id: AreaCubit.get(context)
+                                                        .areaList[index].id,
                                                     nameEn: nameEn.text,
                                                     nameAr: nameAr.text,
-                                                    price: double.parse(price.text),
+                                                    price: double.parse(
+                                                        price.text),
                                                   ));
                                               nameEn.clear();
                                               nameAr.clear();
@@ -587,8 +602,8 @@ class _AreaDesktopState extends State<AreaDesktop> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  cubitA.deleteArea(
-                                      areaModel: cubitA.areaList[index]);
+                                  AreaCubit.get(context).deleteArea(
+                                      areaModel: AreaCubit.get(context).areaList[index]);
                                 },
                                 icon: const Icon(
                                   Icons.delete,

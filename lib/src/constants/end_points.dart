@@ -119,4 +119,9 @@ class EndPoints {
   static const deleteCrewArea = "deleteCrewArea";
   static const getCrewAreas = "getCrewAreas";
   static const getCrewOfAreas = "getCrewOfAreas";
+
+  static const addEquipment = "addEquipment";
+  static const deleteEquipment = "deleteEquipment";
+  static const assignEquipment = "assignEquipment";
+  static const getEquipment = "getEquipment";
 }

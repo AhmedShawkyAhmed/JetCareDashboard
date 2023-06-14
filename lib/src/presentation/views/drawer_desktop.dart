@@ -119,9 +119,16 @@ class DrawerListDesktop extends StatelessWidget {
               padding: EdgeInsets.only(top: 2.h, left: 1.w, bottom: 2.h),
               child: Row(
                 children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    height: 3.h,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Container(
+                      color: AppColors.white,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        height: 6.h,
+                        width: 6.h,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 1.w,
@@ -129,7 +136,7 @@ class DrawerListDesktop extends StatelessWidget {
                   Text(
                     'Welcome\nJetCare',
                     style: TextStyle(
-                      fontSize: 4.sp,
+                      fontSize: 3.sp,
                       color: AppColors.white,
                     ),
                   ),

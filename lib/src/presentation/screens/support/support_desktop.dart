@@ -22,17 +22,13 @@ class SupportDesktop extends StatefulWidget {
 class _SupportDesktopState extends State<SupportDesktop> {
   TextEditingController search = TextEditingController();
 
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
 
   TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var cubits = SupportCubit.get(context);
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
-      key: scaffoldkey,
-      endDrawer: EndDrawerWidgetSupport(),
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -65,13 +61,13 @@ class _SupportDesktopState extends State<SupportDesktop> {
                   controller: search,
                   onChange: (value){
                     if(value == ""){
-                      cubits.getSupport();
+                      SupportCubit.get(context).getSupport();
                     }
                   },
                   suffix: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      cubits.getSupport(keyword: search.text);
+                      SupportCubit.get(context).getSupport(keyword: search.text);
                       printResponse(search.text);
                     },
                     color: AppColors.black,
@@ -133,7 +129,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  cubits.supportList[index].id.toString(),
+                                  SupportCubit.get(context).supportList[index].id.toString(),
                                   style: TextStyle(fontSize: 3.sp),
                                 ),
                               ],
@@ -151,7 +147,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubits.supportList[index].name!,
+                                      SupportCubit.get(context).supportList[index].name!,
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -169,7 +165,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubits.supportList[index].contact!,
+                                      SupportCubit.get(context).supportList[index].contact!,
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -187,7 +183,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                       height: 0.5.h,
                                     ),
                                     Text(
-                                      cubits.supportList[index].subject!,
+                                      SupportCubit.get(context).supportList[index].subject!,
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                   ],
@@ -212,7 +208,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                               return AlertDialog(
                                                 title: const Text('Message'),
                                                 content: Text(
-                                                  cubits.supportList[index]
+                                                  SupportCubit.get(context).supportList[index]
                                                       .message!,
                                                   style:
                                                       TextStyle(fontSize: 3.sp),
@@ -221,7 +217,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                             });
                                       },
                                       child: Text(
-                                        cubits.supportList[index].message!,
+                                        SupportCubit.get(context).supportList[index].message!,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 3.sp),
@@ -254,7 +250,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                               fontWeight: FontWeight.w600,
                                             ),
                                             DefaultText(
-                                              text: cubits
+                                              text: SupportCubit.get(context)
                                                   .supportList[index].name
                                                   .toString(),
                                               maxLines: 1,
@@ -266,7 +262,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                               fontWeight: FontWeight.w600,
                                             ),
                                             DefaultText(
-                                              text: cubits
+                                              text: SupportCubit.get(context)
                                                   .supportList[index].contact
                                                   .toString(),
                                               maxLines: 1,
@@ -278,7 +274,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                               fontWeight: FontWeight.w600,
                                             ),
                                             DefaultText(
-                                              text: cubits
+                                              text: SupportCubit.get(context)
                                                   .supportList[index].subject
                                                   .toString(),
                                               maxLines: 1,
@@ -290,7 +286,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                                               fontWeight: FontWeight.w600,
                                             ),
                                             DefaultText(
-                                              text: cubits
+                                              text: SupportCubit.get(context)
                                                   .supportList[index].message
                                                   .toString(),
                                               maxLines: 5,
@@ -312,10 +308,10 @@ class _SupportDesktopState extends State<SupportDesktop> {
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  if (cubits.supportList[index].adminComment !=
+                                  if (SupportCubit.get(context).supportList[index].adminComment !=
                                       "") {
                                     commentController.text =
-                                    cubits.supportList[index].adminComment ?? "";
+                                    SupportCubit.get(context).supportList[index].adminComment ?? "";
                                   }
                                 });
                                 showDialog<void>(
@@ -404,8 +400,8 @@ class _SupportDesktopState extends State<SupportDesktop> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  cubits.deleteSupport(
-                                      supportModel: cubits.supportList[index]);
+                                  SupportCubit.get(context).deleteSupport(
+                                      supportModel: SupportCubit.get(context).supportList[index]);
                                 },
                                 icon: const Icon(
                                   Icons.delete,

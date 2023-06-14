@@ -25,6 +25,7 @@ class AdsCubit extends Cubit<AdsState> {
   List<AdsModel> adsList = [];
   int listCount = 0;
   int index = 0;
+  String error = "";
 
   FilePickerResult? fileResult;
 
@@ -65,9 +66,11 @@ class AdsCubit extends Cubit<AdsState> {
         emit(AdsSuccessState());
       });
     } on DioError catch (n) {
+      error = n.toString();
       emit(AdsErrorState());
       printError(n.toString());
     } catch (e) {
+      error = e.toString();
       emit(AdsErrorState());
       printError(e.toString());
     }

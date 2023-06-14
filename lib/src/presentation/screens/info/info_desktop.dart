@@ -31,11 +31,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
-    var cubiti = InfoCubit.get(context);
-
     return Scaffold(
-      drawerScrimColor: AppColors.transparent,
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,
@@ -69,13 +65,13 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       controller: search,
                       onChange: (value) {
                         if (value == "") {
-                          cubiti.getInfo();
+                          InfoCubit.get(context).getInfo();
                         }
                       },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          cubiti.getInfo(keyword: search.text);
+                          InfoCubit.get(context).getInfo(keyword: search.text);
                         },
                         color: AppColors.black,
                       ),
@@ -100,7 +96,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          cubit.isedit = false;
+                          GlobalCubit.get(context).isedit = false;
                           titleEn.clear();
                           contentEn.clear();
                           titleAr.clear();
@@ -219,7 +215,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                 DefaultAppButton(
                                   title: "Save",
                                   onTap: () {
-                                    cubiti.addInfo(
+                                    InfoCubit.get(context).addInfo(
                                         infoRequest: InfoRequest(
                                       titleEn: titleEn.text,
                                       contentEn: contentEn.text,
@@ -415,7 +411,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    cubit.isedit = true;
+                                    GlobalCubit.get(context).isedit = true;
                                     titleEn.text = InfoCubit.get(context)
                                         .infoList[index]
                                         .titleEn;
@@ -557,7 +553,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                           DefaultAppButton(
                                             title: "Save",
                                             onTap: () {
-                                              cubiti.updateInfo(
+                                              InfoCubit.get(context).updateInfo(
                                                   index: index,
                                                   infoRequest: InfoRequest(
                                                     id: InfoCubit.get(context)
@@ -613,8 +609,9 @@ class _InfoDesktopState extends State<InfoDesktop> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  cubiti.deleteInfo(
-                                      infoModel: cubiti.infoList[index]);
+                                  InfoCubit.get(context).deleteInfo(
+                                      infoModel: InfoCubit.get(context)
+                                          .infoList[index]);
                                 },
                                 icon: const Icon(
                                   Icons.delete,
