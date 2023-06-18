@@ -17,6 +17,8 @@ class DrawerListDesktop extends StatelessWidget {
     "Category",
     "Offers",
     "Items",
+    "Equipment",
+    "Equipment Schedule",
     "Ads",
     "Governorate",
     "Area",
@@ -59,6 +61,14 @@ class DrawerListDesktop extends StatelessWidget {
     ),
     const Icon(
       Icons.list,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.trolley,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.schedule_outlined,
       color: AppColors.white,
     ),
     const Icon(

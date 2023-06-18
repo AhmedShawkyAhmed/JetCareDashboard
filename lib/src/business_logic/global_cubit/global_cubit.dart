@@ -26,6 +26,8 @@ import '../../data/models/items_model.dart';
 import '../../data/models/orders_model.dart';
 import '../../data/network/responses/items_response.dart';
 import '../../data/network/responses/packages_response.dart';
+import '../../presentation/equipment/equipment.dart';
+import '../../presentation/equipment_schedule/equipment_schedule.dart';
 import '../../presentation/screens/areas/areas.dart';
 import '../../presentation/screens/category/category.dart';
 import '../../presentation/screens/corporates/corporates.dart';
@@ -70,6 +72,8 @@ class GlobalCubit extends Cubit<GlobalState> {
     const Category(), //5
     const Packages(), //6
     const Items(), //7
+    const Equipment(), //7
+    const EquipmentSchedule(), //7
     const Ads(), //9
     const Governorate(),
     const Area(), //10

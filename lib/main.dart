@@ -12,6 +12,8 @@ import 'package:jetboard/src/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:jetboard/src/business_logic/bloc_observer.dart';
 import 'package:jetboard/src/business_logic/calendar/calendar_cubit.dart';
 import 'package:jetboard/src/business_logic/category_cubit/category_cubit.dart';
+import 'package:jetboard/src/business_logic/equipment_cuibt/equipment_cubit.dart';
+import 'package:jetboard/src/business_logic/equipment_schedule_cuibt/equipment_schedule_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/info_cubit/info_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
@@ -164,6 +166,12 @@ class _MyAppState extends State<MyApp> {
             ),
             BlocProvider(
               create: ((context) => CrewCubit()),
+            ),
+            BlocProvider(
+              create: ((context) => EquipmentCubit()..getEquipment()),
+            ),
+            BlocProvider(
+              create: ((context) => EquipmentScheduleCubit()..getEquipmentSchedule()),
             ),
           ],
           child: BlocConsumer<GlobalCubit, GlobalState>(

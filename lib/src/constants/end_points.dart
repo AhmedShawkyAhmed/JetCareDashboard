@@ -122,6 +122,10 @@ class EndPoints {
 
   static const addEquipment = "addEquipment";
   static const deleteEquipment = "deleteEquipment";
-  static const assignEquipment = "assignEquipment";
   static const getEquipment = "getEquipment";
+  
+  static const getEquipmentSchedule = "getEquipmentSchedule";
+  static const returnDate = "returnDate";
+  static const assignEquipment = "assignEquipment";
+
 }
