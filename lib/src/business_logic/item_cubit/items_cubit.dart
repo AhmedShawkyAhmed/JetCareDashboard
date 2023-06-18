@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
@@ -16,6 +17,7 @@ part 'items_state.dart';
 
 class ItemsCubit extends Cubit<ItemsState> {
   ItemsCubit() : super(ItemsCubitInitial());
+
   static ItemsCubit get(context) => BlocProvider.of(context);
   ItemsTypeResponse? itemsTypeResponse;
   ItemsResponse? itemsResponse,
@@ -24,8 +26,8 @@ class ItemsCubit extends Cubit<ItemsState> {
       deleteItemsResponse,
       updateItemsResponse,
       updateItemsStatusResponse;
-  List<ItemsModel> itemList = [];
   int listCount = 0;
+  List<ItemsModel> itemList = [];
   List<ItemsModel> itemListForPackages = [];
   int count = 0;
   List<String> itemsTypes = [];
@@ -34,7 +36,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   FilePickerResult? fileResult;
 
   Future pickImage() async {
-    emit(ItemsPickedImageLodindState());
+    emit(ItemsPickedImageLoadingState());
     try {
       fileResult = await FilePicker.platform.pickFiles();
     } catch (e) {
@@ -45,7 +47,7 @@ class ItemsCubit extends Cubit<ItemsState> {
       printSuccess(fileResult!.files.first.name.toString());
     }
   }
-  
+
   void switched(int index) {
     itemList[index].active == 1
         ? itemList[index].active = 0
@@ -53,16 +55,17 @@ class ItemsCubit extends Cubit<ItemsState> {
     emit(AdsSwitchState());
   }
 
-  Future getItems({String? type,keyword}) async {
+  Future getItems({String? type, keyword}) async {
+    itemsResponse = null;
     itemList.clear();
-    listCount= 0;
+    listCount = 0;
     try {
-      emit(ItemsLodingState());
+      emit(ItemsLoadingState());
       await DioHelper.getData(
         url: EndPoints.getItems,
         query: {
-          "type" : type,
-          "keyword" : keyword,
+          "type": type,
+          "keyword": keyword,
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
@@ -81,70 +84,11 @@ class ItemsCubit extends Cubit<ItemsState> {
     }
   }
 
-  Future getItemsForPackages({String? type,keyword}) async {
-    itemListForPackages.clear();
-    count= 0;
-    try {
-      emit(ItemsForPackagesLodingState());
-      await DioHelper.getData(
-        url: EndPoints.getItems,
-        query: {
-          "type" : 'item',
-        },
-      ).then((value) {
-        final myData = Map<String, dynamic>.from(value.data);
-        getItemsResponse = ItemsResponse.fromJson(myData);
-        itemListForPackages.addAll(getItemsResponse!.itemsModel!);
-        count = getItemsResponse!.itemsModel!.length;
-        emit(ItemsForPackagesSuccessState());
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(ItemsForPackagesErrorState());
-      printError(n.toString());
-    } catch (e) {
-      emit(ItemsForPackagesErrorState());
-      printError(e.toString());
-    }
-  }
-
-  Future getItemsTypes() async {
-    try {
-      emit(ItemsTypeLodingState());
-      await DioHelper.getData(
-        url: EndPoints.getItemsTypes,
-      ).then((value) {
-        printSuccess(value.data.toString());
-        final myData = Map<String, dynamic>.from(value.data);
-        itemsTypeResponse = ItemsTypeResponse.fromJson(myData);
-        for (var i = 0; i < itemsTypeResponse!.itemsTypeModel!.length; i++) {
-          itemsTypes.add(itemsTypeResponse!.itemsTypeModel![i].titleAr.toString());
-        }
-        emit(ItemsTypeSuccessState());
-        printResponse(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(ItemsTypeErrorState());
-      printResponse(n.toString());
-    } catch (e) {
-      emit(ItemsTypeErrorState());
-      printResponse(e.toString());
-    }
-  }
-
   Future addItems({
     required ItemsRequest itemsRequest,
   }) async {
-    printSuccess(itemsRequest.nameEn.toString());
-    printSuccess(itemsRequest.descriptionEn.toString());
-    printSuccess(itemsRequest.nameAr.toString());
-    printSuccess(itemsRequest.descriptionAr.toString());
-    printSuccess(itemsRequest.unit.toString());
-    printSuccess(itemsRequest.price.toString());
-    printSuccess(itemsRequest.quantity.toString());
-    printSuccess(fileResult!.files.first.name.toString());
     try {
-      emit(AddItemsLodingState());
+      emit(AddItemsLoadingState());
       await DioHelper.postData(
         url: EndPoints.addItem,
         body: {
@@ -152,10 +96,10 @@ class ItemsCubit extends Cubit<ItemsState> {
           'descriptionEn': itemsRequest.descriptionEn,
           'nameAr': itemsRequest.nameAr,
           'descriptionAr': itemsRequest.descriptionAr,
-          'unit':itemsRequest.unit,
-          'price':itemsRequest.price,
-          'quantity':itemsRequest.quantity,
-          'type':itemsRequest.type,
+          'unit': itemsRequest.unit,
+          'price': itemsRequest.price,
+          'quantity': itemsRequest.quantity,
+          'type': itemsRequest.type,
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
@@ -182,7 +126,7 @@ class ItemsCubit extends Cubit<ItemsState> {
     required int index,
   }) async {
     try {
-      emit(UpdateLodingState());
+      emit(UpdateLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateItem,
         body: fileResult != null
@@ -190,12 +134,12 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'id': itemsRequest.id,
                 'nameEn': itemsRequest.nameEn,
                 'descriptionEn': itemsRequest.descriptionEn,
-          'nameAr': itemsRequest.nameAr,
-          'descriptionAr': itemsRequest.descriptionAr,
+                'nameAr': itemsRequest.nameAr,
+                'descriptionAr': itemsRequest.descriptionAr,
                 'unit': itemsRequest.unit,
                 'price': itemsRequest.price,
                 'quantity': itemsRequest.quantity,
-                'type':itemsRequest.type,
+                'type': itemsRequest.type,
                 'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
                     filename: fileResult!.files.first.name),
               }
@@ -203,21 +147,19 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'id': itemsRequest.id,
                 'nameEn': itemsRequest.nameEn,
                 'descriptionEn': itemsRequest.descriptionEn,
-          'nameAr': itemsRequest.nameAr,
-          'descriptionAr': itemsRequest.descriptionAr,
+                'nameAr': itemsRequest.nameAr,
+                'descriptionAr': itemsRequest.descriptionAr,
                 'unit': itemsRequest.unit,
                 'price': itemsRequest.price,
                 'quantity': itemsRequest.quantity,
-                'type':itemsRequest.type,
+                'type': itemsRequest.type,
               },
-              formData: true,
+        formData: true,
       ).then((value) {
         printSuccess(value.data.toString());
-        final myData = Map<String, dynamic>.from(value.data);
-        updateItemsResponse = ItemsResponse.fromJson(myData);
+        updateItemsResponse = ItemsResponse.fromJson(value.data);
         itemList[index] = updateItemsResponse!.item!;
         emit(UpdateSuccessState());
-        printSuccess(updateItemsResponse!.item!.toString());
         DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
@@ -231,7 +173,7 @@ class ItemsCubit extends Cubit<ItemsState> {
 
   Future deleteItems({required ItemsModel itemsModel}) async {
     try {
-      emit(DeleteItemsLodingState());
+      emit(DeleteItemsLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteItem,
         body: {
@@ -256,10 +198,10 @@ class ItemsCubit extends Cubit<ItemsState> {
 
   Future updateItemsStatus({
     required ItemsRequest itemsRequest,
-    required int indexs,
+    required int index,
   }) async {
     try {
-      emit(ChangeItemsLodingState());
+      emit(ChangeItemsLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeItemStatus,
         body: {
@@ -269,7 +211,7 @@ class ItemsCubit extends Cubit<ItemsState> {
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
         updateItemsStatusResponse = ItemsResponse.fromJson(myData);
-        itemList[indexs].active = itemsRequest.active!;
+        itemList[index].active = itemsRequest.active!;
         emit(ChangeItemsSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
@@ -281,5 +223,56 @@ class ItemsCubit extends Cubit<ItemsState> {
       printResponse(e.toString());
     }
   }
-}
 
+  // Future getItemsForPackages({String? type, keyword}) async {
+  //   itemListForPackages.clear();
+  //   count = 0;
+  //   try {
+  //     emit(ItemsForPackagesLoadingState());
+  //     await DioHelper.getData(
+  //       url: EndPoints.getItems,
+  //       query: {
+  //         "type": 'item',
+  //       },
+  //     ).then((value) {
+  //       final myData = Map<String, dynamic>.from(value.data);
+  //       getItemsResponse = ItemsResponse.fromJson(myData);
+  //       itemListForPackages.addAll(getItemsResponse!.itemsModel!);
+  //       count = getItemsResponse!.itemsModel!.length;
+  //       emit(ItemsForPackagesSuccessState());
+  //       printSuccess(value.data.toString());
+  //     });
+  //   } on DioError catch (n) {
+  //     emit(ItemsForPackagesErrorState());
+  //     printError(n.toString());
+  //   } catch (e) {
+  //     emit(ItemsForPackagesErrorState());
+  //     printError(e.toString());
+  //   }
+  // }
+  //
+  // Future getItemsTypes() async {
+  //   try {
+  //     emit(ItemsTypeLoadingState());
+  //     await DioHelper.getData(
+  //       url: EndPoints.getItemsTypes,
+  //     ).then((value) {
+  //       printSuccess(value.data.toString());
+  //       final myData = Map<String, dynamic>.from(value.data);
+  //       itemsTypeResponse = ItemsTypeResponse.fromJson(myData);
+  //       for (var i = 0; i < itemsTypeResponse!.itemsTypeModel!.length; i++) {
+  //         itemsTypes
+  //             .add(itemsTypeResponse!.itemsTypeModel![i].titleAr.toString());
+  //       }
+  //       emit(ItemsTypeSuccessState());
+  //       printResponse(value.data.toString());
+  //     });
+  //   } on DioError catch (n) {
+  //     emit(ItemsTypeErrorState());
+  //     printResponse(n.toString());
+  //   } catch (e) {
+  //     emit(ItemsTypeErrorState());
+  //     printResponse(e.toString());
+  //   }
+  // }
+}

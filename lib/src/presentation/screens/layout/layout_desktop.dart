@@ -26,29 +26,26 @@ class _LayoutDesktopState extends State<LayoutDesktop> {
                 Expanded(
                   flex: 1,
                   child: Stack(
-                    children: [
-                      // Container(
-                      //   height: double.infinity,
-                      //   width: double.infinity,
-                      //   color: cubit.isShadow ? AppColors.transparent : AppColors.black.withOpacity(0.54),
-                      // ),
+                    children: const [
                       DrawerListDesktop(),
                     ],
                   ),
                 ),
                 Expanded(
-                    flex: 7,
-                    child: Container(
-                      height: 100.h,
-                      decoration: const BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          bottomLeft: Radius.circular(50),
-                        ),
+                  flex: 7,
+                  child: Container(
+                    height: 100.h,
+                    decoration: const BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        bottomLeft: Radius.circular(50),
                       ),
-                      child: GlobalCubit.get(context).pages[GlobalCubit.get(context).selectedIndex],
-                    ))
+                    ),
+                    child: GlobalCubit.get(context)
+                        .pages[GlobalCubit.get(context).selectedIndex],
+                  ),
+                ),
               ],
             ),
           ),

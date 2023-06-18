@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/main.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/presentation/router/app_router_names.dart';
@@ -25,15 +26,33 @@ class _SplashDesktopState extends State<SplashDesktop> {
         },
       );
     } else {
-      GlobalCubit.get(context).getStatistics(
-        afterSuccess: () {
-          GlobalCubit.get(context).navigate(
-            afterSuccess: () {
-              Navigator.pushReplacementNamed(context, AppRouterNames.layout);
-            },
-          );
-        },
-      );
+      if (CacheHelper.getDataFromSharedPreference(key: "role") == "admin") {
+        GlobalCubit.get(context).getStatistics(
+          afterSuccess: () {
+            GlobalCubit.get(context).navigate(
+              afterSuccess: () {
+                Navigator.pushReplacementNamed(context, AppRouterNames.layout);
+              },
+            );
+          },
+        );
+      } else {
+        ModeratorCubit.get(context).getSettings(
+          moderatorId: CacheHelper.getDataFromSharedPreference(key: "id"),
+          afterSuccess: () {
+            GlobalCubit.get(context).getStatistics(
+              afterSuccess: () {
+                GlobalCubit.get(context).navigate(
+                  afterSuccess: () {
+                    Navigator.pushReplacementNamed(
+                        context, AppRouterNames.layout);
+                  },
+                );
+              },
+            );
+          },
+        );
+      }
     }
     super.initState();
   }

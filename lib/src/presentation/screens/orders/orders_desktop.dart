@@ -9,6 +9,7 @@ import 'package:jetboard/src/presentation/views/view_orders_detales.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../constants/constants_variables.dart';
@@ -96,13 +97,19 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       fontSize: 4.sp,
                       title: "Create",
                       onTap: () {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            return const CreateOrder();
-                          },
-                        );
+                        IndicatorView.showIndicator(context);
+                        OrdersCubit.get(context)
+                          ..getPeriodsMobile()
+                          ..getClients().then((value) {
+                            Navigator.pop(context);
+                            showDialog<void>(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return const CreateOrder();
+                              },
+                            );
+                          });
                       },
                     ),
                   ],

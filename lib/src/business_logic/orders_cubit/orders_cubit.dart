@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jetboard/src/data/models/orders_model.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
+import 'package:jetboard/src/data/network/responses/period_response.dart';
+import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import '../../constants/constants_methods.dart';
 import '../../constants/end_points.dart';
@@ -18,7 +20,11 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   static OrdersCubit get(context) => BlocProvider.of(context);
   OrdersResponse? getOrdersResponse, updateOrdersStatusResponse;
+  UserResponse? clientsResponse;
   GlobalResponse? globalResponse, orderResponse;
+  PeriodResponsr? periodResponse;
+  List<String> periods = [];
+  List<String> clients = [];
   List<OrdersModel> ordersList = [];
   int listCount = 0;
   int index = 0;
@@ -66,7 +72,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     listCount = 0;
     getOrdersResponse = null;
     try {
-      emit(OrdersLodingState());
+      emit(OrdersLoadingState());
       await DioHelper.getData(
         url: EndPoints.getOrders,
         query: {
@@ -96,7 +102,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     required VoidCallback afterSuccess,
   }) async {
     try {
-      emit(AssignOrdersLodingState());
+      emit(AssignOrdersLoadingState());
       await DioHelper.postData(
         url: EndPoints.assignOrder,
         body: {
@@ -146,6 +152,31 @@ class OrdersCubit extends Cubit<OrdersState> {
       printError(n.toString());
     } catch (e) {
       emit(DeleteOrderStatusErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future updateExtras({
+    required int orderId,
+    required double extra,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(ExtraLoadingState());
+      await DioHelper.postData(url: EndPoints.updateExtra, body: {
+        'id': orderId,
+        'extra': extra,
+      }).then((value) {
+        globalResponse = GlobalResponse.fromJson(value.data);
+        DefaultToast.showMyToast(globalResponse!.message.toString());
+        emit(ExtraSuccessState());
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(ExtraErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(ExtraErrorState());
       printError(e.toString());
     }
   }
@@ -239,6 +270,53 @@ class OrdersCubit extends Cubit<OrdersState> {
       printError(n.toString());
     } catch (e) {
       emit(CreateOrdersErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future getPeriodsMobile() async {
+    try {
+      emit(PeriodLoadingState());
+      await DioHelper.getData(
+        url: EndPoints.getPeriodsMobile,
+      ).then((value) {
+        periodResponse = PeriodResponsr.fromJson(value.data);
+        emit(PeriodLoadingState());
+        for(int i = 0; i < periodResponse!.periodModel!.length;i++){
+          periods.add("${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");
+        }
+        printSuccess(value.data.toString());
+      });
+    } on DioError catch (n) {
+      emit(PeriodLoadingState());
+      printError(n.toString());
+    } catch (e) {
+      emit(PeriodLoadingState());
+      printError(e.toString());
+    }
+  }
+
+  Future getClients() async {
+    try {
+      emit(ClientsLoadingState());
+      await DioHelper.getData(
+        url: EndPoints.getAccounts,
+        query: {
+          "type": "client",
+        },
+      ).then((value) {
+        clientsResponse = UserResponse.fromJson(value.data);
+        for(int i = 0; i < clientsResponse!.userModel!.length;i++){
+          clients.add("${clientsResponse!.userModel![i].name} - ${clientsResponse!.userModel![i].phone}");
+        }
+        emit(ClientsSuccessState());
+        printSuccess(value.data.toString());
+      });
+    } on DioError catch (n) {
+      emit(ClientsErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(ClientsErrorState());
       printError(e.toString());
     }
   }

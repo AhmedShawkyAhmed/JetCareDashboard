@@ -25,7 +25,6 @@ class CorporatesCubit extends Cubit<CorporatesState> {
   List<String> corporateNames = [];
   List<int> corporateIds = [];
 
-
   Future corporateOrder({
     required CorporateRequest corporateRequest,
     required VoidCallback afterSuccess,

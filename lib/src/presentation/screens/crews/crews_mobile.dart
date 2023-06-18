@@ -15,8 +15,6 @@ class CrewsMobile extends StatelessWidget {
   CrewsMobile({super.key});
   @override
   Widget build(BuildContext context) {
-    var cubit = GlobalCubit.get(context);
-    var cubitU = UsersCubit.get(context);
     int currentIndex = 0;
     return BlocConsumer<GlobalCubit, GlobalState>(
       listener: (context, state) {
@@ -27,18 +25,6 @@ class CrewsMobile extends StatelessWidget {
           drawerScrimColor: AppColors.transparent,
           backgroundColor: AppColors.green,
           drawer: DrawerListMobile(),
-          endDrawer: EndDrawerWidgetUsers(
-            index: currentIndex,
-            userModel:
-                cubitU.userList.isEmpty ? null : cubitU.userList[currentIndex],
-            endDrawerWidth: 65.w,
-            widthBackButton: 7.w,
-            fontTitle: 20.sp,
-            fontAllTextField: 15.sp,
-            heightButton: 7.h,
-            widthButton: 25.w,
-            fontButton: 15.sp,
-          ),
           body: SafeArea(
             child: Container(
               decoration: const BoxDecoration(
@@ -62,8 +48,7 @@ class CrewsMobile extends StatelessWidget {
                         search: search,
                         haveExport: true,
                         add: () {
-                          cubit.isShadowE();
-                          cubit.isedit = false;
+
                         },
                       ),
                     ),
@@ -138,7 +123,7 @@ class CrewsMobile extends StatelessWidget {
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    cubit.isedit = true;
+
                                   },
                                   icon: const Icon(
                                     Icons.edit,

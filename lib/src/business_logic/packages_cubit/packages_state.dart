@@ -5,43 +5,43 @@ abstract class PackagesState {}
 
 class PackagesInitial extends PackagesState {}
 
-class PackagesLodingState extends PackagesState {}
+class PackagesLoadingState extends PackagesState {}
 
 class PackagesSuccessState extends PackagesState {}
 
 class PackagesErrorState extends PackagesState {}
 
-class PackagesAddLodingState extends PackagesState {}
+class PackagesAddLoadingState extends PackagesState {}
 
 class PackagesAddSuccessState extends PackagesState {}
 
 class PackagesAddErrorState extends PackagesState {}
 
-class PackagesItemsAddLodingState extends PackagesState {}
+class PackagesItemsAddLoadingState extends PackagesState {}
 
 class PackagesItemsAddSuccessState extends PackagesState {}
 
 class PackagesItemsAddErrorState extends PackagesState {}
 
-class PackagesDeleteLodingState extends PackagesState {}
+class PackagesDeleteLoadingState extends PackagesState {}
 
 class PackagesDeleteSuccessState extends PackagesState {}
 
 class PackagesDeleteErrorState extends PackagesState {}
 
-class PackagesItemsDeleteLodingState extends PackagesState {}
+class PackagesItemsDeleteLoadingState extends PackagesState {}
 
 class PackagesItemsDeleteSuccessState extends PackagesState {}
 
 class PackagesItemsDeleteErrorState extends PackagesState {}
 
-class PackagesUpdateLodingState extends PackagesState {}
+class PackagesUpdateLoadingState extends PackagesState {}
 
 class PackagesUpdateSuccessState extends PackagesState {}
 
 class PackagesUpdateErrorState extends PackagesState {}
 
-class ChangePackagesLodingState extends PackagesState {}
+class ChangePackagesLoadingState extends PackagesState {}
 
 class ChangePackagesSuccessState extends PackagesState {}
 
@@ -51,7 +51,7 @@ class PickedImageLodindState extends PackagesState {}
 
 class PickedImageSuccessState extends PackagesState {}
 
-class CategoryTypeLodingState extends PackagesState {}
+class CategoryTypeLoadingState extends PackagesState {}
 
 class CategoryTypeSuccessState extends PackagesState {}
 

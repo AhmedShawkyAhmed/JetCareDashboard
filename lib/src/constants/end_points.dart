@@ -111,6 +111,7 @@ class EndPoints {
   static const updateOrderStatus = "updateOrderStatus";
   static const updateAdminComment = "updateAdminComment";
   static const createOrder = "createOrder";
+  static const updateExtra = "updateExtra";
 
   static const getMyAddresses = "getMyAddresses";
   static const addAddress = "addAddress";
@@ -124,4 +125,8 @@ class EndPoints {
   static const deleteEquipment = "deleteEquipment";
   static const assignEquipment = "assignEquipment";
   static const getEquipment = "getEquipment";
+
+  static const createAccess = "createAccess";
+  static const updateAccess = "updateAccess";
+  static const getAccess = "getAccess";
 }

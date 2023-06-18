@@ -1,4 +1,5 @@
 import 'package:jetboard/src/data/models/area_model.dart';
+import 'package:jetboard/src/data/models/items_model.dart';
 
 List<int> lol = [
   0,

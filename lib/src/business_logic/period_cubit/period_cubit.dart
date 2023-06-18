@@ -38,7 +38,7 @@ class PeriodCubit extends Cubit<PeriodState> {
     periodList.clear();
     listCount= 0;
     try {
-      emit(PeriodLodingState());
+      emit(PeriodLoadingState());
       await DioHelper.getData(
         url: EndPoints.getPeriods,
         query: {
@@ -49,14 +49,14 @@ class PeriodCubit extends Cubit<PeriodState> {
         getPeriodResponse = PeriodResponsr.fromJson(value.data);
         periodList.addAll(getPeriodResponse!.periodModel!);
         listCount = getPeriodResponse!.periodModel!.length;
-        emit(PeriodLodingState());
+        emit(PeriodLoadingState());
         printSuccess(value.data.toString());
       });
     } on DioError catch (n) {
-      emit(PeriodLodingState());
+      emit(PeriodLoadingState());
       printError(n.toString());
     } catch (e) {
-      emit(PeriodLodingState());
+      emit(PeriodLoadingState());
       printError(e.toString());
     }
   }
@@ -68,7 +68,7 @@ class PeriodCubit extends Cubit<PeriodState> {
     printSuccess(periodRequest.from.toString());
     printSuccess(periodRequest.to.toString());
     try {
-      emit(AddPeriodLodingState());
+      emit(AddPeriodLoadingState());
       await DioHelper.postData(
         url: EndPoints.addPeriod,
         body: {
@@ -99,7 +99,7 @@ class PeriodCubit extends Cubit<PeriodState> {
     required int index,
   }) async {
     try {
-      emit(UpdatePeriodLodingState());
+      emit(UpdatePeriodLoadingState());
       await DioHelper.postData(
         url: EndPoints.updatePeriod,
         body:  {
@@ -130,7 +130,7 @@ class PeriodCubit extends Cubit<PeriodState> {
     required int indexs,
   }) async {
     try {
-      emit(ChangePeriodLodingState());
+      emit(ChangePeriodLoadingState());
       await DioHelper.postData(
         url: EndPoints.changePeriodStatus,
         body: {
@@ -156,7 +156,7 @@ class PeriodCubit extends Cubit<PeriodState> {
 
   Future deletePeriod({required PeriodModel periodModel}) async {
     try {
-      emit(DeletePeriodLodingState());
+      emit(DeletePeriodLoadingState());
       await DioHelper.postData(
         url: EndPoints.deletePeriod,
         body: {
@@ -178,7 +178,4 @@ class PeriodCubit extends Cubit<PeriodState> {
       printResponse(e.toString());
     }
   }
-
-  
-  
 }

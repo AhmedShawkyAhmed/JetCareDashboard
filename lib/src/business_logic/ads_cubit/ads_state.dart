@@ -11,31 +11,31 @@ class AdsPickedImageLodindState extends AdsState {}
 
 class AdsPickedImageSuccessState extends AdsState {}
 
-class AdsLodingState extends AdsState {}
+class AdsLoadingState extends AdsState {}
 
 class AdsSuccessState extends AdsState {}
 
 class AdsErrorState extends AdsState {}
 
-class ChangeAdsLodingState extends AdsState {}
+class ChangeAdsLoadingState extends AdsState {}
 
 class ChangeAdsSuccessState extends AdsState {}
 
 class ChangeAdsErrorState extends AdsState {}
 
-class DeleteAdsLodingState extends AdsState {}
+class DeleteAdsLoadingState extends AdsState {}
 
 class DeleteAdsSuccessState extends AdsState {}
 
 class DeleteAdsErrorState extends AdsState {}
 
-class AddAdsLodingState extends AdsState {}
+class AddAdsLoadingState extends AdsState {}
 
 class AddAdsSuccessState extends AdsState {}
 
 class AddAdsErrorState extends AdsState {}
 
-class UpdateAdsLodingState extends AdsState {}
+class UpdateAdsLoadingState extends AdsState {}
 
 class UpdateAdsSuccessState extends AdsState {}
 

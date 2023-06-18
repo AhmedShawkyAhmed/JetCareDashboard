@@ -54,7 +54,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       password: false,
                       width: 25.w,
                       height: 5.h,
-                      fontSize: 4.sp,
+                      fontSize: 3.sp,
                       color: AppColors.white,
                       bottom: 0.5.h,
                       hintText: 'Title',
@@ -83,7 +83,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                     DefaultAppButton(
                       width: 8.w,
                       height: 5.h,
-                      haveShadow: true,
+                      haveShadow: false,
                       offset: const Offset(0, 0),
                       spreadRadius: 2,
                       blurRadius: 2,
@@ -92,7 +92,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                         AppColors.green,
                         AppColors.lightgreen,
                       ],
-                      fontSize: 5.sp,
+                      fontSize: 4.sp,
                       title: "Add",
                       onTap: () {
                         setState(() {

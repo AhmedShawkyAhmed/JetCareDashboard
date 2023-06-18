@@ -41,7 +41,7 @@ class AreaCubit extends Cubit<AreaState> {
     areaList.clear();
     listCount = 0;
     try {
-      emit(AreaLodingState());
+      emit(AreaLoadingState());
       await DioHelper.getData(
         url: EndPoints.getAllAreas,
         query: {
@@ -67,7 +67,7 @@ class AreaCubit extends Cubit<AreaState> {
     areaList.clear();
     listCount = 0;
     try {
-      emit(AreaLodingState());
+      emit(AreaLoadingState());
       await DioHelper.getData(
         url: EndPoints.getAreasOfState,
         query: {
@@ -97,7 +97,7 @@ class AreaCubit extends Cubit<AreaState> {
     required AreaRequest areaRequest,
   }) async {
     try {
-      emit(AddAreaLodingState());
+      emit(AddAreaLoadingState());
       await DioHelper.postData(
         url: EndPoints.addArea,
         body: {
@@ -128,7 +128,7 @@ class AreaCubit extends Cubit<AreaState> {
     required int index,
   }) async {
     try {
-      emit(UpdateAreaLodingState());
+      emit(UpdateAreaLoadingState());
       await DioHelper.postData(
         url: EndPoints.updatearea,
         body: {
@@ -160,7 +160,7 @@ class AreaCubit extends Cubit<AreaState> {
     required int index,
   }) async {
     try {
-      emit(ChangeAreaLodingState());
+      emit(ChangeAreaLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeAreaStatus,
         body: {
@@ -184,7 +184,7 @@ class AreaCubit extends Cubit<AreaState> {
 
   Future deleteArea({required AreaModel areaModel}) async {
     try {
-      emit(DeleteAreaLodingState());
+      emit(DeleteAreaLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteArea,
         body: {

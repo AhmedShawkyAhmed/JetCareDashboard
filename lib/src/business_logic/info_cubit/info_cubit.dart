@@ -27,7 +27,7 @@ class InfoCubit extends Cubit<InfoState> {
     infoList.clear();
     listCount= 0;
     try {
-      emit(GetInfoLodingState());
+      emit(GetInfoLoadingState());
       await DioHelper.getData(
         url: EndPoints.getInfo,
         query: {
@@ -52,7 +52,7 @@ class InfoCubit extends Cubit<InfoState> {
 
   Future getInfoTypes() async {
     try {
-      emit(InfoTypeLodingState());
+      emit(InfoTypeLoadingState());
       await DioHelper.getData(
         url: EndPoints.getTypes,
       ).then((value) {
@@ -79,7 +79,7 @@ class InfoCubit extends Cubit<InfoState> {
    required InfoRequest infoRequest,
   }) async {
     try {
-      emit(AddInfoLodingState());
+      emit(AddInfoLoadingState());
       await DioHelper.postData(
         url: EndPoints.addInfo,
         body: {
@@ -111,7 +111,7 @@ class InfoCubit extends Cubit<InfoState> {
    required int index,
   }) async {
     try {
-      emit(AddInfoLodingState());
+      emit(AddInfoLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateInfo,
         body: {
@@ -143,7 +143,7 @@ class InfoCubit extends Cubit<InfoState> {
    required InfoModel infoModel
   }) async {
     try {
-      emit(DeleteInfoLodingState());
+      emit(DeleteInfoLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteInfo,
         body: {

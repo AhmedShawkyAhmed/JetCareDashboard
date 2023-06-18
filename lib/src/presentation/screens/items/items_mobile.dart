@@ -28,18 +28,6 @@ class ItemsMobile extends StatelessWidget {
           drawerScrimColor: AppColors.transparent,
           key: scaffoldkey,
           drawer: DrawerListMobile(),
-          endDrawer: EndDrawerWidgetItems(
-            isEdit: cubit.isedit,
-            itemsModel:
-                cubitI.itemList.isEmpty ? null : cubitI.itemList[currentIndex],
-            endDrawerWidth: 65.w,
-            widthBackButton: 7.w,
-            fontTitle: 17.sp,
-            fontAllTextField: 15.sp,
-            heightButton: 7.h,
-            widthButton: 25.w,
-            fontButton: 15.sp,
-          ),
           backgroundColor: AppColors.green,
           body: Container(
             decoration: const BoxDecoration(

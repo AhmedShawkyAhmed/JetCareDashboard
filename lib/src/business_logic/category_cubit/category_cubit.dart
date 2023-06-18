@@ -59,7 +59,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     categoryList.clear();
     listCount = 0;
     try {
-      emit(CategoryLodingState());
+      emit(CategoryLoadingState());
       await DioHelper.getData(
         url: EndPoints.getCategories,
         query: {
@@ -86,7 +86,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     categoryPackagesList.clear();
     packagesListCount = 0;
     try {
-      emit(CategoryPackagesLodingState());
+      emit(CategoryPackagesLoadingState());
       await DioHelper.getData(
         url: EndPoints.getCategoryDetails,
         query: {
@@ -116,7 +116,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     categoryItemsList.clear();
     itemsListCount = 0;
     try {
-      emit(CategoryItemsLodingState());
+      emit(CategoryItemsLoadingState());
       await DioHelper.getData(
         url: EndPoints.getCategoryDetails,
         query: {
@@ -145,7 +145,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     required CategoryRequest categoryRequest,
   }) async {
     try {
-      emit(AddCategoryLodingState());
+      emit(AddCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.addCategory,
         body: {
@@ -180,7 +180,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     printSuccess(categoryRequest.items.toString());
 
     try {
-      emit(AddItemsCategoryLodingState());
+      emit(AddItemsCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.addCategoryItem,
         body: {
@@ -209,7 +209,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     printSuccess(categoryRequest.package.toString());
 
     try {
-      emit(AddPackagesCategoryLodingState());
+      emit(AddPackagesCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.addCategoryPackage,
         body: {
@@ -236,7 +236,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     required int index,
   }) async {
     try {
-      emit(UpdateCategoryLodingState());
+      emit(UpdateCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateCategory,
         body: fileResult != null
@@ -278,7 +278,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     required int index,
   }) async {
     try {
-      emit(ChangeCategoryLodingState());
+      emit(ChangeCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeCategoryStatus,
         body: {
@@ -302,7 +302,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future deleteCategories({required PackagesModel packagesModel}) async {
     try {
-      emit(DeeleteCategoryLodingState());
+      emit(DeeleteCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteCategory,
         body: {
@@ -330,7 +330,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     required VoidCallback afterSuccess,
   }) async {
     try {
-      emit(DeletePackagesCategoryLodingState());
+      emit(DeletePackagesCategoryLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteCategorySub,
         body: {
