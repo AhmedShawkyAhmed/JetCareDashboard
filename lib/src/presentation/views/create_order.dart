@@ -6,6 +6,7 @@ import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:jetboard/src/business_logic/period_cubit/period_cubit.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
@@ -323,19 +324,19 @@ class _CreateOrderState extends State<CreateOrder> {
                             hint: "Client",
                             showSearchBox: true,
                             selectedItem: client,
-                            items: GlobalCubit.get(context).clients,
+                            items: OrdersCubit.get(context).clients,
                             onChanged: (val) {
                               setState(() {
                                 client = val!;
-                                clientId = GlobalCubit.get(context)
+                                clientId = OrdersCubit.get(context)
                                     .clientsResponse!
-                                    .userModel![GlobalCubit.get(context)
+                                    .userModel![OrdersCubit.get(context)
                                         .clients
                                         .indexOf(val)]
                                     .id;
-                                phoneController.text = GlobalCubit.get(context)
+                                phoneController.text = OrdersCubit.get(context)
                                     .clientsResponse!
-                                    .userModel![GlobalCubit.get(context)
+                                    .userModel![OrdersCubit.get(context)
                                         .clients
                                         .indexOf(val)]
                                     .phone;
@@ -696,13 +697,13 @@ class _CreateOrderState extends State<CreateOrder> {
                           hint: "Period",
                           showSearchBox: true,
                           selectedItem: period,
-                          items: GlobalCubit.get(context).periods,
+                          items: OrdersCubit.get(context).periods,
                           onChanged: (val) {
                             setState(() {
                               period = val!;
-                              periodId = GlobalCubit.get(context)
+                              periodId = OrdersCubit.get(context)
                                   .periodResponse!
-                                  .periodModel![GlobalCubit.get(context)
+                                  .periodModel![OrdersCubit.get(context)
                                       .periods
                                       .indexOf(val)]
                                   .id!;

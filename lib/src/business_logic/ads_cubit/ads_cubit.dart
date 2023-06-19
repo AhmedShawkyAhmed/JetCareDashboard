@@ -53,7 +53,7 @@ class AdsCubit extends Cubit<AdsState> {
     adsList.clear();
     listCount = 0;
     try {
-      emit(AdsLodingState());
+      emit(AdsLoadingState());
       await DioHelper.getData(
         url: EndPoints.getAds,
         query: {
@@ -84,7 +84,7 @@ class AdsCubit extends Cubit<AdsState> {
     printSuccess(adsRequest.link.toString());
     printSuccess(fileResult!.files.first.name.toString());
     try {
-      emit(AddAdsLodingState());
+      emit(AddAdsLoadingState());
       await DioHelper.postData(
         url: EndPoints.addAds,
         body: {
@@ -117,7 +117,7 @@ class AdsCubit extends Cubit<AdsState> {
     required int index,
   }) async {
     try {
-      emit(UpdateAdsLodingState());
+      emit(UpdateAdsLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateAds,
         body: fileResult != null
@@ -155,7 +155,7 @@ class AdsCubit extends Cubit<AdsState> {
 
   Future deleteAds({required AdsModel adsModel}) async {
     try {
-      emit(DeleteAdsLodingState());
+      emit(DeleteAdsLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteAds,
         body: {
@@ -182,7 +182,7 @@ class AdsCubit extends Cubit<AdsState> {
     required int index,
   }) async {
     try {
-      emit(ChangeAdsLodingState());
+      emit(ChangeAdsLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeAdsStatus,
         body: {

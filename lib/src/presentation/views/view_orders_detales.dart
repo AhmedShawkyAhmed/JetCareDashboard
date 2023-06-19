@@ -6,8 +6,10 @@ import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 import '../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../data/models/orders_model.dart';
@@ -26,6 +28,7 @@ class ViewOrdersDetails extends StatefulWidget {
 }
 
 class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
+  TextEditingController priceController = TextEditingController();
   String crewName = "";
 
   @override
@@ -92,7 +95,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                     hint: "Areas",
                                     showSearchBox: true,
                                     itemAsString: (AreaModel? u) =>
-                                    u?.nameAr ?? "",
+                                        u?.nameAr ?? "",
                                     items: AreaCubit.get(context).areaList,
                                     onChanged: (val) {
                                       setState(() {
@@ -124,22 +127,20 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                   child: DefaultDropdown<User>(
                                     hint: "Crew",
                                     showSearchBox: true,
-                                    itemAsString: (User? u) =>
-                                    u?.name ?? "",
+                                    itemAsString: (User? u) => u?.name ?? "",
                                     items: GlobalCubit.get(context).crews,
                                     onChanged: (val) {
                                       setState(() {
-                                          OrdersCubit.get(context).assignOrder(
-                                            id: widget.orderModel.id,
-                                            crewId: val!.id!,
-                                            date: widget.orderModel.date!,
-                                            afterSuccess: () {
-                                              Navigator.pop(context);
-                                              userId.clear();
-                                              areaId = 0;
-                                            },
-                                          );
-
+                                        OrdersCubit.get(context).assignOrder(
+                                          id: widget.orderModel.id,
+                                          crewId: val!.id!,
+                                          date: widget.orderModel.date!,
+                                          afterSuccess: () {
+                                            Navigator.pop(context);
+                                            userId.clear();
+                                            areaId = 0;
+                                          },
+                                        );
                                       });
                                     },
                                   ),
@@ -258,6 +259,24 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                   ),
                                 ],
                               ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const DefaultText(
+                                    text: "Day",
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                    child: DefaultText(
+                                      text: DateFormat('EEEE').format(
+                                          DateTime.parse(widget.orderModel.date
+                                              .toString())),
+                                      align: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -308,14 +327,12 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Day",
+                                    text: "Price",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: DateFormat('EEEE').format(
-                                          DateTime.parse(widget.orderModel.date
-                                              .toString())),
+                                      text: "${widget.orderModel.price} EGP",
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -325,13 +342,122 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const DefaultText(
-                                    text: "Price",
+                                  Row(
+                                    children: [
+                                      const DefaultText(
+                                        text: "Extra",
+                                      ),
+                                      SizedBox(
+                                        width: 0.5.w,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                backgroundColor:
+                                                    AppColors.white,
+                                                content: SingleChildScrollView(
+                                                  child: ListBody(
+                                                    children: <Widget>[
+                                                      const DefaultText(
+                                                        text:
+                                                            "Add Extra Price to The Order !!",
+                                                        align: TextAlign.center,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 2.h,
+                                                      ),
+                                                      DefaultTextField(
+                                                        width: 20.w,
+                                                        controller:
+                                                            priceController,
+                                                        hintText: "Extra Price",
+                                                        height: 5.h,
+                                                        password: false,
+                                                        haveShadow: false,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                actionsAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                actions: <Widget>[
+                                                  DefaultAppButton(
+                                                    title: "Send",
+                                                    onTap: () {
+                                                      OrdersCubit.get(context)
+                                                          .updateExtras(
+                                                        orderId: widget
+                                                            .orderModel.id,
+                                                        extra: double.parse(
+                                                            priceController
+                                                                        .text ==
+                                                                    ""
+                                                                ? "0"
+                                                                : priceController
+                                                                    .text),
+                                                        afterSuccess: () {
+                                                          setState(() {
+                                                            widget.orderModel.extra = double.parse(
+                                                                priceController
+                                                                    .text ==
+                                                                    ""
+                                                                    ? "0"
+                                                                    : priceController
+                                                                    .text);
+                                                            widget.orderModel.total = widget.orderModel.price! + widget.orderModel.shipping! + widget.orderModel.extra!;
+                                                          });
+                                                          Navigator.pop(context);
+                                                        },
+                                                      );
+                                                    },
+                                                    width: 10.w,
+                                                    height: 4.h,
+                                                    fontSize: 3.sp,
+                                                    textColor: AppColors.white,
+                                                    buttonColor: AppColors.pc,
+                                                    isGradient: false,
+                                                    radius: 10,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  DefaultAppButton(
+                                                    title: "Cancel",
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    width: 10.w,
+                                                    height: 4.h,
+                                                    fontSize: 3.sp,
+                                                    textColor:
+                                                        AppColors.mainColor,
+                                                    buttonColor:
+                                                        AppColors.lightGrey,
+                                                    isGradient: false,
+                                                    radius: 10,
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.edit,
+                                          size: 3.sp,
+                                          color: AppColors.grey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: "${widget.orderModel.price} EGP",
+                                      text: "${widget.orderModel.extra} EGP",
                                       align: TextAlign.right,
                                     ),
                                   ),

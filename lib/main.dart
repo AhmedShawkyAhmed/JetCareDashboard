@@ -14,9 +14,12 @@ import 'package:jetboard/src/business_logic/calendar/calendar_cubit.dart';
 import 'package:jetboard/src/business_logic/category_cubit/category_cubit.dart';
 import 'package:jetboard/src/business_logic/equipment_cuibt/equipment_cubit.dart';
 import 'package:jetboard/src/business_logic/equipment_schedule_cuibt/equipment_schedule_cubit.dart';
+import 'package:jetboard/src/business_logic/corporate_item_cubit/corporate_item_cubit.dart';
+import 'package:jetboard/src/business_logic/extras_cubit/extras_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/info_cubit/info_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
+import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
@@ -101,9 +104,7 @@ class _MyAppState extends State<MyApp> {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: ((context) => GlobalCubit()
-                ..getPeriodsMobile()
-                ..getClients()),
+              create: ((context) => GlobalCubit()),
             ),
             BlocProvider(
               create: ((context) => AuthCubit()),
@@ -126,14 +127,7 @@ class _MyAppState extends State<MyApp> {
               create: ((context) => AdsCubit()),
             ),
             BlocProvider(
-              create: ((context) => ItemsCubit()
-                ..getItems()
-                ..getItemsTypes()
-                ..getItemsForPackages()),
-            ),
-            BlocProvider(
-              create: ((context) => UsersCubit()
-                ..getRoles()),
+              create: ((context) => UsersCubit()..getUser()),
             ),
             BlocProvider(
               create: ((context) => PackagesCubit()
@@ -165,7 +159,19 @@ class _MyAppState extends State<MyApp> {
               create: ((context) => AddressCubit()),
             ),
             BlocProvider(
-              create: ((context) => CrewCubit()),
+              create: ((context) => CrewCubit()..getUser()),
+            ),
+            BlocProvider(
+              create: ((context) => ModeratorCubit()..getUser()),
+            ),
+            BlocProvider(
+              create: ((context) => ItemsCubit()..getItems(type: "item")),
+            ),
+            BlocProvider(
+              create: ((context) => CorporateItemCubit()..getItems(type: "corporate")),
+            ),
+            BlocProvider(
+              create: ((context) => ExtrasCubit()..getItems(type: "extra")),
             ),
             BlocProvider(
               create: ((context) => EquipmentCubit()..getEquipment()),

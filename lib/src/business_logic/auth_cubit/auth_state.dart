@@ -8,7 +8,7 @@ class AuthInitial extends AuthState {}
 
 class ChangePasswordState extends AuthState {}
 
-class LoginLodingState extends AuthState {}
+class LoginLoadingState extends AuthState {}
 
 class LoginSuccessState extends AuthState {}
 

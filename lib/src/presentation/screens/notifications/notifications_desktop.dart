@@ -72,8 +72,10 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                 child: ListBody(
                                   children: <Widget>[
                                     const DefaultText(
-                                        text:
-                                            "Send Notifications to All Users !!",align: TextAlign.center,),
+                                      text:
+                                          "Send Notifications to All Users !!",
+                                      align: TextAlign.center,
+                                    ),
                                     SizedBox(
                                       height: 2.h,
                                     ),
@@ -161,32 +163,30 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
               ),
               BlocBuilder<NotificationCubit, NotificationState>(
                 builder: (context, state) {
-                  if (NotificationCubit.get(context)
-                          .notificationResponse
-                          ?.notifications ==
+                  if (NotificationCubit.get(context).notificationResponse ==
                       null) {
                     return SizedBox(
                       height: 79.h,
                       child: ListView.builder(
-                          itemCount: 6,
-                          itemBuilder: (context, index) => Padding(
-                                padding: EdgeInsets.only(
-                                    top: 0.5.h, left: 2.8.w, right: 37),
-                                child: LoadingView(
-                                  width: 90.w,
-                                  height: 5.h,
-                                ),
-                              )),
+                        itemCount: 6,
+                        itemBuilder: (context, index) => Padding(
+                          padding: EdgeInsets.only(
+                              top: 0.5.h, left: 2.8.w, right: 37),
+                          child: LoadingView(
+                            width: 90.w,
+                            height: 5.h,
+                          ),
+                        ),
+                      ),
                     );
-                  } else if (NotificationCubit.get(context)
-                      .notificationResponse!
-                      .notifications!
-                      .isEmpty) {
+                  } else if (NotificationCubit.get(context).isEmpty) {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
-                      child: DefaultText(
-                        text: "No Notification Found !",
-                        fontSize: 5.sp,
+                      child: Center(
+                        child: DefaultText(
+                          text: "No Notification Found !",
+                          fontSize: 5.sp,
+                        ),
                       ),
                     );
                   }

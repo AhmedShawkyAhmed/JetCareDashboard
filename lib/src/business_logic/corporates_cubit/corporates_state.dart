@@ -17,8 +17,6 @@ class ReadSuccessState extends CorporatesState {}
 
 class ReadErrorState extends CorporatesState {}
 
-
-
 class UpdateCorporateStatusLoadingState extends CorporatesState {}
 class UpdateCorporateStatusSuccessState extends CorporatesState {}
 class UpdateCorporateStatusErrorState extends CorporatesState {}

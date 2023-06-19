@@ -5,13 +5,13 @@ abstract class OrdersState {}
 
 class OrdersInitial extends OrdersState {}
 
-class OrdersLodingState extends OrdersState {}
+class OrdersLoadingState extends OrdersState {}
 
 class OrdersSuccessState extends OrdersState {}
 
 class OrdersErrorState extends OrdersState {}
 
-class AssignOrdersLodingState extends OrdersState {}
+class AssignOrdersLoadingState extends OrdersState {}
 
 class AssignOrdersSuccessState extends OrdersState {}
 
@@ -32,3 +32,15 @@ class CreateOrdersErrorState extends OrdersState {}
 class AddCartLoadingState extends OrdersState {}
 class AddCartSuccessState extends OrdersState {}
 class AddCartErrorState extends OrdersState {}
+
+class ExtraLoadingState extends OrdersState {}
+class ExtraSuccessState extends OrdersState {}
+class ExtraErrorState extends OrdersState {}
+
+class PeriodLoadingState extends OrdersState {}
+class PeriodSuccessState extends OrdersState {}
+class PeriodErrorState extends OrdersState {}
+
+class ClientsLoadingState extends OrdersState {}
+class ClientsSuccessState extends OrdersState {}
+class ClientsErrorState extends OrdersState {}

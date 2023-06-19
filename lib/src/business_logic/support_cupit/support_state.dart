@@ -7,19 +7,19 @@ class SupportCupitInitial extends SupportState {}
 
 class SupportSwitchState extends SupportState {}
 
-class SupportLodingState extends SupportState {}
+class SupportLoadingState extends SupportState {}
 
 class SupportSuccessState extends SupportState {}
 
 class SupportErrorState extends SupportState {}
 
-class DeleteLodingState extends SupportState {}
+class DeleteLoadingState extends SupportState {}
 
 class DeleteSuccessState extends SupportState {}
 
 class DeleteErrorState extends SupportState {}
 
-class ChangeSupportLodingState extends SupportState {}
+class ChangeSupportLoadingState extends SupportState {}
 
 class ChangeSupportSuccessState extends SupportState {}
 

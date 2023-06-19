@@ -30,7 +30,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     calendarList.clear();
     listCount = 0;
     try {
-      emit(CalendarLodingState());
+      emit(CalendarLoadingState());
       await DioHelper.getData(
         url: EndPoints.getDates,
         query: {
@@ -57,7 +57,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     required CalendarRquest calendarRquest,
   }) async {
     try {
-      emit(AddCalendarLodingState());
+      emit(AddCalendarLoadingState());
       await DioHelper.postData(
         url: EndPoints.addDate,
         body: {
@@ -90,7 +90,7 @@ class CalendarCubit extends Cubit<CalendarState> {
     required int index,
   }) async {
     try {
-      emit(UpdateCalendarLodingState());
+      emit(UpdateCalendarLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateDate,
         body: {
@@ -119,7 +119,7 @@ class CalendarCubit extends Cubit<CalendarState> {
 
   Future deletecalendar({required CalendarModel calendarModel}) async {
     try {
-      emit(DeleteCalendarLodingState());
+      emit(DeleteCalendarLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteDate,
         body: {

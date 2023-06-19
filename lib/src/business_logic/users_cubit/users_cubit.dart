@@ -40,24 +40,23 @@ class UsersCubit extends Cubit<UsersState> {
     emit(UserSwitchState());
   }
 
-  Future getUser({String? type, keyword}) async {
+  Future getUser({String? keyword}) async {
+    getUserResponse = null;
     userList.clear();
     listCount = 0;
     try {
-      emit(UserLodingState());
+      emit(UserLoadingState());
       await DioHelper.getData(
         url: EndPoints.getAccounts,
         query: {
-          "type": type,
+          "type": "client",
           "keyword": keyword,
         },
       ).then((value) {
-        final myData = Map<String, dynamic>.from(value.data);
-        getUserResponse = UserResponse.fromJson(myData);
-        userList.addAll(getUserResponse!.userModel!);
-
-        listCount = getUserResponse!.userModel!.length;
         emit(UserSuccessState());
+        getUserResponse = UserResponse.fromJson(value.data);
+        userList.addAll(getUserResponse!.userModel!);
+        listCount = getUserResponse!.userModel!.length;
         printSuccess(value.data.toString());
       });
     } on DioError catch (n) {
@@ -69,38 +68,13 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
-  Future getRoles() async {
-    try {
-      emit(RoleUserLodingState());
-      await DioHelper.getData(
-        url: EndPoints.getRole,
-      ).then((value) {
-        printSuccess(value.data.toString());
-        final myData = Map<String, dynamic>.from(value.data);
-        roleResponse = RoleResponse.fromJson(myData);
-        for (var i = 0; i < roleResponse!.infoModel!.length; i++) {
-          roleList.add(roleResponse!.infoModel![i].titleEn.toString());
-        }
-        roleList.insert(0, 'All');
-        emit(RoleUserSuccessState());
-        printResponse(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(RoleUserErrorState());
-      printResponse(n.toString());
-    } catch (e) {
-      emit(RoleUserErrorState());
-      printResponse(e.toString());
-    }
-  }
-
   Future addUser({
     required UserRequset userRequest,
     required VoidCallback afterSuccess,
     required VoidCallback onError,
   }) async {
     try {
-      emit(AddUserLodingState());
+      emit(AddUserLoadingState());
       await DioHelper.postData(
         url: EndPoints.register,
         body: {
@@ -108,7 +82,7 @@ class UsersCubit extends Cubit<UsersState> {
           'phone': userRequest.phone,
           'email': userRequest.email ?? "empty",
           'password': userRequest.password,
-          'role': userRequest.role,
+          'role': "client",
         },
       ).then((value) {
         DefaultToast.showMyToast(value.data['message']);
@@ -133,7 +107,7 @@ class UsersCubit extends Cubit<UsersState> {
 
   Future deleteUser({required UserModel userModel}) async {
     try {
-      emit(DeleteUserLodingState());
+      emit(DeleteUserLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteAccount,
         body: {
@@ -156,6 +130,59 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
+  Future updateUserStatus({
+    required UserRequset userRequest,
+    required int index,
+  }) async {
+    try {
+      emit(ChangeUserLoadingState());
+      await DioHelper.postData(
+        url: EndPoints.changeAccountStatus,
+        body: {
+          'id': userRequest.id,
+          'active': userRequest.active,
+        },
+      ).then((value) {
+        final myData = Map<String, dynamic>.from(value.data);
+        updateUserStatusResponse = UserResponse.fromJson(myData);
+        userList[index].active = userRequest.active!;
+        emit(ChangeUserSuccessState());
+        DefaultToast.showMyToast(value.data['message']);
+      });
+    } on DioError catch (n) {
+      emit(ChangeUserErrorState());
+      printResponse(n.toString());
+    } catch (e) {
+      emit(ChangeUserErrorState());
+      printResponse(e.toString());
+    }
+  }
+
+  Future getRoles() async {
+    try {
+      emit(RoleUserLoadingState());
+      await DioHelper.getData(
+        url: EndPoints.getRole,
+      ).then((value) {
+        printSuccess(value.data.toString());
+        final myData = Map<String, dynamic>.from(value.data);
+        roleResponse = RoleResponse.fromJson(myData);
+        for (var i = 0; i < roleResponse!.infoModel!.length; i++) {
+          roleList.add(roleResponse!.infoModel![i].titleEn.toString());
+        }
+        roleList.insert(0, 'All');
+        emit(RoleUserSuccessState());
+        printResponse(value.data.toString());
+      });
+    } on DioError catch (n) {
+      emit(RoleUserErrorState());
+      printResponse(n.toString());
+    } catch (e) {
+      emit(RoleUserErrorState());
+      printResponse(e.toString());
+    }
+  }
+
   Future updateUser({
     required UserRequset userRequset,
     required int index,
@@ -167,7 +194,7 @@ class UsersCubit extends Cubit<UsersState> {
     printSuccess(userRequset.role.toString());
     printSuccess(userRequset.fcm.toString());
     try {
-      emit(UpdateUserLodingState());
+      emit(UpdateUserLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateAccount,
         body: {
@@ -191,34 +218,6 @@ class UsersCubit extends Cubit<UsersState> {
     } catch (e) {
       emit(UpdateUserErrorState());
       printError(e.toString());
-    }
-  }
-
-  Future updateUserStatus({
-    required UserRequset userRequset,
-    required int indexs,
-  }) async {
-    try {
-      emit(ChangeUserLodingState());
-      await DioHelper.postData(
-        url: EndPoints.changeAccountStatus,
-        body: {
-          'id': userRequset.id,
-          'active': userRequset.active,
-        },
-      ).then((value) {
-        final myData = Map<String, dynamic>.from(value.data);
-        updateUserStatusResponse = UserResponse.fromJson(myData);
-        userList[indexs].active = userRequset.active!;
-        emit(ChangeUserSuccessState());
-        DefaultToast.showMyToast(value.data['message']);
-      });
-    } on DioError catch (n) {
-      emit(ChangeUserErrorState());
-      printResponse(n.toString());
-    } catch (e) {
-      emit(ChangeUserErrorState());
-      printResponse(e.toString());
     }
   }
 }

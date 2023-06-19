@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/support_cupit/support_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
-import 'package:jetboard/src/presentation/views/endDrawer_support.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -50,7 +49,7 @@ class _SupportDesktopState extends State<SupportDesktop> {
                   password: false,
                   width: 25.w,
                   height: 5.h,
-                  fontSize: 4.sp,
+                  fontSize: 3.sp,
                   color: AppColors.white,
                   bottom: 0.5.h,
                   hintText: 'Name',

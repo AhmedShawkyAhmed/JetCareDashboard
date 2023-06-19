@@ -149,10 +149,10 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                   },
                 );
               }
-              else if (widget.type == "role") {
-                UsersCubit.get(context).getUser(type: value == "All"?" ":value);
-                role = value;
-              }
+              // else if (widget.type == "role") {
+              //   UsersCubit.get(context).getUser(type: value == "All"?" ":value);
+              //   role = value;
+              // }
               else if (widget.type == "package") {
                 PackagesCubit.get(context).getPackages(type: value == "All"?" ":value);
                 package = value;

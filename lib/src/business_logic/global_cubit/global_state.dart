@@ -11,19 +11,19 @@ class AppChangeShadowState extends GlobalState {}
 
 class AppChangeSwitchState extends GlobalState {}
 
-class UserTypeLodingState extends GlobalState {}
+class UserTypeLoadingState extends GlobalState {}
 
 class UserTypeSuccessState extends GlobalState {}
 
 class UserTypeErrorState extends GlobalState {}
 
-class PackagesLodingState extends GlobalState {}
+class PackagesLoadingState extends GlobalState {}
 
 class PackagesSuccessState extends GlobalState {}
 
 class PackagesErrorState extends GlobalState {}
 
-class ItemsForPackagesLodingState extends GlobalState {}
+class ItemsForPackagesLoadingState extends GlobalState {}
 
 class ItemsForPackagesSuccessState extends GlobalState {}
 
@@ -38,14 +38,6 @@ class CrewErrorState extends GlobalState {}
 class StatisticsLoadingState extends GlobalState {}
 class StatisticsSuccessState extends GlobalState {}
 class StatisticsErrorState extends GlobalState {}
-
-class PeriodLodingState extends GlobalState {}
-class PeriodSuccessState extends GlobalState {}
-class PeriodErrorState extends GlobalState {}
-
-class ClientsLoadingState extends GlobalState {}
-class ClientsSuccessState extends GlobalState {}
-class ClientsErrorState extends GlobalState {}
 
 class ItemsLoadingState extends GlobalState {}
 class ItemsSuccessState extends GlobalState {}

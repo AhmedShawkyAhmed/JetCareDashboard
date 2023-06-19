@@ -14,41 +14,54 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
+
   static AuthCubit get(context) => BlocProvider.of(context);
   AdminResponse? adminResponse;
   GlobalResponse? fcmResponse;
   bool pass = true;
 
-  void isPassword (){
-    pass =!pass;
+  void isPassword() {
+    pass = !pass;
     emit(ChangePasswordState());
   }
 
   Future login({
-   required AuthRequest authRequest,
-required VoidCallback afterSuccess,
+    required AuthRequest authRequest,
+    required VoidCallback admin,
+    required VoidCallback moderator,
     required VoidCallback afterFail,
   }) async {
     try {
-      emit(LoginLodingState());
+      emit(LoginLoadingState());
       await DioHelper.postData(url: EndPoints.adminLogin, body: {
         'email': authRequest.email,
         'password': authRequest.password,
       }).then((value) {
         adminResponse = AdminResponse.fromJson(value.data);
-         if(adminResponse!.status == 200){
+        if (adminResponse!.status == 200) {
+          CacheHelper.saveDataSharedPreference(
+              key: 'id', value: adminResponse!.accountModel!.id);
+          CacheHelper.saveDataSharedPreference(
+              key: 'name', value: adminResponse!.accountModel!.name);
+          CacheHelper.saveDataSharedPreference(
+              key: 'phone', value: adminResponse!.accountModel!.phone);
+          CacheHelper.saveDataSharedPreference(
+              key: 'email', value: adminResponse!.accountModel!.email);
+          CacheHelper.saveDataSharedPreference(
+              key: 'role', value: adminResponse!.accountModel!.role);
+          CacheHelper.saveDataSharedPreference(
+              key: 'active', value: adminResponse!.accountModel!.active);
+          updateFCM(
+              id: adminResponse!.accountModel!.id, fcm: pushToken.toString());
           emit(LoginSuccessState());
-          afterSuccess();
-          CacheHelper.saveDataSharedPreference(key: 'id', value: adminResponse!.accountModel!.id);
-          CacheHelper.saveDataSharedPreference(key: 'name', value: adminResponse!.accountModel!.name);
-          CacheHelper.saveDataSharedPreference(key: 'phone', value: adminResponse!.accountModel!.phone);
-          CacheHelper.saveDataSharedPreference(key: 'email', value: adminResponse!.accountModel!.email);
-          CacheHelper.saveDataSharedPreference(key: 'role', value: adminResponse!.accountModel!.role);
-          CacheHelper.saveDataSharedPreference(key: 'active', value: adminResponse!.accountModel!.active);
-          updateFCM(id: adminResponse!.accountModel!.id,fcm: pushToken.toString());
-          }else{
-           afterFail();
-         }
+          if (adminResponse!.accountModel!.role == "admin") {
+            admin();
+          } else {
+            moderator();
+          }
+        } else {
+          afterFail();
+        }
       });
     } on DioError catch (n) {
       emit(LoginErrorState());
@@ -73,8 +86,7 @@ required VoidCallback afterSuccess,
         },
       ).then((value) {
         fcmResponse = GlobalResponse.fromJson(value.data);
-        printSuccess(
-            "FCM Response ${fcmResponse!.status.toString()}");
+        printSuccess("FCM Response ${fcmResponse!.status.toString()}");
         emit(FCMSuccessState());
       });
     } on DioError catch (n) {

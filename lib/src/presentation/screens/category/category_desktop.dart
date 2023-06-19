@@ -65,7 +65,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                       password: false,
                       width: 25.w,
                       height: 5.h,
-                      fontSize: 4.sp,
+                      fontSize: 3.sp,
                       color: AppColors.white,
                       bottom: 0.5.h,
                       hintText: 'Name',

@@ -10,11 +10,14 @@ import 'package:jetboard/src/data/network/responses/period_response.dart';
 import 'package:jetboard/src/data/network/responses/statistics_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/screens/ads/ads.dart';
+import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';
 import 'package:jetboard/src/presentation/screens/crews/crews.dart';
+import 'package:jetboard/src/presentation/screens/extras/extras.dart';
 import 'package:jetboard/src/presentation/screens/home/home.dart';
 import 'package:jetboard/src/presentation/screens/info/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
 import 'package:jetboard/src/presentation/screens/login/login.dart';
+import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
 import 'package:jetboard/src/presentation/screens/notifications/notifications.dart';
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
 import 'package:jetboard/src/presentation/screens/packages/packages.dart';
@@ -45,8 +48,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     afterSuccess();
   }
 
-  PeriodResponsr? periodResponse;
-  UserResponse? crewResponse,clientsResponse;
+
   PackagesResponse? packagesResponse;
   ItemsResponse? getItemsResponse,itemsResponse;
   StatisticsResponse? statisticsResponse;
@@ -56,34 +58,33 @@ class GlobalCubit extends Cubit<GlobalState> {
   bool isShadow = true;
   bool isedit = false;
   bool isColorS = true;
-  List<String> periods = [];
-  List<String> clients = [];
   List<String> packages = [];
   List<String> items = [];
   List<User> crews = [];
   List<ItemsModel> itemListForPackages = [];
 
   List<Widget> pages = [
-    const Home(), //1
-    const Orders(), //2
-    const Corporates(), //3
-    const Users(), //4
-    const Crews(), //4
-    const Category(), //5
-    const Packages(), //6
-    const Items(), //7
+    const Home(),
+    const Orders(),
+    const Corporates(),
+    const Users(),
+    const Moderators(),
+    const Crews(),
+    const Category(),
+    const Packages(),
+    const Items(),
+    const CorporateItems(),
+    const ExtrasItems(),
     const Equipment(), //7
-    const EquipmentSchedule(), //7
-    const Ads(), //9
+    const EquipmentSchedule(),
+    const Ads(),
     const Governorate(),
-    const Area(), //10
-    //const calendar(),//11
-    const Periods(), //12
-    //const Spaces(), //13
-    const Support(), //14
-    const Notifications(),//5
-    const Info(), //8
-    const Login(), //16
+    const Area(),
+    const Periods(),
+    const Support(),
+    const Notifications(),
+    const Info(),
+    const Login(),
   ];
 
   void changeIndex(int index) {
@@ -173,7 +174,7 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   Future getPackages() async {
     try {
-      emit(PackagesLodingState());
+      emit(PackagesLoadingState());
       await DioHelper.getData(
         url: EndPoints.getPackagesMobile,
       ).then((value) {
@@ -195,7 +196,7 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   Future getItemsForPackages({String? type, keyword}) async {
     try {
-      emit(ItemsForPackagesLodingState());
+      emit(ItemsForPackagesLoadingState());
       await DioHelper.getData(
         url: EndPoints.getItems,
         query: {
@@ -214,53 +215,6 @@ class GlobalCubit extends Cubit<GlobalState> {
       printError(n.toString());
     } catch (e) {
       emit(ItemsForPackagesErrorState());
-      printError(e.toString());
-    }
-  }
-
-  Future getPeriodsMobile() async {
-    try {
-      emit(PeriodLodingState());
-      await DioHelper.getData(
-        url: EndPoints.getPeriodsMobile,
-      ).then((value) {
-        periodResponse = PeriodResponsr.fromJson(value.data);
-        emit(PeriodLodingState());
-        for(int i = 0; i < periodResponse!.periodModel!.length;i++){
-          periods.add("${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");
-        }
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(PeriodLodingState());
-      printError(n.toString());
-    } catch (e) {
-      emit(PeriodLodingState());
-      printError(e.toString());
-    }
-  }
-
-  Future getClients() async {
-    try {
-      emit(ClientsLoadingState());
-      await DioHelper.getData(
-        url: EndPoints.getAccounts,
-        query: {
-          "type": "client",
-        },
-      ).then((value) {
-        clientsResponse = UserResponse.fromJson(value.data);
-        for(int i = 0; i < clientsResponse!.userModel!.length;i++){
-          clients.add("${clientsResponse!.userModel![i].name} - ${clientsResponse!.userModel![i].phone}");
-        }
-        emit(ClientsSuccessState());
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(ClientsErrorState());
-      printError(n.toString());
-    } catch (e) {
-      emit(ClientsErrorState());
       printError(e.toString());
     }
   }

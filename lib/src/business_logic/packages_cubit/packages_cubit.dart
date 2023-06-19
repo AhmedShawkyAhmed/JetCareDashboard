@@ -88,7 +88,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     packageList.clear();
     listCount= 0;
     try {
-      emit(PackagesLodingState());
+      emit(PackagesLoadingState());
       await DioHelper.getData(
         url: EndPoints.getPackages,
         query: {
@@ -115,7 +115,7 @@ class PackagesCubit extends Cubit<PackagesState> {
 
   Future getCategoryTypes() async {
     try {
-      emit(CategoryTypeLodingState());
+      emit(CategoryTypeLoadingState());
       await DioHelper.getData(
         url: EndPoints.getCategory,
       ).then((value) {
@@ -141,7 +141,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     required PackagesRequest packagesRequest,
   }) async {
     try {
-      emit(PackagesAddLodingState());
+      emit(PackagesAddLoadingState());
       await DioHelper.postData(
         url: EndPoints.addPackage,
         body: {
@@ -179,7 +179,7 @@ class PackagesCubit extends Cubit<PackagesState> {
   required List<String> nameEn,
   }) async {
     try {
-      emit(PackagesItemsAddLodingState());
+      emit(PackagesItemsAddLoadingState());
       await DioHelper.postData(
         url: EndPoints.addPackageItem,
         body: {
@@ -207,7 +207,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     required int index,
   }) async {
     try {
-      emit(PackagesUpdateLodingState());
+      emit(PackagesUpdateLoadingState());
       await DioHelper.postData(
         url: EndPoints.updatePackage,
         body: fileResult != null
@@ -253,7 +253,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     required int indexs,
   }) async {
     try {
-      emit(ChangePackagesLodingState());
+      emit(ChangePackagesLoadingState());
       await DioHelper.postData(
         url: EndPoints.changePackageStatus,
         body: {
@@ -280,7 +280,7 @@ class PackagesCubit extends Cubit<PackagesState> {
 
   Future deletePackages({required PackagesModel packagesModel}) async {
     try {
-      emit(PackagesDeleteLodingState());
+      emit(PackagesDeleteLoadingState());
       await DioHelper.postData(
         url: EndPoints.deletePackage,
         body: {
@@ -305,7 +305,7 @@ class PackagesCubit extends Cubit<PackagesState> {
 
   Future deletePackagesItems({required PackagesItemsData packagesItemsData, int? indexs}) async {
     try {
-      emit(PackagesItemsDeleteLodingState());
+      emit(PackagesItemsDeleteLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteCategorySub,
         body: {
@@ -329,7 +329,7 @@ class PackagesCubit extends Cubit<PackagesState> {
 
   Future deletePackagesInfo({required PackagesItemsData itemsModel,required VoidCallback afterSuccess}) async {
     try {
-      emit(PackagesItemsDeleteLodingState());
+      emit(PackagesItemsDeleteLoadingState());
       printLog(itemsModel.id.toString());
       await DioHelper.postData(
         url: EndPoints.deletePackageInfo,

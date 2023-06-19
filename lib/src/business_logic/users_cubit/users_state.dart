@@ -7,43 +7,43 @@ class UsersCubitInitial extends UsersState {}
 
 class UserSwitchState extends UsersState {}
 
-class UserLodingState extends UsersState {}
+class UserLoadingState extends UsersState {}
 
 class UserSuccessState extends UsersState {}
 
 class UserErrorState extends UsersState {}
 
-class UserTypeLodingState extends UsersState {}
+class UserTypeLoadingState extends UsersState {}
 
 class UserTypeSuccessState extends UsersState {}
 
 class UserTypeErrorState extends UsersState {}
 
-class ChangeUserLodingState extends UsersState {}
+class ChangeUserLoadingState extends UsersState {}
 
 class ChangeUserSuccessState extends UsersState {}
 
 class ChangeUserErrorState extends UsersState {}
 
-class AddUserLodingState extends UsersState {}
+class AddUserLoadingState extends UsersState {}
 
 class AddUserSuccessState extends UsersState {}
 
 class AddUserErrorState extends UsersState {}
 
-class UpdateUserLodingState extends UsersState {}
+class UpdateUserLoadingState extends UsersState {}
 
 class UpdateUserSuccessState extends UsersState {}
 
 class UpdateUserErrorState extends UsersState {}
 
-class DeleteUserLodingState extends UsersState {}
+class DeleteUserLoadingState extends UsersState {}
 
 class DeleteUserSuccessState extends UsersState {}
 
 class DeleteUserErrorState extends UsersState {}
 
-class RoleUserLodingState extends UsersState {}
+class RoleUserLoadingState extends UsersState {}
 
 class RoleUserSuccessState extends UsersState {}
 

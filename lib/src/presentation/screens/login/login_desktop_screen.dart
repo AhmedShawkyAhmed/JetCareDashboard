@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/auth_cubit/auth_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
+import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
+import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/data/network/requests/auth_request.dart';
 import 'package:jetboard/src/presentation/router/app_router_names.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -12,7 +14,6 @@ import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginDeskTopScreen extends StatefulWidget {
-
   const LoginDeskTopScreen({super.key});
 
   @override
@@ -157,11 +158,37 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                           email: email.text,
                                           password: password.text,
                                         ),
-                                        afterSuccess: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            AppRouterNames.layout,
-                                            (route) => false,
+                                        admin: () {
+                                          GlobalCubit.get(context)
+                                              .getStatistics(
+                                            afterSuccess: () {
+                                              Navigator.pushNamedAndRemoveUntil(
+                                                context,
+                                                AppRouterNames.layout,
+                                                (route) => false,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        moderator: () {
+                                          ModeratorCubit.get(context)
+                                              .getSettings(
+                                            moderatorId: CacheHelper
+                                                .getDataFromSharedPreference(
+                                                    key: "id"),
+                                            afterSuccess: () {
+                                              GlobalCubit.get(context)
+                                                  .getStatistics(
+                                                afterSuccess: () {
+                                                  Navigator
+                                                      .pushNamedAndRemoveUntil(
+                                                    context,
+                                                    AppRouterNames.layout,
+                                                    (route) => false,
+                                                  );
+                                                },
+                                              );
+                                            },
                                           );
                                         },
                                         afterFail: () {

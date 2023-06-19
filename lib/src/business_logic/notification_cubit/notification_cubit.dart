@@ -16,6 +16,7 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   NotificationResponse? notificationResponse;
   GlobalResponse? readNotificationResponse;
+  bool isEmpty = false;
 
   Future getNotifications({
     required int userId,
@@ -27,6 +28,9 @@ class NotificationCubit extends Cubit<NotificationState> {
       }).then((value) {
         notificationResponse = NotificationResponse.fromJson(value.data);
         printResponse(value.data.toString());
+        if(value.data['status'] == 404){
+          isEmpty = true;
+        }
         emit(GetNotificationSuccessState());
       });
     } on DioError catch (n) {

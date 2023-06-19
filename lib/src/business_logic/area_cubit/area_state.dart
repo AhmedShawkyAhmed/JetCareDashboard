@@ -8,31 +8,31 @@ abstract class AreaState {
 
 class AreaInitial extends AreaState {}
 
-class AreaLodingState extends AreaState {}
+class AreaLoadingState extends AreaState {}
 
 class AreaSuccessState extends AreaState {}
 
 class AreaErrorState extends AreaState {}
 
-class AddAreaLodingState extends AreaState {}
+class AddAreaLoadingState extends AreaState {}
 
 class AddAreaSuccessState extends AreaState {}
 
 class AddAreaErrorState extends AreaState {}
 
-class UpdateAreaLodingState extends AreaState {}
+class UpdateAreaLoadingState extends AreaState {}
 
 class UpdateAreaSuccessState extends AreaState {}
 
 class UpdateAreaErrorState extends AreaState {}
 
-class ChangeAreaLodingState extends AreaState {}
+class ChangeAreaLoadingState extends AreaState {}
 
 class ChangeAreaSuccessState extends AreaState {}
 
 class ChangeAreaErrorState extends AreaState {}
 
-class DeleteAreaLodingState extends AreaState {}
+class DeleteAreaLoadingState extends AreaState {}
 
 class DeleteAreaSuccessState extends AreaState {}
 

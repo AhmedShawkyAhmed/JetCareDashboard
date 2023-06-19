@@ -29,7 +29,7 @@ class SupportCubit extends Cubit<SupportState> {
     supportList.clear();
     listCount= 0;
     try {
-      emit(SupportLodingState());
+      emit(SupportLoadingState());
       await DioHelper.getData(
         url: EndPoints.getSupport,
         query: {
@@ -56,7 +56,7 @@ class SupportCubit extends Cubit<SupportState> {
    required SupportModel supportModel
   }) async {
     try {
-      emit(DeleteLodingState());
+      emit(DeleteLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteSupport,
         body: {
@@ -84,7 +84,7 @@ class SupportCubit extends Cubit<SupportState> {
    //required int indexs,
   }) async {
     try {
-      emit(ChangeSupportLodingState());
+      emit(ChangeSupportLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeSupportStatus,
         body: {

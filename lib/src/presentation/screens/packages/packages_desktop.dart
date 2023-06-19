@@ -7,7 +7,6 @@ import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/network/requests/packages_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../views/add_items.dart';
@@ -30,9 +29,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
   TextEditingController descriptionEn = TextEditingController();
   TextEditingController descriptionAr = TextEditingController();
   TextEditingController price = TextEditingController();
-  int currentIndex = 0;
-  List<bool> isChecked = List.generate(2000, (index) => false);
-  List<int> itemsId = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +55,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                       password: false,
                       width: 25.w,
                       height: 5.h,
-                      fontSize: 4.sp,
+                      fontSize: 3.sp,
                       color: AppColors.white,
                       bottom: 0.5.h,
                       hintText: 'Name',
@@ -81,32 +77,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                         },
                         color: AppColors.black,
                       ),
-                    ),
-                    SizedBox(
-                      width: 1.w,
-                    ),
-                    BlocBuilder<PackagesCubit, PackagesState>(
-                      builder: (context, state) {
-                        return PackagesCubit.get(context).categoryTypes.isEmpty
-                            ? const SizedBox()
-                            : SizedBox(
-                                width: 8.w,
-                                height: 5.h,
-                                child: DefaultDropdown<String>(
-                                  hint: "Package",
-                                  showSearchBox: true,
-                                  selectedItem: package,
-                                  items: ['All'] + PackagesCubit.get(context).categoryTypes,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      PackagesCubit.get(context).getPackages(
-                                          type: val == "All" ? " " : val);
-                                      package = val!;
-                                    });
-                                  },
-                                ),
-                              );
-                      },
                     ),
                     const Spacer(),
                     DefaultAppButton(
@@ -131,7 +101,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                           nameAr.clear();
                           descriptionAr.clear();
                           price.clear();
-                          dropItemsItem = "";
                           imageApp = null;
                         });
                         showDialog<void>(
@@ -242,23 +211,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                         shadowColor:
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
-                                      child: DefaultDropdown<String>(
-                                        hint: "Category",
-                                        showSearchBox: true,
-                                        selectedItem: dropItemsItem == ''
-                                            ? PackagesCubit.get(context).categoryTypes.last
-                                            : dropItemsItem,
-                                        items: PackagesCubit.get(context).categoryTypes,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            dropItemsItem = val!;
-                                          });
-                                        },
                                       ),
                                     ),
                                     Padding(
@@ -423,15 +375,14 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                       nameAr: nameAr.text,
                                       descriptionAr: descriptionAr.text,
                                       price: double.parse(price.text),
-                                      type: dropItemsItem,
-                                    ));
+                                      type: "package",
+                                    ),);
                                     nameEn.clear();
                                     descriptionEn.clear();
                                     nameAr.clear();
                                     descriptionAr.clear();
                                     price.clear();
                                     PackagesCubit.get(context).fileResult = null;
-                                    dropItemsItem = '';
                                     Navigator.pop(context);
                                   },
                                   width: 10.w,
@@ -651,8 +602,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                       price.text = PackagesCubit.get(context)
                                           .packageList[index].price
                                           .toString();
-                                      dropItemsItem =
-                                          PackagesCubit.get(context).packageList[index].type;
                                       imageApp =
                                           PackagesCubit.get(context).packageList[index].image;
                                     });
@@ -782,29 +731,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                     shadowColor: AppColors.black
                                                         .withOpacity(0.05),
                                                     hintText: 'Price',
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 2.h,
-                                                      left: 3.w,
-                                                      right: 3.w),
-                                                  child:
-                                                      DefaultDropdown<String>(
-                                                    hint: "Category",
-                                                    showSearchBox: true,
-                                                    selectedItem:
-                                                        dropItemsItem == ''
-                                                            ? PackagesCubit.get(context)
-                                                                .categoryTypes
-                                                                .last
-                                                            : dropItemsItem,
-                                                    items: PackagesCubit.get(context).categoryTypes,
-                                                    onChanged: (val) {
-                                                      setState(() {
-                                                        dropItemsItem = val!;
-                                                      });
-                                                    },
                                                   ),
                                                 ),
                                                 Padding(
@@ -951,10 +877,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                         descriptionAr.text,
                                                     price: double.parse(
                                                         price.text),
-                                                    type: dropItemsItem == ''
-                                                        ? PackagesCubit.get(context)
-                                                            .categoryTypes.last
-                                                        : dropItemsItem,
+                                                    type: "package",
                                                   ),
                                                 );
                                                 nameEn.clear();
@@ -963,7 +886,6 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                 descriptionAr.clear();
                                                 price.clear();
                                                 PackagesCubit.get(context).fileResult = null;
-                                                dropItemsItem = '';
                                                 Navigator.pop(context);
                                               },
                                               width: 10.w,
