@@ -123,10 +123,13 @@ class EndPoints {
 
   static const addEquipment = "addEquipment";
   static const deleteEquipment = "deleteEquipment";
-  static const assignEquipment = "assignEquipment";
   static const getEquipment = "getEquipment";
+  static const getEquipmentSchedule = "getEquipmentSchedule";
+  static const returnDate = "returnDate";
+  static const assignEquipment = "assignEquipment";
 
   static const createAccess = "createAccess";
   static const updateAccess = "updateAccess";
   static const getAccess = "getAccess";
+
 }

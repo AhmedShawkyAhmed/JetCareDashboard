@@ -25,8 +25,13 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
     "Category",
     "Offers",
     "Items",
+
+    "Equipment",
+    "Equipment Schedule",
+
     "Corporate Items",
     "Extras Items",
+
     "Ads",
     "Governorate",
     "Area",
@@ -75,6 +80,11 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
       color: AppColors.white,
     ),
     const Icon(
+      Icons.trolley,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.schedule_outlined,
       Icons.list_alt,
       color: AppColors.white,
     ),
