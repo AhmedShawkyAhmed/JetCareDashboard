@@ -1,5 +1,5 @@
 import 'package:jetboard/src/data/models/area_model.dart';
-import 'package:jetboard/src/data/models/items_model.dart';
+import 'package:jetboard/src/data/models/settings_model.dart';
 
 List<int> lol = [
   0,
@@ -31,6 +31,7 @@ int selectedMonth = DateTime.now().month - 1;
 String year = (DateTime.now().year).toString();
 String status = "";
 List<String> orderStatus = ['accepted','confirmed','completed','unassigned','canceled'];
+SettingsModel? settingsModelGlobal;
 List<String> month = [
   "January",
   "February",

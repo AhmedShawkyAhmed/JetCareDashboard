@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/equipment_cuibt/equipment_cubit.dart';
+import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/data/network/requests/equipment_request.dart';
+import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/presentation/views/loading_view.dart';
+import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
-import '../../business_logic/global_cubit/global_cubit.dart';
-import '../../constants/constants_methods.dart';
-import '../styles/app_colors.dart';
-import '../views/loading_view.dart';
-import '../views/row_data.dart';
-import '../widgets/default_app_button.dart';
-import '../widgets/default_text_field.dart';
+
+import '../../widgets/default_text_field.dart';
 
 class EquipmentsDesktop extends StatefulWidget {
   const EquipmentsDesktop({super.key});
@@ -21,9 +20,9 @@ class EquipmentsDesktop extends StatefulWidget {
 }
 
 class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
-  TextEditingController search = TextEditingController();
-  TextEditingController code = TextEditingController();
-  TextEditingController name = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TimeOfDay selectedTime = TimeOfDay.now();
   List<int> itemsId = [];
 
@@ -53,7 +52,7 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                       password: false,
                       width: 25.w,
                       height: 5.h,
-                      fontSize: 4.sp,
+                      fontSize: 3.sp,
                       color: AppColors.white,
                       bottom: 0.5.h,
                       hintText: 'Code / Name',
@@ -61,7 +60,7 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                       blurRadius: 2,
                       shadowColor: AppColors.black.withOpacity(0.05),
                       haveShadow: true,
-                      controller: search,
+                      controller: searchController,
                       onChange: (value) {
                         if (value == "") {
                           EquipmentCubit.get(context).getEquipment();
@@ -70,8 +69,8 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          EquipmentCubit.get(context).getEquipment(keyword: search.text);
-                          printResponse(search.text);
+                          EquipmentCubit.get(context).getEquipment(keyword: searchController.text);
+                          printResponse(searchController.text);
                         },
                         color: AppColors.black,
                       ),
@@ -93,9 +92,8 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
-                          code.clear();
-                          name.clear();
+                          codeController.clear();
+                          nameController.clear();
                         });
                         showDialog<void>(
                           context: context,
@@ -142,7 +140,7 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                                         ),
                                         cursorColor: AppColors.darkGrey,
                                         maxLines: 1,
-                                        controller: code,
+                                        controller: codeController,
                                         decoration: InputDecoration(
                                           hintText: 'Code',
                                           alignLabelWithHint: true,
@@ -190,7 +188,7 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                                         ),
                                         cursorColor: AppColors.darkGrey,
                                         maxLines: 1,
-                                        controller: name,
+                                        controller: nameController,
                                         decoration: InputDecoration(
                                           alignLabelWithHint: true,
                                           hintText: 'Name',
@@ -215,11 +213,11 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                                   onTap: () {
                                     EquipmentCubit.get(context).addEquipment(
                                         equipmentRequest: EquipmentRequest(
-                                      code: code.text,
-                                      name: name.text,
+                                      code: codeController.text,
+                                      name: nameController.text,
                                     ));
-                                    code.clear();
-                                    name.clear();
+                                    codeController.clear();
+                                    nameController.clear();
                                     Navigator.pop(context);
                                   },
                                   width: 10.w,
@@ -285,7 +283,7 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Periods Found !",
+                        text: "No Equipment Found !",
                         fontSize: 5.sp,
                       ),
                     );

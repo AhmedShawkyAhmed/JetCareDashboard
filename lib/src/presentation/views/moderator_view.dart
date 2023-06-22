@@ -202,6 +202,33 @@ class _ModeratorViewState extends State<ModeratorView> {
                               id: ModeratorCubit.get(context)
                                   .accessResponse!
                                   .settings!.id,
+                              name: "Equipment",
+                              columnKey: "Equipment",
+                              value: ModeratorCubit.get(context)
+                                  .accessResponse!
+                                  .settings!
+                                  .equipment,
+                            ),
+                            ModeratorWidget(
+                              id: ModeratorCubit.get(context)
+                                  .accessResponse!
+                                  .settings!.id,
+                              name: "Equipment Schedule",
+                              columnKey: "Equipment_Schedule",
+                              value: ModeratorCubit.get(context)
+                                  .accessResponse!
+                                  .settings!
+                                  .equipmentSchedule,
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ModeratorWidget(
+                              id: ModeratorCubit.get(context)
+                                  .accessResponse!
+                                  .settings!.id,
                               name: "Ads",
                               columnKey: "Ads",
                               value: ModeratorCubit.get(context)
@@ -219,12 +246,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .governorate,
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
+                            ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
                                   .accessResponse!
@@ -236,6 +258,11 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .settings!
                                   .area,
                             ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
                                   .accessResponse!
@@ -257,12 +284,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .support,
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
+                            ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
                                   .accessResponse!
@@ -274,6 +296,11 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .settings!
                                   .notifications,
                             ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
                                   .accessResponse!
@@ -287,6 +314,12 @@ class _ModeratorViewState extends State<ModeratorView> {
                             ),
                              ModeratorWidget(
                                id: 0,
+                              name: "",
+                              columnKey: "",
+                              value: 0,
+                            ),
+                            ModeratorWidget(
+                              id: 0,
                               name: "",
                               columnKey: "",
                               value: 0,

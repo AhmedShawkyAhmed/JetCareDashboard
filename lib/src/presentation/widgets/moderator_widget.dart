@@ -48,7 +48,7 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
                       width: 8.w,
                       child: DefaultText(
                         text: widget.name,
-                        fontSize: 3.sp,
+                        fontSize: 2.5.sp,
                       ),
                     ),
                     BlocBuilder<ModeratorCubit, ModeratorState>(

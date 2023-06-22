@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
+import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/presentation/router/app_router_names.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -25,13 +25,10 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
     "Category",
     "Offers",
     "Items",
-
-    "Equipment",
-    "Equipment Schedule",
-
     "Corporate Items",
     "Extras Items",
-
+    "Equipment",
+    "Equipment Schedule",
     "Ads",
     "Governorate",
     "Area",
@@ -80,16 +77,19 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
       color: AppColors.white,
     ),
     const Icon(
-      Icons.trolley,
-      color: AppColors.white,
-    ),
-    const Icon(
-      Icons.schedule_outlined,
       Icons.list_alt,
       color: AppColors.white,
     ),
     const Icon(
       Icons.add_chart_rounded,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.trolley,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.schedule_outlined,
       color: AppColors.white,
     ),
     const Icon(
@@ -127,6 +127,13 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
   ];
 
   int index = 0;
+  String role = "";
+
+  @override
+  void initState() {
+    role = CacheHelper.getDataFromSharedPreference(key: "role");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,9 +210,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ),
-                  if (ModeratorCubit.get(context).accessResponse?.settings?.orders == 1 &&
-                          CacheHelper.getDataFromSharedPreference(key: "role") == "moderator"
-                      || CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.orders == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -238,13 +244,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.corporates ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.corporates == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -277,13 +278,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.clients ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.clients == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -316,13 +312,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.moderators ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.moderators == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -355,13 +346,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.crews ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.crews == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -394,13 +380,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.category ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.category == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -433,13 +414,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.offers ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.offers == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -472,13 +448,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.items ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.items == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -511,13 +482,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.corporateItems ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.corporateItems == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -550,13 +516,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.extrasItems ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.extrasItems == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -589,13 +550,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.ads ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.extrasItems == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -628,13 +584,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.governorate ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.extrasItems == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -667,13 +618,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.area ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.ads == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -706,13 +652,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.periods ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.governorate == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -745,13 +686,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.support ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.area == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -784,13 +720,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.notifications ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.periods == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -823,13 +754,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (ModeratorCubit.get(context)
-                              .accessResponse
-                              ?.settings
-                              ?.info ==
-                          1 &&
-                      CacheHelper.getDataFromSharedPreference(key: "role") ==
-                          "moderator"|| CacheHelper.getDataFromSharedPreference(key: "role") == "admin") ...[
+                  if (settingsModelGlobal?.support == 1 && role == "moderator" ||
+                      role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: 1.w,
@@ -862,13 +788,81 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
+                  if (settingsModelGlobal?.notifications == 1 && role == "moderator" ||
+                      role == "admin") ...[
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 1.w,
+                        vertical: 0.5.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: index == 18
+                            ? AppColors.blackl
+                            : AppColors.transparent,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: ListTile(
+                        selectedTileColor: AppColors.blackl,
+                        selected: false,
+                        horizontalTitleGap: 0.0,
+                        onTap: () {
+                          setState(() {
+                            index = 18;
+                          });
+                          cubit.changeIndex(18);
+                        },
+                        leading: icons[18],
+                        title: Text(
+                          titles[18],
+                          style: TextStyle(
+                            fontSize: 2.5.sp,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (settingsModelGlobal?.info == 1 && role == "moderator" ||
+                      role == "admin") ...[
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 1.w,
+                        vertical: 0.5.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: index == 19
+                            ? AppColors.blackl
+                            : AppColors.transparent,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: ListTile(
+                        selectedTileColor: AppColors.blackl,
+                        selected: false,
+                        horizontalTitleGap: 0.0,
+                        onTap: () {
+                          setState(() {
+                            index = 19;
+                          });
+                          cubit.changeIndex(19);
+                        },
+                        leading: icons[19],
+                        title: Text(
+                          titles[19],
+                          style: TextStyle(
+                            fontSize: 2.5.sp,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                   Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 1.w,
                       vertical: 0.5.h,
                     ),
                     decoration: BoxDecoration(
-                      color: index == 18
+                      color: index == 20
                           ? AppColors.blackl
                           : AppColors.transparent,
                       borderRadius: BorderRadius.circular(50),
@@ -885,9 +879,9 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                           (route) => false,
                         );
                       },
-                      leading: icons[18],
+                      leading: icons[20],
                       title: Text(
-                        titles[18],
+                        titles[20],
                         style: TextStyle(
                           fontSize: 2.5.sp,
                           color: AppColors.white,

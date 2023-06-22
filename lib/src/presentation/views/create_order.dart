@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
-import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
-import 'package:jetboard/src/business_logic/period_cubit/period_cubit.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
@@ -42,7 +40,7 @@ class _CreateOrderState extends State<CreateOrder> {
   TextEditingController addressController = TextEditingController();
   TextEditingController spaceController = TextEditingController();
   TextEditingController shippingController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
   DateTime now = DateTime.now();
 

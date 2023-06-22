@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/presentation/equipment_schedule/equipment_schedule_desktop.dart';
-import 'package:jetboard/src/presentation/equipment_schedule/equipment_schedule_mobile.dart';
+import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule_desktop.dart';
+import 'package:jetboard/src/presentation/screens/mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class EquipmentSchedule extends StatelessWidget {
@@ -9,8 +9,8 @@ class EquipmentSchedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
-      mobile: const EquipmentScheduleMobile(),
-      tablet: const EquipmentScheduleMobile(),
+      mobile: const MobileLayout(),
+      tablet: const MobileLayout(),
       desktop: const EquipmentScheduleDesktop(),
     );
   }

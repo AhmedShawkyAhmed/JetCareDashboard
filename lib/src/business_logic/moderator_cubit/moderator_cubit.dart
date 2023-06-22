@@ -11,6 +11,8 @@ import 'package:jetboard/src/data/network/responses/access_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 
+import '../../constants/constants_variables.dart';
+
 part 'moderator_state.dart';
 
 class ModeratorCubit extends Cubit<ModeratorState> {
@@ -226,6 +228,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
         },
       ).then((value) {
         accessResponse = AccessResponse.fromJson(value.data);
+        settingsModelGlobal = accessResponse!.settings;
         printLog(value.data.toString());
         afterSuccess();
         emit(GetAccessSuccessState());

@@ -11,6 +11,8 @@ class SettingsModel {
   int items;
   int corporateItems;
   int extrasItems;
+  int equipment;
+  int equipmentSchedule;
   int ads;
   int governorate;
   int area;
@@ -29,6 +31,8 @@ class SettingsModel {
     required this.clients,
     required this.periods,
     required this.orders,
+    required this.equipment,
+    required this.equipmentSchedule,
     required this.ads,
     required this.category,
     required this.corporates,
@@ -54,6 +58,8 @@ class SettingsModel {
         governorate: json['Governorate'],
         info: json['Info'],
         items: json['Items'],
+        equipment: json['Equipment'],
+        equipmentSchedule: json['Equipment_Schedule'],
         moderatorId: json['moderatorId'],
         moderators: json['Moderators'],
         notifications: json['Notifications'],
@@ -69,6 +75,8 @@ class SettingsModel {
     data['Crews'] = crews;
     data['Category'] = category;
     data['Ads'] = ads;
+    data['Equipment'] = equipment;
+    data['Equipment_Schedule'] = equipmentSchedule;
     data['Area'] = area;
     data['Clients'] = clients;
     data['Corporate_Items'] = corporateItems;
