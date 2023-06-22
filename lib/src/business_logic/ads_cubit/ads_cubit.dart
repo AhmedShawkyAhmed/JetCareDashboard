@@ -55,7 +55,7 @@ class AdsCubit extends Cubit<AdsState> {
     try {
       emit(AdsLoadingState());
       await DioHelper.getData(
-        url: EndPoints.getAds,
+        url: EndPoints.getAllAds,
         query: {
           "keyword": keyword,
         },

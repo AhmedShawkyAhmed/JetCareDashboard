@@ -405,7 +405,8 @@ class _AdsDesktopState extends State<AdsDesktop> {
                           ),
                         ),
                       );
-                    } else if (AdsCubit.get(context).adsList.isEmpty) {
+                    }
+                    else if (AdsCubit.get(context).adsList.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
