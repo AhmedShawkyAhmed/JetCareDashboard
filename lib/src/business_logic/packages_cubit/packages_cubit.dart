@@ -90,14 +90,13 @@ class PackagesCubit extends Cubit<PackagesState> {
     try {
       emit(PackagesLoadingState());
       await DioHelper.getData(
-        url: EndPoints.getPackages,
+        url: EndPoints.getAllPackages,
         query: {
           "keyword" : keyword,
           "type" : type,
         },
       ).then((value) {
-        final myData = Map<String, dynamic>.from(value.data);
-        getPackagesResponse = PackagesResponse.fromJson(myData);
+        getPackagesResponse = PackagesResponse.fromJson(value.data);
         packageList.addAll(getPackagesResponse!.packagesModel!);
 
         listCount = getPackagesResponse!.packagesModel!.length;

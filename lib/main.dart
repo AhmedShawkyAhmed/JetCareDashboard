@@ -124,7 +124,7 @@ class _MyAppState extends State<MyApp> {
               create: ((context) => SupportCubit()..getSupport()),
             ),
             BlocProvider(
-              create: ((context) => AdsCubit()),
+              create: ((context) => AdsCubit()..getAds()),
             ),
             BlocProvider(
               create: ((context) => UsersCubit()..getUser()),

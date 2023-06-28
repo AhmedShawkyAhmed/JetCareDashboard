@@ -447,7 +447,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                     return Padding(
                       padding: EdgeInsets.only(top: 40.h),
                       child: DefaultText(
-                        text: "No Packages Found !",
+                        text: "No Offers Found !",
                         fontSize: 5.sp,
                       ),
                     );

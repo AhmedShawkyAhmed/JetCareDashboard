@@ -48,7 +48,7 @@ class EndPoints {
   static const deletePackageItem = "deletePackageItem";
   static const deletePackageInfo = "deletePackageInfo";
   static const changePackageStatus = "changePackageStatus";
-  static const getPackages = "getPackages";
+  static const getAllPackages = "getAllPackages";
   static const getPackagesMobile = "getPackagesMobile";
   static const getPackageDetails = "getPackageDetails";
   static const getItemsMobile = "getItemsMobile";
