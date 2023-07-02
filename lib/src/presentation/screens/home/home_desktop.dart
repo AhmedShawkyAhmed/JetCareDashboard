@@ -8,6 +8,7 @@ import 'package:jetboard/src/presentation/views/home_card.dart';
 import 'package:jetboard/src/presentation/views/month_item.dart';
 import 'package:jetboard/src/presentation/widgets/circular_item.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
+import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeDesktop extends StatefulWidget {
@@ -83,12 +84,15 @@ class _HomeDesktopState extends State<HomeDesktop> {
                                     : AppColors.darkGrey,
                                 onTap: () {
                                   setState(() {
+                                    IndicatorView.showIndicator(context);
                                     selectedMonth = index;
                                     printError((selectedMonth + 1).toString());
                                   });
                                   GlobalCubit.get(context).getStatistics(
                                     month: (selectedMonth + 1).toString(),
-                                    afterSuccess: () {},
+                                    afterSuccess: () {
+                                      Navigator.pop(context);
+                                    },
                                   );
                                 },
                               );

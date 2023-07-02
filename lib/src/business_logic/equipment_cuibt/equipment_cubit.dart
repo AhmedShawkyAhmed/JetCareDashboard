@@ -18,9 +18,12 @@ class EquipmentCubit extends Cubit<EquipmentState> {
   static EquipmentCubit get(context) => BlocProvider.of(context);
 
   EquipmentRespons? getEquipmentResponse,
+      getActiveEquipmentResponse,
       addEquipmentResponse,
       deleteEquipmentResponse;
   List<EquipmentModel> equipmentList= [];
+  List<int> equipmentIds= [];
+  List<EquipmentModel> availableEquipmentList = [];
   int listCount = 0;
   int index = 0;
 
@@ -42,6 +45,9 @@ class EquipmentCubit extends Cubit<EquipmentState> {
         getEquipmentResponse = EquipmentRespons.fromJson(value.data);
         equipmentList.addAll(getEquipmentResponse!.equipmentModel!);
         listCount = getEquipmentResponse!.equipmentModel!.length;
+        for(int e = 0; e < getEquipmentResponse!.equipmentModel!.length; e++){
+            equipmentIds.add(getEquipmentResponse!.equipmentModel![e].id!);
+        }
         emit(GetEquipmentSuccessState());
         printSuccess(value.data.toString());
       });
@@ -50,6 +56,37 @@ class EquipmentCubit extends Cubit<EquipmentState> {
       printError(n.toString());
     } catch (e) {
       emit(GetEquipmentErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future getActiveEquipment ({String? keyword,type,required VoidCallback afterSuccess}) async {
+    availableEquipmentList.clear();
+    getActiveEquipmentResponse=null;
+    try {
+      emit(GetActiveEquipmentLoadingState());
+      await DioHelper.getData(
+        url: EndPoints.getEquipment,
+        query: {
+          "keyword" : keyword,
+          "type" : type,
+        },
+      ).then((value) {
+        getActiveEquipmentResponse = EquipmentRespons.fromJson(value.data);
+        for(int e = 0; e < getActiveEquipmentResponse!.equipmentModel!.length; e++){
+          if(getActiveEquipmentResponse!.equipmentModel![e].active == 1){
+            availableEquipmentList.add(getActiveEquipmentResponse!.equipmentModel![e]);
+          }
+        }
+        emit(GetActiveEquipmentSuccessState());
+        afterSuccess();
+        printSuccess(value.data.toString());
+      });
+    } on DioError catch (n) {
+      emit(GetActiveEquipmentErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(GetActiveEquipmentErrorState());
       printError(e.toString());
     }
   }
@@ -70,8 +107,7 @@ class EquipmentCubit extends Cubit<EquipmentState> {
       ).then((value) {
         getEquipment();
         printSuccess(value.toString());
-        final myData = Map<String, dynamic>.from(value.data);
-        addEquipmentResponse = EquipmentRespons.fromJson(myData);
+        addEquipmentResponse = EquipmentRespons.fromJson(value.data);
         //equipmentList.addAll(addEquipmentResponse!.equipmentModel!);
         //listCount += 1;
         emit(AddEquipmentSuccessState());

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
@@ -32,12 +30,26 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
   String crewName = "";
 
   @override
+  void initState() {
+    if (widget.orderModel.crew == null) {
+      GlobalCubit.get(context).getCrews(
+        areaId: widget.orderModel.address!.area!.id,
+        periodId: widget.orderModel.period!.id!,
+        date: widget.orderModel.date!,
+      );
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.transparent,
       body: Container(
         decoration: BoxDecoration(
-            color: AppColors.white, borderRadius: BorderRadius.circular(15)),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
         padding: EdgeInsets.only(left: 1.w, top: 1.h),
         height: 90.h,
@@ -63,97 +75,116 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
               ],
             ),
             if (widget.orderModel.status != "canceled") ...[
-              SizedBox(
-                height: 10.h,
-                width: 60.w,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      top: 2.h, left: 2.5.w, right: 2.5.w, bottom: 1.h),
-                  child: RowData(
-                    rowHeight: 5.h,
-                    data: [
-                      SizedBox(
-                        width: 50.w,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            BlocBuilder<AreaCubit, AreaState>(
-                              builder: (context, state) {
-                                if (AreaCubit.get(context).areas.isEmpty) {
-                                  return SizedBox(
-                                    width: 15.w,
-                                    child: const DefaultText(
-                                      text: "No Areas",
-                                      align: TextAlign.right,
-                                    ),
-                                  );
-                                }
-                                return SizedBox(
-                                  width: 15.w,
-                                  height: 4.h,
-                                  child: DefaultDropdown<AreaModel>(
-                                    hint: "Areas",
-                                    showSearchBox: true,
-                                    itemAsString: (AreaModel? u) =>
-                                        u?.nameAr ?? "",
-                                    items: AreaCubit.get(context).areaList,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        GlobalCubit.get(context)
-                                            .getCrews(val!.id);
-                                      });
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            BlocBuilder<GlobalCubit, GlobalState>(
-                              builder: (context, state) {
-                                if (GlobalCubit.get(context).crews.isEmpty) {
-                                  return SizedBox(
-                                    width: 15.w,
-                                    child: const DefaultText(
-                                      text: "No Crew",
-                                      align: TextAlign.right,
-                                    ),
-                                  );
-                                }
-                                return SizedBox(
-                                  width: 15.w,
-                                  height: 4.h,
-                                  child: DefaultDropdown<User>(
-                                    hint: "Crew",
-                                    showSearchBox: true,
-                                    itemAsString: (User? u) => u?.name ?? "",
-                                    items: GlobalCubit.get(context).crews,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        OrdersCubit.get(context).assignOrder(
-                                          id: widget.orderModel.id,
-                                          crewId: val!.id!,
-                                          date: widget.orderModel.date!,
-                                          afterSuccess: () {
-                                            Navigator.pop(context);
-                                            userId.clear();
-                                            areaId = 0;
-                                          },
-                                        );
-                                      });
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+              if (widget.orderModel.crew == null) ...[
+                SizedBox(
+                  height: 10.h,
+                  width: 60.w,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: 2.h, left: 2.5.w, right: 2.5.w, bottom: 1.h),
+                    child: RowData(
+                      rowHeight: 5.h,
+                      data: [
+                        Center(
+                          child: SizedBox(
+                            width: 50.w,
+                            child:
+                                BlocBuilder<GlobalCubit, GlobalState>(
+                                  builder: (context, state) {
+                                    if (GlobalCubit.get(context).crews.isEmpty) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 30.w,
+                                          child: const DefaultText(
+                                            text: "No Crew",
+                                            align: TextAlign.center,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return SizedBox(
+                                      width: 50.w,
+                                      height: 4.h,
+                                      child: DefaultDropdown<User>(
+                                        hint: "Crew",
+                                        showSearchBox: true,
+                                        itemAsString: (User? u) => "${u?.name ?? ""}  -  ${u?.phone ?? ""}",
+                                        items: GlobalCubit.get(context).crews,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            OrdersCubit.get(context).assignOrder(
+                                              id: widget.orderModel.id,
+                                              crewId: val!.id!,
+                                              date: widget.orderModel.date!,
+                                              afterSuccess: () {
+                                                Navigator.pop(context);
+                                                userId.clear();
+                                                areaId = 0;
+                                              },
+                                            );
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ] else ...[
+                SizedBox(
+                  height: 10.h,
+                  width: 60.w,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: 2.h, left: 2.5.w, right: 2.5.w, bottom: 1.h),
+                    child: RowData(
+                      rowHeight: 5.h,
+                      data: [
+                        SizedBox(
+                          width: 50.w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const DefaultText(
+                                text: "Crew Name:",
+                              ),
+                              SizedBox(
+                                width: 1.w,
+                              ),
+                              DefaultText(
+                                text: widget.orderModel.crew == null
+                                    ? "No Crew"
+                                    : "${widget.orderModel.crew!.name}",
+                                align: TextAlign.right,
+                              ),
+                              SizedBox(
+                                width: 7.w,
+                              ),
+                              const DefaultText(
+                                text: "Crew Phone:",
+                              ),
+                              SizedBox(
+                                width: 1.w,
+                              ),
+                              DefaultText(
+                                text: widget.orderModel.crew == null
+                                    ? "No Crew"
+                                    : "${widget.orderModel.crew!.phone}",
+                                align: TextAlign.right,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ],
             SizedBox(
               height: 30.h,
@@ -211,14 +242,14 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Crew Name",
+                                    text: "Ordered At",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: widget.orderModel.crew == null
-                                          ? "No Crew"
-                                          : "${widget.orderModel.crew!.name}",
+                                      text: widget.orderModel.createdAt
+                                          .toString()
+                                          .substring(0, 10),
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -229,31 +260,12 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Crew Phone",
+                                    text: "Date",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: widget.orderModel.crew == null
-                                          ? "No Crew"
-                                          : "${widget.orderModel.crew!.phone}",
-                                      align: TextAlign.right,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const DefaultText(
-                                    text: "Period",
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                    child: DefaultText(
-                                      text:
-                                          "${widget.orderModel.period!.from} - ${widget.orderModel.period!.to}",
+                                      text: widget.orderModel.date.toString(),
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -293,30 +305,13 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const DefaultText(
-                                    text: "Ordered At",
+                                    text: "Period",
                                   ),
                                   SizedBox(
                                     width: 10.w,
                                     child: DefaultText(
-                                      text: widget.orderModel.createdAt
-                                          .toString()
-                                          .substring(0, 10),
-                                      align: TextAlign.right,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const DefaultText(
-                                    text: "Date",
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                    child: DefaultText(
-                                      text: widget.orderModel.date.toString(),
+                                      text:
+                                          "${widget.orderModel.period!.from} - ${widget.orderModel.period!.to}",
                                       align: TextAlign.right,
                                     ),
                                   ),
@@ -402,16 +397,26 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                                                     .text),
                                                         afterSuccess: () {
                                                           setState(() {
-                                                            widget.orderModel.extra = double.parse(
-                                                                priceController
-                                                                    .text ==
-                                                                    ""
+                                                            widget.orderModel
+                                                                    .extra =
+                                                                double.parse(priceController
+                                                                            .text ==
+                                                                        ""
                                                                     ? "0"
                                                                     : priceController
-                                                                    .text);
-                                                            widget.orderModel.total = widget.orderModel.price! + widget.orderModel.shipping! + widget.orderModel.extra!;
+                                                                        .text);
+                                                            widget.orderModel
+                                                                .total = widget
+                                                                    .orderModel.price! +
+                                                                widget
+                                                                    .orderModel
+                                                                    .shipping! +
+                                                                widget
+                                                                    .orderModel
+                                                                    .extra!;
                                                           });
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       );
                                                     },

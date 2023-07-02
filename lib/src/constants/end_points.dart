@@ -7,8 +7,6 @@ class EndPoints {
   static const deleteAccount = "deleteAccount";
   static const changeAccountStatus = "changeAccountStatus";
   static const getAccounts = "getAccounts";
-  static const getCrew = "getCrew";
-  static const getRole = "getRole";
 
   static const getInfo = "getInfo";
   static const addInfo = "addInfo";

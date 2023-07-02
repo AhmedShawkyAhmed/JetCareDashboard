@@ -21,9 +21,6 @@ class EquipmentScheduleCubit extends Cubit<EquipmentScheduleState> {
   List<EquipmentScheduleModel> equipmentList= [];
   int listCount = 0;
 
-
-
-
   Future getEquipmentSchedule ({String? keyword,type,}) async {
     equipmentList.clear();
     getEquipmentScheduleResponse=null;
@@ -85,7 +82,7 @@ class EquipmentScheduleCubit extends Cubit<EquipmentScheduleState> {
     }
   }
 
-  Future addReturnDate({
+  Future returnEquipment({
     required int id,
     required String date,
     required VoidCallback afterSuccess,

@@ -1,10 +1,12 @@
+import 'package:jetboard/src/data/models/equipment_model.dart';
+
 class EquipmentScheduleModel {
   int? id;
   String? date;
   String? returned;
   String? createdAt;
   Crew? crew;
-  Equipment? equipment;
+  EquipmentModel? equipment;
 
   EquipmentScheduleModel(
       {this.id,
@@ -21,7 +23,7 @@ class EquipmentScheduleModel {
     createdAt : json['createdAt'],
     crew: json['crew'] != null ? Crew.fromJson(json['crew']) : null,
     equipment : json['equipment'] != null
-        ?  Equipment.fromJson(json['equipment'])
+        ?  EquipmentModel.fromJson(json['equipment'])
         : null,
     );
 
@@ -62,31 +64,6 @@ class Crew {
     data['name'] = name;
     data['phone'] = phone;
     data['email'] = email;
-    return data;
-  }
-}
-
-class Equipment {
-  int? id;
-  String? code;
-  String? name;
-  int? active;
-
-  Equipment({this.id, this.code, this.name, this.active});
-
-  factory Equipment.fromJson(Map<String, dynamic> json) => Equipment( 
-    id : json['id'],
-    code : json['code'],
-    name : json['name'],
-    active : json['active'],
-  );
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['code'] = code;
-    data['name'] = name;
-    data['active'] = active;
     return data;
   }
 }

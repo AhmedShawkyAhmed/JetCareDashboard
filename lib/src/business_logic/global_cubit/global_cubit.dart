@@ -48,9 +48,8 @@ class GlobalCubit extends Cubit<GlobalState> {
     afterSuccess();
   }
 
-
   PackagesResponse? packagesResponse;
-  ItemsResponse? getItemsResponse,itemsResponse;
+  ItemsResponse? getItemsResponse, itemsResponse;
   StatisticsResponse? statisticsResponse;
   CrewAreaResponse? crewAreaResponse;
   UserResponse? userResponse;
@@ -103,6 +102,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     lol[index] == 1 ? lol[index] = 0 : lol[index] = 1;
     emit(AppChangeSwitchState());
   }
+
   Future getUser({required VoidCallback afterSuccess}) async {
     users.clear();
     try {
@@ -129,7 +129,12 @@ class GlobalCubit extends Cubit<GlobalState> {
       printError(e.toString());
     }
   }
-  Future getCrews(int areaId) async {
+
+  Future getCrews({
+    required int areaId,
+    required int periodId,
+    required String date,
+  }) async {
     crews.clear();
     try {
       emit(CrewLoadingState());
@@ -137,6 +142,8 @@ class GlobalCubit extends Cubit<GlobalState> {
         url: EndPoints.getCrewOfAreas,
         query: {
           "areaId": areaId,
+          "periodId": periodId,
+          "date": date,
         },
       ).then((value) {
         printSuccess(value.data.toString());
@@ -184,7 +191,7 @@ class GlobalCubit extends Cubit<GlobalState> {
         url: EndPoints.getItemsMobile,
       ).then((value) {
         itemsResponse = ItemsResponse.fromJson(value.data);
-        for(int i = 0; i < itemsResponse!.itemsModel!.length;i++){
+        for (int i = 0; i < itemsResponse!.itemsModel!.length; i++) {
           items.add(itemsResponse!.itemsModel![i].nameEn!);
         }
         emit(ItemsSuccessState());
@@ -206,7 +213,7 @@ class GlobalCubit extends Cubit<GlobalState> {
         url: EndPoints.getPackagesMobile,
       ).then((value) {
         packagesResponse = PackagesResponse.fromJson(value.data);
-        for(int i = 0; i < packagesResponse!.packagesModel!.length;i++){
+        for (int i = 0; i < packagesResponse!.packagesModel!.length; i++) {
           packages.add(packagesResponse!.packagesModel![i].nameEn);
         }
         emit(PackagesSuccessState());

@@ -1015,7 +1015,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                     hint: "Items",
                                     showSearchBox: true,
                                     itemAsString: (ItemsModel? u) =>
-                                        u?.nameAr ?? "",
+                                        ("${u?.price} EGP - ${u?.nameAr} "),
                                     items: ItemsCubit.get(context)
                                         .itemsResponse!
                                         .itemsModel!,

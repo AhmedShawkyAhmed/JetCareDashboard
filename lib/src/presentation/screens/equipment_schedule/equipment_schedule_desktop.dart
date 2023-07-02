@@ -14,6 +14,8 @@ import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
+import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
+import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
 class EquipmentScheduleDesktop extends StatefulWidget {
@@ -26,6 +28,7 @@ class EquipmentScheduleDesktop extends StatefulWidget {
 
 class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   int crewId = 0;
   int eqId = 0;
   DateTime now = DateTime.now();
@@ -96,167 +99,268 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                       haveShadow: false,
                       title: "Add",
                       onTap: () {
-                        GlobalCubit.get(context).getUser(afterSuccess: () {
-                          printLog(
-                              GlobalCubit.get(context).crews.length.toString());
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: AppColors.white,
-                                content: SingleChildScrollView(
-                                  child: ListBody(
-                                    children: <Widget>[
-                                      const DefaultText(
-                                        text: "Handover Equipment",
-                                        align: TextAlign.center,
-                                      ),
-                                      SizedBox(
-                                        height: 3.h,
-                                      ),
-                                      BlocBuilder<EquipmentCubit,
-                                          EquipmentState>(
-                                        builder: (context, state) {
-                                          if (GlobalCubit.get(context)
-                                              .users
-                                              .isEmpty) {
-                                            return SizedBox(
+                        IndicatorView.showIndicator(context);
+                        EquipmentCubit.get(context).getActiveEquipment(
+                            afterSuccess: () {
+                          GlobalCubit.get(context).getUser(
+                            afterSuccess: () {
+                              Navigator.pop(context);
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: AppColors.white,
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          const DefaultText(
+                                            text: "Handover Equipment",
+                                            align: TextAlign.center,
+                                          ),
+                                          SizedBox(
+                                            height: 3.h,
+                                          ),
+                                          BlocBuilder<EquipmentCubit,
+                                              EquipmentState>(
+                                            builder: (context, state) {
+                                              if (GlobalCubit.get(context)
+                                                  .users
+                                                  .isEmpty) {
+                                                return SizedBox(
+                                                  width: 15.w,
+                                                  child: const DefaultText(
+                                                    text: "No Equipment",
+                                                    align: TextAlign.right,
+                                                  ),
+                                                );
+                                              }
+                                              return SizedBox(
+                                                width: 15.w,
+                                                height: 4.h,
+                                                child: DefaultDropdown<
+                                                    EquipmentModel>(
+                                                  hint: "Equipment",
+                                                  showSearchBox: true,
+                                                  itemAsString:
+                                                      (EquipmentModel? u) =>
+                                                          u?.name ?? "",
+                                                  items: EquipmentCubit.get(
+                                                          context)
+                                                      .availableEquipmentList,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      eqId = val!.id!;
+                                                    });
+                                                    printLog(eqId.toString());
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                          BlocBuilder<GlobalCubit, GlobalState>(
+                                            builder: (context, state) {
+                                              if (GlobalCubit.get(context)
+                                                  .users
+                                                  .isEmpty) {
+                                                return SizedBox(
+                                                  width: 15.w,
+                                                  child: const DefaultText(
+                                                    text: "No Crew",
+                                                    align: TextAlign.right,
+                                                  ),
+                                                );
+                                              }
+                                              return SizedBox(
+                                                width: 15.w,
+                                                height: 4.h,
+                                                child:
+                                                    DefaultDropdown<UserModel>(
+                                                  hint: "Crew",
+                                                  showSearchBox: true,
+                                                  itemAsString:
+                                                      (UserModel? u) =>
+                                                          u?.name ?? "",
+                                                  items:
+                                                      GlobalCubit.get(context)
+                                                          .users,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      crewId = val!.id;
+                                                    });
+                                                    printLog(crewId.toString());
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              selectDate(
+                                                context,
+                                                () {},
+                                              );
+                                            },
+                                            child: DefaultTextField(
+                                              controller: dateController,
+                                              height: 4.h,
                                               width: 15.w,
-                                              child: const DefaultText(
-                                                text: "No Equipment",
-                                                align: TextAlign.right,
-                                              ),
-                                            );
-                                          }
-                                          return SizedBox(
-                                            width: 15.w,
-                                            height: 4.h,
-                                            child:
-                                                DefaultDropdown<EquipmentModel>(
-                                              hint: "Equipment",
-                                              showSearchBox: true,
-                                              itemAsString:
-                                                  (EquipmentModel? u) =>
-                                                      u?.name ?? "",
-                                              items: EquipmentCubit.get(context)
-                                                  .equipmentList,
-                                              onChanged: (val) {
-                                                setState(() {
-                                                  eqId = val!.id!;
-                                                });
-                                                printLog(eqId.toString());
-                                              },
+                                              haveShadow: true,
+                                              readOnly: false,
+                                              spreadRadius: 2,
+                                              blurRadius: 2,
+                                              horizontalPadding: 0,
+                                              color: AppColors.white,
+                                              shadowColor: AppColors.black
+                                                  .withOpacity(0.05),
+                                              hintText: "Choose Date",
+                                              password: false,
                                             ),
-                                          );
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 2.h,
-                                      ),
-                                      BlocBuilder<GlobalCubit, GlobalState>(
-                                        builder: (context, state) {
-                                          if (GlobalCubit.get(context)
-                                              .users
-                                              .isEmpty) {
-                                            return SizedBox(
+                                          ),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                          InkWell(
+                                            onTap: () async {
+                                              TimeOfDay? pickedTime =
+                                                  await showTimePicker(
+                                                initialTime: TimeOfDay.now(),
+                                                context: context,
+                                                builder: (BuildContext context,
+                                                    Widget? child) {
+                                                  return Theme(
+                                                    data: ThemeData.light()
+                                                        .copyWith(
+                                                      colorScheme: ColorScheme
+                                                          .fromSwatch(
+                                                        primarySwatch:
+                                                            Colors.teal,
+                                                        primaryColorDark:
+                                                            Colors.teal,
+                                                        accentColor:
+                                                            Colors.teal,
+                                                      ),
+                                                      dialogBackgroundColor:
+                                                          Colors.white,
+                                                    ),
+                                                    child: child!,
+                                                  );
+                                                },
+                                              );
+                                              if (pickedTime != null) {
+                                                setState(() {
+                                                  timeController.text =
+                                                      pickedTime
+                                                          .format(context);
+                                                });
+                                              } else {
+                                                printResponse(
+                                                    "Time is not selected");
+                                              }
+                                            },
+                                            child: DefaultTextField(
+                                              controller: timeController,
+                                              height: 4.h,
                                               width: 15.w,
-                                              child: const DefaultText(
-                                                text: "No Crew",
-                                                align: TextAlign.right,
+                                              haveShadow: true,
+                                              readOnly: false,
+                                              spreadRadius: 2,
+                                              blurRadius: 2,
+                                              horizontalPadding: 0,
+                                              color: AppColors.white,
+                                              shadowColor: AppColors.black
+                                                  .withOpacity(0.05),
+                                              hintText: "Choose Time",
+                                              password: false,
+                                              prefix: Icon(
+                                                Icons.watch_later,
+                                                color: AppColors.darkGrey
+                                                    .withOpacity(0.7),
                                               ),
-                                            );
-                                          }
-                                          return SizedBox(
-                                            width: 15.w,
-                                            height: 4.h,
-                                            child: DefaultDropdown<UserModel>(
-                                              hint: "Crew",
-                                              showSearchBox: true,
-                                              itemAsString: (UserModel? u) =>
-                                                  u?.name ?? "",
-                                              items: GlobalCubit.get(context)
-                                                  .users,
-                                              onChanged: (val) {
-                                                setState(() {
-                                                  crewId = val!.id;
-                                                });
-                                                printLog(crewId.toString());
-                                              },
                                             ),
-                                          );
-                                        },
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        height: 2.h,
-                                      ),
-                                      InkWell(
+                                    ),
+                                    actionsAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    actions: <Widget>[
+                                      DefaultAppButton(
+                                        title: "Save",
                                         onTap: () {
-                                          selectDate(
-                                            context,
-                                            () {},
-                                          );
+                                          if (eqId == 0) {
+                                            DefaultToast.showMyToast(
+                                                "Select Equipment");
+                                          } else if (crewId == 0) {
+                                            DefaultToast.showMyToast(
+                                                "Select Crew");
+                                          } else if (dateController.text ==
+                                              "") {
+                                            DefaultToast.showMyToast(
+                                                "Select Date");
+                                          } else if (timeController.text ==
+                                              "") {
+                                            DefaultToast.showMyToast(
+                                                "Select Time");
+                                          } else {
+                                            EquipmentScheduleCubit.get(context)
+                                                .assignEquipment(
+                                              eqId: eqId,
+                                              crewId: crewId,
+                                              date:
+                                                  "${dateController.text} - ${timeController.text}",
+                                              afterSuccess: () {
+                                                if (EquipmentCubit.get(context)
+                                                    .equipmentList
+                                                    .isNotEmpty) {
+                                                  EquipmentCubit.get(context)
+                                                      .equipmentList[
+                                                          EquipmentCubit.get(
+                                                                  context)
+                                                              .equipmentIds
+                                                              .indexOf(eqId)]
+                                                      .active = 0;
+                                                }
+                                                dateController.clear();
+                                                timeController.clear();
+                                                Navigator.pop(context);
+                                              },
+                                            );
+                                          }
                                         },
-                                        child: DefaultTextField(
-                                          controller: dateController,
-                                          height: 4.h,
-                                          width: 15.w,
-                                          haveShadow: true,
-                                          readOnly: false,
-                                          spreadRadius: 2,
-                                          blurRadius: 2,
-                                          horizontalPadding: 0,
-                                          color: AppColors.white,
-                                          shadowColor:
-                                              AppColors.black.withOpacity(0.05),
-                                          hintText: "Choose Date",
-                                          password: false,
-                                        ),
+                                        width: 10.w,
+                                        height: 4.h,
+                                        fontSize: 3.sp,
+                                        textColor: AppColors.white,
+                                        buttonColor: AppColors.pc,
+                                        isGradient: false,
+                                        radius: 10,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                actionsAlignment: MainAxisAlignment.spaceEvenly,
-                                actions: <Widget>[
-                                  DefaultAppButton(
-                                    title: "Save",
-                                    onTap: () {
-                                      EquipmentScheduleCubit.get(context)
-                                          .assignEquipment(
-                                        eqId: eqId,
-                                        crewId: crewId,
-                                        date: dateController.text,
-                                        afterSuccess: () {
-                                          dateController.clear();
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      DefaultAppButton(
+                                        title: "Cancel",
+                                        onTap: () {
                                           Navigator.pop(context);
                                         },
-                                      );
-                                    },
-                                    width: 10.w,
-                                    height: 4.h,
-                                    fontSize: 3.sp,
-                                    textColor: AppColors.white,
-                                    buttonColor: AppColors.pc,
-                                    isGradient: false,
-                                    radius: 10,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  DefaultAppButton(
-                                    title: "Cancel",
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    width: 10.w,
-                                    height: 4.h,
-                                    fontSize: 3.sp,
-                                    textColor: AppColors.mainColor,
-                                    buttonColor: AppColors.lightGrey,
-                                    isGradient: false,
-                                    radius: 10,
-                                  ),
-                                ],
+                                        width: 10.w,
+                                        height: 4.h,
+                                        fontSize: 3.sp,
+                                        textColor: AppColors.mainColor,
+                                        buttonColor: AppColors.lightGrey,
+                                        isGradient: false,
+                                        radius: 10,
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
                             },
                           );
@@ -389,7 +493,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Date',
+                                      'Date & Time',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(
@@ -423,27 +527,244 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                             null
                                         ? IconButton(
                                             onPressed: () async {
-                                              selectDate(
-                                                context,
-                                                () {
-                                                  EquipmentScheduleCubit.get(
-                                                          context)
-                                                      .addReturnDate(
-                                                    id: EquipmentScheduleCubit
-                                                            .get(context)
-                                                        .equipmentList[index]
-                                                        .id!,
-                                                    date: dateController.text,
-                                                    afterSuccess: () {
-                                                      setState(() {
-                                                        EquipmentScheduleCubit
-                                                                    .get(context)
-                                                                .equipmentList[
-                                                                    index]
-                                                                .returned =
-                                                            dateController.text;
-                                                      });
-                                                    },
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible: true,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        AppColors.white,
+                                                    content:
+                                                        SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: <Widget>[
+                                                          const DefaultText(
+                                                            text:
+                                                                "Return Equipment",
+                                                            align: TextAlign
+                                                                .center,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 3.h,
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              selectDate(
+                                                                context,
+                                                                () {},
+                                                              );
+                                                            },
+                                                            child:
+                                                                DefaultTextField(
+                                                              controller:
+                                                                  dateController,
+                                                              height: 4.h,
+                                                              width: 15.w,
+                                                              haveShadow: true,
+                                                              readOnly: false,
+                                                              spreadRadius: 2,
+                                                              blurRadius: 2,
+                                                              horizontalPadding:
+                                                                  0,
+                                                              color: AppColors
+                                                                  .white,
+                                                              shadowColor:
+                                                                  AppColors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.05),
+                                                              hintText:
+                                                                  "Choose Date",
+                                                              password: false,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 2.h,
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () async {
+                                                              TimeOfDay?
+                                                                  pickedTime =
+                                                                  await showTimePicker(
+                                                                initialTime:
+                                                                    TimeOfDay
+                                                                        .now(),
+                                                                context:
+                                                                    context,
+                                                                builder: (BuildContext
+                                                                        context,
+                                                                    Widget?
+                                                                        child) {
+                                                                  return Theme(
+                                                                    data: ThemeData
+                                                                            .light()
+                                                                        .copyWith(
+                                                                      colorScheme:
+                                                                          ColorScheme
+                                                                              .fromSwatch(
+                                                                        primarySwatch:
+                                                                            Colors.teal,
+                                                                        primaryColorDark:
+                                                                            Colors.teal,
+                                                                        accentColor:
+                                                                            Colors.teal,
+                                                                      ),
+                                                                      dialogBackgroundColor:
+                                                                          Colors
+                                                                              .white,
+                                                                    ),
+                                                                    child:
+                                                                        child!,
+                                                                  );
+                                                                },
+                                                              );
+                                                              if (pickedTime !=
+                                                                  null) {
+                                                                setState(() {
+                                                                  timeController
+                                                                          .text =
+                                                                      pickedTime
+                                                                          .format(
+                                                                              context);
+                                                                });
+                                                              } else {
+                                                                printResponse(
+                                                                    "Time is not selected");
+                                                              }
+                                                            },
+                                                            child:
+                                                                DefaultTextField(
+                                                              controller:
+                                                                  timeController,
+                                                              height: 4.h,
+                                                              width: 15.w,
+                                                              haveShadow: true,
+                                                              readOnly: false,
+                                                              spreadRadius: 2,
+                                                              blurRadius: 2,
+                                                              horizontalPadding:
+                                                                  0,
+                                                              color: AppColors
+                                                                  .white,
+                                                              shadowColor:
+                                                                  AppColors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.05),
+                                                              hintText:
+                                                                  "Choose Time",
+                                                              password: false,
+                                                              prefix: Icon(
+                                                                Icons
+                                                                    .watch_later,
+                                                                color: AppColors
+                                                                    .darkGrey
+                                                                    .withOpacity(
+                                                                        0.7),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actionsAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    actions: <Widget>[
+                                                      DefaultAppButton(
+                                                        title: "Save",
+                                                        onTap: () {
+                                                          if (dateController
+                                                                  .text ==
+                                                              "") {
+                                                            DefaultToast
+                                                                .showMyToast(
+                                                                    "Select Date");
+                                                          } else if (timeController
+                                                                  .text ==
+                                                              "") {
+                                                            DefaultToast
+                                                                .showMyToast(
+                                                                    "Select Time");
+                                                          } else {
+                                                            EquipmentScheduleCubit
+                                                                    .get(
+                                                                        context)
+                                                                .returnEquipment(
+                                                              id: EquipmentScheduleCubit
+                                                                      .get(
+                                                                          context)
+                                                                  .equipmentList[
+                                                                      index]
+                                                                  .id!,
+                                                              date:
+                                                                  "${dateController.text} - ${timeController.text}",
+                                                              afterSuccess: () {
+                                                                printSuccess(EquipmentScheduleCubit
+                                                                        .get(
+                                                                            context)
+                                                                    .equipmentList[
+                                                                        index]
+                                                                    .id!
+                                                                    .toString());
+                                                                setState(() {
+                                                                  if (EquipmentCubit
+                                                                          .get(
+                                                                              context)
+                                                                      .equipmentList
+                                                                      .isNotEmpty) {
+                                                                    EquipmentCubit.get(
+                                                                            context)
+                                                                        .equipmentList[EquipmentCubit.get(context).equipmentIds.indexOf(EquipmentScheduleCubit.get(context)
+                                                                            .equipmentList[index]
+                                                                            .equipment!
+                                                                            .id!)]
+                                                                        .active = 1;
+                                                                  }
+                                                                  EquipmentScheduleCubit
+                                                                          .get(
+                                                                              context)
+                                                                      .equipmentList[
+                                                                          index]
+                                                                      .returned = "${dateController.text} - ${timeController.text}";
+                                                                });
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            );
+                                                          }
+                                                        },
+                                                        width: 10.w,
+                                                        height: 4.h,
+                                                        fontSize: 3.sp,
+                                                        textColor:
+                                                            AppColors.white,
+                                                        buttonColor:
+                                                            AppColors.pc,
+                                                        isGradient: false,
+                                                        radius: 10,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      DefaultAppButton(
+                                                        title: "Cancel",
+                                                        onTap: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        width: 10.w,
+                                                        height: 4.h,
+                                                        fontSize: 3.sp,
+                                                        textColor:
+                                                            AppColors.mainColor,
+                                                        buttonColor:
+                                                            AppColors.lightGrey,
+                                                        isGradient: false,
+                                                        radius: 10,
+                                                      ),
+                                                    ],
                                                   );
                                                 },
                                               );

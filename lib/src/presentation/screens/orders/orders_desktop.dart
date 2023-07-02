@@ -286,6 +286,11 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                             afterSuccess: () {
                                               setState(
                                                 () {
+                                                  if(val == "canceled" || val == "unassigned"){
+                                                    OrdersCubit.get(context)
+                                                        .ordersList[index]
+                                                        .crew = null;
+                                                  }
                                                   OrdersCubit.get(context)
                                                       .ordersList[index]
                                                       .status = val;

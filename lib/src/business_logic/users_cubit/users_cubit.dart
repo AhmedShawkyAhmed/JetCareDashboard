@@ -158,31 +158,6 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
-  Future getRoles() async {
-    try {
-      emit(RoleUserLoadingState());
-      await DioHelper.getData(
-        url: EndPoints.getRole,
-      ).then((value) {
-        printSuccess(value.data.toString());
-        final myData = Map<String, dynamic>.from(value.data);
-        roleResponse = RoleResponse.fromJson(myData);
-        for (var i = 0; i < roleResponse!.infoModel!.length; i++) {
-          roleList.add(roleResponse!.infoModel![i].titleEn.toString());
-        }
-        roleList.insert(0, 'All');
-        emit(RoleUserSuccessState());
-        printResponse(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(RoleUserErrorState());
-      printResponse(n.toString());
-    } catch (e) {
-      emit(RoleUserErrorState());
-      printResponse(e.toString());
-    }
-  }
-
   Future updateUser({
     required UserRequset userRequset,
     required int index,

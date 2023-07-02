@@ -9,6 +9,10 @@ class GetEquipmentLoadingState extends EquipmentState {}
 class GetEquipmentSuccessState extends EquipmentState {}
 class GetEquipmentErrorState extends EquipmentState {}
 
+class GetActiveEquipmentLoadingState extends EquipmentState {}
+class GetActiveEquipmentSuccessState extends EquipmentState {}
+class GetActiveEquipmentErrorState extends EquipmentState {}
+
 class AddEquipmentLoadingState extends EquipmentState {}
 class AddEquipmentSuccessState extends EquipmentState {}
 class AddEquipmentErrorState extends EquipmentState {}
