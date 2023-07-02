@@ -39,3 +39,7 @@ class UpdateUserErrorState extends CrewState {}
 class DeleteUserLoadingState extends CrewState {}
 class DeleteUserSuccessState extends CrewState {}
 class DeleteUserErrorState extends CrewState {}
+
+class UserCommentLoadingState extends CrewState {}
+class UserCommentSuccessState extends CrewState {}
+class UserCommentErrorState extends CrewState {}

@@ -8,6 +8,7 @@ import 'package:jetboard/src/data/models/settings_model.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/access_response.dart';
+import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 
@@ -20,6 +21,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
 
   static ModeratorCubit get(context) => BlocProvider.of(context);
 
+  GlobalResponse? globalResponse;
   UserResponse? getUserResponse,
       addUserResponse,
       deleteUserResponse,
@@ -238,6 +240,31 @@ class ModeratorCubit extends Cubit<ModeratorState> {
       printError(n.toString());
     } catch (e) {
       emit(GetAccessErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future updateAdminComment({
+    required int userId,
+    required String comment,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(UserCommentLoadingState());
+      await DioHelper.postData(url: EndPoints.userAdminComment, body: {
+        'id': userId,
+        'comment': comment,
+      }).then((value) {
+        globalResponse = GlobalResponse.fromJson(value.data);
+        DefaultToast.showMyToast(globalResponse!.message.toString());
+        emit(UserCommentSuccessState());
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(UserCommentErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(UserCommentErrorState());
       printError(e.toString());
     }
   }

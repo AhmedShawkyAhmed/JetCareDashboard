@@ -228,7 +228,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     }
   }
 
-  Future getItemsForPackages({String? type, keyword}) async {
+  Future getItemsForPackages({String? type, keyword,required VoidCallback afterSuccess}) async {
     try {
       emit(ItemsForPackagesLoadingState());
       await DioHelper.getData(
@@ -242,6 +242,7 @@ class GlobalCubit extends Cubit<GlobalState> {
         itemListForPackages.addAll(getItemsResponse!.itemsModel!);
         listCount = getItemsResponse!.itemsModel!.length;
         emit(ItemsForPackagesSuccessState());
+        afterSuccess();
         printSuccess(value.data.toString());
       });
     } on DioError catch (n) {

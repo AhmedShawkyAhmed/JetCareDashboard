@@ -120,7 +120,7 @@ class _EndDrawerWidgetCalendarState extends State<EndDrawerWidgetCalendar> {
                                       ]),
                                 ),
                                 child: const Icon(
-                                  Icons.arrow_back_ios,
+                                  Icons.close,
                                   color: AppColors.white,
                                 ),
                               ),

@@ -40,7 +40,7 @@ class _ViewPackagesState extends State<ViewPackages> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.close),
               color: AppColors.darkGrey.withOpacity(0.5),
             ),
             Padding(

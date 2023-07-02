@@ -19,6 +19,7 @@ class _SplashDesktopState extends State<SplashDesktop> {
   @override
   void initState() {
     printLog(pushToken.toString());
+    printLog(CacheHelper.getDataFromSharedPreference(key: "role").toString());
     if (CacheHelper.getDataFromSharedPreference(key: "email") == null) {
       GlobalCubit.get(context).navigate(
         afterSuccess: () {

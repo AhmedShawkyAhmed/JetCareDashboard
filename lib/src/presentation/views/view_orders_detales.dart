@@ -87,7 +87,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                       data: [
                         Center(
                           child: SizedBox(
-                            width: 50.w,
+                            width: 30.w,
                             child:
                                 BlocBuilder<GlobalCubit, GlobalState>(
                                   builder: (context, state) {
@@ -103,7 +103,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                       );
                                     }
                                     return SizedBox(
-                                      width: 50.w,
+                                      width: 30.w,
                                       height: 4.h,
                                       child: DefaultDropdown<User>(
                                         hint: "Crew",

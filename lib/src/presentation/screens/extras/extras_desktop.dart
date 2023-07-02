@@ -29,7 +29,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
   final TextEditingController descriptionAr = TextEditingController();
   final TextEditingController unit = TextEditingController();
   final TextEditingController price = TextEditingController();
-  final TextEditingController quantity = TextEditingController();
   int id = 0;
 
   @override
@@ -112,7 +111,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                           descriptionAr.clear();
                           unit.clear();
                           price.clear();
-                          quantity.clear();
                           dropItemsItem = "";
                           imageItems = null;
                         });
@@ -261,27 +259,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                         shadowColor:
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        left: 3.w,
-                                        right: 3.w,
-                                      ),
-                                      child: DefaultTextField(
-                                        validator: quantity.text,
-                                        password: false,
-                                        height: 5.h,
-                                        fontSize: 3.sp,
-                                        controller: quantity,
-                                        haveShadow: true,
-                                        spreadRadius: 2,
-                                        blurRadius: 2,
-                                        color: AppColors.white,
-                                        shadowColor:
-                                            AppColors.black.withOpacity(0.05),
-                                        hintText: 'Quantity',
                                       ),
                                     ),
                                     Padding(
@@ -457,7 +434,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                         descriptionAr: descriptionAr.text,
                                         unit: unit.text,
                                         price: int.parse(price.text),
-                                        quantity: int.parse(quantity.text),
+                                        quantity: 1,
                                         type: "extra",
                                       ),
                                     );
@@ -467,7 +444,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                     descriptionAr.clear();
                                     unit.clear();
                                     price.clear();
-                                    quantity.clear();
                                     extrasCubit.fileResult = null;
                                     Navigator.pop(context);
                                   },
@@ -775,8 +751,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                       extrasCubit.itemList[index].descriptionAr ?? "";
                                   unit.text = extrasCubit.itemList[index].unit ?? "";
                                   price.text = extrasCubit.itemList[index].price.toString();
-                                  quantity.text =
-                                      extrasCubit.itemList[index].quantity.toString();
                                   imageItems = extrasCubit.itemList[index].image ?? "";
                                 });
                                 showDialog<void>(
@@ -921,26 +895,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                                 shadowColor: AppColors.black
                                                     .withOpacity(0.05),
                                                 hintText: 'Price',
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 2.h,
-                                                  left: 3.w,
-                                                  right: 3.w),
-                                              child: DefaultTextField(
-                                                validator: quantity.text,
-                                                password: false,
-                                                height: 5.h,
-                                                fontSize: 3.sp,
-                                                controller: quantity,
-                                                haveShadow: true,
-                                                spreadRadius: 2,
-                                                blurRadius: 2,
-                                                color: AppColors.white,
-                                                shadowColor: AppColors.black
-                                                    .withOpacity(0.05),
-                                                hintText: 'Quantity',
                                               ),
                                             ),
                                             Padding(
@@ -1136,8 +1090,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                                     descriptionAr.text,
                                                 unit: unit.text,
                                                 price: int.parse(price.text),
-                                                quantity:
-                                                    int.parse(quantity.text),
+                                                quantity:1,
                                                 type: "extra",
                                               ),
                                             );
@@ -1148,7 +1101,6 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                             descriptionAr.clear();
                                             unit.clear();
                                             price.clear();
-                                            quantity.clear();
                                             extrasCubit.fileResult = null;
                                             Navigator.pop(context);
                                           },

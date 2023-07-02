@@ -160,7 +160,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(
                             top: 2.h,
-                            left: 3.2.w,
+                            left: 2.5.w,
                             right: 2.5.w,
                             bottom: 1.h,
                           ),
@@ -168,7 +168,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                             rowHeight: 8.h,
                             data: [
                               SizedBox(
-                                width: 8.w,
+                                width: 5.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -215,7 +215,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                 ),
                               ),
                               SizedBox(
-                                width: 10.w,
+                                width: 8.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -239,7 +239,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                 ),
                               ),
                               SizedBox(
-                                width: 10.w,
+                                width: 8.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,8 +261,32 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                   ],
                                 ),
                               ),
+                              SizedBox(
+                                width: 8.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Time',
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      "${OrdersCubit.get(context)
+                                          .ordersList[index]
+                                          .period!.from} - ${OrdersCubit.get(context)
+                                          .ordersList[index]
+                                          .period!.to}",
+                                      style: TextStyle(fontSize: 3.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 2.h),
+                                padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
                                 child: SizedBox(
                                   width: 10.w,
                                   child: DefaultDropdown<String>(
@@ -328,7 +352,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                 ),
                               ),
                               SizedBox(
-                                width: 15.w,
+                                width: 10.w,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

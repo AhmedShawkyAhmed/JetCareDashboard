@@ -8,6 +8,7 @@ class UserModel {
   int? accepted;
   int? rejected;
   String? fcm;
+  String? adminComment;
   int active;
   
 
@@ -22,6 +23,7 @@ class UserModel {
       this.accepted,
       this.rejected,
       this.fcm,
+      this.adminComment,
       });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -35,6 +37,7 @@ class UserModel {
         rejected: json['rejected'],
         fcm: json['fcm'],
         active: json['active'],
+    adminComment: json['adminComment'],
       );
 
   Map<String, dynamic> toJson() {
@@ -49,6 +52,7 @@ class UserModel {
     data['rejected'] = rejected;
     data['rejected'] = rejected;
     data['fcm'] = fcm;
+    data['adminComment'] = adminComment;
     return data;
   }
 }

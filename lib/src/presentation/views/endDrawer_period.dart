@@ -107,7 +107,7 @@ class _EndDrawerWidgetPeriodState extends State<EndDrawerWidgetPeriod> {
                                       ]),
                                 ),
                                 child: const Icon(
-                                  Icons.arrow_back_ios,
+                                  Icons.close,
                                   color: AppColors.white,
                                 ),
                               ),

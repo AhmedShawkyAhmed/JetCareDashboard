@@ -29,7 +29,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
   final TextEditingController descriptionAr = TextEditingController();
   final TextEditingController unit = TextEditingController();
   final TextEditingController price = TextEditingController();
-  final TextEditingController quantity = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +110,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                           descriptionAr.clear();
                           unit.clear();
                           price.clear();
-                          quantity.clear();
                           imageItems = null;
                         });
                         showDialog<void>(
@@ -259,27 +257,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                         shadowColor:
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        left: 3.w,
-                                        right: 3.w,
-                                      ),
-                                      child: DefaultTextField(
-                                        validator: quantity.text,
-                                        password: false,
-                                        height: 5.h,
-                                        fontSize: 3.sp,
-                                        controller: quantity,
-                                        haveShadow: true,
-                                        spreadRadius: 2,
-                                        blurRadius: 2,
-                                        color: AppColors.white,
-                                        shadowColor:
-                                            AppColors.black.withOpacity(0.05),
-                                        hintText: 'Quantity',
                                       ),
                                     ),
                                     Padding(
@@ -449,7 +426,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                       descriptionAr: descriptionAr.text,
                                       unit: unit.text,
                                       price: int.parse(price.text),
-                                      quantity: int.parse(quantity.text),
+                                      quantity: 1,
                                       type: "item",
                                     ));
                                     nameEn.clear();
@@ -458,7 +435,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                     descriptionAr.clear();
                                     unit.clear();
                                     price.clear();
-                                    quantity.clear();
                                     itemsCubit.fileResult = null;
                                     Navigator.pop(context);
                                   },
@@ -768,8 +744,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                       itemsCubit.itemList[index].descriptionAr ?? "";
                                   unit.text = itemsCubit.itemList[index].unit ?? "";
                                   price.text = itemsCubit.itemList[index].price.toString();
-                                  quantity.text =
-                                      itemsCubit.itemList[index].quantity.toString();
                                   imageItems = itemsCubit.itemList[index].image ?? "";
                                 });
                                 showDialog<void>(
@@ -914,26 +888,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                                 shadowColor: AppColors.black
                                                     .withOpacity(0.05),
                                                 hintText: 'Price',
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 2.h,
-                                                  left: 3.w,
-                                                  right: 3.w),
-                                              child: DefaultTextField(
-                                                validator: quantity.text,
-                                                password: false,
-                                                height: 5.h,
-                                                fontSize: 3.sp,
-                                                controller: quantity,
-                                                haveShadow: true,
-                                                spreadRadius: 2,
-                                                blurRadius: 2,
-                                                color: AppColors.white,
-                                                shadowColor: AppColors.black
-                                                    .withOpacity(0.05),
-                                                hintText: 'Quantity',
                                               ),
                                             ),
                                             Padding(
@@ -1123,8 +1077,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                                     descriptionAr.text,
                                                 unit: unit.text,
                                                 price: int.parse(price.text),
-                                                quantity:
-                                                    int.parse(quantity.text),
+                                                quantity:1,
                                                 type: "item",
                                               ),
                                             );
@@ -1134,7 +1087,6 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                             descriptionAr.clear();
                                             unit.clear();
                                             price.clear();
-                                            quantity.clear();
                                             itemsCubit.fileResult =
                                                 null;
                                             Navigator.pop(context);

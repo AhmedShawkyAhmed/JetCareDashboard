@@ -37,6 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
         'email': authRequest.email,
         'password': authRequest.password,
       }).then((value) {
+        printResponse(value.data.toString());
         adminResponse = AdminResponse.fromJson(value.data);
         if (adminResponse!.status == 200) {
           CacheHelper.saveDataSharedPreference(

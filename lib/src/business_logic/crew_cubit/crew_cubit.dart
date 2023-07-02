@@ -7,6 +7,7 @@ import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
+import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 
@@ -18,6 +19,7 @@ class CrewCubit extends Cubit<CrewState> {
   static CrewCubit get(context) => BlocProvider.of(context);
 
   CrewAreaResponse? crewAreaResponse;
+  GlobalResponse? globalResponse;
   List<int> areaIds = [];
   List<int> crewAreasIds = [];
   UserResponse? getUserResponse,
@@ -162,6 +164,30 @@ class CrewCubit extends Cubit<CrewState> {
     }
   }
 
+  Future updateAdminComment({
+    required int userId,
+    required String comment,
+    required VoidCallback afterSuccess,
+  }) async {
+    try {
+      emit(UserCommentLoadingState());
+      await DioHelper.postData(url: EndPoints.userAdminComment, body: {
+        'id': userId,
+        'comment': comment,
+      }).then((value) {
+        globalResponse = GlobalResponse.fromJson(value.data);
+        DefaultToast.showMyToast(globalResponse!.message.toString());
+        emit(UserCommentSuccessState());
+        afterSuccess();
+      });
+    } on DioError catch (n) {
+      emit(UserCommentErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(UserCommentErrorState());
+      printError(e.toString());
+    }
+  }
 
   Future getArea({
     required int crewId,

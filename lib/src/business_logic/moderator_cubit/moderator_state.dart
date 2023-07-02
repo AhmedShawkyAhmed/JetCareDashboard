@@ -39,3 +39,7 @@ class UpdateAccessErrorState extends ModeratorState {}
 class GetAccessLoadingState extends ModeratorState {}
 class GetAccessSuccessState extends ModeratorState {}
 class GetAccessErrorState extends ModeratorState {}
+
+class UserCommentLoadingState extends ModeratorState {}
+class UserCommentSuccessState extends ModeratorState {}
+class UserCommentErrorState extends ModeratorState {}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
@@ -11,9 +12,9 @@ import '../styles/app_colors.dart';
 import '../widgets/default_app_button.dart';
 
 class AddPackages extends StatefulWidget {
-  int? packageId;
-  AddPackages({super.key, 
-    this.packageId,
+  final int packageId;
+  const AddPackages({super.key,
+    required this.packageId,
   });
   @override
   State<AddPackages> createState() => _AddPackagesState();
@@ -43,7 +44,7 @@ class _AddPackagesState extends State<AddPackages> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.close),
               color: AppColors.darkGrey.withOpacity(0.5),
             ),
             Padding(
@@ -59,6 +60,11 @@ class _AddPackagesState extends State<AddPackages> {
               width: 57.w,
               child: BlocBuilder<PackagesCubit, PackagesState>(
                 builder: (context, state) {
+                  if(cubitP.packageList.isEmpty){
+                    return const Center(
+                      child: DefaultText(text: "No Packages Found"),
+                    );
+                  }
                   return ListView.builder(
                       itemCount: cubitP.packageList.length,
                       itemBuilder: (context, index) {

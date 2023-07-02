@@ -10,11 +10,11 @@ import '../../constants/constants_methods.dart';
 import '../../data/network/requests/category_request.dart';
 
 class AddCategoryItems extends StatefulWidget {
-  int? CategoryId;
+  final int categoryId;
 
-  AddCategoryItems({
+  const AddCategoryItems({
     super.key,
-    this.CategoryId,
+    required this.categoryId,
   });
 
   @override
@@ -45,7 +45,7 @@ class _AddCategoryItemsState extends State<AddCategoryItems> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.close),
               color: AppColors.darkGrey.withOpacity(0.5),
             ),
             Padding(
@@ -311,7 +311,7 @@ class _AddCategoryItemsState extends State<AddCategoryItems> {
                 onTap: () {
                   cubitC.addCategoryItems(
                     categoryRequest: CategoryRequest(
-                      id: widget.CategoryId,
+                      id: widget.categoryId,
                       items: itemsId,
                     ),
                   );

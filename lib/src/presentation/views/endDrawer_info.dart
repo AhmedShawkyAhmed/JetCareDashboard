@@ -110,7 +110,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                                       ]),
                                 ),
                                 child: const Icon(
-                                  Icons.arrow_back_ios,
+                                  Icons.close,
                                   color: AppColors.white,
                                 ),
                               ),

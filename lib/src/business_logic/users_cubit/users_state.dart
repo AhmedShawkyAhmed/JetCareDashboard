@@ -51,3 +51,7 @@ class RoleUserErrorState extends UsersState {}
 
 class ChangePasswordState extends UsersState {}
 
+class UserCommentLoadingState extends UsersState {}
+class UserCommentSuccessState extends UsersState {}
+class UserCommentErrorState extends UsersState {}
+

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
@@ -98,7 +97,7 @@ class ItemsCubit extends Cubit<ItemsState> {
           'descriptionAr': itemsRequest.descriptionAr,
           'unit': itemsRequest.unit,
           'price': itemsRequest.price,
-          'quantity': itemsRequest.quantity,
+          'quantity': 1,
           'type': itemsRequest.type,
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
@@ -138,7 +137,7 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'descriptionAr': itemsRequest.descriptionAr,
                 'unit': itemsRequest.unit,
                 'price': itemsRequest.price,
-                'quantity': itemsRequest.quantity,
+                'quantity': 1,
                 'type': itemsRequest.type,
                 'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
                     filename: fileResult!.files.first.name),
@@ -151,7 +150,7 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'descriptionAr': itemsRequest.descriptionAr,
                 'unit': itemsRequest.unit,
                 'price': itemsRequest.price,
-                'quantity': itemsRequest.quantity,
+                'quantity': 1,
                 'type': itemsRequest.type,
               },
         formData: true,

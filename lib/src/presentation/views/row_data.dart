@@ -17,7 +17,7 @@ class RowData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: margin ?? 0.w),
-      padding: EdgeInsets.only(left: 2.w),
+      padding: EdgeInsets.only(left: 1.w,right: 1.w),
       width: rowWidth ?? 86.w,
       height: rowHeight ?? 5.h,
       decoration: BoxDecoration(
@@ -33,7 +33,7 @@ class RowData extends StatelessWidget {
     ],
       ),
       child: Row(
-        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: data,
       ),
     );

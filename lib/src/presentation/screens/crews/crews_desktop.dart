@@ -28,6 +28,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
   TextEditingController phone = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -456,6 +457,103 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                     color: AppColors.grey,
                                     size: 20,
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(
+                                          () {
+                                        if (crewCubit.userList[index]
+                                            .adminComment !=
+                                            null) {
+                                          commentController.text =
+                                          crewCubit.userList[index]
+                                              .adminComment!;
+                                        }
+                                      },
+                                    );
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                DefaultTextField(
+                                                  width: 50.w,
+                                                  height: 20.h,
+                                                  hintText: "Write your Comment",
+                                                  textColor: AppColors.mainColor,
+                                                  maxLength: 10000,
+                                                  fontSize: 4.sp,
+                                                  validator: "",
+                                                  maxLine: 5,
+                                                  controller: commentController,
+                                                  password: false,
+                                                  haveShadow: false,
+                                                  color: AppColors.white,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          actionsAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          actions: <Widget>[
+                                            DefaultAppButton(
+                                              title: "Save",
+                                              onTap: () {
+                                                CrewCubit.get(context)
+                                                    .updateAdminComment(
+                                                  userId:crewCubit.userList[index]
+                                                      .id,
+                                                  comment: commentController.text,
+                                                  afterSuccess: () {
+                                                    setState(
+                                                          () {
+                                                            crewCubit.userList[index]
+                                                            .adminComment =
+                                                            commentController
+                                                                .text;
+                                                      },
+                                                    );
+                                                    commentController.clear();
+                                                    Navigator.pop(context);
+                                                  },
+                                                );
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.white,
+                                              buttonColor: AppColors.pc,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                            DefaultAppButton(
+                                              title: "Cancel",
+                                              onTap: () {
+                                                commentController.clear();
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.mainColor,
+                                              buttonColor: AppColors.lightGrey,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.comment),
+                                  color: AppColors.grey,
                                 ),
                                 SizedBox(
                                   width: 1.w,

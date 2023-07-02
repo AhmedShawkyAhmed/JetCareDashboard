@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: ((context) => GlobalCubit()..getItemsForPackages()),
+              create: ((context) => GlobalCubit()),
             ),
             BlocProvider(
               create: ((context) => AuthCubit()),

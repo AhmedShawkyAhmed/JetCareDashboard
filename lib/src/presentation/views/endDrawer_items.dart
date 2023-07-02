@@ -47,7 +47,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
   final TextEditingController descriptionAr = TextEditingController();
   final TextEditingController unit = TextEditingController();
   final TextEditingController price = TextEditingController();
-  final TextEditingController quantity = TextEditingController();
 
   @override
   void initState() {
@@ -59,7 +58,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
       descriptionAr.text = widget.itemsModel?.descriptionAr ?? "";
       unit.text = widget.itemsModel?.unit ?? "";
       price.text = widget.itemsModel?.price.toString() ?? "";
-      quantity.text = widget.itemsModel?.quantity.toString() ?? "";
       dropItemsItem = widget.itemsModel?.type ?? "";
       imageItems = widget.itemsModel?.image ?? "";
       printSuccess(widget.itemsModel!.image!);
@@ -116,7 +114,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                       ]),
                                 ),
                                 child: const Icon(
-                                  Icons.arrow_back_ios,
+                                  Icons.close,
                                   color: AppColors.white,
                                 ),
                               ),
@@ -232,22 +230,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                           color: AppColors.white,
                           shadowColor: AppColors.black.withOpacity(0.05),
                           hintText: 'Price',
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 2.h, left: 3.w, right: 3.w),
-                        child: DefaultTextField(
-                          validator: quantity.text,
-                          password: false,
-                          height: 7.h,
-                          fontSize: widget.fontAllTextField ?? 4.sp,
-                          controller: quantity,
-                          haveShadow: true,
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'Quantity',
                         ),
                       ),
                       Padding(
@@ -392,7 +374,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                         descriptionAr: descriptionAr.text,
                                         unit: unit.text,
                                         price: int.parse(price.text),
-                                        quantity: int.parse(quantity.text),
+                                        quantity: 1,
                                         type: dropItemsItem,
                                       ),
                                     );
@@ -402,7 +384,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                     descriptionAr.clear();
                                     unit.clear();
                                     price.clear();
-                                    quantity.clear();
                                     cubitI.fileResult = null;
                                     Navigator.pop(context);
                                     dropItemsItem = 'select';
@@ -417,7 +398,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                         descriptionAr: descriptionAr.text,
                                         unit: unit.text,
                                         price: int.parse(price.text),
-                                        quantity: int.parse(quantity.text),
+                                        quantity: 1,
                                         type: dropItemsItem,
                                       ));
                                       nameEn.clear();
@@ -426,7 +407,6 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                       descriptionAr.clear();
                                       unit.clear();
                                       price.clear();
-                                      quantity.clear();
                                       cubitI.fileResult = null;
                                       Navigator.pop(context);
 

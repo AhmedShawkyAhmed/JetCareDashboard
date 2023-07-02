@@ -79,7 +79,7 @@ class EndDrawerWidgetSupport extends StatelessWidget {
                                     ]),
                               ),
                               child: const Icon(
-                                Icons.arrow_back_ios,
+                                Icons.close,
                                 color: AppColors.white,
                               ),
                             ),

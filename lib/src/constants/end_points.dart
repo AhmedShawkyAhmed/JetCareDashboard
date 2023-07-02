@@ -22,6 +22,7 @@ class EndPoints {
   static const addAds = "addAds";
   static const updateAds = "updateAds";
   static const deleteAds = "deleteAds";
+  static const userAdminComment = "userAdminComment";
   static const changeAdsStatus = "changeAdStatus";
   static const getAllAds = "getAllAds";
   static const updateFCM = "updateFCM";

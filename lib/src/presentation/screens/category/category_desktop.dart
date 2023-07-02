@@ -4,6 +4,7 @@ import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/add_category_items.dart';
 import 'package:jetboard/src/presentation/views/add_packages.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/category_cubit/category_cubit.dart';
 import '../../../business_logic/global_cubit/global_cubit.dart';
@@ -995,16 +996,23 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                           },
                                         );
                                       } else if (item == SampleItem.addItems) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AddCategoryItems(
-                                              CategoryId:
+                                        IndicatorView.showIndicator(context);
+                                        GlobalCubit.get(context).getItemsForPackages(
+                                          afterSuccess: (){
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AddCategoryItems(
+                                                  categoryId:
                                                   CategoryCubit.get(context)
                                                       .categoryList[index]
                                                       .id,
+                                                );
+                                              },
                                             );
-                                          },
+
+                                          }
                                         );
                                       }
                                     },
