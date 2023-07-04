@@ -2,7 +2,7 @@ import 'package:jetboard/src/data/models/orders_model.dart';
 
 class CartModel{
   int id;
-  int userId;
+  int? userId;
   num count;
   num price;
   String status;
@@ -11,7 +11,7 @@ class CartModel{
 
   CartModel({
     required this.id,
-    required this.userId,
+     this.userId,
     required this.count,
     required this.status,
     required this.price,

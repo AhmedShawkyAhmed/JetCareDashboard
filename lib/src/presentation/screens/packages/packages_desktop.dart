@@ -32,6 +32,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
 
   @override
   Widget build(BuildContext context) {
+    var offersCubit = PackagesCubit.get(context);
     return Scaffold(
       backgroundColor: AppColors.green,
       body: Container(
@@ -66,13 +67,13 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                       controller: search,
                       onChange: (value) {
                         if (value == "") {
-                          PackagesCubit.get(context).getPackages();
+                          offersCubit.getPackages();
                         }
                       },
                       suffix: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          PackagesCubit.get(context).getPackages(keyword: search.text);
+                          offersCubit.getPackages(keyword: search.text);
                           printResponse(search.text);
                         },
                         color: AppColors.black,
@@ -238,12 +239,12 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                         20),
                                                             child: imageApp ==
                                                                     null
-                                                                ? PackagesCubit.get(context).fileResult ==
+                                                                ? offersCubit.fileResult ==
                                                                         null
                                                                     ? Container()
                                                                     : Image
                                                                         .memory(
-                                                                        PackagesCubit.get(context)
+                                                                        offersCubit
                                                                             .fileResult!
                                                                             .files
                                                                             .first
@@ -276,10 +277,10 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                   .green),
                                                           child: IconButton(
                                                               onPressed: () {
-                                                                PackagesCubit.get(context)
+                                                                offersCubit
                                                                     .pickImage();
                                                                 imageApp = null;
-                                                                printSuccess(PackagesCubit.get(context)
+                                                                printSuccess(offersCubit
                                                                     .fileResult
                                                                     .toString());
                                                               },
@@ -291,7 +292,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                         )
                                                       ],
                                                     )
-                                                  : PackagesCubit.get(context).fileResult == null
+                                                  : offersCubit.fileResult == null
                                                       ? Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -304,7 +305,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                 Icons.image),
                                                             TextButton(
                                                                 onPressed: () {
-                                                                  PackagesCubit.get(context)
+                                                                  offersCubit
                                                                       .pickImage();
                                                                 },
                                                                 child: const Text(
@@ -320,7 +321,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                             20),
                                                                 child: Image
                                                                     .memory(
-                                                                  PackagesCubit.get(context)
+                                                                  offersCubit
                                                                       .fileResult!
                                                                       .files
                                                                       .first
@@ -345,7 +346,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                               child: IconButton(
                                                                   onPressed:
                                                                       () {
-                                                                    PackagesCubit.get(context)
+                                                                    offersCubit
                                                                         .pickImage();
                                                                   },
                                                                   icon:
@@ -368,7 +369,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                 DefaultAppButton(
                                   title: "Save",
                                   onTap: () {
-                                    PackagesCubit.get(context).addPackages(
+                                    offersCubit.addPackages(
                                         packagesRequest: PackagesRequest(
                                       nameEn: nameEn.text,
                                       descriptionEn: descriptionEn.text,
@@ -382,7 +383,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                     nameAr.clear();
                                     descriptionAr.clear();
                                     price.clear();
-                                    PackagesCubit.get(context).fileResult = null;
+                                    offersCubit.fileResult = null;
                                     Navigator.pop(context);
                                   },
                                   width: 10.w,
@@ -420,7 +421,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
               ),
               BlocBuilder<PackagesCubit, PackagesState>(
                 builder: (context, state) {
-                  if (PackagesCubit.get(context)
+                  if (offersCubit
                           .getPackagesResponse
                           ?.packagesModel ==
                       null) {
@@ -440,7 +441,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                 )),
                       ),
                     );
-                  } else if (PackagesCubit.get(context)
+                  } else if (offersCubit
                       .getPackagesResponse!
                       .packagesModel!
                       .isEmpty) {
@@ -457,7 +458,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                     child: SizedBox(
                       height: 90.h,
                       child: ListView.builder(
-                        itemCount: PackagesCubit.get(context).listCount,
+                        itemCount: offersCubit.listCount,
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.only(
                               top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
@@ -477,7 +478,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        PackagesCubit.get(context).packageList[index].nameEn
+                                        offersCubit.packageList[index].nameEn
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -496,7 +497,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        PackagesCubit.get(context).packageList[index].nameAr
+                                        offersCubit.packageList[index].nameAr
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -515,7 +516,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        PackagesCubit.get(context).packageList[index].price
+                                        offersCubit.packageList[index].price
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -534,7 +535,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        PackagesCubit.get(context).packageList[index].type
+                                        offersCubit.packageList[index].type
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -544,7 +545,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                   flex: 1,
                                   child: Image.network(
                                     imageDomain +
-                                        PackagesCubit.get(context).packageList[index].image,
+                                        offersCubit.packageList[index].image,
                                     height: 6.h,
                                   )),
                               SizedBox(
@@ -554,7 +555,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                 height: 3.h,
                                 child: CircleAvatar(
                                   backgroundColor:
-                                      PackagesCubit.get(context).packageList[index].active == 1
+                                      offersCubit.packageList[index].active == 1
                                           ? AppColors.green
                                           : AppColors.red,
                                 ),
@@ -563,7 +564,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                 width: 3.w,
                               ),
                               Switch(
-                                  value: PackagesCubit.get(context).packageList[index].active == 1
+                                  value: offersCubit.packageList[index].active == 1
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
@@ -572,12 +573,12 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                   inactiveTrackColor: AppColors.lightGrey,
                                   splashRadius: 3.0,
                                   onChanged: (value) {
-                                    PackagesCubit.get(context).switched(index);
-                                    PackagesCubit.get(context).updatePackagesStatus(
+                                    offersCubit.switched(index);
+                                    offersCubit.updatePackagesStatus(
                                       indexs: index,
                                       packagesRequest: PackagesRequest(
-                                        id: PackagesCubit.get(context).packageList[index].id,
-                                        active: PackagesCubit.get(context)
+                                        id: offersCubit.packageList[index].id,
+                                        active: offersCubit
                                                 .packageList[index].active.isOdd
                                             ? 1
                                             : 0,
@@ -592,18 +593,18 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                     setState(() {
                                       GlobalCubit.get(context).isedit = true;
                                       nameEn.text =
-                                          PackagesCubit.get(context).packageList[index].nameEn;
-                                      descriptionEn.text = PackagesCubit.get(context)
+                                          offersCubit.packageList[index].nameEn;
+                                      descriptionEn.text = offersCubit
                                           .packageList[index].descriptionEn;
                                       nameAr.text =
-                                          PackagesCubit.get(context).packageList[index].nameAr;
-                                      descriptionAr.text = PackagesCubit.get(context)
+                                          offersCubit.packageList[index].nameAr;
+                                      descriptionAr.text = offersCubit
                                           .packageList[index].descriptionAr;
-                                      price.text = PackagesCubit.get(context)
+                                      price.text = offersCubit
                                           .packageList[index].price
                                           .toString();
                                       imageApp =
-                                          PackagesCubit.get(context).packageList[index].image;
+                                          offersCubit.packageList[index].image;
                                     });
                                     showDialog<void>(
                                       context: context,
@@ -764,10 +765,10 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                                 20),
                                                                         child: imageApp ==
                                                                                 null
-                                                                            ? PackagesCubit.get(context).fileResult == null
+                                                                            ? offersCubit.fileResult == null
                                                                                 ? Container()
                                                                                 : Image.memory(
-                                                                                    PackagesCubit.get(context).fileResult!.files.first.bytes!,
+                                                                                    offersCubit.fileResult!.files.first.bytes!,
                                                                                     fit: BoxFit.fitWidth,
                                                                                     width: 100.w,
                                                                                   )
@@ -788,10 +789,10 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                           color: AppColors.green),
                                                                       child: IconButton(
                                                                           onPressed: () {
-                                                                            PackagesCubit.get(context).pickImage();
+                                                                            offersCubit.pickImage();
                                                                             imageApp =
                                                                                 null;
-                                                                            printSuccess(PackagesCubit.get(context).fileResult.toString());
+                                                                            printSuccess(offersCubit.fileResult.toString());
                                                                           },
                                                                           icon: const Icon(
                                                                             Icons.edit,
@@ -801,7 +802,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                     )
                                                                   ],
                                                                 )
-                                                              : PackagesCubit.get(context).fileResult ==
+                                                              : offersCubit.fileResult ==
                                                                       null
                                                                   ? Column(
                                                                       crossAxisAlignment:
@@ -816,7 +817,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                         TextButton(
                                                                             onPressed:
                                                                                 () {
-                                                                              PackagesCubit.get(context).pickImage();
+                                                                              offersCubit.pickImage();
                                                                             },
                                                                             child:
                                                                                 const Text('Select Image'))
@@ -828,7 +829,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                             borderRadius:
                                                                                 BorderRadius.circular(20),
                                                                             child: Image.memory(
-                                                                              PackagesCubit.get(context).fileResult!.files.first.bytes!,
+                                                                              offersCubit.fileResult!.files.first.bytes!,
                                                                               fit: BoxFit.fitWidth,
                                                                               width: 100.w,
                                                                             )),
@@ -842,7 +843,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                               color: AppColors.green),
                                                                           child: IconButton(
                                                                               onPressed: () {
-                                                                                PackagesCubit.get(context).pickImage();
+                                                                                offersCubit.pickImage();
                                                                               },
                                                                               icon: const Icon(
                                                                                 Icons.edit,
@@ -863,11 +864,11 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                             DefaultAppButton(
                                               title: "Save",
                                               onTap: () {
-                                                PackagesCubit.get(context).updatePackages(
+                                                offersCubit.updatePackages(
                                                   index: index,
                                                   packagesRequest:
                                                       PackagesRequest(
-                                                    id: PackagesCubit.get(context)
+                                                    id: offersCubit
                                                         .packageList[index].id,
                                                     nameEn: nameEn.text,
                                                     descriptionEn:
@@ -885,7 +886,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                 nameAr.clear();
                                                 descriptionAr.clear();
                                                 price.clear();
-                                                PackagesCubit.get(context).fileResult = null;
+                                                offersCubit.fileResult = null;
                                                 Navigator.pop(context);
                                               },
                                               width: 10.w,
@@ -931,7 +932,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                       builder: (context) {
                                         return AddItems(
                                           packageId:
-                                              PackagesCubit.get(context).packageList[index].id,
+                                              offersCubit.packageList[index].id,
                                         );
                                       },
                                     );
@@ -942,14 +943,14 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    PackagesCubit.get(context).getPackageInfo(
-                                      id: PackagesCubit.get(context).packageList[index].id,
+                                    offersCubit.getPackageInfo(
+                                      id: offersCubit.packageList[index].id,
                                       afterSuccess: () {
                                         showDialog(
                                           context: context,
                                           builder: (context) {
                                             return ViewItems(
-                                              items: PackagesCubit.get(context)
+                                              items: offersCubit
                                                       .packageDetailsResponse!
                                                       .items ??
                                                   [],
@@ -968,9 +969,9 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    PackagesCubit.get(context).deletePackages(
+                                    offersCubit.deletePackages(
                                         packagesModel:
-                                            PackagesCubit.get(context).packageList[index]);
+                                            offersCubit.packageList[index]);
                                   },
                                   icon: const Icon(
                                     Icons.delete,

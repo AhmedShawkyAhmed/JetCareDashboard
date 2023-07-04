@@ -515,7 +515,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Return Date',
+                                      'Return Date & Time',
                                       style: TextStyle(fontSize: 3.sp),
                                     ),
                                     SizedBox(

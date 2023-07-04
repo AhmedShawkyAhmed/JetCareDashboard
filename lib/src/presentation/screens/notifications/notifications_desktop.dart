@@ -253,7 +253,7 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Date & Time',
+                                    'Created At',
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
                                   SizedBox(
@@ -263,7 +263,7 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
                                     NotificationCubit.get(context)
                                         .notificationResponse!
                                         .notifications![index]
-                                        .createdAt!,
+                                        .createdAt!.toString().substring(0,10),
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
                                 ],

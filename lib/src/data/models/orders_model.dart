@@ -168,7 +168,7 @@ class Address {
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        id: json['id'],
+        id: json['id'] ?? 0,
         phone: json['phone'],
         address: json['address'],
         state: json['state'] != null ? AreaModel.fromJson(json['state']) : null,
@@ -209,13 +209,13 @@ class Package {
       this.price});
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
-        id: json['id'],
+        id: json['id'] ?? 0,
         nameAr: json['nameAr'],
         nameEn: json['nameEn'],
         descriptionAr: json['descriptionAr'],
         descriptionEn: json['descriptionEn'],
         image: json['image'],
-        price: json['price'],
+        price: json['price'] ?? 0,
       );
 
   Map<String, dynamic> toJson() {
@@ -247,11 +247,11 @@ class Space {
   });
 
   factory Space.fromJson(Map<String, dynamic> json) => Space(
-        id: json['id'],
+        id: json['id'] ?? 0,
         from: json['from'],
         to: json['to'],
-        price: json['price'],
-        active: json['active'],
+        price: json['price'] ?? 0,
+        active: json['active'] ?? 0,
       );
 
   Map<String, dynamic> toJson() {
@@ -286,14 +286,14 @@ class Calendar {
       this.price});
 
   factory Calendar.fromJson(Map<String, dynamic> json) => Calendar(
-        id: json['id'],
-        areaId: json['areaId'],
+        id: json['id'] ?? 0,
+        areaId: json['areaId'] ?? 0,
         day: json['day'],
         month: json['month'],
         year: json['year'],
         date: json['date'],
-        requests: json['requests'],
-        price: json['price'],
+        requests: json['requests'] ?? 0,
+        price: json['price'] ?? 0,
       );
 
   Map<String, dynamic> toJson() {

@@ -14,11 +14,11 @@ class AreaModel {
   });
 
   factory AreaModel.fromJson(Map<String, dynamic> json) => AreaModel(
-        id: json['id'],
+        id: json['id'] ?? 0,
         nameEn: json['nameEn'],
         nameAr: json['nameAr'],
         price: json['price'] ?? 0,
-        active: json['active'],
+        active: json['active'] ?? 0,
       );
 
   Map<String, dynamic> toJson() {
