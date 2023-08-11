@@ -10,6 +10,7 @@ class ItemsModel {
   num? quantity;
   String? type;
   int? active;
+  int? hasShipping;
 
   ItemsModel({
     this.id,
@@ -23,6 +24,7 @@ class ItemsModel {
     this.quantity,
     this.type,
     this.active,
+    this.hasShipping,
   });
 
 factory  ItemsModel.fromJson(Map<String, dynamic> json) => ItemsModel
@@ -36,6 +38,7 @@ factory  ItemsModel.fromJson(Map<String, dynamic> json) => ItemsModel
     unit: json['unit'] ?? "",
     price : json['price'] ?? 0,
     quantity : json['quantity'] ?? 0,
+  hasShipping : json['hasShipping'] ?? 0,
     type : json['type'] ?? "",
     active: json['active'] ?? 1,
   );
@@ -50,6 +53,7 @@ factory  ItemsModel.fromJson(Map<String, dynamic> json) => ItemsModel
     data['image'] = image;
     data['unit'] = unit;
     data['price'] = price;
+    data['hasShipping'] = hasShipping;
     data['quantity'] = quantity;
     data['type'] = type;
     data['active'] = active;

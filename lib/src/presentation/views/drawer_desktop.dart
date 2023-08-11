@@ -22,6 +22,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
     "Clients",
     "Moderators",
     "Crews",
+    "Calender",
     "Category",
     "Offers",
     "Items",
@@ -62,6 +63,10 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
     ),
     const Icon(
       Icons.perm_contact_cal_sharp,
+      color: AppColors.white,
+    ),
+    const Icon(
+      Icons.calculate_outlined,
       color: AppColors.white,
     ),
     const Icon(
@@ -380,41 +385,38 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.category == 1 && role == "moderator" ||
-                      role == "admin") ...[
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 1.w,
-                        vertical: 0.5.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: index == 6
-                            ? AppColors.blackl
-                            : AppColors.transparent,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: ListTile(
-                        selectedTileColor: AppColors.blackl,
-                        selected: false,
-                        horizontalTitleGap: 0.0,
-                        onTap: () {
-                          setState(() {
-                            index = 6;
-                          });
-                          cubit.changeIndex(6);
-                        },
-                        leading: icons[6],
-                        title: Text(
-                          titles[6],
-                          style: TextStyle(
-                            fontSize: 2.5.sp,
-                            color: AppColors.white,
-                          ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 1.w,
+                      vertical: 0.5.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: index == 6
+                          ? AppColors.blackl
+                          : AppColors.transparent,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: ListTile(
+                      selectedTileColor: AppColors.blackl,
+                      selected: false,
+                      horizontalTitleGap: 0.0,
+                      onTap: () {
+                        setState(() {
+                          index = 6;
+                        });
+                        cubit.changeIndex(6);
+                      },
+                      leading: icons[6],
+                      title: Text(
+                        titles[6],
+                        style: TextStyle(
+                          fontSize: 2.5.sp,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
-                  ],
-                  if (settingsModelGlobal?.offers == 1 && role == "moderator" ||
+                  ),
+                  if (settingsModelGlobal?.category == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -448,7 +450,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.items == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.offers == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -482,7 +484,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.corporateItems == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.items == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -516,7 +518,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.extrasItems == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.corporateItems == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -618,7 +620,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.ads == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.extrasItems == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -652,7 +654,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.governorate == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.ads == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -686,7 +688,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.area == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.governorate == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -720,7 +722,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.periods == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.area == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -754,7 +756,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.support == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.periods == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -788,7 +790,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.notifications == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.support == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -822,7 +824,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
-                  if (settingsModelGlobal?.info == 1 && role == "moderator" ||
+                  if (settingsModelGlobal?.notifications == 1 && role == "moderator" ||
                       role == "admin") ...[
                     Container(
                       margin: EdgeInsets.symmetric(
@@ -856,13 +858,47 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
+                  if (settingsModelGlobal?.info == 1 && role == "moderator" ||
+                      role == "admin") ...[
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 1.w,
+                        vertical: 0.5.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: index == 20
+                            ? AppColors.blackl
+                            : AppColors.transparent,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: ListTile(
+                        selectedTileColor: AppColors.blackl,
+                        selected: false,
+                        horizontalTitleGap: 0.0,
+                        onTap: () {
+                          setState(() {
+                            index = 20;
+                          });
+                          cubit.changeIndex(20);
+                        },
+                        leading: icons[20],
+                        title: Text(
+                          titles[20],
+                          style: TextStyle(
+                            fontSize: 2.5.sp,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                   Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 1.w,
                       vertical: 0.5.h,
                     ),
                     decoration: BoxDecoration(
-                      color: index == 20
+                      color: index == 21
                           ? AppColors.blackl
                           : AppColors.transparent,
                       borderRadius: BorderRadius.circular(50),
@@ -879,9 +915,9 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                           (route) => false,
                         );
                       },
-                      leading: icons[20],
+                      leading: icons[21],
                       title: Text(
-                        titles[20],
+                        titles[21],
                         style: TextStyle(
                           fontSize: 2.5.sp,
                           color: AppColors.white,

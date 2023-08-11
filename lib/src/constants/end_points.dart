@@ -95,8 +95,10 @@ class EndPoints {
   static const updatePeriod = "updatePeriod";
   static const deletePeriod = "deletePeriod";
   static const changePeriodStatus = "changePeriodStatus";
-  static const addCalendarPeriod = "addCalendarPeriod";
-  static const deleteCalendarPeriod = "deleteCalendarPeriod";
+
+  static const createCalenderPeriod = "createCalenderPeriod";
+  static const deleteCalenderPeriod = "deleteCalenderPeriod";
+  static const getCalender = "getCalender";
 
   static const getSpaces = "getSpaces";
   static const addSpace = "addSpace";

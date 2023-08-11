@@ -301,11 +301,11 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                                     id: StatesCubit.get(context)
                                         .allStatesResponse!
                                         .statesList![index]
-                                        .id,
+                                        .id!,
                                     active: StatesCubit.get(context)
                                             .allStatesResponse!
                                             .statesList![index]
-                                            .active
+                                            .active!
                                             .isOdd
                                         ? 1
                                         : 0,
@@ -323,7 +323,7 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                                       id: StatesCubit.get(context)
                                           .allStatesResponse!
                                           .statesList![index]
-                                          .id,
+                                          .id!,
                                       afterSuccess: () {
                                         StatesCubit.get(context).getAllStates();
                                       });

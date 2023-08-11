@@ -1,16 +1,20 @@
 class AreaModel {
-  int id;
-  String nameEn;
-  String nameAr;
+  int? id;
+  String? nameEn;
+  String? nameAr;
   num? price;
-  int active;
+  num? discount;
+  int? active;
+  int? relationId;
 
   AreaModel({
-    required this.id,
-    required this.nameEn,
-    required this.nameAr,
+     this.id,
+     this.nameEn,
+     this.nameAr,
     this.price,
-    required this.active,
+    this.discount,
+     this.active,
+     this.relationId,
   });
 
   factory AreaModel.fromJson(Map<String, dynamic> json) => AreaModel(
@@ -18,7 +22,9 @@ class AreaModel {
         nameEn: json['nameEn'],
         nameAr: json['nameAr'],
         price: json['price'] ?? 0,
+    discount: json['discount'] ?? 0,
         active: json['active'] ?? 0,
+    relationId: json['relationId'] ?? 0,
       );
 
   Map<String, dynamic> toJson() {
@@ -27,7 +33,9 @@ class AreaModel {
     data['nameEn'] = nameEn;
     data['nameAr'] = nameAr;
     data['price'] = price;
+    data['discount'] = discount;
     data['active'] = active;
+    data['relationId'] = relationId;
     return data;
   }
 }

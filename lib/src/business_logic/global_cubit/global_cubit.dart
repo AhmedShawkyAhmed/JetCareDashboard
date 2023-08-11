@@ -10,6 +10,7 @@ import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
 import 'package:jetboard/src/data/network/responses/statistics_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/screens/ads/ads.dart';
+import 'package:jetboard/src/presentation/screens/calender/calender.dart';
 import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';
 import 'package:jetboard/src/presentation/screens/crews/crews.dart';
 import 'package:jetboard/src/presentation/screens/equipment/equipment.dart';
@@ -65,12 +66,13 @@ class GlobalCubit extends Cubit<GlobalState> {
   List<ItemsModel> itemListForPackages = [];
 
   List<Widget> pages = [
-    const Home(),
+    const Calender(),
     const Orders(),
     const Corporates(),
     const Users(),
     const Moderators(),
     const Crews(),
+    const Calender(),
     const Category(),
     const Packages(),
     const Items(),

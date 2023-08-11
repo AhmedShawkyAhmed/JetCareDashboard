@@ -11,6 +11,7 @@ class ItemsRequest {
   int? quantity;
   String? type;
   int? active;
+  int? hasShipping;
   ItemsRequest({
     this.id,
     this.nameEn,
@@ -23,5 +24,6 @@ class ItemsRequest {
     this.quantity,
     this.type,
     this.active,
+    this.hasShipping,
   });
 }

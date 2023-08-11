@@ -10,7 +10,7 @@ import 'package:jetboard/src/business_logic/ads_cubit/ads_cubit.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:jetboard/src/business_logic/bloc_observer.dart';
-import 'package:jetboard/src/business_logic/calendar/calendar_cubit.dart';
+import 'package:jetboard/src/business_logic/calender_cubit/calender_cubit.dart';
 import 'package:jetboard/src/business_logic/category_cubit/category_cubit.dart';
 import 'package:jetboard/src/business_logic/equipment_cuibt/equipment_cubit.dart';
 import 'package:jetboard/src/business_logic/equipment_schedule_cuibt/equipment_schedule_cubit.dart';
@@ -141,7 +141,7 @@ class _MyAppState extends State<MyApp> {
               create: ((context) => AreaCubit()..getAllAreas()),
             ),
             BlocProvider(
-              create: ((context) => CalendarCubit()..getcalendar()),
+              create: ((context) => CalenderCubit()..getCalender(afterSuccess: () { })..getArea()..getPeriods()),
             ),
             BlocProvider(
               create: ((context) => CorporatesCubit()..getCorporates()),

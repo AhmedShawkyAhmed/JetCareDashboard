@@ -1,14 +1,14 @@
 import '../../models/period_model.dart';
 
-class PeriodResponsr {
+class PeriodResponse {
   int? status;
   List<PeriodModel>? periodModel;
   PeriodModel? periodModell;
   
 
-  PeriodResponsr({this.status, this.periodModel, this.periodModell});
+  PeriodResponse({this.status, this.periodModel, this.periodModell});
 
-  factory PeriodResponsr.fromJson(Map<String, dynamic> json) => PeriodResponsr(
+  factory PeriodResponse.fromJson(Map<String, dynamic> json) => PeriodResponse(
         status: json['status'],
         periodModel: json["periodList"] != null
             ? List<PeriodModel>.from(json["periodList"].map((x)=> PeriodModel.fromJson(x)))

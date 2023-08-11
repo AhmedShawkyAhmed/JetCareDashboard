@@ -79,8 +79,8 @@ class AreaCubit extends Cubit<AreaState> {
         areaList.addAll(getAreaResponse!.areaModel!);
         listCount = getAreaResponse!.areaModel!.length;
         for(int i = 0; i< areaList.length ; i++){
-          areas.add(areaList[i].nameAr);
-          areaId.add(areaList[i].id);
+          areas.add(areaList[i].nameAr!);
+          areaId.add(areaList[i].id!);
         }
         emit(AreaSuccessState());
       });

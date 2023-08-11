@@ -15,7 +15,7 @@ part 'period_state.dart';
 class PeriodCubit extends Cubit<PeriodState> {
   PeriodCubit() : super(PeriodInitial());
   static PeriodCubit get(context) => BlocProvider.of(context);
-  PeriodResponsr? getPeriodResponse,
+  PeriodResponse? getPeriodResponse,
       addPeriodResponse,
       deletePeriodResponse,
       deletePeriodItemsResponse,
@@ -46,7 +46,7 @@ class PeriodCubit extends Cubit<PeriodState> {
           "type" : type,
         },
       ).then((value) {
-        getPeriodResponse = PeriodResponsr.fromJson(value.data);
+        getPeriodResponse = PeriodResponse.fromJson(value.data);
         periodList.addAll(getPeriodResponse!.periodModel!);
         listCount = getPeriodResponse!.periodModel!.length;
         emit(PeriodLoadingState());
@@ -78,7 +78,7 @@ class PeriodCubit extends Cubit<PeriodState> {
       ).then((value) {
         printSuccess(value.toString());
         final myData = Map<String, dynamic>.from(value.data);
-        addPeriodResponse = PeriodResponsr.fromJson(myData);
+        addPeriodResponse = PeriodResponse.fromJson(myData);
         periodList.insert(0, addPeriodResponse!.periodModell!);
         listCount += 1;
         emit(AddPeriodSuccessState());
@@ -110,7 +110,7 @@ class PeriodCubit extends Cubit<PeriodState> {
       ).then((value) {
         printSuccess(value.data.toString());
         final myData = Map<String, dynamic>.from(value.data);
-        updatePeriodResponse = PeriodResponsr.fromJson(myData);
+        updatePeriodResponse = PeriodResponse.fromJson(myData);
         periodList[index] = updatePeriodResponse!.periodModell!;
         emit(UpdatePeriodSuccessState());
         printSuccess(updatePeriodResponse!.periodModell!.toString());
@@ -139,7 +139,7 @@ class PeriodCubit extends Cubit<PeriodState> {
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
-        updatePeriodStatusResponse = PeriodResponsr.fromJson(myData);
+        updatePeriodStatusResponse = PeriodResponse.fromJson(myData);
         periodList[indexs].active = periodRequest.active!;
         emit(ChangePeriodSuccessState());
         DefaultToast.showMyToast(value.data['message']);
@@ -164,7 +164,7 @@ class PeriodCubit extends Cubit<PeriodState> {
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
-        deletePeriodResponse = PeriodResponsr.fromJson(myData);
+        deletePeriodResponse = PeriodResponse.fromJson(myData);
         periodList.remove(periodModel);
         listCount -= 1;
         emit(DeletePeriodSuccessState());

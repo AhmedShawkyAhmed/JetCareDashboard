@@ -11,6 +11,7 @@ class PackagesModel {
   List<PackagesItemsData>? packages;
   int? relationId;
   int active;
+  int? hasShipping;
 
   PackagesModel(
       {required this.id,
@@ -22,6 +23,7 @@ class PackagesModel {
       required this.type,
       required this.price,
       this.relationId,
+      this.hasShipping,
       this.items,
       this.packages,
       required this.active});
@@ -45,6 +47,7 @@ class PackagesModel {
                 json["package"].map((x) => PackagesItemsData.fromJson(x)))
             : json["package"],
         active: json['active'],
+    hasShipping: json['hasShipping'],
       );
 
   Map<String, dynamic> toJson() {
@@ -57,6 +60,7 @@ class PackagesModel {
     data['image'] = image;
     data['type'] = type;
     data['price'] = price;
+    data['hasShipping'] = hasShipping;
     data['relationId'] = relationId;
     data["items"] = List<dynamic>.from(items!.map((x) => x.toJson()));
     data["package"] = List<dynamic>.from(packages!.map((x) => x.toJson()));

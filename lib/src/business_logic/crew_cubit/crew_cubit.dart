@@ -206,7 +206,7 @@ class CrewCubit extends Cubit<CrewState> {
         printSuccess(value.data.toString());
         crewAreaResponse = CrewAreaResponse.fromJson(value.data);
         for (int a = 0; a < crewAreaResponse!.areas!.length; a++) {
-          areaIds.add(crewAreaResponse!.areas![a].area!.id);
+          areaIds.add(crewAreaResponse!.areas![a].area!.id!);
           crewAreasIds.add(crewAreaResponse!.areas![a].id!);
         }
         emit(CrewAreaSuccess());

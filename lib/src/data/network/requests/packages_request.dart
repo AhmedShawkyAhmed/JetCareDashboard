@@ -9,6 +9,7 @@ class PackagesRequest {
   String? type;
   num? price;
   int? active;
+  int? hasShipping;
   List<int>?items;
   PackagesRequest({
     this.id,
@@ -21,6 +22,7 @@ class PackagesRequest {
     this.type,
     this.price,
     this.active,
+    this.hasShipping,
     this.items,
   });
 }

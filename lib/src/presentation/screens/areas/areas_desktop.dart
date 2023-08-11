@@ -215,7 +215,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                                       StatesCubit.get(context)
                                                           .statesList
                                                           .indexOf(val)]
-                                                  .id;
+                                                  .id!;
                                               printSuccess(stateId.toString());
                                             });
                                           },
@@ -415,7 +415,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                     areaRequest: AreaRequest(
                                       id: AreaCubit.get(context).areaList[index].id,
                                       active:
-                                          AreaCubit.get(context).areaList[index].active.isOdd
+                                          AreaCubit.get(context).areaList[index].active!.isOdd
                                               ? 1
                                               : 0,
                                     ),
@@ -429,8 +429,8 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                 onPressed: () {
                                   setState(() {
                                     GlobalCubit.get(context).isedit = true;
-                                    nameEn.text = AreaCubit.get(context).areaList[index].nameEn;
-                                    nameAr.text = AreaCubit.get(context).areaList[index].nameAr;
+                                    nameEn.text = AreaCubit.get(context).areaList[index].nameEn!;
+                                    nameAr.text = AreaCubit.get(context).areaList[index].nameAr!;
                                     price.text =
                                         AreaCubit.get(context).areaList[index].price.toString();
                                   });
@@ -530,7 +530,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                                                     .statesList
                                                                     .indexOf(
                                                                         val)]
-                                                            .id;
+                                                            .id!;
                                                         printSuccess(
                                                             stateId.toString());
                                                       });

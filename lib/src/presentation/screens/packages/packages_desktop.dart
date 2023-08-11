@@ -29,6 +29,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
   TextEditingController descriptionEn = TextEditingController();
   TextEditingController descriptionAr = TextEditingController();
   TextEditingController price = TextEditingController();
+  TextEditingController hasShipping = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +103,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                           nameAr.clear();
                           descriptionAr.clear();
                           price.clear();
+                          hasShipping.clear();
                           imageApp = null;
                         });
                         showDialog<void>(
@@ -212,6 +214,24 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                         shadowColor:
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h, left: 3.w, right: 3.w),
+                                      child: DefaultTextField(
+                                        validator: hasShipping.text,
+                                        password: false,
+                                        height: 7.h,
+                                        fontSize: 4.sp,
+                                        controller: hasShipping,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                        AppColors.black.withOpacity(0.05),
+                                        hintText: 'Has Shipping',
                                       ),
                                     ),
                                     Padding(
@@ -376,6 +396,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                       nameAr: nameAr.text,
                                       descriptionAr: descriptionAr.text,
                                       price: double.parse(price.text),
+                                      hasShipping: int.parse(hasShipping.text == "" ? "0":hasShipping.text),
                                       type: "package",
                                     ),);
                                     nameEn.clear();
@@ -383,6 +404,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                     nameAr.clear();
                                     descriptionAr.clear();
                                     price.clear();
+                                    hasShipping.clear();
                                     offersCubit.fileResult = null;
                                     Navigator.pop(context);
                                   },
@@ -603,6 +625,9 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                       price.text = offersCubit
                                           .packageList[index].price
                                           .toString();
+                                      hasShipping.text = offersCubit
+                                          .packageList[index].hasShipping
+                                          .toString();
                                       imageApp =
                                           offersCubit.packageList[index].image;
                                     });
@@ -732,6 +757,26 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                     shadowColor: AppColors.black
                                                         .withOpacity(0.05),
                                                     hintText: 'Price',
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 2.h,
+                                                      left: 3.w,
+                                                      right: 3.w),
+                                                  child: DefaultTextField(
+                                                    validator: hasShipping.text,
+                                                    password: false,
+                                                    height: 7.h,
+                                                    fontSize: 4.sp,
+                                                    controller: hasShipping,
+                                                    haveShadow: true,
+                                                    spreadRadius: 2,
+                                                    blurRadius: 2,
+                                                    color: AppColors.white,
+                                                    shadowColor: AppColors.black
+                                                        .withOpacity(0.05),
+                                                    hintText: 'Has Shipping',
                                                   ),
                                                 ),
                                                 Padding(
@@ -878,6 +923,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                         descriptionAr.text,
                                                     price: double.parse(
                                                         price.text),
+                                                        hasShipping: int.parse(hasShipping.text == "" ? "0":hasShipping.text),
                                                     type: "package",
                                                   ),
                                                 );
@@ -886,6 +932,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                 nameAr.clear();
                                                 descriptionAr.clear();
                                                 price.clear();
+                                                hasShipping.clear();
                                                 offersCubit.fileResult = null;
                                                 Navigator.pop(context);
                                               },

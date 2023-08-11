@@ -39,7 +39,7 @@ class _AreaWidgetState extends State<AreaWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DefaultText(text: widget.area.nameAr, fontSize: 3.sp),
+              DefaultText(text: widget.area.nameAr!, fontSize: 3.sp),
               BlocBuilder<CrewCubit, CrewState>(
                 builder: (context, state) {
                   return Switch(
@@ -60,14 +60,14 @@ class _AreaWidgetState extends State<AreaWidget> {
                           id: CrewCubit.get(context).crewAreasIds[
                               CrewCubit.get(context)
                                   .areaIds
-                                  .indexOf(widget.area.id)],
+                                  .indexOf(widget.area.id!)],
                           afterSuccess: () {
                             setState(() {
                               CrewCubit.get(context).crewAreasIds.remove(
                                   CrewCubit.get(context).crewAreasIds[
                                   CrewCubit.get(context)
                                       .areaIds
-                                      .indexOf(widget.area.id)]);
+                                      .indexOf(widget.area.id!)]);
                               CrewCubit.get(context)
                                   .areaIds
                                   .remove(widget.area.id);
@@ -77,12 +77,12 @@ class _AreaWidgetState extends State<AreaWidget> {
                       } else {
                         CrewCubit.get(context).addArea(
                           crewId: widget.crewId,
-                          areaId: widget.area.id,
+                          areaId: widget.area.id!,
                           afterSuccess: () {
                             setState(() {
                               CrewCubit.get(context)
                                   .areaIds
-                                  .insert(0, widget.area.id);
+                                  .insert(0, widget.area.id!);
                             });
                           },
                         );

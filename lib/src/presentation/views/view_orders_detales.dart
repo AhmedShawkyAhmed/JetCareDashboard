@@ -33,7 +33,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
   void initState() {
     if (widget.orderModel.crew == null) {
       GlobalCubit.get(context).getCrews(
-        areaId: widget.orderModel.address!.area!.id,
+        areaId: widget.orderModel.address!.area!.id!,
         periodId: widget.orderModel.period!.id!,
         date: widget.orderModel.date!,
       );

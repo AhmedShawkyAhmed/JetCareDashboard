@@ -10,8 +10,10 @@ class DefaultTextField extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? color;
+  final Color? hintColor;
   final Color? shadowColor;
   final double? spreadRadius;
+  final TextAlign? textAlign;
   final Color? borderColor;
   final Color? textColor;
   final Color? cursorColor;
@@ -19,7 +21,7 @@ class DefaultTextField extends StatelessWidget {
   final double? blurRadius;
   final Offset? offset;
   final int? maxLine;
-  final bool? readOnly;
+  final bool? enabled;
   final Widget? prefix;
   final Widget? suffix;
   final double? bottom;
@@ -40,15 +42,17 @@ class DefaultTextField extends StatelessWidget {
     this.expands,
     this.collapsed,
     this.validator,
+    this.hintColor,
     this.maxLength,
     this.height,
     this.color,
+    this.textAlign,
     this.textColor,
     this.borderColor,
     this.cursorColor,
     this.fontSize,
     this.width,
-    this.readOnly,
+    this.enabled,
     this.maxLine,
     this.horizontalPadding,
     this.prefix,
@@ -93,10 +97,10 @@ class DefaultTextField extends StatelessWidget {
         //     return null;
         //   }
         // },
-        textAlign: TextAlign.left,
+        textAlign: textAlign ?? TextAlign.left,
         keyboardType: keyboardType ?? TextInputType.text,
         textAlignVertical: TextAlignVertical.center,
-        enabled: readOnly ?? true,
+        enabled: enabled ?? true,
         controller: controller,
         expands: expands ?? false,
         maxLength: maxLength,
@@ -113,7 +117,7 @@ class DefaultTextField extends StatelessWidget {
           hintText: hintText ?? "",
           alignLabelWithHint: true,
           hintStyle: TextStyle(
-            color: AppColors.mainColor.withOpacity(0.7),
+            color: hintColor ??  AppColors.mainColor.withOpacity(0.7),
             fontSize: fontSize ?? 20.sp,
           ),
           border: InputBorder.none,

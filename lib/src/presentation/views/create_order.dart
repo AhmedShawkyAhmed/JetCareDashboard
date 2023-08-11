@@ -268,7 +268,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                                           ? 0
                                                           : val.id);
                                               stateId =
-                                                  val.id == 0 ? 0 : val.id;
+                                                  (val.id == 0 ? 0 : val.id)!;
                                             });
                                           },
                                         ),
@@ -303,7 +303,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                     items: AreaCubit.get(context).areaList,
                                     onChanged: (val) {
                                       setState(() {
-                                        areaId = val!.id == 0 ? 0 : val.id;
+                                        areaId = (val!.id == 0 ? 0 : val.id)!;
                                         printSuccess(areaId.toString());
                                       });
                                     },
@@ -456,7 +456,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                                                               (val) {
                                                                             setState(() {
                                                                               AreaCubit.get(context).getAllAreas(stateId: val!.id == 0 ? 0 : val.id);
-                                                                              stateId = val.id == 0 ? 0 : val.id;
+                                                                              stateId = (val.id == 0 ? 0 : val.id)!;
                                                                             });
                                                                           },
                                                                         ),
@@ -511,10 +511,10 @@ class _CreateOrderState extends State<CreateOrder> {
                                                                         (val) {
                                                                       setState(
                                                                           () {
-                                                                        areaId = val!.id ==
+                                                                        areaId = (val!.id ==
                                                                                 0
                                                                             ? 0
-                                                                            : val.id;
+                                                                            : val.id)!;
                                                                         printSuccess(
                                                                             areaId.toString());
                                                                       });
@@ -675,7 +675,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           controller: dateController,
                           height: 5.h,
                           haveShadow: true,
-                          readOnly: false,
+                          enabled: false,
                           spreadRadius: 2,
                           blurRadius: 2,
                           horizontalPadding: 50,

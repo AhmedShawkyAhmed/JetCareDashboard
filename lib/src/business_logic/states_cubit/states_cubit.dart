@@ -36,7 +36,7 @@ class StatesCubit extends Cubit<StatesState> {
         printSuccess(value.data.toString());
         allStatesResponse = StatesResponse.fromJson(value.data);
         for(int i = 0; i< allStatesResponse!.statesList!.length; i++){
-          statesList.add(allStatesResponse!.statesList![i].nameAr);
+          statesList.add(allStatesResponse!.statesList![i].nameAr!);
         }
         emit(GetStatesSuccess());
       });

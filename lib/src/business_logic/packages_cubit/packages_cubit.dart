@@ -150,6 +150,7 @@ class PackagesCubit extends Cubit<PackagesState> {
           'descriptionAr': packagesRequest.descriptionAr,
           'type': packagesRequest.type,
           'price': packagesRequest.price,
+          'hasShipping': packagesRequest.hasShipping,
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
@@ -217,6 +218,7 @@ class PackagesCubit extends Cubit<PackagesState> {
                 'nameAr': packagesRequest.nameAr,
                 'descriptionAr': packagesRequest.descriptionAr,
                 'price': packagesRequest.price,
+                'hasShipping': packagesRequest.hasShipping,
                 'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
                     filename: fileResult!.files.first.name),
               }
@@ -227,6 +229,7 @@ class PackagesCubit extends Cubit<PackagesState> {
                 'nameAr': packagesRequest.nameAr,
                 'descriptionAr': packagesRequest.descriptionAr,
                 'price': packagesRequest.price,
+                'hasShipping': packagesRequest.hasShipping,
               },
               formData: true,
       ).then((value) {

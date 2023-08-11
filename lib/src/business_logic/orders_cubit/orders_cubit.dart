@@ -22,7 +22,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   OrdersResponse? getOrdersResponse, updateOrdersStatusResponse;
   UserResponse? clientsResponse;
   GlobalResponse? globalResponse, orderResponse;
-  PeriodResponsr? periodResponse;
+  PeriodResponse? periodResponse;
   List<String> periods = [];
   List<String> clients = [];
   List<OrdersModel> ordersList = [];
@@ -280,7 +280,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       await DioHelper.getData(
         url: EndPoints.getPeriodsMobile,
       ).then((value) {
-        periodResponse = PeriodResponsr.fromJson(value.data);
+        periodResponse = PeriodResponse.fromJson(value.data);
         emit(PeriodLoadingState());
         for(int i = 0; i < periodResponse!.periodModel!.length;i++){
           periods.add("${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");

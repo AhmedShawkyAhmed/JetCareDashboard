@@ -29,6 +29,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
   final TextEditingController descriptionAr = TextEditingController();
   final TextEditingController unit = TextEditingController();
   final TextEditingController price = TextEditingController();
+  final TextEditingController hasShipping = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +111,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                           descriptionAr.clear();
                           unit.clear();
                           price.clear();
+                          hasShipping.clear();
                           imageItems = null;
                         });
                         showDialog<void>(
@@ -257,6 +259,26 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                         shadowColor:
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
+                                      ),
+                                    ),Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
+                                      child: DefaultTextField(
+                                        validator: hasShipping.text,
+                                        password: false,
+                                        height: 5.h,
+                                        fontSize: 3.sp,
+                                        controller: hasShipping,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Has Shipping',
                                       ),
                                     ),
                                     Padding(
@@ -426,6 +448,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                       descriptionAr: descriptionAr.text,
                                       unit: unit.text,
                                       price: int.parse(price.text),
+                                          hasShipping: int.parse(hasShipping.text == ""?"0":hasShipping.text),
                                       quantity: 1,
                                       type: "item",
                                     ));
@@ -435,6 +458,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                     descriptionAr.clear();
                                     unit.clear();
                                     price.clear();
+                                    hasShipping.clear();
                                     itemsCubit.fileResult = null;
                                     Navigator.pop(context);
                                   },
@@ -744,6 +768,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                       itemsCubit.itemList[index].descriptionAr ?? "";
                                   unit.text = itemsCubit.itemList[index].unit ?? "";
                                   price.text = itemsCubit.itemList[index].price.toString();
+                                  hasShipping.text = itemsCubit.itemList[index].hasShipping.toString();
                                   imageItems = itemsCubit.itemList[index].image ?? "";
                                 });
                                 showDialog<void>(
@@ -888,6 +913,25 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                                 shadowColor: AppColors.black
                                                     .withOpacity(0.05),
                                                 hintText: 'Price',
+                                              ),
+                                            ),Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 2.h,
+                                                  left: 3.w,
+                                                  right: 3.w),
+                                              child: DefaultTextField(
+                                                validator: hasShipping.text,
+                                                password: false,
+                                                height: 5.h,
+                                                fontSize: 3.sp,
+                                                controller: hasShipping,
+                                                haveShadow: true,
+                                                spreadRadius: 2,
+                                                blurRadius: 2,
+                                                color: AppColors.white,
+                                                shadowColor: AppColors.black
+                                                    .withOpacity(0.05),
+                                                hintText: 'Has Shipping',
                                               ),
                                             ),
                                             Padding(
@@ -1077,6 +1121,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                                     descriptionAr.text,
                                                 unit: unit.text,
                                                 price: int.parse(price.text),
+                                                hasShipping: int.parse(hasShipping.text == "" ? "0":hasShipping.text),
                                                 quantity:1,
                                                 type: "item",
                                               ),
@@ -1087,6 +1132,7 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                             descriptionAr.clear();
                                             unit.clear();
                                             price.clear();
+                                            hasShipping.clear();
                                             itemsCubit.fileResult =
                                                 null;
                                             Navigator.pop(context);
