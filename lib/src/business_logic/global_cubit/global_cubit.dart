@@ -66,7 +66,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   List<ItemsModel> itemListForPackages = [];
 
   List<Widget> pages = [
-    const Calender(),
+    const Home(),
     const Orders(),
     const Corporates(),
     const Users(),

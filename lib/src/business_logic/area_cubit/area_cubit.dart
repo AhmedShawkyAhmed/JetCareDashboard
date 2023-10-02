@@ -105,6 +105,8 @@ class AreaCubit extends Cubit<AreaState> {
           'nameEn': areaRequest.nameEn,
           'nameAr': areaRequest.nameAr,
           'price': areaRequest.price,
+          'discount': areaRequest.discount,
+          'transportation': areaRequest.transportation,
         },
         formData: true,
       ).then((value) {
@@ -136,6 +138,8 @@ class AreaCubit extends Cubit<AreaState> {
           'nameEn': areaRequest.nameEn,
           'nameAr': areaRequest.nameAr,
           'price': areaRequest.price,
+          'discount': areaRequest.discount,
+          'transportation': areaRequest.transportation,
         },
         formData: true,
       ).then((value) {

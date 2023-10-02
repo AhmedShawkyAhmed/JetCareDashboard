@@ -14,6 +14,7 @@ import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
+import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
 class AreaDesktop extends StatefulWidget {
@@ -28,6 +29,8 @@ class _AreaDesktopState extends State<AreaDesktop> {
   final TextEditingController nameEn = TextEditingController();
   final TextEditingController nameAr = TextEditingController();
   final TextEditingController price = TextEditingController();
+  final TextEditingController discount = TextEditingController();
+  final TextEditingController transportation = TextEditingController();
   int stateId = 0;
 
   @override
@@ -47,7 +50,11 @@ class _AreaDesktopState extends State<AreaDesktop> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 5.h, left: 3.w, right: 50),
+                padding: EdgeInsets.only(
+                  top: 5.h,
+                  left: 3.w,
+                  right: 50,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -131,6 +138,8 @@ class _AreaDesktopState extends State<AreaDesktop> {
                           nameEn.clear();
                           nameAr.clear();
                           price.clear();
+                          discount.clear();
+                          transportation.clear();
                         });
                         showDialog<void>(
                           context: context,
@@ -146,7 +155,10 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                         align: TextAlign.center),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: DefaultTextField(
                                         validator: nameEn.text,
                                         password: false,
@@ -163,7 +175,10 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: DefaultTextField(
                                         validator: nameAr.text,
                                         password: false,
@@ -180,7 +195,10 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: DefaultTextField(
                                         validator: price.text,
                                         password: false,
@@ -197,7 +215,50 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 2.h, left: 3.w, right: 3.w),
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
+                                      child: DefaultTextField(
+                                        validator: transportation.text,
+                                        password: false,
+                                        height: 7.h,
+                                        controller: transportation,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Transportation',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
+                                      child: DefaultTextField(
+                                        validator: discount.text,
+                                        password: false,
+                                        height: 7.h,
+                                        controller: discount,
+                                        haveShadow: true,
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        color: AppColors.white,
+                                        shadowColor:
+                                            AppColors.black.withOpacity(0.05),
+                                        hintText: 'Discount',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
                                       child: SizedBox(
                                         height: 4.h,
                                         child: DefaultDropdown<String>(
@@ -207,17 +268,21 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                           items: StatesCubit.get(context)
                                               .statesList,
                                           onChanged: (val) {
-                                            setState(() {
-                                              dropState = val!;
-                                              stateId = StatesCubit.get(context)
-                                                  .allStatesResponse!
-                                                  .statesList![
-                                                      StatesCubit.get(context)
-                                                          .statesList
-                                                          .indexOf(val)]
-                                                  .id!;
-                                              printSuccess(stateId.toString());
-                                            });
+                                            setState(
+                                              () {
+                                                dropState = val!;
+                                                stateId = StatesCubit.get(
+                                                        context)
+                                                    .allStatesResponse!
+                                                    .statesList![
+                                                        StatesCubit.get(context)
+                                                            .statesList
+                                                            .indexOf(val)]
+                                                    .id!;
+                                                printSuccess(
+                                                    stateId.toString());
+                                              },
+                                            );
                                           },
                                         ),
                                       ),
@@ -234,17 +299,27 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   height: 5.h,
                                   fontSize: 3.sp,
                                   onTap: () {
-                                    AreaCubit.get(context).addArea(
+                                    if(price.text.isNotEmpty && discount.text.isNotEmpty && transportation.text.isNotEmpty){
+                                      AreaCubit.get(context).addArea(
                                         areaRequest: AreaRequest(
-                                      stateId: stateId,
-                                      nameEn: nameEn.text,
-                                      nameAr: nameAr.text,
-                                      price: double.parse(price.text),
-                                    ));
-                                    nameEn.clear();
-                                    nameAr.clear();
-                                    price.clear();
-                                    Navigator.pop(context);
+                                          stateId: stateId,
+                                          nameEn: nameEn.text,
+                                          nameAr: nameAr.text,
+                                          price: double.parse(price.text),
+                                          discount: double.parse(discount.text),
+                                          transportation:
+                                          double.parse(transportation.text),
+                                        ),
+                                      );
+                                      nameEn.clear();
+                                      nameAr.clear();
+                                      price.clear();
+                                      discount.clear();
+                                      transportation.clear();
+                                      Navigator.pop(context);
+                                    }else{
+                                      DefaultToast.showMyToast("برجاء إدخال البيانات الناقصة");
+                                    }
                                   },
                                   haveShadow: false,
                                   gradientColors: const [
@@ -346,269 +421,357 @@ class _AreaDesktopState extends State<AreaDesktop> {
                                   ],
                                 )),
                             Expanded(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Arabic Name',
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    Text(
-                                      AreaCubit.get(context)
-                                          .areaList[index]
-                                          .nameAr
-                                          .toString(),
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                  ],
-                                )),
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Arabic Name',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    AreaCubit.get(context)
+                                        .areaList[index]
+                                        .nameAr
+                                        .toString(),
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
                             Expanded(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Price',
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    Text(
-                                      AreaCubit.get(context)
-                                          .areaList[index]
-                                          .price
-                                          .toString(),
-                                      style: TextStyle(fontSize: 3.sp),
-                                    ),
-                                  ],
-                                )),
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Price',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    AreaCubit.get(context)
+                                        .areaList[index]
+                                        .price
+                                        .toString(),
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Transportation',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    AreaCubit.get(context)
+                                        .areaList[index]
+                                        .transportation
+                                        .toString(),
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Discount',
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    AreaCubit.get(context)
+                                        .areaList[index]
+                                        .discount
+                                        .toString(),
+                                    style: TextStyle(fontSize: 3.sp),
+                                  ),
+                                ],
+                              ),
+                            ),
                             SizedBox(
                               height: 3.h,
                               child: CircleAvatar(
-                                backgroundColor:
-                                    AreaCubit.get(context).areaList[index].active == 1
-                                        ? AppColors.green
-                                        : AppColors.red,
+                                backgroundColor: AreaCubit.get(context)
+                                            .areaList[index]
+                                            .active ==
+                                        1
+                                    ? AppColors.green
+                                    : AppColors.red,
                               ),
                             ),
                             SizedBox(
                               width: 2.w,
                             ),
                             Switch(
-                                value: AreaCubit.get(context).areaList[index].active == 1
-                                    ? true
-                                    : false,
-                                activeColor: AppColors.green,
-                                activeTrackColor: AppColors.lightgreen,
-                                inactiveThumbColor: AppColors.red,
-                                inactiveTrackColor: AppColors.lightGrey,
-                                splashRadius: 3.0,
-                                onChanged: (value) {
-                                  AreaCubit.get(context).switched(index);
-                                  AreaCubit.get(context).updateAreaStatus(
-                                    index: index,
-                                    areaRequest: AreaRequest(
-                                      id: AreaCubit.get(context).areaList[index].id,
-                                      active:
-                                          AreaCubit.get(context).areaList[index].active!.isOdd
-                                              ? 1
-                                              : 0,
-                                    ),
-                                    //indexs: index,
-                                  );
-                                }),
+                              value: AreaCubit.get(context)
+                                          .areaList[index]
+                                          .active ==
+                                      1
+                                  ? true
+                                  : false,
+                              activeColor: AppColors.green,
+                              activeTrackColor: AppColors.lightgreen,
+                              inactiveThumbColor: AppColors.red,
+                              inactiveTrackColor: AppColors.lightGrey,
+                              splashRadius: 3.0,
+                              onChanged: (value) {
+                                AreaCubit.get(context).switched(index);
+                                AreaCubit.get(context).updateAreaStatus(
+                                  index: index,
+                                  areaRequest: AreaRequest(
+                                    id: AreaCubit.get(context)
+                                        .areaList[index]
+                                        .id,
+                                    active: AreaCubit.get(context)
+                                            .areaList[index]
+                                            .active!
+                                            .isOdd
+                                        ? 1
+                                        : 0,
+                                  ),
+                                );
+                              },
+                            ),
                             SizedBox(
                               width: 1.w,
                             ),
                             IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    GlobalCubit.get(context).isedit = true;
-                                    nameEn.text = AreaCubit.get(context).areaList[index].nameEn!;
-                                    nameAr.text = AreaCubit.get(context).areaList[index].nameAr!;
-                                    price.text =
-                                        AreaCubit.get(context).areaList[index].price.toString();
-                                  });
-                                  showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: AppColors.white,
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              const DefaultText(
-                                                  text: "Update Area",
-                                                  align: TextAlign.center),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 2.h,
-                                                    left: 3.w,
-                                                    right: 3.w),
-                                                child: DefaultTextField(
-                                                  validator: nameEn.text,
-                                                  password: false,
-                                                  controller: nameEn,
-                                                  height: 7.h,
-                                                  haveShadow: true,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 2,
-                                                  color: AppColors.white,
-                                                  shadowColor: AppColors.black
-                                                      .withOpacity(0.05),
-                                                  hintText: 'English Name',
-                                                ),
+                              onPressed: () {
+                                setState(() {
+                                  GlobalCubit.get(context).isedit = true;
+                                  nameEn.text = AreaCubit.get(context)
+                                      .areaList[index]
+                                      .nameEn!;
+                                  nameAr.text = AreaCubit.get(context)
+                                      .areaList[index]
+                                      .nameAr!;
+                                  price.text = AreaCubit.get(context)
+                                      .areaList[index]
+                                      .price
+                                      .toString();
+                                  discount.text = AreaCubit.get(context)
+                                      .areaList[index]
+                                      .discount
+                                      .toString();
+                                  transportation.text = AreaCubit.get(context)
+                                      .areaList[index]
+                                      .transportation
+                                      .toString();
+                                });
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: AppColors.white,
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            const DefaultText(
+                                              text: "Update Area",
+                                              align: TextAlign.center,
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 2.h,
+                                                left: 3.w,
+                                                right: 3.w,
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 2.h,
-                                                    left: 3.w,
-                                                    right: 3.w),
-                                                child: DefaultTextField(
-                                                  validator: nameAr.text,
-                                                  password: false,
-                                                  controller: nameAr,
-                                                  height: 7.h,
-                                                  haveShadow: true,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 2,
-                                                  color: AppColors.white,
-                                                  shadowColor: AppColors.black
-                                                      .withOpacity(0.05),
-                                                  hintText: 'Arabic Name',
-                                                ),
+                                              child: DefaultTextField(
+                                                validator: nameEn.text,
+                                                password: false,
+                                                controller: nameEn,
+                                                height: 7.h,
+                                                haveShadow: true,
+                                                spreadRadius: 2,
+                                                blurRadius: 2,
+                                                color: AppColors.white,
+                                                shadowColor: AppColors.black
+                                                    .withOpacity(0.05),
+                                                hintText: 'English Name',
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 2.h,
-                                                    left: 3.w,
-                                                    right: 3.w),
-                                                child: DefaultTextField(
-                                                  validator: price.text,
-                                                  password: false,
-                                                  height: 7.h,
-                                                  controller: price,
-                                                  haveShadow: true,
-                                                  spreadRadius: 2,
-                                                  blurRadius: 2,
-                                                  color: AppColors.white,
-                                                  shadowColor: AppColors.black
-                                                      .withOpacity(0.05),
-                                                  hintText: 'Price',
-                                                ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 2.h,
+                                                left: 3.w,
+                                                right: 3.w,
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 2.h,
-                                                    left: 3.w,
-                                                    right: 3.w),
-                                                child: SizedBox(
-                                                  height: 4.h,
-                                                  child:
-                                                      DefaultDropdown<String>(
-                                                    hint: "Governorate",
-                                                    showSearchBox: true,
-                                                    selectedItem: dropState,
-                                                    items:
-                                                        StatesCubit.get(context)
-                                                            .statesList,
-                                                    onChanged: (val) {
-                                                      setState(() {
-                                                        dropState = val!;
-                                                        stateId = StatesCubit
-                                                                .get(context)
-                                                            .allStatesResponse!
-                                                            .statesList![
-                                                                StatesCubit.get(
-                                                                        context)
-                                                                    .statesList
-                                                                    .indexOf(
-                                                                        val)]
-                                                            .id!;
-                                                        printSuccess(
-                                                            stateId.toString());
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
+                                              child: DefaultTextField(
+                                                validator: nameAr.text,
+                                                password: false,
+                                                controller: nameAr,
+                                                height: 7.h,
+                                                haveShadow: true,
+                                                spreadRadius: 2,
+                                                blurRadius: 2,
+                                                color: AppColors.white,
+                                                shadowColor: AppColors.black
+                                                    .withOpacity(0.05),
+                                                hintText: 'Arabic Name',
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 2.h,
+                                                left: 3.w,
+                                                right: 3.w,
+                                              ),
+                                              child: DefaultTextField(
+                                                validator: price.text,
+                                                password: false,
+                                                height: 7.h,
+                                                controller: price,
+                                                haveShadow: true,
+                                                spreadRadius: 2,
+                                                blurRadius: 2,
+                                                color: AppColors.white,
+                                                shadowColor: AppColors.black
+                                                    .withOpacity(0.05),
+                                                hintText: 'Price',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 2.h,
+                                                left: 3.w,
+                                                right: 3.w,
+                                              ),
+                                              child: DefaultTextField(
+                                                validator: transportation.text,
+                                                password: false,
+                                                height: 7.h,
+                                                controller: transportation,
+                                                haveShadow: true,
+                                                spreadRadius: 2,
+                                                blurRadius: 2,
+                                                color: AppColors.white,
+                                                shadowColor: AppColors.black
+                                                    .withOpacity(0.05),
+                                                hintText: 'Transportation',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 2.h,
+                                                left: 3.w,
+                                                right: 3.w,
+                                              ),
+                                              child: DefaultTextField(
+                                                validator: discount.text,
+                                                password: false,
+                                                height: 7.h,
+                                                controller: discount,
+                                                haveShadow: true,
+                                                spreadRadius: 2,
+                                                blurRadius: 2,
+                                                color: AppColors.white,
+                                                shadowColor: AppColors.black
+                                                    .withOpacity(0.05),
+                                                hintText: 'Discount',
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        actionsAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        actions: <Widget>[
-                                          DefaultAppButton(
-                                            title: 'Add',
-                                            radius: 10,
-                                            width: 8.w,
-                                            height: 5.h,
-                                            fontSize: 3.sp,
-                                            onTap: () {
-                                              AreaCubit.get(context).updateArea(
-                                                  index: index,
-                                                  areaRequest: AreaRequest(
-                                                    id: AreaCubit.get(context)
-                                                        .areaList[index].id,
-                                                    nameEn: nameEn.text,
-                                                    nameAr: nameAr.text,
-                                                    price: double.parse(
-                                                        price.text),
-                                                  ));
-                                              nameEn.clear();
-                                              nameAr.clear();
-                                              price.clear();
-                                              Navigator.pop(context);
-                                            },
-                                            haveShadow: false,
-                                            gradientColors: const [
-                                              AppColors.green,
-                                              AppColors.lightgreen,
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          DefaultAppButton(
-                                            title: "Cancel",
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            width: 10.w,
-                                            height: 4.h,
-                                            fontSize: 3.sp,
-                                            textColor: AppColors.mainColor,
-                                            buttonColor: AppColors.lightGrey,
-                                            isGradient: false,
-                                            radius: 10,
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: AppColors.grey,
-                                )),
+                                      ),
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      actions: <Widget>[
+                                        DefaultAppButton(
+                                          title: 'Save',
+                                          radius: 10,
+                                          width: 8.w,
+                                          height: 5.h,
+                                          fontSize: 3.sp,
+                                          onTap: () {
+                                            AreaCubit.get(context).updateArea(
+                                              index: index,
+                                              areaRequest: AreaRequest(
+                                                id: AreaCubit.get(context)
+                                                    .areaList[index]
+                                                    .id,
+                                                nameEn: nameEn.text,
+                                                nameAr: nameAr.text,
+                                                price: double.parse(price.text),
+                                                discount:
+                                                    double.parse(discount.text),
+                                                transportation: double.parse(
+                                                    transportation.text),
+                                              ),
+                                            );
+                                            nameEn.clear();
+                                            nameAr.clear();
+                                            price.clear();
+                                            discount.clear();
+                                            transportation.clear();
+                                            Navigator.pop(context);
+                                          },
+                                          haveShadow: false,
+                                          gradientColors: const [
+                                            AppColors.green,
+                                            AppColors.lightgreen,
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        DefaultAppButton(
+                                          title: "Cancel",
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          width: 10.w,
+                                          height: 4.h,
+                                          fontSize: 3.sp,
+                                          textColor: AppColors.mainColor,
+                                          buttonColor: AppColors.lightGrey,
+                                          isGradient: false,
+                                          radius: 10,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: AppColors.grey,
+                              ),
+                            ),
                             SizedBox(
                               width: 2.w,
                             ),
                             IconButton(
-                                onPressed: () {
-                                  AreaCubit.get(context).deleteArea(
-                                      areaModel: AreaCubit.get(context).areaList[index]);
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: AppColors.red,
-                                )),
+                              onPressed: () {
+                                AreaCubit.get(context).deleteArea(
+                                    areaModel:
+                                        AreaCubit.get(context).areaList[index]);
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: AppColors.red,
+                              ),
+                            ),
                             SizedBox(
                               width: 3.w,
                             ),

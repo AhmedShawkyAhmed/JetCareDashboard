@@ -7,6 +7,7 @@ import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,6 +30,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
   final TextEditingController descriptionAr = TextEditingController();
   final TextEditingController unit = TextEditingController();
   final TextEditingController price = TextEditingController();
+  final TextEditingController hasShipping = TextEditingController();
   int id = 0;
 
   @override
@@ -111,6 +113,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                           descriptionAr.clear();
                           unit.clear();
                           price.clear();
+                          hasShipping.clear();
                           dropItemsItem = "";
                           imageItems = null;
                         });
@@ -259,6 +262,23 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                         shadowColor:
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 2.h,
+                                          left: 3.w,
+                                          right: 3.w),
+                                      child: DefaultDropdown<String>(
+                                        hint: "Has Shipping",
+                                        items:const ["0","1"],
+                                        selectedItem: hasShipping.text,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            hasShipping.text = val!;
+                                            printLog(hasShipping.text);
+                                          });
+                                        },
                                       ),
                                     ),
                                     Padding(
@@ -434,6 +454,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                         descriptionAr: descriptionAr.text,
                                         unit: unit.text,
                                         price: int.parse(price.text),
+                                        hasShipping: int.parse(hasShipping.text),
                                         quantity: 1,
                                         type: "extra",
                                       ),
@@ -444,6 +465,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                     descriptionAr.clear();
                                     unit.clear();
                                     price.clear();
+                                    hasShipping.clear();
                                     extrasCubit.fileResult = null;
                                     Navigator.pop(context);
                                   },
@@ -751,6 +773,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                       extrasCubit.itemList[index].descriptionAr ?? "";
                                   unit.text = extrasCubit.itemList[index].unit ?? "";
                                   price.text = extrasCubit.itemList[index].price.toString();
+                                  hasShipping.text = extrasCubit.itemList[index].hasShipping.toString();
                                   imageItems = extrasCubit.itemList[index].image ?? "";
                                 });
                                 showDialog<void>(
@@ -895,6 +918,23 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                                 shadowColor: AppColors.black
                                                     .withOpacity(0.05),
                                                 hintText: 'Price',
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 2.h,
+                                                  left: 3.w,
+                                                  right: 3.w),
+                                              child: DefaultDropdown<String>(
+                                                hint: "Has Shipping",
+                                                items:const ["0","1"],
+                                                selectedItem: hasShipping.text,
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    hasShipping.text = val!;
+                                                    printLog(hasShipping.text);
+                                                  });
+                                                },
                                               ),
                                             ),
                                             Padding(
@@ -1090,6 +1130,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                                     descriptionAr.text,
                                                 unit: unit.text,
                                                 price: int.parse(price.text),
+                                                hasShipping: int.parse(hasShipping.text),
                                                 quantity:1,
                                                 type: "extra",
                                               ),
@@ -1101,6 +1142,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                             descriptionAr.clear();
                                             unit.clear();
                                             price.clear();
+                                            hasShipping.clear();
                                             extrasCubit.fileResult = null;
                                             Navigator.pop(context);
                                           },

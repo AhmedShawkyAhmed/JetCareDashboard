@@ -7,6 +7,7 @@ import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -260,25 +261,22 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                             AppColors.black.withOpacity(0.05),
                                         hintText: 'Price',
                                       ),
-                                    ),Padding(
+                                    ),
+                                    Padding(
                                       padding: EdgeInsets.only(
-                                        top: 2.h,
-                                        left: 3.w,
-                                        right: 3.w,
-                                      ),
-                                      child: DefaultTextField(
-                                        validator: hasShipping.text,
-                                        password: false,
-                                        height: 5.h,
-                                        fontSize: 3.sp,
-                                        controller: hasShipping,
-                                        haveShadow: true,
-                                        spreadRadius: 2,
-                                        blurRadius: 2,
-                                        color: AppColors.white,
-                                        shadowColor:
-                                            AppColors.black.withOpacity(0.05),
-                                        hintText: 'Has Shipping',
+                                          top: 2.h,
+                                          left: 3.w,
+                                          right: 3.w),
+                                      child: DefaultDropdown<String>(
+                                        hint: "Has Shipping",
+                                        items:const ["0","1"],
+                                        selectedItem: hasShipping.text,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            hasShipping.text = val!;
+                                            printLog(hasShipping.text);
+                                          });
+                                        },
                                       ),
                                     ),
                                     Padding(
@@ -914,24 +912,22 @@ class _ItemsDesktopState extends State<ItemsDesktop> {
                                                     .withOpacity(0.05),
                                                 hintText: 'Price',
                                               ),
-                                            ),Padding(
+                                            ),
+                                            Padding(
                                               padding: EdgeInsets.only(
                                                   top: 2.h,
                                                   left: 3.w,
                                                   right: 3.w),
-                                              child: DefaultTextField(
-                                                validator: hasShipping.text,
-                                                password: false,
-                                                height: 5.h,
-                                                fontSize: 3.sp,
-                                                controller: hasShipping,
-                                                haveShadow: true,
-                                                spreadRadius: 2,
-                                                blurRadius: 2,
-                                                color: AppColors.white,
-                                                shadowColor: AppColors.black
-                                                    .withOpacity(0.05),
-                                                hintText: 'Has Shipping',
+                                              child: DefaultDropdown<String>(
+                                                hint: "Has Shipping",
+                                                items:const ["0","1"],
+                                                selectedItem: hasShipping.text,
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    hasShipping.text = val!;
+                                                    printLog(hasShipping.text);
+                                                  });
+                                                },
                                               ),
                                             ),
                                             Padding(

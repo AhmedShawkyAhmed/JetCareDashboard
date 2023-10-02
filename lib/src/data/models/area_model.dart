@@ -4,6 +4,7 @@ class AreaModel {
   String? nameAr;
   num? price;
   num? discount;
+  num? transportation;
   int? active;
   int? relationId;
 
@@ -13,6 +14,7 @@ class AreaModel {
      this.nameAr,
     this.price,
     this.discount,
+    this.transportation,
      this.active,
      this.relationId,
   });
@@ -23,6 +25,7 @@ class AreaModel {
         nameAr: json['nameAr'],
         price: json['price'] ?? 0,
     discount: json['discount'] ?? 0,
+    transportation: json['transportation'] ?? 0,
         active: json['active'] ?? 0,
     relationId: json['relationId'] ?? 0,
       );
@@ -34,6 +37,7 @@ class AreaModel {
     data['nameAr'] = nameAr;
     data['price'] = price;
     data['discount'] = discount;
+    data['transportation'] = transportation;
     data['active'] = active;
     data['relationId'] = relationId;
     return data;
