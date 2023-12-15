@@ -190,7 +190,6 @@ class CategoryCubit extends Cubit<CategoryState> {
         formData: true,
       ).then((value) {
         printSuccess(value.toString());
-        final myData = Map<String, dynamic>.from(value.data);
         emit(AddItemsCategorySuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
