@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/add_category_items.dart';
 import 'package:jetboard/src/presentation/views/add_packages.dart';
@@ -265,7 +266,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                                         100.w,
                                                                   )
                                                             : Image.network(
-                                                                imageDomain +
+                                                          EndPoints.imageDomain +
                                                                     imageApp!,
                                                                 fit: BoxFit
                                                                     .fitWidth,
@@ -547,7 +548,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                               Expanded(
                                 flex: 1,
                                 child: Image.network(
-                                  imageDomain +
+                                  EndPoints.imageDomain +
                                       CategoryCubit.get(context)
                                           .categoryList[index]
                                           .image,
@@ -776,7 +777,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                                             )
                                                                       : Image
                                                                           .network(
-                                                                          imageDomain +
+                                                                    EndPoints.imageDomain +
                                                                               imageApp!,
                                                                           fit: BoxFit
                                                                               .fitWidth,

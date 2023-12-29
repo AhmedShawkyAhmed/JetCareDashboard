@@ -33,6 +33,7 @@ class DefaultTextField extends StatelessWidget {
   final bool? collapsed;
   final int? maxLength;
   final double? horizontalPadding;
+  final double? verticalPadding;
   final Function(String)? onChange;
 
   const DefaultTextField({
@@ -55,6 +56,7 @@ class DefaultTextField extends StatelessWidget {
     this.enabled,
     this.maxLine,
     this.horizontalPadding,
+    this.verticalPadding,
     this.prefix,
     this.suffix,
     this.bottom,
@@ -74,7 +76,7 @@ class DefaultTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(horizontal: horizontalPadding?.w ?? 0),
+      margin: EdgeInsets.symmetric(horizontal: horizontalPadding?.w ?? 0,vertical: verticalPadding?.h ?? 0),
       height: height ?? 4.h,
       width: width ?? 500.w,
       decoration: BoxDecoration(

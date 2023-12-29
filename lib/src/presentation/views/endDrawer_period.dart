@@ -85,7 +85,7 @@ class _EndDrawerWidgetPeriodState extends State<EndDrawerWidgetPeriod> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(right: 3.w),
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: (() {
                                 Navigator.pop(context);
                                 cubit.isShadowE();

@@ -158,7 +158,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: InkWell(
+                                  child: GestureDetector(
                                     onTap: () {
                                       Iterable<int> myListFiltered =
                                           periodsIds.where((e) =>

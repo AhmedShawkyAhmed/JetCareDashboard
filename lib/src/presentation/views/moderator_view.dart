@@ -8,9 +8,11 @@ import 'package:sizer/sizer.dart';
 
 class ModeratorView extends StatefulWidget {
   final int crewId;
+  final bool isMine;
 
   const ModeratorView({
     required this.crewId,
+    required this.isMine,
     Key? key,
   }) : super(key: key);
 
@@ -41,7 +43,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                   SizedBox(
                     width: 1.w,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -83,6 +85,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .orders,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -94,6 +97,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .corporates,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -105,6 +109,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .clients,
+                              isMine: widget.isMine,
                             )
                           ],
                         ),
@@ -121,6 +126,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .moderators,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -132,6 +138,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .crews,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -143,6 +150,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .category,
+                              isMine: widget.isMine,
                             )
                           ],
                         ),
@@ -159,6 +167,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .offers,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -170,6 +179,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .items,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -181,6 +191,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .corporateItems,
+                              isMine: widget.isMine,
                             )
                           ],
                         ),
@@ -197,6 +208,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .extrasItems,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -208,6 +220,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .equipment,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -219,6 +232,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .equipmentSchedule,
+                              isMine: widget.isMine,
                             )
                           ],
                         ),
@@ -235,6 +249,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .ads,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -246,6 +261,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .governorate,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -257,6 +273,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .area,
+                              isMine: widget.isMine,
                             ),
                           ],
                         ),
@@ -273,6 +290,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .periods,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -284,6 +302,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .support,
+                              isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: ModeratorCubit.get(context)
@@ -295,6 +314,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .notifications,
+                              isMine: widget.isMine,
                             ),
                           ],
                         ),
@@ -311,18 +331,21 @@ class _ModeratorViewState extends State<ModeratorView> {
                                   .accessResponse!
                                   .settings!
                                   .info,
+                              isMine: widget.isMine,
                             ),
                              ModeratorWidget(
                                id: 0,
                               name: "",
                               columnKey: "",
                               value: 0,
+                               isMine: widget.isMine,
                             ),
                             ModeratorWidget(
                               id: 0,
                               name: "",
                               columnKey: "",
                               value: 0,
+                              isMine: widget.isMine,
                             ),
                           ],
                         ),

@@ -6,6 +6,7 @@ import 'package:jetboard/src/business_logic/ads_cubit/ads_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/models/ads_model.dart';
 import 'package:jetboard/src/data/network/requests/ads_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -87,7 +88,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(right: 4.w),
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: (() {
                                 Navigator.pop(context);
                                 cubit.isShadowE();
@@ -195,7 +196,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                                                       width: 100.w,
                                                     )
                                               : Image.network(
-                                                  imageDomain + imageApp!,
+                                            EndPoints.imageDomain + imageApp!,
                                                   fit: BoxFit.fitWidth,
                                                   width: 100.w,
                                                 )),
@@ -313,7 +314,6 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                                       cubita.fileResult = null;
                                       Navigator.pop(context);
                                     } else {
-                                      print('not valid');
                                     }
                                   },
                             haveShadow: false,

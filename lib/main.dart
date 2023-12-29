@@ -52,15 +52,11 @@ void main() async {
     ),
   );
   DioHelper.init();
-  BlocOverrides.runZoned(
-    () async {
-      await CacheHelper.init();
-      runApp(
-        MyApp(appRouter: AppRouter()),
-      );
-    },
-    blocObserver: MyBlocObserver(),
+  await CacheHelper.init();
+  runApp(
+    MyApp(appRouter: AppRouter()),
   );
+  Bloc.observer = MyBlocObserver();
 }
 
 class MyApp extends StatefulWidget {
@@ -89,8 +85,6 @@ class _MyAppState extends State<MyApp> {
   getToken() async {
     pushToken = await FirebaseMessaging.instance.getToken();
     printLog(pushToken.toString());
-    CacheHelper.saveDataSharedPreference(
-        key: SharedPreferenceKeys.fcm, value: pushToken);
   }
 
   // This widget is the root of your application.

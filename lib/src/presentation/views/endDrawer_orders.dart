@@ -58,7 +58,7 @@ class EndDrawerWidgetOrders extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(right: 3.w),
-                          child: InkWell(
+                          child: GestureDetector(
                             onTap: (() {
                               Navigator.pop(context);
                               cubit.isShadowE();

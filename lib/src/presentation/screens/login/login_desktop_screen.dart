@@ -37,20 +37,22 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
           body: SafeArea(
             child: Container(
               color: AppColors.white,
+              height: double.infinity,
               child: Stack(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 55.h),
+                    padding: EdgeInsets.only(top: 65.h),
                     child: Row(
                       children: [
                         SizedBox(
-                            height: 50.h,
-                            child: Image.asset("assets/images/Group65W.png")),
+                          height: 50.h,
+                          child: Image.asset("assets/images/Group65W.png"),
+                        ),
                         const Spacer(),
                         SizedBox(
-                            height: 35.h,
-                            child:
-                                Image.asset("assets/images/Rectangle73.png")),
+                          height: 35.h,
+                          child: Image.asset("assets/images/Rectangle73.png"),
+                        ),
                       ],
                     ),
                   ),
@@ -58,21 +60,23 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          padding: EdgeInsets.only(top: 6.h),
-                          height: 35.h,
-                          child: Image.asset("assets/images/Rectangle74.png")),
+                        padding: EdgeInsets.only(top: 6.h),
+                        height: 35.h,
+                        child: Image.asset("assets/images/Rectangle74.png"),
+                      ),
                       const Spacer(),
                       SizedBox(
-                          height: 50.h,
-                          child: Image.asset("assets/images/Frame6W.png")),
+                        height: 45.h,
+                        child: Image.asset("assets/images/Frame6W.png"),
+                      ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20.h, left: 12.w),
+                    padding: EdgeInsets.only(top: 25.h, left: 12.w),
                     child: Row(
                       children: [
                         Container(
-                          height: 40.h,
+                          height: 25.h,
                           width: 20.w,
                           decoration: BoxDecoration(
                               boxShadow: [
@@ -88,24 +92,24 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                               borderRadius: BorderRadius.circular(20)),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 2.w, vertical: 8.h),
+                                horizontal: 2.w, vertical: 3.h),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 DefaultTextField(
                                   password: false,
-                                  bottom: 3.h,
+                                  bottom: 5.h,
                                   haveShadow: true,
                                   spreadRadius: 2,
                                   blurRadius: 2,
                                   color: AppColors.white,
                                   shadowColor:
                                       AppColors.black.withOpacity(0.05),
-                                  fontSize: 3.5.sp,
+                                  fontSize: 2.5.sp,
                                   controller: email,
                                   hintText: 'Email',
-                                  height: 7.h,
+                                  height: 5.h,
                                 ),
                                 const Spacer(
                                   flex: 1,
@@ -120,10 +124,10 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                   color: AppColors.white,
                                   shadowColor:
                                       AppColors.black.withOpacity(0.05),
-                                  fontSize: 3.sp,
+                                  fontSize: 2.5.sp,
                                   controller: password,
                                   hintText: 'Password',
-                                  height: 7.h,
+                                  height: 5.h,
                                   suffix: IconButton(
                                       onPressed: () {
                                         AuthCubit.get(context).isPassword();
@@ -141,8 +145,8 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                 ),
                                 DefaultAppButton(
                                   radius: 10,
-                                  height: 5.h,
-                                  width: 7.w,
+                                  height: 4.h,
+                                  width: 10.w,
                                   title: 'Sign In',
                                   onTap: () {
                                     if (email.text == "") {
@@ -212,9 +216,14 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                         ),
                         const Spacer(),
                         Container(
-                            padding: EdgeInsets.only(right: 12.w, bottom: 5.h),
-                            height: 30.h,
-                            child: Image.asset("assets/images/logo.png")),
+                          padding: EdgeInsets.only(
+                            right: 15.w,
+                            bottom: 2.h,
+                            top: 5.h,
+                          ),
+                          height: 30.h,
+                          child: Image.asset("assets/images/logo.png"),
+                        ),
                       ],
                     ),
                   ),

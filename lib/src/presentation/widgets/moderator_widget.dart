@@ -9,6 +9,7 @@ class ModeratorWidget extends StatefulWidget {
   final int id;
   final String name;
   final String columnKey;
+  final bool isMine;
   int value = 0;
 
   ModeratorWidget({
@@ -16,6 +17,7 @@ class ModeratorWidget extends StatefulWidget {
     required this.name,
     required this.columnKey,
     required this.value,
+    required this.isMine,
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +38,7 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
             borderRadius: BorderRadius.circular(5),
             color: AppColors.white,
             border: Border.all(
-              color: widget.name == "" ? AppColors.white : AppColors.pc,
+              color: widget.name == "" ? AppColors.white : widget.value == 1?AppColors.pc:AppColors.red,
             ),
           ),
           child: widget.name == ""
@@ -49,8 +51,10 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
                       child: DefaultText(
                         text: widget.name,
                         fontSize: 2.5.sp,
+                        align: widget.isMine == false?TextAlign.start:TextAlign.center,
                       ),
                     ),
+                    if(widget.isMine == false)
                     BlocBuilder<ModeratorCubit, ModeratorState>(
                       builder: (context, state) {
                         return Switch(

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/requests/items_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
@@ -92,7 +93,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(right: 3.w),
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: (() {
                                 Navigator.pop(context);
                                 cubit.isShadowE();
@@ -272,7 +273,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                                       width: 100.w,
                                                     )
                                               : Image.network(
-                                                  imageDomain + imageItems!,
+                                            EndPoints.imageDomain + imageItems!,
                                                   fit: BoxFit.fitWidth,
                                                   width: 100.w,
                                                 )),

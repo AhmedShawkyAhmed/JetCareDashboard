@@ -200,7 +200,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                           SizedBox(
                                             height: 2.h,
                                           ),
-                                          InkWell(
+                                          GestureDetector(
                                             onTap: () {
                                               selectDate(
                                                 context,
@@ -226,7 +226,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                           SizedBox(
                                             height: 2.h,
                                           ),
-                                          InkWell(
+                                          GestureDetector(
                                             onTap: () async {
                                               TimeOfDay? pickedTime =
                                                   await showTimePicker(
@@ -548,7 +548,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                                           SizedBox(
                                                             height: 3.h,
                                                           ),
-                                                          InkWell(
+                                                          GestureDetector(
                                                             onTap: () {
                                                               selectDate(
                                                                 context,
@@ -582,7 +582,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                                           SizedBox(
                                                             height: 2.h,
                                                           ),
-                                                          InkWell(
+                                                          GestureDetector(
                                                             onTap: () async {
                                                               TimeOfDay?
                                                                   pickedTime =

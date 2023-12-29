@@ -25,6 +25,7 @@ import 'package:jetboard/src/presentation/screens/notifications/notifications.da
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
 import 'package:jetboard/src/presentation/screens/packages/packages.dart';
 import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
+import 'package:jetboard/src/presentation/screens/settings/settings.dart';
 import 'package:jetboard/src/presentation/screens/support/support.dart';
 import 'package:jetboard/src/presentation/screens/users/users.dart';
 
@@ -87,6 +88,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     const Support(),
     const Notifications(),
     const Info(),
+    //const Settings(),
     const Login(),
   ];
 

@@ -88,7 +88,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(right: 4.w),
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: (() {
                                 Navigator.pop(context);
                                 cubit.isShadowE();

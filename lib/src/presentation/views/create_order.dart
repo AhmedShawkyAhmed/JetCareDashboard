@@ -667,7 +667,7 @@ class _CreateOrderState extends State<CreateOrder> {
                       SizedBox(
                         height: 1.h,
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
                           selectDate(context);
                         },

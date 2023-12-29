@@ -22,7 +22,7 @@ class MonthItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0.3.w),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: InkWell(
+        child: GestureDetector(
           onTap: onTap,
           child: Container(
             height: 4.h,

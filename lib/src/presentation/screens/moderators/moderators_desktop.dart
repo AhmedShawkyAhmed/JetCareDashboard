@@ -445,6 +445,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                           builder: (BuildContext context) {
                                             return ModeratorView(
                                               crewId: crewId,
+                                              isMine: false,
                                             );
                                           },
                                         );

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:sizer/sizer.dart';
 
@@ -91,7 +92,7 @@ class _EndDrawerWidgetCategoryState extends State<EndDrawerWidgetCategory> {
                         children: [
                           Padding(
                             padding: EdgeInsets.only(right: 3.w),
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: (() {
                                 Navigator.pop(context);
                                 cubit.isShadowE();
@@ -223,7 +224,7 @@ class _EndDrawerWidgetCategoryState extends State<EndDrawerWidgetCategory> {
                                                       width: 100.w,
                                                     )
                                               : Image.network(
-                                                  imageDomain + imageApp!,
+                                            EndPoints.imageDomain + imageApp!,
                                                   fit: BoxFit.fitWidth,
                                                   width: 100.w,
                                                 )),

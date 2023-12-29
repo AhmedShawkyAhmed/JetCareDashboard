@@ -37,6 +37,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
     "Support",
     "Notifications",
     "Info",
+    //"Settings",
     "Logout",
   ];
 
@@ -125,6 +126,10 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
       Icons.info_outline,
       color: AppColors.white,
     ),
+    // const Icon(
+    //   Icons.settings,
+    //   color: AppColors.white,
+    // ),
     const Icon(
       Icons.logout_outlined,
       color: AppColors.white,
@@ -173,7 +178,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     width: 1.w,
                   ),
                   Text(
-                    'Welcome\nJetCare',
+                    'Welcome to\nJetCare',
                     style: TextStyle(
                       fontSize: 3.sp,
                       color: AppColors.white,
@@ -892,6 +897,37 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                     ),
                   ],
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(
+                  //     horizontal: 1.w,
+                  //     vertical: 0.5.h,
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     color: index == 21
+                  //         ? AppColors.blackl
+                  //         : AppColors.transparent,
+                  //     borderRadius: BorderRadius.circular(50),
+                  //   ),
+                  //   child: ListTile(
+                  //     selectedTileColor: AppColors.blackl,
+                  //     selected: false,
+                  //     horizontalTitleGap: 0.0,
+                  //     onTap: () {
+                  //       setState(() {
+                  //         index = 21;
+                  //       });
+                  //       cubit.changeIndex(21);
+                  //     },
+                  //     leading: icons[21],
+                  //     title: Text(
+                  //       titles[21],
+                  //       style: TextStyle(
+                  //         fontSize: 2.5.sp,
+                  //         color: AppColors.white,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 1.w,

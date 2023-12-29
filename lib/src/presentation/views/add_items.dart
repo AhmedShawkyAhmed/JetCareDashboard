@@ -65,7 +65,7 @@ class _AddItemsState extends State<AddItems> {
                   validator: "",
                   haveShadow: false,
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: () {
                     setState(() {
                       nameAr.add(nameArController.text);

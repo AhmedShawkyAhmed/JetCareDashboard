@@ -42,7 +42,7 @@ class _CrewAreaState extends State<CrewArea> {
                   SizedBox(
                     width: 1.w,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
                     },

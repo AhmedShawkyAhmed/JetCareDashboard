@@ -4,6 +4,7 @@ import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/constants/end_points.dart';
 import 'package:jetboard/src/data/network/requests/packages_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
@@ -275,7 +276,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                             100.w,
                                                                       )
                                                                 : Image.network(
-                                                                    imageDomain +
+                                                              EndPoints.imageDomain +
                                                                         imageApp!,
                                                                     fit: BoxFit
                                                                         .fitWidth,
@@ -566,7 +567,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                               Expanded(
                                   flex: 1,
                                   child: Image.network(
-                                    imageDomain +
+                                    EndPoints.imageDomain +
                                         offersCubit.packageList[index].image,
                                     height: 6.h,
                                   )),
@@ -818,7 +819,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                                     width: 100.w,
                                                                                   )
                                                                             : Image.network(
-                                                                                imageDomain + imageApp!,
+                                                                          EndPoints.imageDomain + imageApp!,
                                                                                 fit: BoxFit.fitWidth,
                                                                                 width: 100.w,
                                                                               )),

@@ -56,7 +56,7 @@ class CalenderView extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.topRight,
-            child: InkWell(
+            child: GestureDetector(
               onTap: onTap,
               child: Container(
                 width: 2.w,

@@ -22,7 +22,6 @@ String item = "All";
 String dropItemsItem = '';
 String dropState = '';
 String? imageItems;
-String imageDomain = "https://jetcare-api.ahmedshawky.fun/public/images/";
 int areaId = 0;
 int registerAreaId = 0;
 //List<String> crews = [];

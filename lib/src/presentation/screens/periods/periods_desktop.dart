@@ -85,7 +85,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                     SizedBox(
                                       height: 2.h,
                                     ),
-                                    InkWell(
+                                    GestureDetector(
                                       onTap: () async {
                                         TimeOfDay? pickedTime =
                                             await showTimePicker(
@@ -141,7 +141,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                     SizedBox(
                                       height: 2.h,
                                     ),
-                                    InkWell(
+                                    GestureDetector(
                                       onTap: () async {
                                         TimeOfDay? pickedTime =
                                             await showTimePicker(
@@ -407,7 +407,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                                 SizedBox(
                                                   height: 2.h,
                                                 ),
-                                                InkWell(
+                                                GestureDetector(
                                                   onTap: () async {
                                                     TimeOfDay? pickedTime =
                                                         await showTimePicker(
@@ -473,7 +473,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                                 SizedBox(
                                                   height: 2.h,
                                                 ),
-                                                InkWell(
+                                                GestureDetector(
                                                   onTap: () async {
                                                     TimeOfDay? pickedTime =
                                                         await showTimePicker(

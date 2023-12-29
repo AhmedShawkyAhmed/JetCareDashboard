@@ -368,7 +368,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                               SizedBox(
                                                 width: 0.5.w,
                                               ),
-                                              InkWell(
+                                              GestureDetector(
                                                 onTap: () {
                                                   showDialog<void>(
                                                     context: context,

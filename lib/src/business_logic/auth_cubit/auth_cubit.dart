@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/main.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/end_points.dart';
+import 'package:jetboard/src/constants/shared_preference_keys.dart';
 import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
 import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
 import 'package:jetboard/src/data/network/requests/auth_request.dart';
@@ -52,8 +53,10 @@ class AuthCubit extends Cubit<AuthState> {
               key: 'role', value: adminResponse!.accountModel!.role);
           CacheHelper.saveDataSharedPreference(
               key: 'active', value: adminResponse!.accountModel!.active);
+          CacheHelper.saveDataSharedPreference(
+              key: SharedPreferenceKeys.fcm, value: adminResponse!.accountModel!.fcm);
           updateFCM(
-              id: adminResponse!.accountModel!.id, fcm: pushToken.toString());
+              id: adminResponse!.accountModel!.id, fcm: pushToken == null?"empty":pushToken.toString());
           emit(LoginSuccessState());
           if (adminResponse!.accountModel!.role == "admin") {
             admin();
