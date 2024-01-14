@@ -134,7 +134,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
+                          GlobalCubit.get(context).isEdit = false;
                           nameEn.clear();
                           nameAr.clear();
                           price.clear();
@@ -558,7 +558,7 @@ class _AreaDesktopState extends State<AreaDesktop> {
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  GlobalCubit.get(context).isedit = true;
+                                  GlobalCubit.get(context).isEdit = true;
                                   nameEn.text = AreaCubit.get(context)
                                       .areaList[index]
                                       .nameEn!;

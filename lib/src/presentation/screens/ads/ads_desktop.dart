@@ -98,7 +98,7 @@ class _AdsDesktopState extends State<AdsDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
+                          GlobalCubit.get(context).isEdit = false;
                           nameControllerEn.clear();
                           nameControllerAr.clear();
                           link.clear();
@@ -186,7 +186,7 @@ class _AdsDesktopState extends State<AdsDesktop> {
                                                       BorderRadius.circular(
                                                           20)),
                                               child: GlobalCubit.get(context)
-                                                      .isedit
+                                                      .isEdit
                                                   ? Stack(
                                                       children: [
                                                         ClipRRect(
@@ -556,7 +556,7 @@ class _AdsDesktopState extends State<AdsDesktop> {
                               IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      GlobalCubit.get(context).isedit = true;
+                                      GlobalCubit.get(context).isEdit = true;
                                       nameControllerEn.text =
                                           AdsCubit.get(context)
                                               .adsList[index]
@@ -673,7 +673,7 @@ class _AdsDesktopState extends State<AdsDesktop> {
                                                                           20)),
                                                           child: GlobalCubit.get(
                                                                       context)
-                                                                  .isedit
+                                                                  .isEdit
                                                               ? Stack(
                                                                   children: [
                                                                     ClipRRect(

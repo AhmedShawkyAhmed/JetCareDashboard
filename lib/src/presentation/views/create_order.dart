@@ -6,7 +6,7 @@ import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
-import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
+import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/models/cart_model.dart';
@@ -765,7 +765,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                 DefaultToast.showMyToast("Please Select Items");
                               } else {
                                 IndicatorView.showIndicator(context);
-                                UsersCubit.get(context).addUser(
+                                ClientsCubit.get(context).addClient(
                                   userRequest: UserRequset(
                                     phone: phoneController.text,
                                     email: emailController.text == ""
@@ -781,7 +781,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                   afterSuccess: () {
                                     AddressCubit.get(context).addAddress(
                                       addressRequest: AddressRequest(
-                                        userId: UsersCubit.get(context)
+                                        userId: ClientsCubit.get(context)
                                             .addUserResponse!
                                             .userModell!
                                             .id,
@@ -797,7 +797,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                             c < cartItemsIds.length;
                                             c++) {
                                           OrdersCubit.get(context).addToCart(
-                                            userId: UsersCubit.get(context)
+                                            userId: ClientsCubit.get(context)
                                                 .addUserResponse!
                                                 .userModell!
                                                 .id,
@@ -811,7 +811,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                                     .createOrder(
                                                   orderRequest: OrderRequest(
                                                     userId:
-                                                        UsersCubit.get(context)
+                                                    ClientsCubit.get(context)
                                                             .addUserResponse!
                                                             .userModell!
                                                             .id,

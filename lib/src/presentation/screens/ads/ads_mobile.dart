@@ -31,7 +31,7 @@ class AdsMobile extends StatelessWidget {
           drawer: DrawerListMobile(),
           endDrawer: EndDrawerWidgetAds(
             index: currentIndex,
-            isEdit: cubit.isedit,
+            isEdit: cubit.isEdit,
             adsModel:
                 cubita.adsList.isEmpty ? null : cubita.adsList[currentIndex],
             endDrawerWidth: 65.w,
@@ -62,7 +62,7 @@ class AdsMobile extends StatelessWidget {
                       fontAdd: 15.sp,
                       menuButton: () => scaffoldkey.currentState!.openDrawer(),
                       add: () {
-                        cubit.isedit = false;
+                        cubit.isEdit = false;
                         scaffoldkey.currentState!.openEndDrawer();
                       },
                     ),
@@ -135,7 +135,7 @@ class AdsMobile extends StatelessWidget {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  cubit.isedit = true;
+                                  cubit.isEdit = true;
                                   scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(

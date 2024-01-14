@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
+import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -22,6 +22,7 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController phone = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +97,7 @@ class _RegisterUserState extends State<RegisterUser> {
               ),
               DefaultTextField(
                 validator: password.text,
-                password: UsersCubit.get(context).pass,
+                password: ClientsCubit.get(context).pass,
                 controller: password,
                 haveShadow: true,
                 height: 5.h,
@@ -105,10 +106,10 @@ class _RegisterUserState extends State<RegisterUser> {
                 blurRadius: 2,
                 suffix: IconButton(
                   onPressed: () {
-                    UsersCubit.get(context).isPassword();
+                    ClientsCubit.get(context).isPassword();
                   },
                   icon: Icon(
-                    UsersCubit.get(context).pass
+                    ClientsCubit.get(context).pass
                         ? Icons.visibility_off
                         : Icons.visibility,
                     color: AppColors.darkGrey.withOpacity(0.7),
@@ -124,62 +125,60 @@ class _RegisterUserState extends State<RegisterUser> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  BlocBuilder<UsersCubit, UsersState>(
-  builder: (context, state) {
-    return DefaultAppButton(
-                    title: "Save",
-                    onTap: () {
-                      if (fullName.text == "") {
-                        DefaultToast.showMyToast(
-                            "Please Enter the Full Name");
-                      } else if (phone.text == "" ||
-                          phone.text.length < 11) {
-                        DefaultToast.showMyToast(
-                            "Please Enter Correct Phone Number");
-                      } else if (email.text == "") {
-                        DefaultToast.showMyToast(
-                            "Please Enter Correct Email Address");
-                      } else if (password.text == "" ||
-                          password.text.length < 8) {
-                        DefaultToast.showMyToast(
-                            "Please Enter Password more than 8 Characters");
-                      } else {
-                        IndicatorView.showIndicator(
-                            context);
-                        UsersCubit.get(context).addUser(
-                          userRequest: UserRequset(
-                            name: fullName.text,
-                            phone: phone.text,
-                            email: email.text,
-                            password: password.text,
-                            role: "moderator",
-                          ),
-                          onError: () {
-                            Navigator.pop(context);
-                          },
-                          afterSuccess: () {
-                            UsersCubit.get(context)
-                                .getUser();
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            fullName.clear();
-                            phone.clear();
-                            email.clear();
-                            password.clear();
-                          },
-                        );
-                      }
+                  BlocBuilder<ClientsCubit, ClientsState>(
+                    builder: (context, state) {
+                      return DefaultAppButton(
+                        title: "Save",
+                        onTap: () {
+                          if (fullName.text == "") {
+                            DefaultToast.showMyToast(
+                                "Please Enter the Full Name");
+                          } else if (phone.text == "" ||
+                              phone.text.length < 11) {
+                            DefaultToast.showMyToast(
+                                "Please Enter Correct Phone Number");
+                          } else if (email.text == "") {
+                            DefaultToast.showMyToast(
+                                "Please Enter Correct Email Address");
+                          } else if (password.text == "" ||
+                              password.text.length < 8) {
+                            DefaultToast.showMyToast(
+                                "Please Enter Password more than 8 Characters");
+                          } else {
+                            IndicatorView.showIndicator(context);
+                            ClientsCubit.get(context).addClient(
+                              userRequest: UserRequset(
+                                name: fullName.text,
+                                phone: phone.text,
+                                email: email.text,
+                                password: password.text,
+                                role: "moderator",
+                              ),
+                              onError: () {
+                                Navigator.pop(context);
+                              },
+                              afterSuccess: () {
+                                ClientsCubit.get(context).getClients();
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                fullName.clear();
+                                phone.clear();
+                                email.clear();
+                                password.clear();
+                              },
+                            );
+                          }
+                        },
+                        width: 10.w,
+                        height: 4.h,
+                        fontSize: 3.sp,
+                        textColor: AppColors.white,
+                        buttonColor: AppColors.pc,
+                        isGradient: false,
+                        radius: 10,
+                      );
                     },
-                    width: 10.w,
-                    height: 4.h,
-                    fontSize: 3.sp,
-                    textColor: AppColors.white,
-                    buttonColor: AppColors.pc,
-                    isGradient: false,
-                    radius: 10,
-                  );
-  },
-),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),

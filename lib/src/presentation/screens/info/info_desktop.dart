@@ -96,7 +96,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
+                          GlobalCubit.get(context).isEdit = false;
                           titleEn.clear();
                           contentEn.clear();
                           titleAr.clear();
@@ -411,7 +411,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    GlobalCubit.get(context).isedit = true;
+                                    GlobalCubit.get(context).isEdit = true;
                                     titleEn.text = InfoCubit.get(context)
                                         .infoList[index]
                                         .titleEn;

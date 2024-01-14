@@ -26,7 +26,7 @@ class InfoMobile extends StatelessWidget {
           key: scaffoldkey,
           drawer: DrawerListMobile(),
           endDrawer: EndDrawerWidgetInfo(
-            isEdit: cubit.isedit,
+            isEdit: cubit.isEdit,
             endDrawerWidth: 65.w,
             widthBackButton: 7.w,
             fontTitle: 17.sp,
@@ -56,7 +56,7 @@ class InfoMobile extends StatelessWidget {
                       fontAdd: 15.sp,
                       menuButton: () => scaffoldkey.currentState!.openDrawer(),
                       add: () {
-                        cubit.isedit = false;
+                        cubit.isEdit = false;
                         scaffoldkey.currentState!.openEndDrawer();
                       },
                     ),
@@ -141,7 +141,7 @@ class InfoMobile extends StatelessWidget {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  cubit.isedit = true;
+                                  cubit.isEdit = true;
                                   scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(

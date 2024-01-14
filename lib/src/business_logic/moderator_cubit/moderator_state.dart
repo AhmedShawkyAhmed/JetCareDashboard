@@ -6,27 +6,27 @@ abstract class ModeratorState {}
 class ModeratorInitial extends ModeratorState {}
 
 class ChangePasswordState extends ModeratorState {}
-class UserSwitchState extends ModeratorState {}
+class ModeratorSwitchState extends ModeratorState {}
 
-class UserLoadingState extends ModeratorState {}
-class UserSuccessState extends ModeratorState {}
-class UserErrorState extends ModeratorState {}
+class ModeratorLoadingState extends ModeratorState {}
+class ModeratorSuccessState extends ModeratorState {}
+class ModeratorErrorState extends ModeratorState {}
 
-class ChangeUserLoadingState extends ModeratorState {}
-class ChangeUserSuccessState extends ModeratorState {}
-class ChangeUserErrorState extends ModeratorState {}
+class ChangeModeratorLoadingState extends ModeratorState {}
+class ChangeModeratorSuccessState extends ModeratorState {}
+class ChangeModeratorErrorState extends ModeratorState {}
 
-class AddUserLoadingState extends ModeratorState {}
-class AddUserSuccessState extends ModeratorState {}
-class AddUserErrorState extends ModeratorState {}
+class AddModeratorLoadingState extends ModeratorState {}
+class AddModeratorSuccessState extends ModeratorState {}
+class AddModeratorErrorState extends ModeratorState {}
 
-class UpdateUserLoadingState extends ModeratorState {}
-class UpdateUserSuccessState extends ModeratorState {}
-class UpdateUserErrorState extends ModeratorState {}
+class UpdateModeratorLoadingState extends ModeratorState {}
+class UpdateModeratorSuccessState extends ModeratorState {}
+class UpdateModeratorErrorState extends ModeratorState {}
 
-class DeleteUserLoadingState extends ModeratorState {}
-class DeleteUserSuccessState extends ModeratorState {}
-class DeleteUserErrorState extends ModeratorState {}
+class DeleteModeratorLoadingState extends ModeratorState {}
+class DeleteModeratorSuccessState extends ModeratorState {}
+class DeleteModeratorErrorState extends ModeratorState {}
 
 class CreateAccessLoadingState extends ModeratorState {}
 class CreateAccessSuccessState extends ModeratorState {}
@@ -40,6 +40,6 @@ class GetAccessLoadingState extends ModeratorState {}
 class GetAccessSuccessState extends ModeratorState {}
 class GetAccessErrorState extends ModeratorState {}
 
-class UserCommentLoadingState extends ModeratorState {}
-class UserCommentSuccessState extends ModeratorState {}
-class UserCommentErrorState extends ModeratorState {}
+class ModeratorCommentLoadingState extends ModeratorState {}
+class ModeratorCommentSuccessState extends ModeratorState {}
+class ModeratorCommentErrorState extends ModeratorState {}

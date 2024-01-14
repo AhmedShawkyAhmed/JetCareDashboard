@@ -11,7 +11,7 @@ import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../business_logic/users_cubit/users_cubit.dart';
+import '../../business_logic/clients_cubit/clients_cubit.dart';
 import '../../constants/constants_variables.dart';
 
 class EndDrawerWidgetUsers extends StatefulWidget {
@@ -54,8 +54,8 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var cubit = GlobalCubit.get(context);
-    var cubitU = UsersCubit.get(context);
-    return BlocBuilder<UsersCubit, UsersState>(
+    var cubitU = ClientsCubit.get(context);
+    return BlocBuilder<ClientsCubit, ClientsState>(
       builder: (context, state) {
         return BackdropFilter(
           filter: ImageFilter.blur(
@@ -152,7 +152,7 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                       shadowColor: AppColors.black.withOpacity(0.05),
                       hintText: 'Email',
                     ),
-                    cubit.isedit
+                    cubit.isEdit
                         ? const SizedBox()
                         : DefaultTextField(
                             validator: password.text,
@@ -250,7 +250,7 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                               DefaultToast.showMyToast(
                                   "Please Select User Type");
                             } else {
-                              cubitU.addUser(
+                              cubitU.addClient(
                                   userRequest: UserRequset(
                                 name: fullName.text,
                                 phone: phone.text,

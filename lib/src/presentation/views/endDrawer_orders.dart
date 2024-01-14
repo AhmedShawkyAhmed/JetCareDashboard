@@ -86,7 +86,7 @@ class EndDrawerWidgetOrders extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          cubit.isedit ? 'Update Orders' : 'Add New Orders',
+                          cubit.isEdit ? 'Update Orders' : 'Add New Orders',
                           style: TextStyle(fontSize:fontTitle ?? 6.sp),
                         ),
                       ],
@@ -153,7 +153,7 @@ class EndDrawerWidgetOrders extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         child: DefaultAppButton(
-                          title: cubit.isedit ? 'Update' : 'Add',
+                          title: cubit.isEdit ? 'Update' : 'Add',
                           radius: 10,
                           width:widthButton ?? 8.w,
                           height:heightButton ?? 5.h,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
+import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/constants/constants_variables.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
@@ -14,14 +14,14 @@ import '../../widgets/default_app_button.dart';
 import '../../widgets/default_text.dart';
 import '../../widgets/default_text_field.dart';
 
-class UsersDesktop extends StatefulWidget {
-  const UsersDesktop({super.key});
+class ClientsDesktop extends StatefulWidget {
+  const ClientsDesktop({super.key});
 
   @override
-  State<UsersDesktop> createState() => _UsersDesktopState();
+  State<ClientsDesktop> createState() => _ClientsDesktopState();
 }
 
-class _UsersDesktopState extends State<UsersDesktop> {
+class _ClientsDesktopState extends State<ClientsDesktop> {
   TextEditingController search = TextEditingController();
   TextEditingController fullName = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -31,7 +31,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    var userCubit = UsersCubit.get(context);
+    var userCubit = ClientsCubit.get(context);
     return Scaffold(
       drawerScrimColor: AppColors.transparent,
       backgroundColor: AppColors.green,
@@ -68,13 +68,13 @@ class _UsersDesktopState extends State<UsersDesktop> {
                         controller: search,
                         onChange: (value) {
                           if (value == "") {
-                            userCubit.getUser();
+                            userCubit.getClients();
                           }
                         },
                         suffix: IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {
-                            userCubit.getUser(keyword: search.text);
+                            userCubit.getClients(keyword: search.text);
                             printResponse(search.text);
                           },
                           color: AppColors.black,
@@ -106,7 +106,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                   child: ListBody(
                                     children: <Widget>[
                                       const DefaultText(
-                                        text: "Add New User",
+                                        text: "Add New Client",
                                         align: TextAlign.center,
                                       ),
                                       SizedBox(
@@ -213,7 +213,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                             "Please Enter Password more than 8 Characters");
                                       } else {
                                         IndicatorView.showIndicator(context);
-                                        userCubit.addUser(
+                                        userCubit.addClient(
                                           userRequest: UserRequset(
                                             name: fullName.text,
                                             phone: phone.text,
@@ -269,7 +269,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                     ],
                   ),
                 ),
-                BlocBuilder<UsersCubit, UsersState>(
+                BlocBuilder<ClientsCubit, ClientsState>(
                   builder: (context, state) {
                     if (userCubit.getUserResponse?.userModel == null) {
                       return SizedBox(
@@ -289,7 +289,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                           ),
                         ),
                       );
-                    } else if (userCubit.userList.isEmpty) {
+                    } else if (userCubit.clinetList.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
@@ -328,7 +328,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        userCubit.userList[index].name,
+                                        userCubit.clinetList[index].name,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -347,7 +347,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        userCubit.userList[index].phone,
+                                        userCubit.clinetList[index].phone,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -366,7 +366,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        userCubit.userList[index].email,
+                                        userCubit.clinetList[index].email,
                                         style: TextStyle(
                                             fontSize: 2.5.sp,
                                             fontWeight: FontWeight.bold),
@@ -387,7 +387,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        userCubit.userList[index].rate
+                                        userCubit.clinetList[index].rate
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -398,7 +398,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                   height: 2.5.h,
                                   child: CircleAvatar(
                                     backgroundColor:
-                                        userCubit.userList[index].active == 1
+                                        userCubit.clinetList[index].active == 1
                                             ? AppColors.green
                                             : AppColors.red,
                                   ),
@@ -407,7 +407,7 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                   width: 2.w,
                                 ),
                                 Switch(
-                                  value: userCubit.userList[index].active == 1
+                                  value: userCubit.clinetList[index].active == 1
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
@@ -417,17 +417,195 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                   splashRadius: 3.0,
                                   onChanged: (value) {
                                     userCubit.switched(index);
-                                    userCubit.updateUserStatus(
+                                    userCubit.updateClientStatus(
                                       index: index,
                                       userRequest: UserRequset(
-                                        id: userCubit.userList[index].id,
+                                        id: userCubit.clinetList[index].id,
                                         active: userCubit
-                                                .userList[index].active.isEven
+                                                .clinetList[index].active.isEven
                                             ? 0
                                             : 1,
                                       ),
                                     );
                                   },
+                                ),
+                                // SizedBox(
+                                //   width: 1.w,
+                                // ),
+                                // IconButton(
+                                //   onPressed: () {
+                                //     int clientId = userCubit.clinetList[index].id;
+                                //     IndicatorView.showIndicator(context);
+                                //     // userCubit.getArea(
+                                //     //   crewId: clientId,
+                                //     //   afterSuccess: () {
+                                //     //     Navigator.pop(context);
+                                //     //     showDialog<void>(
+                                //     //       context: context,
+                                //     //       barrierDismissible: true,
+                                //     //       builder: (BuildContext context) {
+                                //     //         return CrewArea(
+                                //     //           crewId: crewId,
+                                //     //         );
+                                //     //       },
+                                //     //     );
+                                //     //   },
+                                //     // );
+                                //   },
+                                //   icon: const Icon(Icons.location_on),
+                                //   color: AppColors.grey,
+                                // ),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      fullName.text = userCubit.clinetList[index].name;
+                                      phone.text = userCubit.clinetList[index].phone;
+                                      if(userCubit.clinetList[index].email != "empty"){
+                                        email.text = userCubit.clinetList[index].email;
+                                      }
+                                    });
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                const DefaultText(
+                                                  text: "Update Client",
+                                                  align: TextAlign.center,
+                                                ),
+                                                SizedBox(
+                                                  height: 2.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: fullName.text,
+                                                  password: false,
+                                                  controller: fullName,
+                                                  height: 5.h,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  horizontalPadding: 50,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Full Name',
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: phone.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  controller: phone,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  horizontalPadding: 50,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Phone',
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: email.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  controller: email,
+                                                  haveShadow: true,
+                                                  horizontalPadding: 50,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Email',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                          actions: <Widget>[
+                                            DefaultAppButton(
+                                              title: "Update",
+                                              onTap: () {
+                                                if (fullName.text == "") {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter the Full Name");
+                                                } else if (phone.text == "" ||
+                                                    phone.text.length < 11) {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter Correct Phone Number");
+                                                } else if (email.text == "") {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter Correct Email Address");
+                                                } else {
+                                                  IndicatorView.showIndicator(context);
+                                                  userCubit.updateClient(
+                                                    userRequest: UserRequset(
+                                                      id: userCubit.clinetList[index].id,
+                                                      name: fullName.text,
+                                                      phone: phone.text == userCubit.clinetList[index].phone?null:phone.text,
+                                                      email: email.text,
+                                                      role: "client",
+                                                    ),
+                                                    onError: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    afterSuccess: () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      fullName.clear();
+                                                      phone.clear();
+                                                      email.clear();
+                                                    }, index: index,
+                                                  );
+                                                }
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.white,
+                                              buttonColor: AppColors.pc,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            DefaultAppButton(
+                                              title: "Cancel",
+                                              onTap: () {
+                                                fullName.clear();
+                                                phone.clear();
+                                                email.clear();
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.mainColor,
+                                              buttonColor: AppColors.lightGrey,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                  color: AppColors.grey,
                                 ),
                                 SizedBox(
                                   width: 1.w,
@@ -436,11 +614,11 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                   onPressed: () {
                                     setState(
                                           () {
-                                        if (userCubit.userList[index]
+                                        if (userCubit.clinetList[index]
                                             .adminComment !=
                                             null) {
                                           commentController.text =
-                                          userCubit.userList[index]
+                                          userCubit.clinetList[index]
                                               .adminComment!;
                                         }
                                       },
@@ -477,15 +655,15 @@ class _UsersDesktopState extends State<UsersDesktop> {
                                             DefaultAppButton(
                                               title: "Save",
                                               onTap: () {
-                                                UsersCubit.get(context)
+                                                ClientsCubit.get(context)
                                                     .updateAdminComment(
-                                                  userId:userCubit.userList[index]
+                                                  userId:userCubit.clinetList[index]
                                                       .id,
                                                   comment: commentController.text,
                                                   afterSuccess: () {
                                                     setState(
                                                           () {
-                                                            userCubit.userList[index]
+                                                        userCubit.clinetList[index]
                                                             .adminComment =
                                                             commentController
                                                                 .text;

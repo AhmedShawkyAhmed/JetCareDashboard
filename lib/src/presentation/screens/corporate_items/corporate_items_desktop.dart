@@ -104,7 +104,7 @@ class _CorporateItemsDesktopState extends State<CorporateItemsDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
+                          GlobalCubit.get(context).isEdit = false;
                           nameEn.clear();
                           descriptionEn.clear();
                           nameAr.clear();
@@ -278,7 +278,7 @@ class _CorporateItemsDesktopState extends State<CorporateItemsDesktop> {
                                                 BorderRadius.circular(
                                                     20)),
                                             child: GlobalCubit.get(context)
-                                                .isedit
+                                                .isEdit
                                                 ? Stack(
                                               children: [
                                                 ClipRRect(
@@ -791,7 +791,7 @@ class _CorporateItemsDesktopState extends State<CorporateItemsDesktop> {
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  GlobalCubit.get(context).isedit = true;
+                                  GlobalCubit.get(context).isEdit = true;
                                   nameEn.text = corporateItemCubit
                                       .itemList[index]
                                       .nameEn ??
@@ -989,7 +989,7 @@ class _CorporateItemsDesktopState extends State<CorporateItemsDesktop> {
                                                     ),
                                                     child: GlobalCubit.get(
                                                         context)
-                                                        .isedit
+                                                        .isEdit
                                                         ? Stack(
                                                       children: [
                                                         ClipRRect(

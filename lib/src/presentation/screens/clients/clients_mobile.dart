@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
+import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/drawer_mobile.dart';
 import 'package:jetboard/src/presentation/views/end_drawer_users.dart';
@@ -9,15 +9,15 @@ import 'package:jetboard/src/presentation/views/header.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
-class UsersMobile extends StatelessWidget {
+class ClientsMobile extends StatelessWidget {
   TextEditingController search = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey();
 
-  UsersMobile({super.key});
+  ClientsMobile({super.key});
   @override
   Widget build(BuildContext context) {
     var cubit = GlobalCubit.get(context);
-    var cubitU = UsersCubit.get(context);
+    var cubitU = ClientsCubit.get(context);
     int currentIndex = 0;
     return BlocConsumer<GlobalCubit, GlobalState>(
       listener: (context, state) {
@@ -32,7 +32,7 @@ class UsersMobile extends StatelessWidget {
           endDrawer: EndDrawerWidgetUsers(
             index: currentIndex,
             userModel:
-                cubitU.userList.isEmpty ? null : cubitU.userList[currentIndex],
+                cubitU.clinetList.isEmpty ? null : cubitU.clinetList[currentIndex],
             endDrawerWidth: 65.w,
             widthBackButton: 7.w,
             fontTitle: 20.sp,
@@ -67,7 +67,7 @@ class UsersMobile extends StatelessWidget {
                         haveExport: true,
                         add: () {
                           cubit.isShadowE();
-                          cubit.isedit = false;
+                          cubit.isEdit = false;
                           scaffoldkey.currentState!.openEndDrawer();
                         },
                       ),
@@ -143,7 +143,7 @@ class UsersMobile extends StatelessWidget {
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    cubit.isedit = true;
+                                    cubit.isEdit = true;
                                     scaffoldkey.currentState!.openEndDrawer();
                                   },
                                   icon: const Icon(

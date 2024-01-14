@@ -10,12 +10,12 @@ import '../../constants/constants_methods.dart';
 import '../../constants/end_points.dart';
 import '../../data/data_provider/remote/dio_helper.dart';
 import '../../presentation/widgets/toast.dart';
-part 'users_state.dart';
+part 'clients_state.dart';
 
-class UsersCubit extends Cubit<UsersState> {
-  UsersCubit() : super(UsersCubitInitial());
+class ClientsCubit extends Cubit<ClientsState> {
+  ClientsCubit() : super(UsersCubitInitial());
 
-  static UsersCubit get(context) => BlocProvider.of(context);
+  static ClientsCubit get(context) => BlocProvider.of(context);
   RoleResponse? roleResponse;
   GlobalResponse? globalResponse;
   UserResponse? getUserResponse,
@@ -24,7 +24,7 @@ class UsersCubit extends Cubit<UsersState> {
       updateUserResponse,
       updateUserStatusResponse;
   List<String> roleList = [];
-  List<UserModel> userList = [];
+  List<UserModel> clinetList = [];
   int listCount = 0;
   int index = 0;
   bool pass = true;
@@ -35,16 +35,16 @@ class UsersCubit extends Cubit<UsersState> {
   }
 
   void switched(int index) {
-    userList[index].active == 1
-        ? userList[index].active = 0
-        : userList[index].active = 1;
+    clinetList[index].active == 1
+        ? clinetList[index].active = 0
+        : clinetList[index].active = 1;
     printSuccess(index.toString());
     emit(UserSwitchState());
   }
 
-  Future getUser({String? keyword}) async {
+  Future getClients({String? keyword}) async {
     getUserResponse = null;
-    userList.clear();
+    clinetList.clear();
     listCount = 0;
     try {
       emit(UserLoadingState());
@@ -57,7 +57,7 @@ class UsersCubit extends Cubit<UsersState> {
       ).then((value) {
         emit(UserSuccessState());
         getUserResponse = UserResponse.fromJson(value.data);
-        userList.addAll(getUserResponse!.userModel!);
+        clinetList.addAll(getUserResponse!.userModel!);
         listCount = getUserResponse!.userModel!.length;
         printSuccess(value.data.toString());
       });
@@ -70,7 +70,7 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
-  Future addUser({
+  Future addClient({
     required UserRequset userRequest,
     required VoidCallback afterSuccess,
     required VoidCallback onError,
@@ -94,7 +94,7 @@ class UsersCubit extends Cubit<UsersState> {
           onError();
         }
         addUserResponse = UserResponse.fromJson(value.data);
-        userList.insert(0, addUserResponse!.userModell!);
+        clinetList.insert(0, addUserResponse!.userModell!);
         listCount += 1;
         emit(AddUserSuccessState());
       });
@@ -107,7 +107,7 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
-  Future deleteUser({required UserModel userModel}) async {
+  Future deleteClient({required UserModel userModel}) async {
     try {
       emit(DeleteUserLoadingState());
       await DioHelper.postData(
@@ -118,7 +118,7 @@ class UsersCubit extends Cubit<UsersState> {
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
         deleteUserResponse = UserResponse.fromJson(myData);
-        userList.remove(userModel);
+        clinetList.remove(userModel);
         listCount -= 1;
         emit(DeleteUserSuccessState());
         DefaultToast.showMyToast(value.data['message']);
@@ -132,7 +132,7 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
-  Future updateUserStatus({
+  Future updateClientStatus({
     required UserRequset userRequest,
     required int index,
   }) async {
@@ -147,7 +147,7 @@ class UsersCubit extends Cubit<UsersState> {
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
         updateUserStatusResponse = UserResponse.fromJson(myData);
-        userList[index].active = userRequest.active!;
+        clinetList[index].active = userRequest.active!;
         emit(ChangeUserSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
@@ -160,28 +160,36 @@ class UsersCubit extends Cubit<UsersState> {
     }
   }
 
-  Future updateUser({
-    required UserRequset userRequset,
+  Future updateClient({
+    required UserRequset userRequest,
     required int index,
+    required VoidCallback afterSuccess,
+    required VoidCallback onError,
   }) async {
     try {
       emit(UpdateUserLoadingState());
       await DioHelper.postData(
         url: EndPoints.updateAccount,
         body: {
-          'id': userRequset.id,
-          'name': userRequset.name,
-          'phone': userRequset.phone,
-          'email': userRequset.email,
-          'role': userRequset.role,
+          'id': userRequest.id,
+          'name': userRequest.name,
+          'phone': userRequest.phone,
+          'email': userRequest.email,
+          'role': userRequest.role,
         },
       ).then((value) {
-        printSuccess(value.toString());
-        final myData = Map<String, dynamic>.from(value.data);
-        updateUserResponse = UserResponse.fromJson(myData);
-        userList[index] = updateUserResponse!.userModell!;
-        emit(UpdateUserSuccessState());
         DefaultToast.showMyToast(value.data['message']);
+        if(value.data['status'] == 200){
+          printSuccess(value.toString());
+          final myData = Map<String, dynamic>.from(value.data);
+          updateUserResponse = UserResponse.fromJson(myData);
+          clinetList[index] = updateUserResponse!.userModell!;
+          emit(UpdateUserSuccessState());
+          afterSuccess();
+        }else{
+          onError();
+          emit(UpdateUserErrorState());
+        }
       });
     } on DioError catch (n) {
       emit(UpdateUserErrorState());

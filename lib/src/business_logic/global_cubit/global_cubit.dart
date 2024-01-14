@@ -27,7 +27,7 @@ import 'package:jetboard/src/presentation/screens/packages/packages.dart';
 import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
 import 'package:jetboard/src/presentation/screens/settings/settings.dart';
 import 'package:jetboard/src/presentation/screens/support/support.dart';
-import 'package:jetboard/src/presentation/screens/users/users.dart';
+import 'package:jetboard/src/presentation/screens/clients/clients.dart';
 
 import '../../data/models/items_model.dart';
 import '../../data/models/orders_model.dart';
@@ -58,7 +58,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   int listCount = 0;
   int selectedIndex = 0;
   bool isShadow = true;
-  bool isedit = false;
+  bool isEdit = false;
   bool isColorS = true;
   List<String> packages = [];
   List<String> items = [];

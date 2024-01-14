@@ -66,7 +66,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
+                          GlobalCubit.get(context).isEdit = false;
                           fromController.clear();
                           toController.clear();
                         });
@@ -380,7 +380,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                               IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      GlobalCubit.get(context).isedit = true;
+                                      GlobalCubit.get(context).isEdit = true;
                                       fromController.text =
                                           PeriodCubit.get(context)
                                                   .periodList[index]

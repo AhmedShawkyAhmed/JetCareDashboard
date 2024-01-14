@@ -131,7 +131,7 @@ class SupportMobile extends StatelessWidget {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  cubit.isedit = true;
+                                  cubit.isEdit = true;
                                   scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(

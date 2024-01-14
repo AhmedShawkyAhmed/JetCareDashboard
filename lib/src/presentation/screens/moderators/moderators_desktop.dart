@@ -68,13 +68,13 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                         controller: search,
                         onChange: (value) {
                           if (value == "") {
-                            moderatorCubit.getUser();
+                            moderatorCubit.getModerator();
                           }
                         },
                         suffix: IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {
-                            moderatorCubit.getUser(keyword: search.text);
+                            moderatorCubit.getModerator(keyword: search.text);
                             printResponse(search.text);
                           },
                           color: AppColors.black,
@@ -213,7 +213,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                             "Please Enter Password more than 8 Characters");
                                       } else {
                                         IndicatorView.showIndicator(context);
-                                        moderatorCubit.addUser(
+                                        moderatorCubit.addModerator(
                                           userRequest: UserRequset(
                                             name: fullName.text,
                                             phone: phone.text,
@@ -270,7 +270,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                 ),
                 BlocBuilder<ModeratorCubit, ModeratorState>(
                   builder: (context, state) {
-                    if (moderatorCubit.getUserResponse?.userModel == null) {
+                    if (moderatorCubit.getModeratorResponse?.userModel == null) {
                       return SizedBox(
                         height: 79.h,
                         child: ListView.builder(
@@ -288,7 +288,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                           ),
                         ),
                       );
-                    } else if (moderatorCubit.userList.isEmpty) {
+                    } else if (moderatorCubit.moderatorList.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
@@ -326,7 +326,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        moderatorCubit.userList[index].name,
+                                        moderatorCubit.moderatorList[index].name,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -345,7 +345,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        moderatorCubit.userList[index].phone,
+                                        moderatorCubit.moderatorList[index].phone,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -364,7 +364,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        moderatorCubit.userList[index].email,
+                                        moderatorCubit.moderatorList[index].email,
                                         style: TextStyle(
                                             fontSize: 2.5.sp,
                                             fontWeight: FontWeight.bold),
@@ -385,7 +385,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        moderatorCubit.userList[index].rate
+                                        moderatorCubit.moderatorList[index].rate
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -396,7 +396,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                   height: 2.5.h,
                                   child: CircleAvatar(
                                     backgroundColor:
-                                        moderatorCubit.userList[index].active ==
+                                        moderatorCubit.moderatorList[index].active ==
                                                 1
                                             ? AppColors.green
                                             : AppColors.red,
@@ -407,7 +407,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                 ),
                                 Switch(
                                   value:
-                                      moderatorCubit.userList[index].active == 1
+                                      moderatorCubit.moderatorList[index].active == 1
                                           ? true
                                           : false,
                                   activeColor: AppColors.green,
@@ -417,12 +417,12 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                   splashRadius: 3.0,
                                   onChanged: (value) {
                                     moderatorCubit.switched(index);
-                                    moderatorCubit.updateUserStatus(
+                                    moderatorCubit.updateModeratorStatus(
                                       index: index,
                                       userRequest: UserRequset(
-                                        id: moderatorCubit.userList[index].id,
+                                        id: moderatorCubit.moderatorList[index].id,
                                         active: moderatorCubit
-                                                .userList[index].active.isEven
+                                                .moderatorList[index].active.isEven
                                             ? 0
                                             : 1,
                                       ),
@@ -435,7 +435,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                 IconButton(
                                   onPressed: () {
                                     int crewId =
-                                        moderatorCubit.userList[index].id;
+                                        moderatorCubit.moderatorList[index].id;
                                     moderatorCubit.getSettings(
                                       moderatorId: crewId,
                                       afterSuccess: () {
@@ -463,13 +463,164 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                 ),
                                 IconButton(
                                   onPressed: () {
+                                    setState(() {
+                                      fullName.text = moderatorCubit.moderatorList[index].name;
+                                      phone.text = moderatorCubit.moderatorList[index].phone;
+                                      if(moderatorCubit.moderatorList[index].email != "empty"){
+                                        email.text = moderatorCubit.moderatorList[index].email;
+                                      }
+                                    });
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                const DefaultText(
+                                                  text: "Update Moderator",
+                                                  align: TextAlign.center,
+                                                ),
+                                                SizedBox(
+                                                  height: 2.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: fullName.text,
+                                                  password: false,
+                                                  controller: fullName,
+                                                  height: 5.h,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  horizontalPadding: 50,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Full Name',
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: phone.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  controller: phone,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  horizontalPadding: 50,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Phone',
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: email.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  controller: email,
+                                                  haveShadow: true,
+                                                  horizontalPadding: 50,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Email',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                          actions: <Widget>[
+                                            DefaultAppButton(
+                                              title: "Update",
+                                              onTap: () {
+                                                if (fullName.text == "") {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter the Full Name");
+                                                } else if (phone.text == "" ||
+                                                    phone.text.length < 11) {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter Correct Phone Number");
+                                                } else if (email.text == "") {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter Correct Email Address");
+                                                } else {
+                                                  IndicatorView.showIndicator(context);
+                                                  moderatorCubit.updateCrew(
+                                                    userRequest: UserRequset(
+                                                      id: moderatorCubit.moderatorList[index].id,
+                                                      name: fullName.text,
+                                                      phone: phone.text == moderatorCubit.moderatorList[index].phone?null:phone.text,
+                                                      email: email.text,
+                                                    ),
+                                                    onError: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    afterSuccess: () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      fullName.clear();
+                                                      phone.clear();
+                                                      email.clear();
+                                                    }, index: index,
+                                                  );
+                                                }
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.white,
+                                              buttonColor: AppColors.pc,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            DefaultAppButton(
+                                              title: "Cancel",
+                                              onTap: () {
+                                                fullName.clear();
+                                                phone.clear();
+                                                email.clear();
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.mainColor,
+                                              buttonColor: AppColors.lightGrey,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                  color: AppColors.grey,
+                                ),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                IconButton(
+                                  onPressed: () {
                                     setState(
                                           () {
-                                        if (moderatorCubit.userList[index]
+                                        if (moderatorCubit.moderatorList[index]
                                             .adminComment !=
                                             null) {
                                           commentController.text =
-                                          moderatorCubit.userList[index]
+                                          moderatorCubit.moderatorList[index]
                                               .adminComment!;
                                         }
                                       },
@@ -508,13 +659,13 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                               onTap: () {
                                                 ModeratorCubit.get(context)
                                                     .updateAdminComment(
-                                                  userId:moderatorCubit.userList[index]
+                                                  userId:moderatorCubit.moderatorList[index]
                                                       .id,
                                                   comment: commentController.text,
                                                   afterSuccess: () {
                                                     setState(
                                                           () {
-                                                            moderatorCubit.userList[index]
+                                                            moderatorCubit.moderatorList[index]
                                                             .adminComment =
                                                             commentController
                                                                 .text;
@@ -560,9 +711,9 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    moderatorCubit.deleteUser(
+                                    moderatorCubit.deleteModerator(
                                         userModel:
-                                            moderatorCubit.userList[index]);
+                                            moderatorCubit.moderatorList[index]);
                                   },
                                   icon: const Icon(
                                     Icons.delete,

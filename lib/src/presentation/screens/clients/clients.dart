@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/presentation/screens/mobile.dart';
-import 'package:jetboard/src/presentation/screens/users/users_desktop.dart';
+import 'package:jetboard/src/presentation/screens/clients/clients_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class Users extends StatelessWidget {
@@ -11,7 +11,7 @@ class Users extends StatelessWidget {
     return ScreenTypeLayout(
       mobile: const MobileLayout(),
       tablet: const MobileLayout(),
-      desktop: const UsersDesktop(),
+      desktop: const ClientsDesktop(),
     );
   }
 }

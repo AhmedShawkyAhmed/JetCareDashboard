@@ -22,14 +22,14 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   static ModeratorCubit get(context) => BlocProvider.of(context);
 
   GlobalResponse? globalResponse;
-  UserResponse? getUserResponse,
-      addUserResponse,
-      deleteUserResponse,
-      updateUserResponse,
-      updateUserStatusResponse;
+  UserResponse? getModeratorResponse,
+      addModeratorResponse,
+      deleteModeratorResponse,
+      updateModeratorResponse,
+      updateModeratorStatusResponse;
   AccessResponse? accessResponse;
   List<String> roleList = [];
-  List<UserModel> userList = [];
+  List<UserModel> moderatorList = [];
   List<SettingsModel> settings = [];
   int listCount = 0;
   int index = 0;
@@ -41,19 +41,19 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }
 
   void switched(int index) {
-    userList[index].active == 1
-        ? userList[index].active = 0
-        : userList[index].active = 1;
+    moderatorList[index].active == 1
+        ? moderatorList[index].active = 0
+        : moderatorList[index].active = 1;
     printSuccess(index.toString());
-    emit(UserSwitchState());
+    emit(ModeratorSwitchState());
   }
 
-  Future getUser({String? keyword}) async {
-    getUserResponse = null;
-    userList.clear();
+  Future getModerator({String? keyword}) async {
+    getModeratorResponse = null;
+    moderatorList.clear();
     listCount = 0;
     try {
-      emit(UserLoadingState());
+      emit(ModeratorLoadingState());
       await DioHelper.getData(
         url: EndPoints.getAccounts,
         query: {
@@ -61,28 +61,28 @@ class ModeratorCubit extends Cubit<ModeratorState> {
           "keyword": keyword,
         },
       ).then((value) {
-        emit(UserSuccessState());
-        getUserResponse = UserResponse.fromJson(value.data);
-        userList.addAll(getUserResponse!.userModel!);
-        listCount = getUserResponse!.userModel!.length;
+        emit(ModeratorSuccessState());
+        getModeratorResponse = UserResponse.fromJson(value.data);
+        moderatorList.addAll(getModeratorResponse!.userModel!);
+        listCount = getModeratorResponse!.userModel!.length;
         printSuccess(value.data.toString());
       });
     } on DioError catch (n) {
-      emit(UserErrorState());
+      emit(ModeratorErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(UserErrorState());
+      emit(ModeratorErrorState());
       printError(e.toString());
     }
   }
 
-  Future addUser({
+  Future addModerator({
     required UserRequset userRequest,
     required VoidCallback afterSuccess,
     required VoidCallback onError,
   }) async {
     try {
-      emit(AddUserLoadingState());
+      emit(AddModeratorLoadingState());
       await DioHelper.postData(
         url: EndPoints.register,
         body: {
@@ -99,24 +99,64 @@ class ModeratorCubit extends Cubit<ModeratorState> {
         } else {
           onError();
         }
-        addUserResponse = UserResponse.fromJson(value.data);
-        userList.insert(0, addUserResponse!.userModell!);
+        addModeratorResponse = UserResponse.fromJson(value.data);
+        moderatorList.insert(0, addModeratorResponse!.userModell!);
         listCount += 1;
-        createAccess(id: addUserResponse!.userModell!.id);
-        emit(AddUserSuccessState());
+        createAccess(id: addModeratorResponse!.userModell!.id);
+        emit(AddModeratorSuccessState());
       });
     } on DioError catch (n) {
-      emit(AddUserErrorState());
+      emit(AddModeratorErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(AddUserErrorState());
+      emit(AddModeratorErrorState());
       printError(e.toString());
     }
   }
 
-  Future deleteUser({required UserModel userModel}) async {
+  Future updateCrew({
+    required UserRequset userRequest,
+    required int index,
+    required VoidCallback afterSuccess,
+    required VoidCallback onError,
+  }) async {
     try {
-      emit(DeleteUserLoadingState());
+      emit(UpdateModeratorLoadingState());
+      await DioHelper.postData(
+        url: EndPoints.updateAccount,
+        body: {
+          'id': userRequest.id,
+          'name': userRequest.name,
+          'phone': userRequest.phone,
+          'email': userRequest.email,
+          'role': "moderator",
+        },
+      ).then((value) {
+        DefaultToast.showMyToast(value.data['message']);
+        if(value.data['status'] == 200){
+          printSuccess(value.toString());
+          final myData = Map<String, dynamic>.from(value.data);
+          updateModeratorResponse = UserResponse.fromJson(myData);
+          moderatorList[index] = updateModeratorResponse!.userModell!;
+          emit(UpdateModeratorSuccessState());
+          afterSuccess();
+        }else{
+          onError();
+          emit(UpdateModeratorErrorState());
+        }
+      });
+    } on DioError catch (n) {
+      emit(UpdateModeratorErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(UpdateModeratorErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future deleteModerator({required UserModel userModel}) async {
+    try {
+      emit(DeleteModeratorLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteAccount,
         body: {
@@ -124,27 +164,27 @@ class ModeratorCubit extends Cubit<ModeratorState> {
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
-        deleteUserResponse = UserResponse.fromJson(myData);
-        userList.remove(userModel);
+        deleteModeratorResponse = UserResponse.fromJson(myData);
+        moderatorList.remove(userModel);
         listCount -= 1;
-        emit(DeleteUserSuccessState());
+        emit(DeleteModeratorSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
-      emit(DeleteUserErrorState());
+      emit(DeleteModeratorErrorState());
       printResponse(n.toString());
     } catch (e) {
-      emit(DeleteUserErrorState());
+      emit(DeleteModeratorErrorState());
       printResponse(e.toString());
     }
   }
 
-  Future updateUserStatus({
+  Future updateModeratorStatus({
     required UserRequset userRequest,
     required int index,
   }) async {
     try {
-      emit(ChangeUserLoadingState());
+      emit(ChangeModeratorLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeAccountStatus,
         body: {
@@ -153,16 +193,16 @@ class ModeratorCubit extends Cubit<ModeratorState> {
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
-        updateUserStatusResponse = UserResponse.fromJson(myData);
-        userList[index].active = userRequest.active!;
-        emit(ChangeUserSuccessState());
+        updateModeratorStatusResponse = UserResponse.fromJson(myData);
+        moderatorList[index].active = userRequest.active!;
+        emit(ChangeModeratorSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
-      emit(ChangeUserErrorState());
+      emit(ChangeModeratorErrorState());
       printResponse(n.toString());
     } catch (e) {
-      emit(ChangeUserErrorState());
+      emit(ChangeModeratorErrorState());
       printResponse(e.toString());
     }
   }
@@ -250,21 +290,21 @@ class ModeratorCubit extends Cubit<ModeratorState> {
     required VoidCallback afterSuccess,
   }) async {
     try {
-      emit(UserCommentLoadingState());
+      emit(ModeratorCommentLoadingState());
       await DioHelper.postData(url: EndPoints.userAdminComment, body: {
         'id': userId,
         'comment': comment,
       }).then((value) {
         globalResponse = GlobalResponse.fromJson(value.data);
         DefaultToast.showMyToast(globalResponse!.message.toString());
-        emit(UserCommentSuccessState());
+        emit(ModeratorCommentSuccessState());
         afterSuccess();
       });
     } on DioError catch (n) {
-      emit(UserCommentErrorState());
+      emit(ModeratorCommentErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(UserCommentErrorState());
+      emit(ModeratorCommentErrorState());
       printError(e.toString());
     }
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/business_logic/users_cubit/users_cubit.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';
 import 'package:jetboard/src/presentation/views/drawer_mobile.dart';
 import 'package:jetboard/src/presentation/views/end_drawer_users.dart';
@@ -17,7 +16,6 @@ class ModeratorsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = GlobalCubit.get(context);
-    var cubitU = UsersCubit.get(context);
     int currentIndex = 0;
     return BlocConsumer<GlobalCubit, GlobalState>(
       listener: (context, state) {
@@ -31,8 +29,7 @@ class ModeratorsMobile extends StatelessWidget {
           drawer: DrawerListMobile(),
           endDrawer: EndDrawerWidgetUsers(
             index: currentIndex,
-            userModel:
-                cubitU.userList.isEmpty ? null : cubitU.userList[currentIndex],
+            userModel:null,
             endDrawerWidth: 65.w,
             widthBackButton: 7.w,
             fontTitle: 20.sp,
@@ -67,7 +64,7 @@ class ModeratorsMobile extends StatelessWidget {
                         haveExport: true,
                         add: () {
                           cubit.isShadowE();
-                          cubit.isedit = false;
+                          cubit.isEdit = false;
                           scaffoldkey.currentState!.openEndDrawer();
                         },
                       ),
@@ -143,7 +140,7 @@ class ModeratorsMobile extends StatelessWidget {
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    cubit.isedit = true;
+                                    cubit.isEdit = true;
                                     scaffoldkey.currentState!.openEndDrawer();
                                   },
                                   icon: const Icon(

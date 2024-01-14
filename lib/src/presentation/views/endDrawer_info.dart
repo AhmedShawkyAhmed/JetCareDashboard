@@ -117,7 +117,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                             ),
                           ),
                           Text(
-                            cubit.isedit ? 'Update Info' : 'Add New Info',
+                            cubit.isEdit ? 'Update Info' : 'Add New Info',
                             style:
                                 TextStyle(fontSize: widget.fontTitle ?? 6.sp),
                           ),
@@ -219,12 +219,12 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                         child: Container(
                           alignment: Alignment.center,
                           child: DefaultAppButton(
-                            title: cubit.isedit ? 'Update' : 'Add',
+                            title: cubit.isEdit ? 'Update' : 'Add',
                             radius: 10,
                             width: widget.widthButton ?? 8.w,
                             height: widget.heightButton ?? 5.h,
                             fontSize: widget.fontButton ?? 4.sp,
-                            onTap: cubit.isedit
+                            onTap: cubit.isEdit
                                 ? () {
                                     cubiti.updateInfo(
                                         index: widget.index!,

@@ -22,13 +22,13 @@ class CrewCubit extends Cubit<CrewState> {
   GlobalResponse? globalResponse;
   List<int> areaIds = [];
   List<int> crewAreasIds = [];
-  UserResponse? getUserResponse,
-      addUserResponse,
-      deleteUserResponse,
-      updateUserResponse,
-      updateUserStatusResponse;
+  UserResponse? getCrewResponse,
+      addCrewResponse,
+      deleteCrewResponse,
+      updateCrewResponse,
+      updateCrewStatusResponse;
   List<String> roleList = [];
-  List<UserModel> userList = [];
+  List<UserModel> crewList = [];
   int listCount = 0;
   int index = 0;
   bool pass = true;
@@ -39,19 +39,19 @@ class CrewCubit extends Cubit<CrewState> {
   }
 
   void switched(int index) {
-    userList[index].active == 1
-        ? userList[index].active = 0
-        : userList[index].active = 1;
+    crewList[index].active == 1
+        ? crewList[index].active = 0
+        : crewList[index].active = 1;
     printSuccess(index.toString());
-    emit(UserSwitchState());
+    emit(CrewSwitchState());
   }
 
-  Future getUser({String? keyword}) async {
-    getUserResponse = null;
-    userList.clear();
+  Future getCrew({String? keyword}) async {
+    getCrewResponse = null;
+    crewList.clear();
     listCount = 0;
     try {
-      emit(UserLoadingState());
+      emit(CrewLoadingState());
       await DioHelper.getData(
         url: EndPoints.getAccounts,
         query: {
@@ -59,28 +59,28 @@ class CrewCubit extends Cubit<CrewState> {
           "keyword": keyword,
         },
       ).then((value) {
-        emit(UserSuccessState());
-        getUserResponse = UserResponse.fromJson(value.data);
-        userList.addAll(getUserResponse!.userModel!);
-        listCount = getUserResponse!.userModel!.length;
+        emit(CrewSuccessState());
+        getCrewResponse = UserResponse.fromJson(value.data);
+        crewList.addAll(getCrewResponse!.userModel!);
+        listCount = getCrewResponse!.userModel!.length;
         printSuccess(value.data.toString());
       });
     } on DioError catch (n) {
-      emit(UserErrorState());
+      emit(CrewErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(UserErrorState());
+      emit(CrewErrorState());
       printError(e.toString());
     }
   }
 
-  Future addUser({
+  Future addCrew({
     required UserRequset userRequest,
     required VoidCallback afterSuccess,
     required VoidCallback onError,
   }) async {
     try {
-      emit(AddUserLoadingState());
+      emit(AddCrewLoadingState());
       await DioHelper.postData(
         url: EndPoints.register,
         body: {
@@ -97,23 +97,63 @@ class CrewCubit extends Cubit<CrewState> {
         }else{
           onError();
         }
-        addUserResponse = UserResponse.fromJson(value.data);
-        userList.insert(0, addUserResponse!.userModell!);
+        addCrewResponse = UserResponse.fromJson(value.data);
+        crewList.insert(0, addCrewResponse!.userModell!);
         listCount += 1;
-        emit(AddUserSuccessState());
+        emit(AddCrewSuccessState());
       });
     } on DioError catch (n) {
-      emit(AddUserErrorState());
+      emit(AddCrewErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(AddUserErrorState());
+      emit(AddCrewErrorState());
       printError(e.toString());
     }
   }
 
-  Future deleteUser({required UserModel userModel}) async {
+  Future updateCrew({
+    required UserRequset userRequest,
+    required int index,
+    required VoidCallback afterSuccess,
+    required VoidCallback onError,
+  }) async {
     try {
-      emit(DeleteUserLoadingState());
+      emit(UpdateCrewLoadingState());
+      await DioHelper.postData(
+        url: EndPoints.updateAccount,
+        body: {
+          'id': userRequest.id,
+          'name': userRequest.name,
+          'phone': userRequest.phone,
+          'email': userRequest.email,
+          'role': "crew",
+        },
+      ).then((value) {
+        DefaultToast.showMyToast(value.data['message']);
+        if(value.data['status'] == 200){
+          printSuccess(value.toString());
+          final myData = Map<String, dynamic>.from(value.data);
+          updateCrewResponse = UserResponse.fromJson(myData);
+          crewList[index] = updateCrewResponse!.userModell!;
+          emit(UpdateCrewSuccessState());
+          afterSuccess();
+        }else{
+          onError();
+          emit(UpdateCrewErrorState());
+        }
+      });
+    } on DioError catch (n) {
+      emit(UpdateCrewErrorState());
+      printError(n.toString());
+    } catch (e) {
+      emit(UpdateCrewErrorState());
+      printError(e.toString());
+    }
+  }
+
+  Future deleteCrew({required UserModel userModel}) async {
+    try {
+      emit(DeleteCrewLoadingState());
       await DioHelper.postData(
         url: EndPoints.deleteAccount,
         body: {
@@ -121,45 +161,45 @@ class CrewCubit extends Cubit<CrewState> {
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
-        deleteUserResponse = UserResponse.fromJson(myData);
-        userList.remove(userModel);
+        deleteCrewResponse = UserResponse.fromJson(myData);
+        crewList.remove(userModel);
         listCount -= 1;
-        emit(DeleteUserSuccessState());
+        emit(DeleteCrewSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
-      emit(DeleteUserErrorState());
+      emit(DeleteCrewErrorState());
       printResponse(n.toString());
     } catch (e) {
-      emit(DeleteUserErrorState());
+      emit(DeleteCrewErrorState());
       printResponse(e.toString());
     }
   }
 
-  Future updateUserStatus({
-    required UserRequset userRequset,
-    required int indexs,
+  Future updateCrewStatus({
+    required UserRequset userRequest,
+    required int index,
   }) async {
     try {
-      emit(ChangeUserLoadingState());
+      emit(ChangeCrewLoadingState());
       await DioHelper.postData(
         url: EndPoints.changeAccountStatus,
         body: {
-          'id': userRequset.id,
-          'active': userRequset.active,
+          'id': userRequest.id,
+          'active': userRequest.active,
         },
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
-        updateUserStatusResponse = UserResponse.fromJson(myData);
-        userList[indexs].active = userRequset.active!;
-        emit(ChangeUserSuccessState());
+        updateCrewStatusResponse = UserResponse.fromJson(myData);
+        crewList[index].active = userRequest.active!;
+        emit(ChangeCrewSuccessState());
         DefaultToast.showMyToast(value.data['message']);
       });
     } on DioError catch (n) {
-      emit(ChangeUserErrorState());
+      emit(ChangeCrewErrorState());
       printResponse(n.toString());
     } catch (e) {
-      emit(ChangeUserErrorState());
+      emit(ChangeCrewErrorState());
       printResponse(e.toString());
     }
   }
@@ -170,21 +210,21 @@ class CrewCubit extends Cubit<CrewState> {
     required VoidCallback afterSuccess,
   }) async {
     try {
-      emit(UserCommentLoadingState());
+      emit(CrewCommentLoadingState());
       await DioHelper.postData(url: EndPoints.userAdminComment, body: {
         'id': userId,
         'comment': comment,
       }).then((value) {
         globalResponse = GlobalResponse.fromJson(value.data);
         DefaultToast.showMyToast(globalResponse!.message.toString());
-        emit(UserCommentSuccessState());
+        emit(CrewCommentSuccessState());
         afterSuccess();
       });
     } on DioError catch (n) {
-      emit(UserCommentErrorState());
+      emit(CrewCommentErrorState());
       printError(n.toString());
     } catch (e) {
-      emit(UserCommentErrorState());
+      emit(CrewCommentErrorState());
       printError(e.toString());
     }
   }

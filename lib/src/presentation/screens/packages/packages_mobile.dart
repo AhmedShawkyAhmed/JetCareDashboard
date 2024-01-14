@@ -30,7 +30,7 @@ class PackagesMobile extends StatelessWidget {
           drawer: DrawerListMobile(),
           endDrawer: EndDrawerWidgetPackages(
             index: currentIndex,
-            isEdit: cubit.isedit,
+            isEdit: cubit.isEdit,
             packagesModel:
                 cubitP.packageList.isEmpty ? null : cubitP.packageList[currentIndex],
             endDrawerWidth: 65.w,
@@ -62,7 +62,7 @@ class PackagesMobile extends StatelessWidget {
                       search: search,
                       haveExport: false,
                       add: () {
-                        cubit.isedit = false;
+                        cubit.isEdit = false;
                         scaffoldkey.currentState!.openEndDrawer();
                       },
                     ),
@@ -135,7 +135,7 @@ class PackagesMobile extends StatelessWidget {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  cubit.isedit = true;
+                                  cubit.isEdit = true;
                                   scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(

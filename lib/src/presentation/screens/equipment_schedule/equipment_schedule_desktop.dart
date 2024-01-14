@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:jetboard/src/business_logic/equipment_cuibt/equipment_cubit.dart';
-import 'package:jetboard/src/business_logic/equipment_schedule_cuibt/equipment_schedule_cubit.dart';
+import 'package:jetboard/src/business_logic/equipment_cubit/equipment_cubit.dart';
+import 'package:jetboard/src/business_logic/equipment_schedule_cubit/equipment_schedule_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/data/models/equipment_model.dart';

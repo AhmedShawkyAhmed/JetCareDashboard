@@ -86,7 +86,7 @@ class EndDrawerWidgetSupport extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          cubit.isedit ? 'Update Support' : 'Add New Support',
+                          cubit.isEdit ? 'Update Support' : 'Add New Support',
                           style: TextStyle(fontSize:fontTitle ?? 6.sp),
                         ),
                       ],
@@ -177,7 +177,7 @@ class EndDrawerWidgetSupport extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         child: DefaultAppButton(
-                          title: cubit.isedit ? 'Update' : 'Add',
+                          title: cubit.isEdit ? 'Update' : 'Add',
                           radius: 10,
                           width:widthButton ?? 8.w,
                           height:heightButton ?? 5.h,

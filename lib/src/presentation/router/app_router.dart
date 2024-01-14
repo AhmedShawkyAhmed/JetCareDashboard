@@ -5,7 +5,7 @@ import 'package:jetboard/src/presentation/screens/info/info.dart';
 import 'package:jetboard/src/presentation/screens/layout/layout.dart';
 import 'package:jetboard/src/presentation/screens/login/login.dart';
 import 'package:jetboard/src/presentation/screens/splash/splash.dart';
-import 'package:jetboard/src/presentation/screens/users/users_desktop.dart';
+import 'package:jetboard/src/presentation/screens/clients/clients_desktop.dart';
 import 'package:jetboard/src/presentation/views/create_order.dart';
 
 
@@ -26,7 +26,7 @@ class AppRouter {
         ); 
       case AppRouterNames.users:
         return CustomPageRouteTransiton.fadeOut(
-          page:  const UsersDesktop(),
+          page:  const ClientsDesktop(),
         ); 
       case AppRouterNames.info:
         return CustomPageRouteTransiton.fadeOut(

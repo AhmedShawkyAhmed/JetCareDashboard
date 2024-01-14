@@ -122,7 +122,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                             ),
                           ),
                           Text(
-                            cubit.isedit ? 'Update Items' : 'Add New Items',
+                            cubit.isEdit ? 'Update Items' : 'Add New Items',
                             style:
                                 TextStyle(fontSize: widget.fontTitle ?? 6.sp),
                           ),
@@ -257,7 +257,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: AppColors.grey),
                                 borderRadius: BorderRadius.circular(20)),
-                            child: cubit.isedit
+                            child: cubit.isEdit
                                 ? Stack(
                                     children: [
                                       ClipRRect(
@@ -354,12 +354,12 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                         child: Container(
                           alignment: Alignment.center,
                           child: DefaultAppButton(
-                            title: cubit.isedit ? 'Update' : 'Add',
+                            title: cubit.isEdit ? 'Update' : 'Add',
                             radius: 10,
                             width: widget.widthButton ?? 8.w,
                             height: widget.heightButton ?? 5.h,
                             fontSize: widget.fontButton ?? 4.sp,
-                            onTap: cubit.isedit
+                            onTap: cubit.isEdit
                                 ? () {
                                     printError(
                                         widget.itemsModel!.id.toString());

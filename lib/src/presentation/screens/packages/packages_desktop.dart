@@ -98,7 +98,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                       title: "Add",
                       onTap: () {
                         setState(() {
-                          GlobalCubit.get(context).isedit = false;
+                          GlobalCubit.get(context).isEdit = false;
                           nameEn.clear();
                           descriptionEn.clear();
                           nameAr.clear();
@@ -250,7 +250,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           20)),
-                                              child: GlobalCubit.get(context).isedit
+                                              child: GlobalCubit.get(context).isEdit
                                                   ? Stack(
                                                       children: [
                                                         ClipRRect(
@@ -614,7 +614,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                               IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      GlobalCubit.get(context).isedit = true;
+                                      GlobalCubit.get(context).isEdit = true;
                                       nameEn.text =
                                           offersCubit.packageList[index].nameEn;
                                       descriptionEn.text = offersCubit
@@ -802,7 +802,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                                                   BorderRadius
                                                                       .circular(
                                                                           20)),
-                                                          child: GlobalCubit.get(context).isedit
+                                                          child: GlobalCubit.get(context).isEdit
                                                               ? Stack(
                                                                   children: [
                                                                     ClipRRect(

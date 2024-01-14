@@ -57,7 +57,7 @@ class OrdersMobile extends StatelessWidget {
                       widthExport: 15.w,
                       fontExport: 10.sp,
                       add: () {
-                        cubit.isedit = false;
+                        cubit.isEdit = false;
                         scaffoldkey.currentState!.openEndDrawer();
                       },
                     ),
@@ -136,7 +136,7 @@ class OrdersMobile extends StatelessWidget {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  cubit.isedit = true;
+                                  cubit.isEdit = true;
                                   scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(

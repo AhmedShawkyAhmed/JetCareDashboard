@@ -117,7 +117,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                             ),
                           ),
                           Text(
-                            cubit.isedit ? 'Update Ads' : 'Add New Ads',
+                            cubit.isEdit ? 'Update Ads' : 'Add New Ads',
                             style:
                                 TextStyle(fontSize: widget.fontTitle ?? 6.sp),
                           ),
@@ -180,7 +180,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: AppColors.grey),
                                 borderRadius: BorderRadius.circular(20)),
-                            child: cubit.isedit
+                            child: cubit.isEdit
                                 ? Stack(
                                     children: [
                                       ClipRRect(
@@ -277,12 +277,12 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                         child: Container(
                           alignment: Alignment.center,
                           child: DefaultAppButton(
-                            title: cubit.isedit ? 'Update' : 'Add',
+                            title: cubit.isEdit ? 'Update' : 'Add',
                             radius: 10,
                             width: widget.widthButton ?? 8.w,
                             height: widget.heightButton ?? 5.h,
                             fontSize: widget.fontButton ?? 4.sp,
-                            onTap: cubit.isedit
+                            onTap: cubit.isEdit
                                 ? () {
                                     cubita.updateAds(
                                       index: widget.index!,

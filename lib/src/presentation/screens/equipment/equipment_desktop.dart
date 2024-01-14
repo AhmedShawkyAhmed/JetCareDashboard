@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/equipment_cuibt/equipment_cubit.dart';
+import 'package:jetboard/src/business_logic/equipment_cubit/equipment_cubit.dart';
 import 'package:jetboard/src/constants/constants_methods.dart';
 import 'package:jetboard/src/data/network/requests/equipment_request.dart';
 import 'package:jetboard/src/presentation/styles/app_colors.dart';

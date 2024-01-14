@@ -130,7 +130,7 @@ class EndDrawerWidgetNotification extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         child: DefaultAppButton(
-                          title: cubit.isedit ? 'Update' : 'Add',
+                          title: cubit.isEdit ? 'Update' : 'Add',
                           radius: 10,
                           width:widthButton ?? 8.w,
                           height:heightButton ?? 5.h,

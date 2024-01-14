@@ -69,13 +69,13 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                         controller: search,
                         onChange: (value) {
                           if (value == "") {
-                            crewCubit.getUser();
+                            crewCubit.getCrew();
                           }
                         },
                         suffix: IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {
-                            crewCubit.getUser(keyword: search.text);
+                            crewCubit.getCrew(keyword: search.text);
                             printResponse(search.text);
                           },
                           color: AppColors.black,
@@ -214,7 +214,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                             "Please Enter Password more than 8 Characters");
                                       } else {
                                         IndicatorView.showIndicator(context);
-                                        crewCubit.addUser(
+                                        crewCubit.addCrew(
                                           userRequest: UserRequset(
                                             name: fullName.text,
                                             phone: phone.text,
@@ -272,7 +272,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                 ),
                 BlocBuilder<CrewCubit, CrewState>(
                   builder: (context, state) {
-                    if (crewCubit.getUserResponse?.userModel == null) {
+                    if (crewCubit.getCrewResponse?.userModel == null) {
                       return SizedBox(
                         height: 79.h,
                         child: ListView.builder(
@@ -290,7 +290,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                           ),
                         ),
                       );
-                    } else if (crewCubit.userList.isEmpty) {
+                    } else if (crewCubit.crewList.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
@@ -328,7 +328,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        crewCubit.userList[index].name,
+                                        crewCubit.crewList[index].name,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -347,7 +347,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        crewCubit.userList[index].phone,
+                                        crewCubit.crewList[index].phone,
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
                                     ],
@@ -366,7 +366,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        crewCubit.userList[index].email,
+                                        crewCubit.crewList[index].email,
                                         style: TextStyle(
                                             fontSize: 2.5.sp,
                                             fontWeight: FontWeight.bold),
@@ -387,7 +387,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                         height: 0.5.h,
                                       ),
                                       Text(
-                                        crewCubit.userList[index].rate
+                                        crewCubit.crewList[index].rate
                                             .toString(),
                                         style: TextStyle(fontSize: 3.sp),
                                       ),
@@ -398,7 +398,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                   height: 2.5.h,
                                   child: CircleAvatar(
                                     backgroundColor:
-                                        crewCubit.userList[index].active == 1
+                                        crewCubit.crewList[index].active == 1
                                             ? AppColors.green
                                             : AppColors.red,
                                   ),
@@ -407,7 +407,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                   width: 2.w,
                                 ),
                                 Switch(
-                                  value: crewCubit.userList[index].active == 1
+                                  value: crewCubit.crewList[index].active == 1
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
@@ -417,12 +417,12 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                   splashRadius: 3.0,
                                   onChanged: (value) {
                                     crewCubit.switched(index);
-                                    crewCubit.updateUserStatus(
-                                      indexs: index,
-                                      userRequset: UserRequset(
-                                        id: crewCubit.userList[index].id,
+                                    crewCubit.updateCrewStatus(
+                                      index: index,
+                                      userRequest: UserRequset(
+                                        id: crewCubit.crewList[index].id,
                                         active: crewCubit
-                                                .userList[index].active.isEven
+                                                .crewList[index].active.isEven
                                             ? 0
                                             : 1,
                                       ),
@@ -434,7 +434,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    int crewId = crewCubit.userList[index].id;
+                                    int crewId = crewCubit.crewList[index].id;
                                     IndicatorView.showIndicator(context);
                                     CrewCubit.get(context).getArea(
                                       crewId: crewId,
@@ -463,13 +463,164 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                 ),
                                 IconButton(
                                   onPressed: () {
+                                    setState(() {
+                                      fullName.text = crewCubit.crewList[index].name;
+                                      phone.text = crewCubit.crewList[index].phone;
+                                      if(crewCubit.crewList[index].email != "empty"){
+                                        email.text = crewCubit.crewList[index].email;
+                                      }
+                                    });
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: AppColors.white,
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                const DefaultText(
+                                                  text: "Update Crew",
+                                                  align: TextAlign.center,
+                                                ),
+                                                SizedBox(
+                                                  height: 2.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: fullName.text,
+                                                  password: false,
+                                                  controller: fullName,
+                                                  height: 5.h,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  horizontalPadding: 50,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Full Name',
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: phone.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  controller: phone,
+                                                  haveShadow: true,
+                                                  spreadRadius: 2,
+                                                  horizontalPadding: 50,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Phone',
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                DefaultTextField(
+                                                  validator: email.text,
+                                                  password: false,
+                                                  height: 5.h,
+                                                  controller: email,
+                                                  haveShadow: true,
+                                                  horizontalPadding: 50,
+                                                  spreadRadius: 2,
+                                                  blurRadius: 2,
+                                                  color: AppColors.white,
+                                                  shadowColor:
+                                                  AppColors.black.withOpacity(0.05),
+                                                  hintText: 'Email',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                          actions: <Widget>[
+                                            DefaultAppButton(
+                                              title: "Update",
+                                              onTap: () {
+                                                if (fullName.text == "") {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter the Full Name");
+                                                } else if (phone.text == "" ||
+                                                    phone.text.length < 11) {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter Correct Phone Number");
+                                                } else if (email.text == "") {
+                                                  DefaultToast.showMyToast(
+                                                      "Please Enter Correct Email Address");
+                                                } else {
+                                                  IndicatorView.showIndicator(context);
+                                                  crewCubit.updateCrew(
+                                                    userRequest: UserRequset(
+                                                      id: crewCubit.crewList[index].id,
+                                                      name: fullName.text,
+                                                      phone: phone.text == crewCubit.crewList[index].phone?null:phone.text,
+                                                      email: email.text,
+                                                    ),
+                                                    onError: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    afterSuccess: () {
+                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);
+                                                      fullName.clear();
+                                                      phone.clear();
+                                                      email.clear();
+                                                    }, index: index,
+                                                  );
+                                                }
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.white,
+                                              buttonColor: AppColors.pc,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            DefaultAppButton(
+                                              title: "Cancel",
+                                              onTap: () {
+                                                fullName.clear();
+                                                phone.clear();
+                                                email.clear();
+                                                Navigator.pop(context);
+                                              },
+                                              width: 10.w,
+                                              height: 4.h,
+                                              fontSize: 3.sp,
+                                              textColor: AppColors.mainColor,
+                                              buttonColor: AppColors.lightGrey,
+                                              isGradient: false,
+                                              radius: 10,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                  color: AppColors.grey,
+                                ),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                IconButton(
+                                  onPressed: () {
                                     setState(
                                           () {
-                                        if (crewCubit.userList[index]
+                                        if (crewCubit.crewList[index]
                                             .adminComment !=
                                             null) {
                                           commentController.text =
-                                          crewCubit.userList[index]
+                                          crewCubit.crewList[index]
                                               .adminComment!;
                                         }
                                       },
@@ -508,13 +659,13 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                               onTap: () {
                                                 CrewCubit.get(context)
                                                     .updateAdminComment(
-                                                  userId:crewCubit.userList[index]
+                                                  userId:crewCubit.crewList[index]
                                                       .id,
                                                   comment: commentController.text,
                                                   afterSuccess: () {
                                                     setState(
                                                           () {
-                                                            crewCubit.userList[index]
+                                                            crewCubit.crewList[index]
                                                             .adminComment =
                                                             commentController
                                                                 .text;
@@ -560,8 +711,8 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    crewCubit.deleteUser(
-                                        userModel: crewCubit.userList[index]);
+                                    crewCubit.deleteCrew(
+                                        userModel: crewCubit.crewList[index]);
                                   },
                                   icon: const Icon(
                                     Icons.delete,

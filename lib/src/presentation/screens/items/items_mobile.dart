@@ -49,7 +49,7 @@ class ItemsMobile extends StatelessWidget {
                       widthAdd: 20.w,
                       fontAdd: 15.sp,
                       add: () {
-                        cubit.isedit = false;
+                        cubit.isEdit = false;
                         scaffoldkey.currentState!.openEndDrawer();
                       },
                     ),
@@ -122,7 +122,7 @@ class ItemsMobile extends StatelessWidget {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  cubit.isedit = true;
+                                  cubit.isEdit = true;
                                   scaffoldkey.currentState!.openEndDrawer();
                                 },
                                 icon: const Icon(
