@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/ads_cubit/ads_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/constants/end_points.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/data/models/ads_model.dart';
 import 'package:jetboard/src/data/network/requests/ads_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
@@ -106,7 +106,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                                       end: Alignment.centerRight,
                                       colors: [
                                         AppColors.green,
-                                        AppColors.lightgreen,
+                                        AppColors.lightGreen,
                                       ]),
                                 ),
                                 child: const Icon(
@@ -319,7 +319,7 @@ class _EndDrawerWidgetAdsState extends State<EndDrawerWidgetAds> {
                             haveShadow: false,
                             gradientColors: const [
                               AppColors.green,
-                              AppColors.lightgreen,
+                              AppColors.lightGreen,
                             ],
                           ),
                         ),

@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/equipment_cubit/equipment_cubit.dart';
 import 'package:jetboard/src/business_logic/equipment_schedule_cubit/equipment_schedule_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/equipment_model.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -46,7 +46,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.teal,
-              primaryColorDark: Colors.teal,
+              // primaryColorDark: Colors.teal,
               accentColor: Colors.teal,
             ),
             dialogBackgroundColor: Colors.white,
@@ -93,7 +93,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       haveShadow: false,
@@ -241,8 +241,8 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                                           .fromSwatch(
                                                         primarySwatch:
                                                             Colors.teal,
-                                                        primaryColorDark:
-                                                            Colors.teal,
+                                                        // primaryColorDark:
+                                                        //     Colors.teal,
                                                         accentColor:
                                                             Colors.teal,
                                                       ),
@@ -338,7 +338,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                         height: 4.h,
                                         fontSize: 3.sp,
                                         textColor: AppColors.white,
-                                        buttonColor: AppColors.pc,
+                                        buttonColor: AppColors.primary,
                                         isGradient: false,
                                         radius: 10,
                                       ),
@@ -605,8 +605,8 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                                                               .fromSwatch(
                                                                         primarySwatch:
                                                                             Colors.teal,
-                                                                        primaryColorDark:
-                                                                            Colors.teal,
+                                                                        // primaryColorDark:
+                                                                        //     Colors.teal,
                                                                         accentColor:
                                                                             Colors.teal,
                                                                       ),
@@ -741,7 +741,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                                                         textColor:
                                                             AppColors.white,
                                                         buttonColor:
-                                                            AppColors.pc,
+                                                            AppColors.primary,
                                                         isGradient: false,
                                                         radius: 10,
                                                       ),

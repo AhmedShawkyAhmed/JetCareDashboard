@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -38,7 +38,7 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
             borderRadius: BorderRadius.circular(5),
             color: AppColors.white,
             border: Border.all(
-              color: widget.name == "" ? AppColors.white : widget.value == 1?AppColors.pc:AppColors.red,
+              color: widget.name == "" ? AppColors.white : widget.value == 1?AppColors.primary:AppColors.red,
             ),
           ),
           child: widget.name == ""
@@ -60,7 +60,7 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
                         return Switch(
                           value: widget.value == 1 ? true : false,
                           activeColor: AppColors.green,
-                          activeTrackColor: AppColors.lightgreen,
+                          activeTrackColor: AppColors.lightGreen,
                           inactiveThumbColor: AppColors.red,
                           inactiveTrackColor: AppColors.lightGrey,
                           splashRadius: 3.0,

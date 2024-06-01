@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/settings_model.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
@@ -12,13 +12,13 @@ import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 
-import '../../constants/constants_variables.dart';
+import '../../core/constants/constants_variables.dart';
 
 part 'moderator_state.dart';
 
 class ModeratorCubit extends Cubit<ModeratorState> {
-  ModeratorCubit() : super(ModeratorInitial());
-
+  ModeratorCubit(this.networkService) : super(ModeratorInitial());
+  NetworkService networkService;
   static ModeratorCubit get(context) => BlocProvider.of(context);
 
   GlobalResponse? globalResponse;
@@ -54,7 +54,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
     listCount = 0;
     try {
       emit(ModeratorLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAccounts,
         query: {
           "type": "moderator",
@@ -83,7 +83,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }) async {
     try {
       emit(AddModeratorLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.register,
         body: {
           'name': userRequest.name,
@@ -122,7 +122,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }) async {
     try {
       emit(UpdateModeratorLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateAccount,
         body: {
           'id': userRequest.id,
@@ -157,7 +157,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   Future deleteModerator({required UserModel userModel}) async {
     try {
       emit(DeleteModeratorLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteAccount,
         body: {
           'id': userModel.id,
@@ -185,7 +185,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }) async {
     try {
       emit(ChangeModeratorLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeAccountStatus,
         body: {
           'id': userRequest.id,
@@ -210,7 +210,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   Future createAccess({required int id}) async {
     try {
       emit(CreateAccessLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.createAccess,
         body: {
           "moderatorId": id,
@@ -236,7 +236,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }) async {
     try {
       //emit(UpdateAccessLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateAccess,
         body: {
           "id": id,
@@ -263,7 +263,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }) async {
     try {
       emit(GetAccessLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAccess,
         query: {
           "moderatorId": moderatorId,
@@ -291,7 +291,7 @@ class ModeratorCubit extends Cubit<ModeratorState> {
   }) async {
     try {
       emit(ModeratorCommentLoadingState());
-      await DioHelper.postData(url: EndPoints.userAdminComment, body: {
+      await networkService.post(url: EndPoints.userAdminComment, body: {
         'id': userId,
         'comment': comment,
       }).then((value) {

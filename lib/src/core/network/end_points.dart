@@ -1,6 +1,11 @@
+
+import 'package:jetboard/src/core/utils/enums.dart';
+
 class EndPoints {
+  static const Environment environment = Environment.development;
   static const baseUrl = "https://api.jetcareeg.net/api/";
   static const imageDomain = "https://api.jetcareeg.net/public/images/";
+
   static const getStatistics = "getStatistics";
   static const adminLogin = "adminLogin";
   static const register = "register";
@@ -133,5 +138,4 @@ class EndPoints {
   static const createAccess = "createAccess";
   static const updateAccess = "updateAccess";
   static const getAccess = "getAccess";
-
 }

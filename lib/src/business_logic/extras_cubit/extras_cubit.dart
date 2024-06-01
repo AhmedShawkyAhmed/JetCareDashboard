@@ -2,10 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/requests/items_request.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
@@ -14,7 +13,8 @@ import 'package:jetboard/src/presentation/widgets/toast.dart';
 part 'extras_state.dart';
 
 class ExtrasCubit extends Cubit<ExtrasState> {
-  ExtrasCubit() : super(ExtrasInitial());
+  ExtrasCubit(this.networkService) : super(ExtrasInitial());
+  NetworkService networkService;
 
   static ExtrasCubit get(context) => BlocProvider.of(context);
 
@@ -58,7 +58,7 @@ class ExtrasCubit extends Cubit<ExtrasState> {
     listCount = 0;
     try {
       emit(ItemsLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getItems,
         query: {
           "type": type,
@@ -86,7 +86,7 @@ class ExtrasCubit extends Cubit<ExtrasState> {
   }) async {
     try {
       emit(AddItemsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addItem,
         body: {
           'nameEn': itemsRequest.nameEn,
@@ -100,7 +100,6 @@ class ExtrasCubit extends Cubit<ExtrasState> {
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
-        formData: true,
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
         addItemsResponse = ItemsResponse.fromJson(myData);
@@ -124,35 +123,36 @@ class ExtrasCubit extends Cubit<ExtrasState> {
   }) async {
     try {
       emit(UpdateLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.updateItem,
         body: fileResult != null
             ? {
-          'id': itemsRequest.id,
-          'nameEn': itemsRequest.nameEn,
-          'descriptionEn': itemsRequest.descriptionEn,
-          'nameAr': itemsRequest.nameAr,
-          'descriptionAr': itemsRequest.descriptionAr,
-          'unit': itemsRequest.unit,
-          'price': itemsRequest.price,
-          'quantity': 1,
-          'type': itemsRequest.type,
-          'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
-              filename: fileResult!.files.first.name),
-        }
+                'id': itemsRequest.id,
+                'nameEn': itemsRequest.nameEn,
+                'descriptionEn': itemsRequest.descriptionEn,
+                'nameAr': itemsRequest.nameAr,
+                'descriptionAr': itemsRequest.descriptionAr,
+                'unit': itemsRequest.unit,
+                'price': itemsRequest.price,
+                'quantity': 1,
+                'type': itemsRequest.type,
+                'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
+                    filename: fileResult!.files.first.name),
+              }
             : {
-          'id': itemsRequest.id,
-          'nameEn': itemsRequest.nameEn,
-          'descriptionEn': itemsRequest.descriptionEn,
-          'nameAr': itemsRequest.nameAr,
-          'descriptionAr': itemsRequest.descriptionAr,
-          'unit': itemsRequest.unit,
-          'price': itemsRequest.price,
-          'quantity': 1,
-          'type': itemsRequest.type,
-        },
-        formData: true,
-      ).then((value) {
+                'id': itemsRequest.id,
+                'nameEn': itemsRequest.nameEn,
+                'descriptionEn': itemsRequest.descriptionEn,
+                'nameAr': itemsRequest.nameAr,
+                'descriptionAr': itemsRequest.descriptionAr,
+                'unit': itemsRequest.unit,
+                'price': itemsRequest.price,
+                'quantity': 1,
+                'type': itemsRequest.type,
+              },
+      )
+          .then((value) {
         printSuccess(value.data.toString());
         updateItemsResponse = ItemsResponse.fromJson(value.data);
         itemList[index] = updateItemsResponse!.item!;
@@ -171,7 +171,7 @@ class ExtrasCubit extends Cubit<ExtrasState> {
   Future deleteItems({required ItemsModel itemsModel}) async {
     try {
       emit(DeleteItemsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteItem,
         body: {
           'id': itemsModel.id,
@@ -199,7 +199,7 @@ class ExtrasCubit extends Cubit<ExtrasState> {
   }) async {
     try {
       emit(ChangeItemsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeItemStatus,
         body: {
           'id': itemsRequest.id,

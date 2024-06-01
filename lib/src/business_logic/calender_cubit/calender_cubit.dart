@@ -1,22 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/calender_model.dart';
 import 'package:jetboard/src/data/network/requests/calender_request.dart';
 import 'package:jetboard/src/data/network/responses/calender_response.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
 import '../../data/network/responses/area_response.dart';
 import '../../data/network/responses/period_response.dart';
 
 part 'calender_state.dart';
 
 class CalenderCubit extends Cubit<CalenderState> {
-  CalenderCubit() : super(CalenderInitial());
+  CalenderCubit(this.networkService) : super(CalenderInitial());
+  NetworkService networkService;
 
   static CalenderCubit get(context) => BlocProvider.of(context);
 
@@ -35,7 +36,7 @@ class CalenderCubit extends Cubit<CalenderState> {
     try {
       calenderList.clear();
       emit(GetCalenderInitial());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCalender,
         query: {
           "month": month ?? DateTime.now().month.toString(),
@@ -63,7 +64,7 @@ class CalenderCubit extends Cubit<CalenderState> {
   }) async {
     try {
       emit(CreateCalenderInitial());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.createCalenderPeriod,
         body: {
           'calenderId': calenderRequest.calenderId,
@@ -91,7 +92,7 @@ class CalenderCubit extends Cubit<CalenderState> {
   }) async {
     try {
       emit(DeleteCalenderInitial());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteCalenderPeriod,
         body: {
           'id': id,
@@ -113,7 +114,7 @@ class CalenderCubit extends Cubit<CalenderState> {
   Future getPeriods() async {
     try {
       emit(PeriodCalenderInitial());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getPeriodsMobile,
       ).then((value) {
         periodResponse = PeriodResponse.fromJson(value.data);
@@ -136,7 +137,7 @@ class CalenderCubit extends Cubit<CalenderState> {
   Future getArea() async {
     try {
       emit(AreaCalenderInitial());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAllAreas,
       ).then((value) {
         printSuccess(value.data.toString());

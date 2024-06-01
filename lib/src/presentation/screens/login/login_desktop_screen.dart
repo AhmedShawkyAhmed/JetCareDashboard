@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
-import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
+import 'package:jetboard/src/core/routing/routes.dart';
+import 'package:jetboard/src/core/services/cache_service.dart';
 import 'package:jetboard/src/data/network/requests/auth_request.dart';
-import 'package:jetboard/src/presentation/router/app_router_names.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
@@ -168,7 +168,7 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                             afterSuccess: () {
                                               Navigator.pushNamedAndRemoveUntil(
                                                 context,
-                                                AppRouterNames.layout,
+                                                Routes.layout.name,
                                                 (route) => false,
                                               );
                                             },
@@ -177,9 +177,8 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                         moderator: () {
                                           ModeratorCubit.get(context)
                                               .getSettings(
-                                            moderatorId: CacheHelper
-                                                .getDataFromSharedPreference(
-                                                    key: "id"),
+                                            moderatorId:
+                                                CacheService.get(key: "id"),
                                             afterSuccess: () {
                                               GlobalCubit.get(context)
                                                   .getStatistics(
@@ -187,7 +186,7 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                                   Navigator
                                                       .pushNamedAndRemoveUntil(
                                                     context,
-                                                    AppRouterNames.layout,
+                                                    Routes.layout.name,
                                                     (route) => false,
                                                   );
                                                 },
@@ -207,7 +206,7 @@ class _LoginDeskTopScreenState extends State<LoginDeskTopScreen> {
                                   textColor: AppColors.white,
                                   gradientColors: const [
                                     AppColors.green,
-                                    AppColors.lightgreen,
+                                    AppColors.lightGreen,
                                   ],
                                 )
                               ],

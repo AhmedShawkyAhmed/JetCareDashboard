@@ -5,7 +5,7 @@ import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
-import '../styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 
 class ViewCategoryItems extends StatefulWidget {
   const ViewCategoryItems({

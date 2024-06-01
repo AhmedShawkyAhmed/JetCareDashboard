@@ -9,8 +9,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../business_logic/global_cubit/global_cubit.dart';
 import '../../business_logic/period_cubit/period_cubit.dart';
-import '../../constants/constants_methods.dart';
-import '../styles/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../widgets/default_app_button.dart';
 
 class EndDrawerWidgetPeriod extends StatefulWidget {
@@ -103,7 +103,7 @@ class _EndDrawerWidgetPeriodState extends State<EndDrawerWidgetPeriod> {
                                       end: Alignment.centerRight,
                                       colors: [
                                         AppColors.green,
-                                        AppColors.lightgreen,
+                                        AppColors.lightGreen,
                                       ]),
                                 ),
                                 child: const Icon(
@@ -318,7 +318,7 @@ class _EndDrawerWidgetPeriodState extends State<EndDrawerWidgetPeriod> {
                             haveShadow: false,
                             gradientColors: const [
                               AppColors.green,
-                              AppColors.lightgreen,
+                              AppColors.lightGreen,
                             ],
                           ),
                         ),

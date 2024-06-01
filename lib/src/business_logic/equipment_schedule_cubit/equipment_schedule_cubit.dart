@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/data/models/equipment_schedule_model.dart';
 import 'package:jetboard/src/data/network/responses/equipment_schedule_responses.dart';
 
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import '../../presentation/widgets/toast.dart';
 
 part 'equipment_schedule_state.dart';
 
 class EquipmentScheduleCubit extends Cubit<EquipmentScheduleState> {
-  EquipmentScheduleCubit() : super(EquipmentInitial());
-
+  EquipmentScheduleCubit(this.networkService) : super(EquipmentInitial());
+  NetworkService networkService;
   static EquipmentScheduleCubit get(context) => BlocProvider.of(context);
 
   EquipmentScheduleResponse? getEquipmentScheduleResponse,
@@ -27,7 +27,7 @@ class EquipmentScheduleCubit extends Cubit<EquipmentScheduleState> {
     listCount= 0;
     try {
       emit(GetEquipmentLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getEquipmentSchedule,
         query: {
           "keyword" : keyword,
@@ -57,7 +57,7 @@ class EquipmentScheduleCubit extends Cubit<EquipmentScheduleState> {
   }) async {
     try {
       emit(AddEquipmentLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.assignEquipment,
         body: {
           'eqId': eqId,
@@ -91,7 +91,7 @@ class EquipmentScheduleCubit extends Cubit<EquipmentScheduleState> {
       printLog(id.toString());
       printLog(date.toString());
       emit(AddEquipmentReturnedDateLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.returnDate,
         body: {
           'id':id,

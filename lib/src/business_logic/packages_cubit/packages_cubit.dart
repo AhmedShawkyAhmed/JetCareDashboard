@@ -3,12 +3,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/responses/categoryType_response.dart';
 import 'package:jetboard/src/data/network/responses/package_details_response.dart';
 
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
 import '../../data/models/packages_model.dart';
 import '../../data/network/requests/packages_request.dart';
 import '../../data/network/responses/packages_response.dart';
@@ -17,7 +17,9 @@ import '../../presentation/widgets/toast.dart';
 part 'packages_state.dart';
 
 class PackagesCubit extends Cubit<PackagesState> {
-  PackagesCubit() : super(PackagesInitial());
+  PackagesCubit(this.networkService) : super(PackagesInitial());
+  NetworkService networkService;
+
   static PackagesCubit get(context) => BlocProvider.of(context);
   CategoryTypeResponse? categoryResponse;
   PackageDetailsResponse? packageDetailsResponse;
@@ -29,7 +31,7 @@ class PackagesCubit extends Cubit<PackagesState> {
       deletePackagesInfoResponse,
       updatePackagesResponse,
       updatePackagesStatusResponse;
-  List<PackagesModel> packageList= [];
+  List<PackagesModel> packageList = [];
 
   List<String> categoryTypes = [];
   int listCount = 0;
@@ -37,7 +39,6 @@ class PackagesCubit extends Cubit<PackagesState> {
   int index = 0;
 
   FilePickerResult? fileResult;
-
 
   Future pickImage() async {
     emit(PickedImageLodindState());
@@ -65,7 +66,7 @@ class PackagesCubit extends Cubit<PackagesState> {
   }) async {
     try {
       emit(PackageLoadingState());
-      await DioHelper.getData(url: EndPoints.getPackageDetails, query: {
+      await networkService.get(url: EndPoints.getPackageDetails, query: {
         "id": id,
       }).then((value) {
         packageDetailsResponse = PackageDetailsResponse.fromJson(value.data);
@@ -83,17 +84,19 @@ class PackagesCubit extends Cubit<PackagesState> {
     }
   }
 
-
-  Future getPackages({String? keyword,type,}) async {
+  Future getPackages({
+    String? keyword,
+    type,
+  }) async {
     packageList.clear();
-    listCount= 0;
+    listCount = 0;
     try {
       emit(PackagesLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAllPackages,
         query: {
-          "keyword" : keyword,
-          "type" : type,
+          "keyword": keyword,
+          "type": type,
         },
       ).then((value) {
         getPackagesResponse = PackagesResponse.fromJson(value.data);
@@ -115,14 +118,17 @@ class PackagesCubit extends Cubit<PackagesState> {
   Future getCategoryTypes() async {
     try {
       emit(CategoryTypeLoadingState());
-      await DioHelper.getData(
+      await networkService
+          .get(
         url: EndPoints.getCategory,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.data.toString());
         final myData = Map<String, dynamic>.from(value.data);
         categoryResponse = CategoryTypeResponse.fromJson(myData);
         for (var i = 0; i < categoryResponse!.categoryModel!.length; i++) {
-          categoryTypes.add(categoryResponse!.categoryModel![i].titleAr.toString());
+          categoryTypes
+              .add(categoryResponse!.categoryModel![i].titleAr.toString());
         }
         emit(CategoryTypeSuccessState());
         printResponse(value.data.toString());
@@ -141,7 +147,8 @@ class PackagesCubit extends Cubit<PackagesState> {
   }) async {
     try {
       emit(PackagesAddLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.addPackage,
         body: {
           'nameEn': packagesRequest.nameEn,
@@ -154,8 +161,8 @@ class PackagesCubit extends Cubit<PackagesState> {
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.toString());
         final myData = Map<String, dynamic>.from(value.data);
         addPackagesResponse = PackagesResponse.fromJson(myData);
@@ -175,20 +182,21 @@ class PackagesCubit extends Cubit<PackagesState> {
 
   Future addPackagesItems({
     required int packageId,
-  required List<String> nameAr,
-  required List<String> nameEn,
+    required List<String> nameAr,
+    required List<String> nameEn,
   }) async {
     try {
       emit(PackagesItemsAddLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.addPackageItem,
         body: {
           'packageId': packageId,
           'nameAr[]': nameAr,
           'nameEn[]': nameEn,
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.toString());
         emit(PackagesItemsAddSuccessState());
         DefaultToast.showMyToast(value.data['message']);
@@ -208,7 +216,8 @@ class PackagesCubit extends Cubit<PackagesState> {
   }) async {
     try {
       emit(PackagesUpdateLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.updatePackage,
         body: fileResult != null
             ? {
@@ -231,8 +240,8 @@ class PackagesCubit extends Cubit<PackagesState> {
                 'price': packagesRequest.price,
                 'hasShipping': packagesRequest.hasShipping,
               },
-              formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.data.toString());
         final myData = Map<String, dynamic>.from(value.data);
         updatePackagesResponse = PackagesResponse.fromJson(myData);
@@ -256,7 +265,7 @@ class PackagesCubit extends Cubit<PackagesState> {
   }) async {
     try {
       emit(ChangePackagesLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changePackageStatus,
         body: {
           'id': packagesRequest.id,
@@ -279,11 +288,10 @@ class PackagesCubit extends Cubit<PackagesState> {
     }
   }
 
-
   Future deletePackages({required PackagesModel packagesModel}) async {
     try {
       emit(PackagesDeleteLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deletePackage,
         body: {
           'id': packagesModel.id,
@@ -305,10 +313,11 @@ class PackagesCubit extends Cubit<PackagesState> {
     }
   }
 
-  Future deletePackagesItems({required PackagesItemsData packagesItemsData, int? indexs}) async {
+  Future deletePackagesItems(
+      {required PackagesItemsData packagesItemsData, int? indexs}) async {
     try {
       emit(PackagesItemsDeleteLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteCategorySub,
         body: {
           'id': packagesItemsData.relationId,
@@ -329,11 +338,13 @@ class PackagesCubit extends Cubit<PackagesState> {
     }
   }
 
-  Future deletePackagesInfo({required PackagesItemsData itemsModel,required VoidCallback afterSuccess}) async {
+  Future deletePackagesInfo(
+      {required PackagesItemsData itemsModel,
+      required VoidCallback afterSuccess}) async {
     try {
       emit(PackagesItemsDeleteLoadingState());
       printLog(itemsModel.id.toString());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deletePackageInfo,
         body: {
           'id': itemsModel.id,
@@ -352,13 +363,11 @@ class PackagesCubit extends Cubit<PackagesState> {
       printResponse(e.toString());
     }
   }
-
-
 }
+
 Future multipartConvertImage({
   required XFile image,
 }) async {
   return MultipartFile.fromFileSync(image.path,
       filename: image.path.split('/').last);
 }
-

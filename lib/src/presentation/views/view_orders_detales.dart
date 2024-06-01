@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
@@ -12,7 +12,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../data/models/orders_model.dart';
-import '../styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 
 class ViewOrdersDetails extends StatefulWidget {
   final OrdersModel orderModel;
@@ -457,7 +457,7 @@ class _ViewOrdersDetailsState extends State<ViewOrdersDetails> {
                                                             textColor:
                                                                 AppColors.white,
                                                             buttonColor:
-                                                                AppColors.pc,
+                                                                AppColors.primary,
                                                             isGradient: false,
                                                             radius: 10,
                                                           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class LayoutMobile extends StatefulWidget {

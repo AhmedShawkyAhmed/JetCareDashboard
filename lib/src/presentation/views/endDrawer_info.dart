@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/info_cubit/info_cubit.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/data/models/info_model.dart';
 import 'package:jetboard/src/data/network/requests/info_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_drop_down_menu.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
@@ -106,7 +106,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                                       end: Alignment.centerRight,
                                       colors: [
                                         AppColors.green,
-                                        AppColors.lightgreen,
+                                        AppColors.lightGreen,
                                       ]),
                                 ),
                                 child: const Icon(
@@ -265,7 +265,7 @@ class _EndDrawerWidgetInfoState extends State<EndDrawerWidgetInfo> {
                             haveShadow: false,
                             gradientColors: const [
                               AppColors.green,
-                              AppColors.lightgreen,
+                              AppColors.lightGreen,
                             ],
                           ),
                         ),

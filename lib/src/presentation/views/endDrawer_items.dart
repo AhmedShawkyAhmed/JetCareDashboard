@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/requests/items_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../constants/constants_variables.dart';
+import '../../core/constants/constants_variables.dart';
 
 class EndDrawerWidgetItems extends StatefulWidget {
   EndDrawerWidgetItems({super.key, 
@@ -111,7 +111,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                                       end: Alignment.centerRight,
                                       colors: [
                                         AppColors.green,
-                                        AppColors.lightgreen,
+                                        AppColors.lightGreen,
                                       ]),
                                 ),
                                 child: const Icon(
@@ -415,7 +415,7 @@ class _EndDrawerWidgetItemsState extends State<EndDrawerWidgetItems> {
                             haveShadow: false,
                             gradientColors: const [
                               AppColors.green,
-                              AppColors.lightgreen,
+                              AppColors.lightGreen,
                             ],
                           ),
                         ),

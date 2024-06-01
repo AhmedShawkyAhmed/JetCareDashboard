@@ -4,16 +4,17 @@ import 'package:jetboard/src/data/network/requests/period_request.dart';
 import 'package:jetboard/src/data/network/responses/period_response.dart';
 import 'package:meta/meta.dart';
 
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import '../../data/models/period_model.dart';
 import '../../presentation/widgets/toast.dart';
 
 part 'period_state.dart';
 
 class PeriodCubit extends Cubit<PeriodState> {
-  PeriodCubit() : super(PeriodInitial());
+  PeriodCubit(this.networkService) : super(PeriodInitial());
+  NetworkService networkService;
   static PeriodCubit get(context) => BlocProvider.of(context);
   PeriodResponse? getPeriodResponse,
       addPeriodResponse,
@@ -39,7 +40,7 @@ class PeriodCubit extends Cubit<PeriodState> {
     listCount= 0;
     try {
       emit(PeriodLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getPeriods,
         query: {
           "keyword" : keyword,
@@ -69,7 +70,7 @@ class PeriodCubit extends Cubit<PeriodState> {
     printSuccess(periodRequest.to.toString());
     try {
       emit(AddPeriodLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addPeriod,
         body: {
           'from': periodRequest.from,
@@ -100,7 +101,7 @@ class PeriodCubit extends Cubit<PeriodState> {
   }) async {
     try {
       emit(UpdatePeriodLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updatePeriod,
         body:  {
                 'id': periodRequest.id,
@@ -131,7 +132,7 @@ class PeriodCubit extends Cubit<PeriodState> {
   }) async {
     try {
       emit(ChangePeriodLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changePeriodStatus,
         body: {
           'id': periodRequest.id,
@@ -157,7 +158,7 @@ class PeriodCubit extends Cubit<PeriodState> {
   Future deletePeriod({required PeriodModel periodModel}) async {
     try {
       emit(DeletePeriodLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deletePeriod,
         body: {
           'id': periodModel.id,

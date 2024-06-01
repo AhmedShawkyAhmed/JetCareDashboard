@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/info_cubit/info_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../constants/constants_variables.dart';
+import '../../../core/constants/constants_variables.dart';
 import '../../../data/network/requests/info_request.dart';
 import '../../widgets/default_app_button.dart';
 import '../../widgets/default_text_field.dart';
@@ -90,7 +90,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       title: "Add",
@@ -233,7 +233,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                   height: 4.h,
                                   fontSize: 3.sp,
                                   textColor: AppColors.white,
-                                  buttonColor: AppColors.pc,
+                                  buttonColor: AppColors.primary,
                                   isGradient: false,
                                   radius: 10,
                                 ),
@@ -575,7 +575,7 @@ class _InfoDesktopState extends State<InfoDesktop> {
                                             height: 4.h,
                                             fontSize: 3.sp,
                                             textColor: AppColors.white,
-                                            buttonColor: AppColors.pc,
+                                            buttonColor: AppColors.primary,
                                             isGradient: false,
                                             radius: 10,
                                           ),

@@ -3,9 +3,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/ads_model.dart';
 import 'package:jetboard/src/data/network/requests/ads_request.dart';
 import 'package:jetboard/src/data/network/responses/ads_response.dart';
@@ -14,7 +14,8 @@ import 'package:jetboard/src/presentation/widgets/toast.dart';
 part 'ads_state.dart';
 
 class AdsCubit extends Cubit<AdsState> {
-  AdsCubit() : super(AdsCubitInitial());
+  AdsCubit(this.networkService) : super(AdsCubitInitial());
+  NetworkService networkService;
 
   static AdsCubit get(context) => BlocProvider.of(context);
   AdsResponse? getAdsResponse,
@@ -54,7 +55,7 @@ class AdsCubit extends Cubit<AdsState> {
     listCount = 0;
     try {
       emit(AdsLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAllAds,
         query: {
           "keyword": keyword,
@@ -85,7 +86,7 @@ class AdsCubit extends Cubit<AdsState> {
     printSuccess(fileResult!.files.first.name.toString());
     try {
       emit(AddAdsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addAds,
         body: {
           'nameEn': adsRequest.nameEn,
@@ -94,7 +95,6 @@ class AdsCubit extends Cubit<AdsState> {
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
-        formData: true,
       ).then((value) {
         printSuccess(value.toString());
         addAdsResponse = AdsResponse.fromJson(value.data);
@@ -118,7 +118,7 @@ class AdsCubit extends Cubit<AdsState> {
   }) async {
     try {
       emit(UpdateAdsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateAds,
         body: fileResult != null
             ? {
@@ -135,7 +135,6 @@ class AdsCubit extends Cubit<AdsState> {
                 'nameAr': adsRequest.nameAr,
                 'link': adsRequest.link,
               },
-        formData: true,
       ).then((value) {
         printSuccess(value.data.toString());
         updateAdsResponse = AdsResponse.fromJson(value.data);
@@ -156,7 +155,7 @@ class AdsCubit extends Cubit<AdsState> {
   Future deleteAds({required AdsModel adsModel}) async {
     try {
       emit(DeleteAdsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteAds,
         body: {
           'id': adsModel.id,
@@ -183,7 +182,7 @@ class AdsCubit extends Cubit<AdsState> {
   }) async {
     try {
       emit(ChangeAdsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeAdsStatus,
         body: {
           'id': adsRequest.id,

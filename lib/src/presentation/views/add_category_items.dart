@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/category_cubit/category_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import '../../data/network/requests/category_request.dart';
 
 class AddCategoryItems extends StatefulWidget {
@@ -304,7 +304,7 @@ class _AddCategoryItemsState extends State<AddCategoryItems> {
                 radius: 10,
                 gradientColors: const [
                   AppColors.green,
-                  AppColors.lightgreen,
+                  AppColors.lightGreen,
                 ],
                 fontSize: 4.sp,
                 title: 'Add',

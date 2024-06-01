@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jetboard/src/business_logic/calender_cubit/calender_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/calender_model.dart';
 import 'package:jetboard/src/data/network/requests/calender_request.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
@@ -12,7 +12,7 @@ import 'package:jetboard/src/presentation/widgets/toast.dart';
 
 import '../../data/models/area_model.dart';
 import '../../data/models/period_model.dart';
-import '../styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../widgets/default_dropdown.dart';
 import '../widgets/default_text.dart';
 
@@ -103,7 +103,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                     haveShadow: false,
                     enabled: false,
                     textAlign: TextAlign.center,
-                    hintColor: AppColors.pc,
+                    hintColor: AppColors.primary,
                     hintText: widget.calenderModel.areas![0].nameAr,
                   ),
                 )
@@ -234,7 +234,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                         },
                       );
                     },
-                    buttonColor: AppColors.pc,
+                    buttonColor: AppColors.primary,
                     isGradient: false,
                   ),
                   DefaultAppButton(

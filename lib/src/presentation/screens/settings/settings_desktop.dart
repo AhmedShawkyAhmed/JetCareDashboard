@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/main.dart';
 import 'package:jetboard/src/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
-import 'package:jetboard/src/constants/shared_preference_keys.dart';
-import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/services/cache_service.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/moderator_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
@@ -84,34 +82,36 @@ class _SettingsDesktopState extends State<SettingsDesktop> {
                               SizedBox(
                                 height: 4.h,
                               ),
+                              // todo notifications
                               DefaultAppButton(
-                                title: CacheHelper.getDataFromSharedPreference(
-                                            key: SharedPreferenceKeys.fcm) ==
-                                        "empty"
-                                    ? "Active"
-                                    : "Disable",
+                                title: "Disable",
+                                // CacheHelper.getDataFromSharedPreference(
+                                //           key: SharedPreferenceKeys.fcm) ==
+                                //       "empty"
+                                //   ? "Active"
+                                //   : "Disable",
                                 onTap: () {
-                                  if (CacheHelper.getDataFromSharedPreference(
-                                          key: SharedPreferenceKeys.fcm) ==
-                                      "empty") {
-                                    AuthCubit.get(context).updateFCM(
-                                        id: CacheHelper
-                                            .getDataFromSharedPreference(
-                                                key: "id"),
-                                        fcm: pushToken.toString());
-                                    CacheHelper.saveDataSharedPreference(
-                                        key: SharedPreferenceKeys.fcm,
-                                        value: pushToken.toString());
-                                  } else {
-                                    AuthCubit.get(context).updateFCM(
-                                        id: CacheHelper
-                                            .getDataFromSharedPreference(
-                                                key: "id"),
-                                        fcm: "empty");
-                                    CacheHelper.saveDataSharedPreference(
-                                        key: SharedPreferenceKeys.fcm,
-                                        value: "empty");
-                                  }
+                                  // if (CacheHelper.getDataFromSharedPreference(
+                                  //         key: SharedPreferenceKeys.fcm) ==
+                                  //     "empty") {
+                                  // AuthCubit.get(context).updateFCM(
+                                  //     id: CacheHelper
+                                  //         .getDataFromSharedPreference(
+                                  //             key: "id"),
+                                  //     fcm: pushToken.toString());
+                                  // CacheHelper.saveDataSharedPreference(
+                                  //     key: SharedPreferenceKeys.fcm,
+                                  //     value: pushToken.toString());
+                                  // } else {
+                                  AuthCubit.get(context).updateFCM(
+                                      id: CacheService
+                                          .get(
+                                              key: "id"),
+                                      fcm: "empty");
+                                  // CacheHelper.saveDataSharedPreference(
+                                  //     key: SharedPreferenceKeys.fcm,
+                                  //     value: "empty");
+                                  // }
                                   DefaultToast.showMyToast(
                                       "Notification Settings Updated Successfully");
                                   Navigator.pop(context);
@@ -120,13 +120,13 @@ class _SettingsDesktopState extends State<SettingsDesktop> {
                                 height: 4.h,
                                 fontSize: 3.sp,
                                 textColor: AppColors.white,
-                                buttonColor:
-                                    CacheHelper.getDataFromSharedPreference(
-                                                key:
-                                                    SharedPreferenceKeys.fcm) ==
-                                            "empty"
-                                        ? AppColors.pc
-                                        : AppColors.red,
+                                buttonColor: AppColors.red,
+                                // CacheHelper.getDataFromSharedPreference(
+                                //             key:
+                                //                 SharedPreferenceKeys.fcm) ==
+                                //         "empty"
+                                //     ? AppColors.pc
+                                //     : AppColors.red,
                                 isGradient: false,
                                 radius: 10,
                               ),
@@ -165,14 +165,14 @@ class _SettingsDesktopState extends State<SettingsDesktop> {
                 onTap: () {
                   ModeratorCubit.get(context).getSettings(
                     moderatorId:
-                        CacheHelper.getDataFromSharedPreference(key: "id"),
+                    CacheService.get(key: "id"),
                     afterSuccess: () {
                       showDialog<void>(
                         context: context,
                         barrierDismissible: true,
                         builder: (BuildContext context) {
                           return ModeratorView(
-                            crewId: CacheHelper.getDataFromSharedPreference(
+                            crewId: CacheService.get(
                                 key: "id"),
                             isMine: true,
                           );

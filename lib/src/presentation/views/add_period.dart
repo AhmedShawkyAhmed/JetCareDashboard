@@ -5,8 +5,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
 import '../../business_logic/period_cubit/period_cubit.dart';
-import '../../constants/constants_methods.dart';
-import '../styles/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../widgets/default_app_button.dart';
 
 class AddPeriod extends StatefulWidget {
@@ -160,7 +160,7 @@ class _AddPeriodState extends State<AddPeriod> {
                   radius: 10,
                   gradientColors: const [
                     AppColors.green,
-                    AppColors.lightgreen,
+                    AppColors.lightGreen,
                   ],
                   fontSize: 4.sp,
                   title: 'Add',

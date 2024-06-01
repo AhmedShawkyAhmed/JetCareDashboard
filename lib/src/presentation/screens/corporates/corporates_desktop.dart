@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/corporate_request.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
@@ -9,7 +9,7 @@ import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/Corporates_cubit/corporates_cubit.dart';
-import '../../styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../widgets/default_text_field.dart';
@@ -93,7 +93,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       title: "Create",
@@ -268,7 +268,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                                       height: 4.h,
                                       fontSize: 3.sp,
                                       textColor: AppColors.white,
-                                      buttonColor: AppColors.pc,
+                                      buttonColor: AppColors.primary,
                                       isGradient: false,
                                       radius: 10,
                                     ),
@@ -643,7 +643,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                                           height: 4.h,
                                           fontSize: 3.sp,
                                           textColor: AppColors.white,
-                                          buttonColor: AppColors.pc,
+                                          buttonColor: AppColors.primary,
                                           isGradient: false,
                                           radius: 10,
                                         ),

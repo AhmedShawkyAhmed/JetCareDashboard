@@ -3,10 +3,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+
 import '../../data/models/packages_model.dart';
 import '../../data/network/responses/category_response.dart';
 import '../../presentation/widgets/toast.dart';
@@ -14,7 +15,8 @@ import '../../presentation/widgets/toast.dart';
 part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
-  CategoryCubit() : super(CategoryInitial());
+  CategoryCubit(this.networkService) : super(CategoryInitial());
+  NetworkService networkService;
 
   static CategoryCubit get(context) => BlocProvider.of(context);
   CategoryResponse? getCategoryResponse,
@@ -60,7 +62,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     listCount = 0;
     try {
       emit(CategoryLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCategories,
         query: {
           "keyword": keyword,
@@ -87,7 +89,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     packagesListCount = 0;
     try {
       emit(CategoryPackagesLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCategoryDetails,
         query: {
           "id": id,
@@ -117,7 +119,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     itemsListCount = 0;
     try {
       emit(CategoryItemsLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCategoryDetails,
         query: {
           "id": id,
@@ -146,7 +148,8 @@ class CategoryCubit extends Cubit<CategoryState> {
   }) async {
     try {
       emit(AddCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.addCategory,
         body: {
           'nameEn': categoryRequest.nameEn,
@@ -156,8 +159,8 @@ class CategoryCubit extends Cubit<CategoryState> {
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.toString());
         addCategoryResponse = CategoryResponse.fromJson(value.data);
         categoryList.insert(0, addCategoryResponse!.categoryDataModel!);
@@ -181,14 +184,15 @@ class CategoryCubit extends Cubit<CategoryState> {
 
     try {
       emit(AddItemsCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.addCategoryItem,
         body: {
           'categoryId': categoryRequest.id,
           'itemId[]': categoryRequest.items,
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.toString());
         emit(AddItemsCategorySuccessState());
         DefaultToast.showMyToast(value.data['message']);
@@ -209,14 +213,15 @@ class CategoryCubit extends Cubit<CategoryState> {
 
     try {
       emit(AddPackagesCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.addCategoryPackage,
         body: {
           'categoryId': categoryRequest.id,
           'packageId[]': categoryRequest.package,
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.toString());
         emit(AddPackagesCategorySuccessState());
         DefaultToast.showMyToast(value.data['message']);
@@ -236,7 +241,8 @@ class CategoryCubit extends Cubit<CategoryState> {
   }) async {
     try {
       emit(UpdateCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.updateCategory,
         body: fileResult != null
             ? {
@@ -255,8 +261,8 @@ class CategoryCubit extends Cubit<CategoryState> {
                 'nameAr': categoryRequest.nameAr,
                 'descriptionAr': categoryRequest.descriptionAr,
               },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         updateCategoryResponse = CategoryResponse.fromJson(value.data);
         categoryList[index] = updateCategoryResponse!.categoryDataModel!;
         emit(UpdateCategorySuccessState());
@@ -278,7 +284,7 @@ class CategoryCubit extends Cubit<CategoryState> {
   }) async {
     try {
       emit(ChangeCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeCategoryStatus,
         body: {
           'id': categoryRequest.id,
@@ -302,7 +308,7 @@ class CategoryCubit extends Cubit<CategoryState> {
   Future deleteCategories({required PackagesModel packagesModel}) async {
     try {
       emit(DeeleteCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteCategory,
         body: {
           'id': packagesModel.id,
@@ -330,17 +336,16 @@ class CategoryCubit extends Cubit<CategoryState> {
   }) async {
     try {
       emit(DeletePackagesCategoryLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteCategorySub,
         body: {
           'id': packagesItemsData.relationId,
         },
       ).then((value) {
         deleteCategoryPackagesResponse = CategoryResponse.fromJson(value.data);
-        if(type == "package"){
+        if (type == "package") {
           categoryPackagesList.remove(packagesItemsData);
-
-        }else{
+        } else {
           categoryItemsList.remove(packagesItemsData);
         }
         afterSuccess();

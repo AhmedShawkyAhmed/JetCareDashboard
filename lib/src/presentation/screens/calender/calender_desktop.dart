@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/calender_cubit/calender_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/calender_view.dart';
 import 'package:jetboard/src/presentation/views/month_item.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
@@ -78,7 +78,7 @@ class _CalenderDesktopState extends State<CalenderDesktop> {
                               return MonthItem(
                                 title: month[index],
                                 color: selectedMonth == index
-                                    ? AppColors.pc
+                                    ? AppColors.primary
                                     : AppColors.lightGrey,
                                 textColor: selectedMonth == index
                                     ? AppColors.white

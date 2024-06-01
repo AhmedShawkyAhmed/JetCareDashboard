@@ -7,8 +7,8 @@ import 'package:sizer/sizer.dart';
 
 import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../business_logic/period_cubit/period_cubit.dart';
-import '../../../constants/constants_methods.dart';
-import '../../styles/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../widgets/default_app_button.dart';
@@ -59,7 +59,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       haveShadow: false,
@@ -98,7 +98,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                                 colorScheme:
                                                     ColorScheme.fromSwatch(
                                                   primarySwatch: Colors.teal,
-                                                  primaryColorDark: Colors.teal,
+                                                  // primaryColorDark: Colors.teal,
                                                   accentColor: Colors.teal,
                                                 ),
                                                 dialogBackgroundColor:
@@ -154,7 +154,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                                 colorScheme:
                                                     ColorScheme.fromSwatch(
                                                   primarySwatch: Colors.teal,
-                                                  primaryColorDark: Colors.teal,
+                                                  // primaryColorDark: Colors.teal,
                                                   accentColor: Colors.teal,
                                                 ),
                                                 dialogBackgroundColor:
@@ -215,7 +215,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                   height: 4.h,
                                   fontSize: 3.sp,
                                   textColor: AppColors.white,
-                                  buttonColor: AppColors.pc,
+                                  buttonColor: AppColors.primary,
                                   isGradient: false,
                                   radius: 10,
                                 ),
@@ -353,7 +353,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
-                                  activeTrackColor: AppColors.lightgreen,
+                                  activeTrackColor: AppColors.lightGreen,
                                   inactiveThumbColor: AppColors.red,
                                   inactiveTrackColor: AppColors.lightGrey,
                                   splashRadius: 3.0,
@@ -426,8 +426,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                                                     .fromSwatch(
                                                               primarySwatch:
                                                                   Colors.teal,
-                                                              primaryColorDark:
-                                                                  Colors.teal,
+                                                              // primaryColorDark:
+                                                              //     Colors.teal,
                                                               accentColor:
                                                                   Colors.teal,
                                                             ),
@@ -492,8 +492,8 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                                                     .fromSwatch(
                                                               primarySwatch:
                                                                   Colors.teal,
-                                                              primaryColorDark:
-                                                                  Colors.teal,
+                                                              // primaryColorDark:
+                                                              //     Colors.teal,
                                                               accentColor:
                                                                   Colors.teal,
                                                             ),
@@ -564,7 +564,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                                               height: 4.h,
                                               fontSize: 3.sp,
                                               textColor: AppColors.white,
-                                              buttonColor: AppColors.pc,
+                                              buttonColor: AppColors.primary,
                                               isGradient: false,
                                               radius: 10,
                                             ),

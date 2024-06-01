@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/address_request.dart';
 import 'package:jetboard/src/data/network/responses/address_response.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
@@ -11,7 +11,9 @@ import 'package:jetboard/src/data/network/responses/global_response.dart';
 part 'address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
-  AddressCubit() : super(AddressInitial());
+  AddressCubit(this.networkService) : super(AddressInitial());
+
+  NetworkService networkService;
 
   static AddressCubit get(context) => BlocProvider.of(context);
 
@@ -26,12 +28,12 @@ class AddressCubit extends Cubit<AddressState> {
     address.clear();
     try {
       emit(AddressLoadingState());
-      await DioHelper.getData(url: EndPoints.getMyAddresses, query: {
+      await networkService.get(url: EndPoints.getMyAddresses, query: {
         "userId": userId,
       }).then((value) {
         addressResponse = AddressResponse.fromJson(value.data);
         printSuccess("Address Response ${addressResponse!.message.toString()}");
-        if(addressResponse?.address != null){
+        if (addressResponse?.address != null) {
           for (int i = 0; i < addressResponse!.address!.length; i++) {
             address.add(
                 "${addressResponse!.address![i].address},${addressResponse!.address![i].area!.nameAr},${addressResponse!.address![i].state!.nameAr}");
@@ -55,7 +57,7 @@ class AddressCubit extends Cubit<AddressState> {
   }) async {
     try {
       emit(AddAddressLoadingState());
-      await DioHelper.postData(url: EndPoints.addAddress, body: {
+      await networkService.post(url: EndPoints.addAddress, body: {
         'userId': addressRequest.userId,
         'phone': addressRequest.phone,
         'address': addressRequest.address,
@@ -82,7 +84,7 @@ class AddressCubit extends Cubit<AddressState> {
 // }) async {
 //   try {
 //     emit(EditAddressLoadingState());
-//     await DioHelper.postData(url: EndPoints.updateAddress, body: {
+//     await networkService.post(url: EndPoints.updateAddress, body: {
 //       'id': addressRequest.userId,
 //       'phone': addressRequest.phone,
 //       'floor': addressRequest.floor,
@@ -112,7 +114,7 @@ class AddressCubit extends Cubit<AddressState> {
 // }) async {
 //   try {
 //     emit(DeleteAddressLoadingState());
-//     await DioHelper.postData(url: EndPoints.deleteAddress, body: {
+//     await networkService.post(url: EndPoints.deleteAddress, body: {
 //       'id': address.id,
 //     }).then((value) {
 //       printResponse(value.data.toString());

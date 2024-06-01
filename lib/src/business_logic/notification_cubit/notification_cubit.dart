@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/notification_response.dart';
 
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit() : super(NotificationInitial());
-
+  NotificationCubit(this.networkService) : super(NotificationInitial());
+  NetworkService networkService;
   static NotificationCubit get(context) => BlocProvider.of(context);
 
   NotificationResponse? notificationResponse;
@@ -23,7 +23,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }) async {
     try {
       emit(GetNotificationLoadingState());
-      await DioHelper.getData(url: EndPoints.getNotifications, query: {
+      await networkService.get(url: EndPoints.getNotifications, query: {
         "userId": userId,
       }).then((value) {
         notificationResponse = NotificationResponse.fromJson(value.data);
@@ -48,7 +48,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }) async {
     try {
       emit(ReadNotificationLoadingState());
-      await DioHelper.getData(url: EndPoints.readNotification, query: {
+      await networkService.get(url: EndPoints.readNotification, query: {
         "id": id,
       }).then((value) {
         printResponse(value.data.toString());
@@ -73,7 +73,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }) async {
     try {
       emit(SendNotificationLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.notifyUser,
         body: {
           'id': id,
@@ -101,7 +101,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }) async {
     try {
       emit(SendNotificationLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.notifyAll,
         body: {
           'title': title,
@@ -129,7 +129,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   }) async {
     try {
       emit(SaveNotificationLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.saveNotification,
         body: {
           'userId': id,

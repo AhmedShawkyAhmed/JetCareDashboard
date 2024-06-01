@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
@@ -14,7 +14,9 @@ import 'package:jetboard/src/presentation/widgets/toast.dart';
 part 'crew_state.dart';
 
 class CrewCubit extends Cubit<CrewState> {
-  CrewCubit() : super(CrewInitial());
+  CrewCubit(this.networkService) : super(CrewInitial());
+
+  NetworkService networkService;
 
   static CrewCubit get(context) => BlocProvider.of(context);
 
@@ -52,7 +54,7 @@ class CrewCubit extends Cubit<CrewState> {
     listCount = 0;
     try {
       emit(CrewLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAccounts,
         query: {
           "type": "crew",
@@ -81,7 +83,7 @@ class CrewCubit extends Cubit<CrewState> {
   }) async {
     try {
       emit(AddCrewLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.register,
         body: {
           'name': userRequest.name,
@@ -92,9 +94,9 @@ class CrewCubit extends Cubit<CrewState> {
         },
       ).then((value) {
         DefaultToast.showMyToast(value.data['message']);
-        if(value.data['status'] == 200){
+        if (value.data['status'] == 200) {
           afterSuccess();
-        }else{
+        } else {
           onError();
         }
         addCrewResponse = UserResponse.fromJson(value.data);
@@ -119,7 +121,7 @@ class CrewCubit extends Cubit<CrewState> {
   }) async {
     try {
       emit(UpdateCrewLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateAccount,
         body: {
           'id': userRequest.id,
@@ -130,14 +132,14 @@ class CrewCubit extends Cubit<CrewState> {
         },
       ).then((value) {
         DefaultToast.showMyToast(value.data['message']);
-        if(value.data['status'] == 200){
+        if (value.data['status'] == 200) {
           printSuccess(value.toString());
           final myData = Map<String, dynamic>.from(value.data);
           updateCrewResponse = UserResponse.fromJson(myData);
           crewList[index] = updateCrewResponse!.userModell!;
           emit(UpdateCrewSuccessState());
           afterSuccess();
-        }else{
+        } else {
           onError();
           emit(UpdateCrewErrorState());
         }
@@ -154,7 +156,7 @@ class CrewCubit extends Cubit<CrewState> {
   Future deleteCrew({required UserModel userModel}) async {
     try {
       emit(DeleteCrewLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteAccount,
         body: {
           'id': userModel.id,
@@ -182,7 +184,7 @@ class CrewCubit extends Cubit<CrewState> {
   }) async {
     try {
       emit(ChangeCrewLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeAccountStatus,
         body: {
           'id': userRequest.id,
@@ -211,7 +213,7 @@ class CrewCubit extends Cubit<CrewState> {
   }) async {
     try {
       emit(CrewCommentLoadingState());
-      await DioHelper.postData(url: EndPoints.userAdminComment, body: {
+      await networkService.post(url: EndPoints.userAdminComment, body: {
         'id': userId,
         'comment': comment,
       }).then((value) {
@@ -237,7 +239,7 @@ class CrewCubit extends Cubit<CrewState> {
     crewAreasIds.clear();
     try {
       emit(CrewAreaLoading());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCrewAreas,
         query: {
           "crewId": crewId,
@@ -268,7 +270,7 @@ class CrewCubit extends Cubit<CrewState> {
   }) async {
     try {
       emit(AddCrewAreaLoading());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addAreaToCrew,
         body: {
           'crewId': crewId,
@@ -277,7 +279,7 @@ class CrewCubit extends Cubit<CrewState> {
       ).then((value) {
         printLog(value.data['message']);
         printLog(value.data['id'].toString());
-        crewAreasIds.insert(0,value.data['id']);
+        crewAreasIds.insert(0, value.data['id']);
         emit(AddCrewAreaSuccess());
         afterSuccess();
       });
@@ -296,7 +298,7 @@ class CrewCubit extends Cubit<CrewState> {
   }) async {
     try {
       emit(DeleteCrewAreaLoading());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteCrewArea,
         body: {
           'id': id,

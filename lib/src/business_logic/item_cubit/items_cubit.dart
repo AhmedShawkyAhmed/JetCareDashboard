@@ -2,21 +2,21 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/requests/items_request.dart';
 import 'package:jetboard/src/data/network/responses/itemsType_response.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
 
-import '../../constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import '../../presentation/widgets/toast.dart';
 
 part 'items_state.dart';
 
 class ItemsCubit extends Cubit<ItemsState> {
-  ItemsCubit() : super(ItemsCubitInitial());
-
+  ItemsCubit(this.networkService) : super(ItemsCubitInitial());
+  NetworkService networkService;
   static ItemsCubit get(context) => BlocProvider.of(context);
   ItemsTypeResponse? itemsTypeResponse;
   ItemsResponse? itemsResponse,
@@ -60,7 +60,7 @@ class ItemsCubit extends Cubit<ItemsState> {
     listCount = 0;
     try {
       emit(ItemsLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getItems,
         query: {
           "type": type,
@@ -88,7 +88,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   }) async {
     try {
       emit(AddItemsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addItem,
         body: {
           'nameEn': itemsRequest.nameEn,
@@ -103,7 +103,6 @@ class ItemsCubit extends Cubit<ItemsState> {
           'image': MultipartFile.fromBytes(fileResult!.files.first.bytes!,
               filename: fileResult!.files.first.name),
         },
-        formData: true,
       ).then((value) {
         final myData = Map<String, dynamic>.from(value.data);
         addItemsResponse = ItemsResponse.fromJson(myData);
@@ -127,7 +126,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   }) async {
     try {
       emit(UpdateLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateItem,
         body: fileResult != null
             ? {
@@ -156,7 +155,6 @@ class ItemsCubit extends Cubit<ItemsState> {
                 'quantity': 1,
                 'type': itemsRequest.type,
               },
-        formData: true,
       ).then((value) {
         printSuccess(value.data.toString());
         updateItemsResponse = ItemsResponse.fromJson(value.data);
@@ -176,7 +174,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   Future deleteItems({required ItemsModel itemsModel}) async {
     try {
       emit(DeleteItemsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteItem,
         body: {
           'id': itemsModel.id,
@@ -204,7 +202,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   }) async {
     try {
       emit(ChangeItemsLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeItemStatus,
         body: {
           'id': itemsRequest.id,
@@ -231,7 +229,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   //   count = 0;
   //   try {
   //     emit(ItemsForPackagesLoadingState());
-  //     await DioHelper.getData(
+  //     await networkService.get(
   //       url: EndPoints.getItems,
   //       query: {
   //         "type": 'item',
@@ -256,7 +254,7 @@ class ItemsCubit extends Cubit<ItemsState> {
   // Future getItemsTypes() async {
   //   try {
   //     emit(ItemsTypeLoadingState());
-  //     await DioHelper.getData(
+  //     await networkService.get(
   //       url: EndPoints.getItemsTypes,
   //     ).then((value) {
   //       printSuccess(value.data.toString());

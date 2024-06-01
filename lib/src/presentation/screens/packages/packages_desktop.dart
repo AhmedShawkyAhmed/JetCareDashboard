@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/constants/end_points.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/data/network/requests/packages_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
@@ -91,7 +91,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       haveShadow: false,
@@ -413,7 +413,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                   height: 4.h,
                                   fontSize: 3.sp,
                                   textColor: AppColors.white,
-                                  buttonColor: AppColors.pc,
+                                  buttonColor: AppColors.primary,
                                   isGradient: false,
                                   radius: 10,
                                 ),
@@ -591,7 +591,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                       ? true
                                       : false,
                                   activeColor: AppColors.green,
-                                  activeTrackColor: AppColors.lightgreen,
+                                  activeTrackColor: AppColors.lightGreen,
                                   inactiveThumbColor: AppColors.red,
                                   inactiveTrackColor: AppColors.lightGrey,
                                   splashRadius: 3.0,
@@ -941,7 +941,7 @@ class _PackagesDesktopState extends State<PackagesDesktop> {
                                               height: 4.h,
                                               fontSize: 3.sp,
                                               textColor: AppColors.white,
-                                              buttonColor: AppColors.pc,
+                                              buttonColor: AppColors.primary,
                                               isGradient: false,
                                               radius: 10,
                                             ),

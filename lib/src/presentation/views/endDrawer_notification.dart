@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
@@ -74,7 +74,7 @@ class EndDrawerWidgetNotification extends StatelessWidget {
                                     end: Alignment.centerRight,
                                     colors: [
                                       AppColors.green,
-                                      AppColors.lightgreen,
+                                      AppColors.lightGreen,
                                     ]),
                               ),
                               child: const Icon(
@@ -139,7 +139,7 @@ class EndDrawerWidgetNotification extends StatelessWidget {
                           haveShadow: false,
                           gradientColors: const [
                             AppColors.green,
-                            AppColors.lightgreen,
+                            AppColors.lightGreen,
                           ],
                         ),
                       ),

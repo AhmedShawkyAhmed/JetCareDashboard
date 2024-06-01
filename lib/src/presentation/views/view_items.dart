@@ -4,7 +4,7 @@ import 'package:jetboard/src/data/models/packages_model.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 import '../../business_logic/packages_cubit/packages_cubit.dart';
-import '../styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 
 class ViewItems extends StatefulWidget {
   final List<PackagesItemsData> items;

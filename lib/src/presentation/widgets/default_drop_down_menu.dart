@@ -7,9 +7,9 @@ import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
@@ -38,8 +38,8 @@ class DefaultDropDownMenu extends StatefulWidget {
     this.color,
     this.hint,
     this.index,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<DefaultDropDownMenu> createState() => _DefaultDropDownMenuState();
@@ -97,16 +97,14 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                       AreaCubit.get(context).areas.indexOf(value.toString())];
                   printResponse(registerAreaId.toString());
                 }
-              }
-              else if (widget.type == "year") {
+              } else if (widget.type == "year") {
                 GlobalCubit.get(context).getStatistics(
                   month: (selectedMonth + 1).toString(),
                   year: value,
                   afterSuccess: () {},
                 );
                 year = value;
-              }
-              else if (widget.type == "status") {
+              } else if (widget.type == "status") {
                 OrdersCubit.get(context).updateOrderStatus(
                   orderId: widget.orderId!,
                   status: value,
@@ -119,15 +117,15 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                     NotificationCubit.get(context).notifyUser(
                       id: widget.userId!,
                       title: "الطلبات",
-                      message: "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
+                      message:
+                          "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
                       afterSuccess: () {
                         NotificationCubit.get(context).saveNotification(
                           id: widget.userId!,
                           title: "الطلبات",
-                          message: "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
-                          afterSuccess: () {
-
-                          },
+                          message:
+                              "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
+                          afterSuccess: () {},
                         );
                       },
                     );
@@ -139,14 +137,14 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
               //   role = value;
               // }
               else if (widget.type == "package") {
-                PackagesCubit.get(context).getPackages(type: value == "All"?" ":value);
+                PackagesCubit.get(context)
+                    .getPackages(type: value == "All" ? " " : value);
                 package = value;
-              }
-              else if (widget.type == "item") {
-                ItemsCubit.get(context).getItems(type: value == "All"?" ":value);
+              } else if (widget.type == "item") {
+                ItemsCubit.get(context)
+                    .getItems(type: value == "All" ? " " : value);
                 item = value;
-              }
-              else{
+              } else {
                 widget.onChanged;
               }
               dropItemsInfo = value;

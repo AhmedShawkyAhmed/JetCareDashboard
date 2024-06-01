@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/ads_cubit/ads_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/drawer_mobile.dart';
 import 'package:jetboard/src/presentation/views/endDrawer_ads.dart';
 import 'package:jetboard/src/presentation/views/header.dart';

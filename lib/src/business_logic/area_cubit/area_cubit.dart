@@ -1,19 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/data/network/responses/area_response.dart';
-
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
 import '../../presentation/widgets/toast.dart';
 
 part 'area_state.dart';
 
 class AreaCubit extends Cubit<AreaState> {
-  AreaCubit() : super(AreaInitial());
+  AreaCubit(this.networkService) : super(AreaInitial());
+  NetworkService networkService;
 
   static AreaCubit get(context) => BlocProvider.of(context);
 
@@ -42,7 +42,7 @@ class AreaCubit extends Cubit<AreaState> {
     listCount = 0;
     try {
       emit(AreaLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAllAreas,
         query: {
           "keyword": keyword,
@@ -68,7 +68,7 @@ class AreaCubit extends Cubit<AreaState> {
     listCount = 0;
     try {
       emit(AreaLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAreasOfState,
         query: {
           "stateId": stateId,
@@ -78,7 +78,7 @@ class AreaCubit extends Cubit<AreaState> {
         getAreaResponse = AreaResponse.fromJson(value.data);
         areaList.addAll(getAreaResponse!.areaModel!);
         listCount = getAreaResponse!.areaModel!.length;
-        for(int i = 0; i< areaList.length ; i++){
+        for (int i = 0; i < areaList.length; i++) {
           areas.add(areaList[i].nameAr!);
           areaId.add(areaList[i].id!);
         }
@@ -98,7 +98,8 @@ class AreaCubit extends Cubit<AreaState> {
   }) async {
     try {
       emit(AddAreaLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.addArea,
         body: {
           'stateId': areaRequest.stateId,
@@ -108,8 +109,8 @@ class AreaCubit extends Cubit<AreaState> {
           'discount': areaRequest.discount,
           'transportation': areaRequest.transportation,
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.toString());
         addAreaResponse = AreaResponse.fromJson(value.data);
         areaList.insert(0, addAreaResponse!.areaModell!);
@@ -131,7 +132,8 @@ class AreaCubit extends Cubit<AreaState> {
   }) async {
     try {
       emit(UpdateAreaLoadingState());
-      await DioHelper.postData(
+      await networkService
+          .post(
         url: EndPoints.updatearea,
         body: {
           'id': areaRequest.id,
@@ -141,8 +143,8 @@ class AreaCubit extends Cubit<AreaState> {
           'discount': areaRequest.discount,
           'transportation': areaRequest.transportation,
         },
-        formData: true,
-      ).then((value) {
+      )
+          .then((value) {
         printSuccess(value.data.toString());
         updateAreaResponse = AreaResponse.fromJson(value.data);
         areaList[index] = updateAreaResponse!.areaModell!;
@@ -165,7 +167,7 @@ class AreaCubit extends Cubit<AreaState> {
   }) async {
     try {
       emit(ChangeAreaLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeAreaStatus,
         body: {
           'id': areaRequest.id,
@@ -189,7 +191,7 @@ class AreaCubit extends Cubit<AreaState> {
   Future deleteArea({required AreaModel areaModel}) async {
     try {
       emit(DeleteAreaLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteArea,
         body: {
           'id': areaModel.id,

@@ -5,10 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/address_request.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
@@ -66,7 +66,7 @@ class _EndDrawerOrderState extends State<EndDrawerOrder> {
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.teal,
-              primaryColorDark: Colors.teal,
+              // primaryColorDark: Colors.teal,
               accentColor: Colors.teal,
             ),
             dialogBackgroundColor: Colors.white,

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/info_model.dart';
 import 'package:jetboard/src/data/network/requests/info_request.dart';
 import 'package:jetboard/src/data/network/responses/info_response.dart';
@@ -13,8 +13,8 @@ import '../../presentation/widgets/toast.dart';
 part 'info_state.dart';
 
 class InfoCubit extends Cubit<InfoState> {
-  InfoCubit() : super(InfoCubitInitial());
-
+  InfoCubit(this.networkService) : super(InfoCubitInitial());
+  NetworkService networkService;
   static InfoCubit get(context) => BlocProvider.of(context);
 
   InfoResponse? infoResponse,deleteInfoResponse,addInfoResponse,updateInfoResponse;
@@ -28,7 +28,7 @@ class InfoCubit extends Cubit<InfoState> {
     listCount= 0;
     try {
       emit(GetInfoLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getInfo,
         query: {
           "type" : "appInfo",
@@ -53,7 +53,7 @@ class InfoCubit extends Cubit<InfoState> {
   Future getInfoTypes() async {
     try {
       emit(InfoTypeLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getTypes,
       ).then((value) {
         printSuccess(value.data.toString());
@@ -80,7 +80,7 @@ class InfoCubit extends Cubit<InfoState> {
   }) async {
     try {
       emit(AddInfoLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addInfo,
         body: {
           'titleEn': infoRequest.titleEn,
@@ -112,7 +112,7 @@ class InfoCubit extends Cubit<InfoState> {
   }) async {
     try {
       emit(AddInfoLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateInfo,
         body: {
           'id':infoRequest.id,
@@ -144,7 +144,7 @@ class InfoCubit extends Cubit<InfoState> {
   }) async {
     try {
       emit(DeleteInfoLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteInfo,
         body: {
           'id': infoModel.id,

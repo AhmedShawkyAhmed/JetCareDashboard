@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
@@ -78,7 +78,7 @@ class _AddItemsState extends State<AddItems> {
                     height: 5.h,
                     width: 5.h,
                     decoration: BoxDecoration(
-                        color: AppColors.pc,
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(10.h)),
                     child:const Center(
                       child: Icon(
@@ -207,7 +207,7 @@ class _AddItemsState extends State<AddItems> {
                     radius: 10,
                     gradientColors: const [
                       AppColors.green,
-                      AppColors.lightgreen,
+                      AppColors.lightGreen,
                     ],
                     fontSize: 4.sp,
                     title: 'Save',

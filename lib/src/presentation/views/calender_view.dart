@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,7 +21,7 @@ class CalenderView extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.pc),
+        border: Border.all(color: AppColors.primary),
       ),
       child: Stack(
         alignment: Alignment.center,

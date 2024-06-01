@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/create_order.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/views/view_orders_detales.dart';
@@ -12,7 +12,7 @@ import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
-import '../../../constants/constants_variables.dart';
+import '../../../core/constants/constants_variables.dart';
 import '../../views/loading_view.dart';
 import '../../widgets/default_text_field.dart';
 
@@ -92,7 +92,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       title: "Create",
@@ -405,7 +405,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                                       .ordersList[index]
                                                       .status ==
                                                   'confirmed'
-                                          ? AppColors.blue
+                                          ? AppColors.darkBlue
                                           : OrdersCubit.get(context)
                                                       .ordersList[index]
                                                       .status ==
@@ -514,7 +514,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                             height: 4.h,
                                             fontSize: 3.sp,
                                             textColor: AppColors.white,
-                                            buttonColor: AppColors.pc,
+                                            buttonColor: AppColors.primary,
                                             isGradient: false,
                                             radius: 10,
                                           ),

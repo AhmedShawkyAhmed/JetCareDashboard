@@ -1,20 +1,24 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/services/cache_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/corporate_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+
 import '../../data/models/corporates_model.dart';
 import '../../data/network/responses/corporates_response.dart';
-import 'package:flutter/material.dart';
+
 part 'corporates_state.dart';
 
 class CorporatesCubit extends Cubit<CorporatesState> {
-  CorporatesCubit() : super(CorporatesInitial());
+  CorporatesCubit(this.networkService) : super(CorporatesInitial());
+  NetworkService networkService;
+
   static CorporatesCubit get(context) => BlocProvider.of(context);
   CorporatesResponse? getCorporatesResponse;
   GlobalResponse? globalResponse;
@@ -31,8 +35,8 @@ class CorporatesCubit extends Cubit<CorporatesState> {
   }) async {
     try {
       emit(CreateCorporateLoadingState());
-      await DioHelper.postData(url: EndPoints.addCorporateOrder, body: {
-        'userId':CacheHelper.getDataFromSharedPreference(key: "id"),
+      await networkService.post(url: EndPoints.addCorporateOrder, body: {
+        'userId': CacheService.get(key: "id"),
         'name': corporateRequest.name,
         'email': corporateRequest.email,
         'phone': corporateRequest.phone,
@@ -53,14 +57,18 @@ class CorporatesCubit extends Cubit<CorporatesState> {
     }
   }
 
-  Future getCorporatesItems({required VoidCallback afterSuccess,}) async {
+  Future getCorporatesItems({
+    required VoidCallback afterSuccess,
+  }) async {
     try {
       emit(CorporateItemsLoadingState());
-      await DioHelper.getData(
+      await networkService
+          .get(
         url: EndPoints.getCorporates,
-      ).then((value) {
+      )
+          .then((value) {
         corporateItems = ItemsResponse.fromJson(value.data);
-        for(int i = 0; i< corporateItems!.corporate!.length; i++){
+        for (int i = 0; i < corporateItems!.corporate!.length; i++) {
           corporateNames.add(corporateItems!.corporate![i].nameAr.toString());
           corporateIds.add(corporateItems!.corporate![i].id!);
         }
@@ -84,7 +92,7 @@ class CorporatesCubit extends Cubit<CorporatesState> {
     listCount = 0;
     try {
       emit(CorporatesLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCorporateOrders,
         query: {
           "keyword": keyword,
@@ -113,9 +121,9 @@ class CorporatesCubit extends Cubit<CorporatesState> {
   }) async {
     try {
       emit(UpdateCorporateStatusLoadingState());
-      await DioHelper.postData(url: EndPoints.corporateAdminComment, body: {
+      await networkService.post(url: EndPoints.corporateAdminComment, body: {
         'id': orderId,
-        'comment':comment,
+        'comment': comment,
       }).then((value) {
         globalResponse = GlobalResponse.fromJson(value.data);
         DefaultToast.showMyToast(globalResponse!.message.toString());

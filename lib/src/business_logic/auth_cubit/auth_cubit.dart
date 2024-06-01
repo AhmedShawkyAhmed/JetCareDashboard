@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/main.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/constants/shared_preference_keys.dart';
-import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/services/cache_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/auth_request.dart';
 import 'package:jetboard/src/data/network/responses/auth_response.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
@@ -14,7 +12,8 @@ import 'package:jetboard/src/data/network/responses/global_response.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  AuthCubit(this.networkService) : super(AuthInitial());
+  NetworkService networkService;
 
   static AuthCubit get(context) => BlocProvider.of(context);
   AdminResponse? adminResponse;
@@ -34,29 +33,28 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     try {
       emit(LoginLoadingState());
-      await DioHelper.postData(url: EndPoints.adminLogin, body: {
+      await networkService.post(url: EndPoints.adminLogin, body: {
         'email': authRequest.email,
         'password': authRequest.password,
       }).then((value) {
         printResponse(value.data.toString());
         adminResponse = AdminResponse.fromJson(value.data);
         if (adminResponse!.status == 200) {
-          CacheHelper.saveDataSharedPreference(
-              key: 'id', value: adminResponse!.accountModel!.id);
-          CacheHelper.saveDataSharedPreference(
+          CacheService.add(key: 'id', value: adminResponse!.accountModel!.id);
+          CacheService.add(
               key: 'name', value: adminResponse!.accountModel!.name);
-          CacheHelper.saveDataSharedPreference(
+          CacheService.add(
               key: 'phone', value: adminResponse!.accountModel!.phone);
-          CacheHelper.saveDataSharedPreference(
+          CacheService.add(
               key: 'email', value: adminResponse!.accountModel!.email);
-          CacheHelper.saveDataSharedPreference(
+          CacheService.add(
               key: 'role', value: adminResponse!.accountModel!.role);
-          CacheHelper.saveDataSharedPreference(
+          CacheService.add(
               key: 'active', value: adminResponse!.accountModel!.active);
-          CacheHelper.saveDataSharedPreference(
-              key: SharedPreferenceKeys.fcm, value: adminResponse!.accountModel!.fcm);
-          updateFCM(
-              id: adminResponse!.accountModel!.id, fcm: pushToken == null?"empty":pushToken.toString());
+          // CacheHelper.saveDataSharedPreference(
+          //     key: SharedPreferenceKeys.fcm, value: adminResponse!.accountModel!.fcm);
+          // updateFCM(
+          //     id: adminResponse!.accountModel!.id, fcm: pushToken == null?"empty":pushToken.toString());
           emit(LoginSuccessState());
           if (adminResponse!.accountModel!.role == "admin") {
             admin();
@@ -82,7 +80,7 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     try {
       emit(FCMLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateFCM,
         body: {
           'id': id,

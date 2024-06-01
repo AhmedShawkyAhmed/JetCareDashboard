@@ -8,16 +8,16 @@ import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/period_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/widgets/toast.dart';
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import '../../data/network/responses/orders_response.dart';
 
 part 'orders_state.dart';
 
 class OrdersCubit extends Cubit<OrdersState> {
-  OrdersCubit() : super(OrdersInitial());
-
+  OrdersCubit(this.networkService) : super(OrdersInitial());
+  NetworkService networkService;
   static OrdersCubit get(context) => BlocProvider.of(context);
   OrdersResponse? getOrdersResponse, updateOrdersStatusResponse;
   UserResponse? clientsResponse;
@@ -40,7 +40,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     try {
       emit(AddCartLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addToCart,
         body: {
           'userId': userId,
@@ -73,7 +73,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     getOrdersResponse = null;
     try {
       emit(OrdersLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getOrders,
         query: {
           "keyword": keyword,
@@ -103,7 +103,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     try {
       emit(AssignOrdersLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.assignOrder,
         body: {
           'id': id,
@@ -136,7 +136,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     try {
       emit(DeleteOrderStatusLoadingState());
-      await DioHelper.postData(url: EndPoints.deleteOrder, body: {
+      await networkService.post(url: EndPoints.deleteOrder, body: {
         'id': orderId,
       }).then((value) {
         globalResponse = GlobalResponse.fromJson(value.data);
@@ -163,7 +163,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     try {
       emit(ExtraLoadingState());
-      await DioHelper.postData(url: EndPoints.updateExtra, body: {
+      await networkService.post(url: EndPoints.updateExtra, body: {
         'id': orderId,
         'extra': extra,
       }).then((value) {
@@ -188,7 +188,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     try {
       emit(UpdateOrderStatusLoadingState());
-      await DioHelper.postData(url: EndPoints.updateOrderStatus, body: {
+      await networkService.post(url: EndPoints.updateOrderStatus, body: {
         'id': orderId,
         'status': status,
       }).then((value) {
@@ -215,7 +215,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   }) async {
     try {
       emit(UpdateOrderStatusLoadingState());
-      await DioHelper.postData(url: EndPoints.updateAdminComment, body: {
+      await networkService.post(url: EndPoints.updateAdminComment, body: {
         'id': orderId,
         'comment': comment,
       }).then((value) {
@@ -242,7 +242,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     try {
       printLog(cartId.length.toString());
       emit(CreateOrdersLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.createOrder,
         body: {
           'userId': orderRequest.userId,
@@ -255,7 +255,6 @@ class OrdersCubit extends Cubit<OrdersState> {
           'comment': orderRequest.comment,
           'cart': cartId.isEmpty ? "" : cartId,
         },
-        formData: false,
       ).then((value) {
         printResponse(value.data.toString());
         orderResponse = GlobalResponse.fromJson(value.data);
@@ -277,7 +276,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   Future getPeriodsMobile() async {
     try {
       emit(PeriodLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getPeriodsMobile,
       ).then((value) {
         periodResponse = PeriodResponse.fromJson(value.data);
@@ -299,7 +298,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   Future getClients() async {
     try {
       emit(ClientsLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAccounts,
         query: {
           "type": "client",

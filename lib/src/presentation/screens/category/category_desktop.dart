@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/end_points.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/add_category_items.dart';
 import 'package:jetboard/src/presentation/views/add_packages.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../business_logic/category_cubit/category_cubit.dart';
 import '../../../business_logic/global_cubit/global_cubit.dart';
-import '../../../constants/constants_methods.dart';
-import '../../../constants/constants_variables.dart';
-import '../../styles/app_colors.dart';
+import '../../../core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../views/view_category_items.dart';
@@ -101,7 +102,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       haveShadow: false,
@@ -266,7 +267,8 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                                         100.w,
                                                                   )
                                                             : Image.network(
-                                                          EndPoints.imageDomain +
+                                                                EndPoints
+                                                                        .imageDomain +
                                                                     imageApp!,
                                                                 fit: BoxFit
                                                                     .fitWidth,
@@ -418,7 +420,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                   height: 4.h,
                                   fontSize: 3.sp,
                                   textColor: AppColors.white,
-                                  buttonColor: AppColors.pc,
+                                  buttonColor: AppColors.primary,
                                   isGradient: false,
                                   radius: 10,
                                 ),
@@ -580,7 +582,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                     ? true
                                     : false,
                                 activeColor: AppColors.green,
-                                activeTrackColor: AppColors.lightgreen,
+                                activeTrackColor: AppColors.lightGreen,
                                 inactiveThumbColor: AppColors.red,
                                 inactiveTrackColor: AppColors.lightGrey,
                                 splashRadius: 3.0,
@@ -777,7 +779,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                                                             )
                                                                       : Image
                                                                           .network(
-                                                                    EndPoints.imageDomain +
+                                                                          EndPoints.imageDomain +
                                                                               imageApp!,
                                                                           fit: BoxFit
                                                                               .fitWidth,
@@ -940,7 +942,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                             height: 4.h,
                                             fontSize: 3.sp,
                                             textColor: AppColors.white,
-                                            buttonColor: AppColors.pc,
+                                            buttonColor: AppColors.primary,
                                             isGradient: false,
                                             radius: 10,
                                           ),
@@ -998,23 +1000,22 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                         );
                                       } else if (item == SampleItem.addItems) {
                                         IndicatorView.showIndicator(context);
-                                        GlobalCubit.get(context).getItemsForPackages(
-                                          afterSuccess: (){
-                                            Navigator.pop(context);
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AddCategoryItems(
-                                                  categoryId:
-                                                  CategoryCubit.get(context)
-                                                      .categoryList[index]
-                                                      .id,
-                                                );
-                                              },
-                                            );
-
-                                          }
-                                        );
+                                        GlobalCubit.get(context)
+                                            .getItemsForPackages(
+                                                afterSuccess: () {
+                                          Navigator.pop(context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AddCategoryItems(
+                                                categoryId:
+                                                    CategoryCubit.get(context)
+                                                        .categoryList[index]
+                                                        .id,
+                                              );
+                                            },
+                                          );
+                                        });
                                       }
                                     },
                                   );

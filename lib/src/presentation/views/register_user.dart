@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
@@ -173,7 +173,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         height: 4.h,
                         fontSize: 3.sp,
                         textColor: AppColors.white,
-                        buttonColor: AppColors.pc,
+                        buttonColor: AppColors.primary,
                         isGradient: false,
                         radius: 10,
                       );

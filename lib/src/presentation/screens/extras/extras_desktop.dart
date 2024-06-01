@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/extras_cubit/extras_cubit.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
@@ -100,7 +100,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       haveShadow: false,
@@ -474,7 +474,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                   height: 4.h,
                                   fontSize: 3.sp,
                                   textColor: AppColors.white,
-                                  buttonColor: AppColors.pc,
+                                  buttonColor: AppColors.primary,
                                   isGradient: false,
                                   radius: 10,
                                 ),
@@ -743,7 +743,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                 value:
                                 extrasCubit.itemList[index].active == 1 ? true : false,
                                 activeColor: AppColors.green,
-                                activeTrackColor: AppColors.lightgreen,
+                                activeTrackColor: AppColors.lightGreen,
                                 inactiveThumbColor: AppColors.red,
                                 inactiveTrackColor: AppColors.lightGrey,
                                 splashRadius: 3.0,
@@ -1151,7 +1151,7 @@ class _ExtrasDesktopState extends State<ExtrasDesktop> {
                                           height: 4.h,
                                           fontSize: 3.sp,
                                           textColor: AppColors.white,
-                                          buttonColor: AppColors.pc,
+                                          buttonColor: AppColors.primary,
                                           isGradient: false,
                                           radius: 10,
                                         ),

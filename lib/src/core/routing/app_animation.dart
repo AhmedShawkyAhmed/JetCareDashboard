@@ -1,55 +1,55 @@
 import 'package:flutter/cupertino.dart';
 
-class CustomPageRouteTransiton extends PageRouteBuilder {
+class CustomPageRouteTransition extends PageRouteBuilder {
   final Widget page;
   final double dx;
   final double dy;
   final bool isFade;
-  CustomPageRouteTransiton({
+  CustomPageRouteTransition({
     required this.page,
     required this.dx,
     required this.dy,
     this.isFade = false,
   }) : super(
-      transitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 10),
       pageBuilder: (context, animation, secondaryAnimation) => page);
-  factory CustomPageRouteTransiton.fadeOut({
+  factory CustomPageRouteTransition.fadeOut({
     required Widget page,
   }) =>
-      CustomPageRouteTransiton(
+      CustomPageRouteTransition(
         page: page,
         isFade: true,
         dx: 0,
         dy: 0,
       );
-  factory CustomPageRouteTransiton.rightToLeft({
+  factory CustomPageRouteTransition.rightToLeft({
     required Widget page,
   }) =>
-      CustomPageRouteTransiton(
+      CustomPageRouteTransition(
         page: page,
         dx: 1,
         dy: 0,
       );
-  factory CustomPageRouteTransiton.leftToRight({
+  factory CustomPageRouteTransition.leftToRight({
     required Widget page,
   }) =>
-      CustomPageRouteTransiton(
+      CustomPageRouteTransition(
         page: page,
         dx: -1,
         dy: 0,
       );
-  factory CustomPageRouteTransiton.bottomToTop({
+  factory CustomPageRouteTransition.bottomToTop({
     required Widget page,
   }) =>
-      CustomPageRouteTransiton(
+      CustomPageRouteTransition(
         page: page,
         dx: 0,
         dy: 1,
       );
-  factory CustomPageRouteTransiton.topToBottom({
+  factory CustomPageRouteTransition.topToBottom({
     required Widget page,
   }) =>
-      CustomPageRouteTransiton(
+      CustomPageRouteTransition(
         page: page,
         dx: 0,
         dy: -1,

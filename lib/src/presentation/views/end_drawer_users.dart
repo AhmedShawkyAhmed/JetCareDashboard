@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
@@ -12,7 +12,7 @@ import 'package:jetboard/src/presentation/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/clients_cubit/clients_cubit.dart';
-import '../../constants/constants_variables.dart';
+import '../../core/constants/constants_variables.dart';
 
 class EndDrawerWidgetUsers extends StatefulWidget {
   EndDrawerWidgetUsers({
@@ -94,7 +94,7 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                                     end: Alignment.centerRight,
                                     colors: [
                                       AppColors.green,
-                                      AppColors.lightgreen,
+                                      AppColors.lightGreen,
                                     ]),
                               ),
                               child: const Icon(
@@ -274,7 +274,7 @@ class _EndDrawerWidgetUsersState extends State<EndDrawerWidgetUsers> {
                           haveShadow: false,
                           gradientColors: const [
                             AppColors.green,
-                            AppColors.lightgreen,
+                            AppColors.lightGreen,
                           ],
                         ),
                       ),

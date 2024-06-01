@@ -1,21 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
 import 'package:jetboard/src/data/network/responses/statistics_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/presentation/screens/ads/ads.dart';
 import 'package:jetboard/src/presentation/screens/calender/calender.dart';
+import 'package:jetboard/src/presentation/screens/clients/clients.dart';
 import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';
 import 'package:jetboard/src/presentation/screens/crews/crews.dart';
 import 'package:jetboard/src/presentation/screens/equipment/equipment.dart';
 import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule.dart';
 import 'package:jetboard/src/presentation/screens/extras/extras.dart';
+import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
 import 'package:jetboard/src/presentation/screens/home/home.dart';
 import 'package:jetboard/src/presentation/screens/info/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
@@ -24,10 +26,7 @@ import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
 import 'package:jetboard/src/presentation/screens/notifications/notifications.dart';
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
 import 'package:jetboard/src/presentation/screens/packages/packages.dart';
-import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
-import 'package:jetboard/src/presentation/screens/settings/settings.dart';
 import 'package:jetboard/src/presentation/screens/support/support.dart';
-import 'package:jetboard/src/presentation/screens/clients/clients.dart';
 
 import '../../data/models/items_model.dart';
 import '../../data/models/orders_model.dart';
@@ -41,7 +40,8 @@ import '../../presentation/screens/periods/periods.dart';
 part 'global_state.dart';
 
 class GlobalCubit extends Cubit<GlobalState> {
-  GlobalCubit() : super(GlobalInitial());
+  GlobalCubit(this.networkService) : super(GlobalInitial());
+  NetworkService networkService;
 
   static GlobalCubit get(context) => BlocProvider.of(context);
 
@@ -111,7 +111,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     users.clear();
     try {
       emit(CrewLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAccounts,
         query: {
           "type": "crew",
@@ -142,7 +142,7 @@ class GlobalCubit extends Cubit<GlobalState> {
     crews.clear();
     try {
       emit(CrewLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getCrewOfAreas,
         query: {
           "areaId": areaId,
@@ -170,7 +170,7 @@ class GlobalCubit extends Cubit<GlobalState> {
       {String? month, String? year, required VoidCallback afterSuccess}) async {
     try {
       emit(StatisticsLoadingState());
-      await DioHelper.getData(url: EndPoints.getStatistics, query: {
+      await networkService.get(url: EndPoints.getStatistics, query: {
         "month": month ?? DateTime.now().month.toString(),
         "year": year ?? DateTime.now().year.toString(),
       }).then((value) {
@@ -191,9 +191,11 @@ class GlobalCubit extends Cubit<GlobalState> {
   Future getItems() async {
     try {
       emit(ItemsLoadingState());
-      await DioHelper.getData(
+      await networkService
+          .get(
         url: EndPoints.getItemsMobile,
-      ).then((value) {
+      )
+          .then((value) {
         itemsResponse = ItemsResponse.fromJson(value.data);
         for (int i = 0; i < itemsResponse!.itemsModel!.length; i++) {
           items.add(itemsResponse!.itemsModel![i].nameEn!);
@@ -213,9 +215,11 @@ class GlobalCubit extends Cubit<GlobalState> {
   Future getPackages() async {
     try {
       emit(PackagesLoadingState());
-      await DioHelper.getData(
+      await networkService
+          .get(
         url: EndPoints.getPackagesMobile,
-      ).then((value) {
+      )
+          .then((value) {
         packagesResponse = PackagesResponse.fromJson(value.data);
         for (int i = 0; i < packagesResponse!.packagesModel!.length; i++) {
           packages.add(packagesResponse!.packagesModel![i].nameEn);
@@ -232,10 +236,11 @@ class GlobalCubit extends Cubit<GlobalState> {
     }
   }
 
-  Future getItemsForPackages({String? type, keyword,required VoidCallback afterSuccess}) async {
+  Future getItemsForPackages(
+      {String? type, keyword, required VoidCallback afterSuccess}) async {
     try {
       emit(ItemsForPackagesLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getItems,
         query: {
           "type": 'item',

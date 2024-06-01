@@ -1,5 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 
 class DefaultToast {
   static Future<bool?> showMyToast(String msg,{bool? isError,Toast? toastLength})async{

@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/constants/constants_variables.dart';
-import 'package:jetboard/src/data/data_provider/local/cache_helper.dart';
-import 'package:jetboard/src/presentation/router/app_router_names.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/constants/constants_variables.dart';
+import 'package:jetboard/src/core/services/cache_service.dart';
+import 'package:jetboard/src/core/routing/routes.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerListDesktop extends StatefulWidget {
@@ -141,7 +141,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
 
   @override
   void initState() {
-    role = CacheHelper.getDataFromSharedPreference(key: "role");
+    role = CacheService.get(key: "role");
     super.initState();
   }
 
@@ -197,11 +197,11 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     ),
                     decoration: BoxDecoration(
                       color:
-                          index == 0 ? AppColors.blackl : AppColors.transparent,
+                          index == 0 ? AppColors.shimmerMain : AppColors.transparent,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: ListTile(
-                      selectedTileColor: AppColors.blackl,
+                      selectedTileColor: AppColors.shimmerMain,
                       selected: false,
                       horizontalTitleGap: 0.0,
                       onTap: () {
@@ -229,12 +229,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 1
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -263,12 +263,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 2
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -297,12 +297,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 3
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -331,12 +331,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 4
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -365,12 +365,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 5
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -397,12 +397,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     ),
                     decoration: BoxDecoration(
                       color: index == 6
-                          ? AppColors.blackl
+                          ? AppColors.shimmerMain
                           : AppColors.transparent,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: ListTile(
-                      selectedTileColor: AppColors.blackl,
+                      selectedTileColor: AppColors.shimmerMain,
                       selected: false,
                       horizontalTitleGap: 0.0,
                       onTap: () {
@@ -430,12 +430,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 7
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -464,12 +464,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 8
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -498,12 +498,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 9
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -532,12 +532,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 10
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -566,12 +566,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 11
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -600,12 +600,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 12
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -634,12 +634,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 13
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -668,12 +668,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 14
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -702,12 +702,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 15
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -736,12 +736,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 16
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -770,12 +770,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 17
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -804,12 +804,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 18
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -838,12 +838,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 19
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -872,12 +872,12 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       ),
                       decoration: BoxDecoration(
                         color: index == 20
-                            ? AppColors.blackl
+                            ? AppColors.shimmerMain
                             : AppColors.transparent,
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ListTile(
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: false,
                         horizontalTitleGap: 0.0,
                         onTap: () {
@@ -935,19 +935,19 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     ),
                     decoration: BoxDecoration(
                       color: index == 21
-                          ? AppColors.blackl
+                          ? AppColors.shimmerMain
                           : AppColors.transparent,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: ListTile(
-                      selectedTileColor: AppColors.blackl,
+                      selectedTileColor: AppColors.shimmerMain,
                       selected: false,
                       horizontalTitleGap: 0.0,
                       onTap: () {
-                        CacheHelper.clearData();
+                        CacheService.clear();
                         Navigator.pushNamedAndRemoveUntil(
                           context,
-                          AppRouterNames.login,
+                          Routes.login.name,
                           (route) => false,
                         );
                       },

@@ -4,7 +4,7 @@
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 // import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
-// import 'package:jetboard/src/constants/constants_methods.dart';
+// import 'package:jetboard/src/core/utils/shared_methods.dart';
 // import 'package:jetboard/src/constants/constants_variables.dart';
 // import 'package:jetboard/src/data/models/area_model.dart';
 // import 'package:jetboard/src/data/network/requests/area_request.dart';
@@ -12,7 +12,7 @@
 // import 'package:sizer/sizer.dart';
 //
 // import '../../business_logic/global_cubit/global_cubit.dart';
-// import '../styles/app_colors.dart';
+// import 'package:jetboard/src/core/resources/app_colors.dart';
 // import '../widgets/default_app_button.dart';
 // import '../widgets/default_text_field.dart';
 //

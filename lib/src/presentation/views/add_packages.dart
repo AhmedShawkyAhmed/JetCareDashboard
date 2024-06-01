@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_text.dart';
@@ -7,15 +9,16 @@ import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
 import '../../business_logic/packages_cubit/packages_cubit.dart';
-import '../../constants/constants_methods.dart';
-import '../styles/app_colors.dart';
 import '../widgets/default_app_button.dart';
 
 class AddPackages extends StatefulWidget {
   final int packageId;
-  const AddPackages({super.key,
+
+  const AddPackages({
+    super.key,
     required this.packageId,
   });
+
   @override
   State<AddPackages> createState() => _AddPackagesState();
 }
@@ -54,13 +57,15 @@ class _AddPackagesState extends State<AddPackages> {
                 style: TextStyle(fontSize: 5.sp),
               ),
             ),
-            SizedBox(height: 1.h,),
+            SizedBox(
+              height: 1.h,
+            ),
             SizedBox(
               height: 55.h,
               width: 57.w,
               child: BlocBuilder<PackagesCubit, PackagesState>(
                 builder: (context, state) {
-                  if(cubitP.packageList.isEmpty){
+                  if (cubitP.packageList.isEmpty) {
                     return const Center(
                       child: DefaultText(text: "No Packages Found"),
                     );
@@ -192,7 +197,7 @@ class _AddPackagesState extends State<AddPackages> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 25.w,top: 1.h),
+              padding: EdgeInsets.only(left: 25.w, top: 1.h),
               child: DefaultAppButton(
                   width: 6.w,
                   height: 4.h,
@@ -203,7 +208,7 @@ class _AddPackagesState extends State<AddPackages> {
                   radius: 10,
                   gradientColors: const [
                     AppColors.green,
-                    AppColors.lightgreen,
+                    AppColors.lightGreen,
                   ],
                   fontSize: 4.sp,
                   title: 'Add',

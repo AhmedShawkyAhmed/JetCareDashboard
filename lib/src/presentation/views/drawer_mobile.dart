@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
-import 'package:jetboard/src/presentation/router/app_router_names.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/routing/routes.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerListMobile extends StatelessWidget {
@@ -74,16 +74,15 @@ class DrawerListMobile extends StatelessWidget {
     var cubit = GlobalCubit.get(context);
     return BackdropFilter(
       filter: ImageFilter.blur(
-            sigmaX: 2.0,
-            sigmaY: 2.0,
-          ),
+        sigmaX: 2.0,
+        sigmaY: 2.0,
+      ),
       child: Drawer(
         elevation: 0.0,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.green,
-            border: Border.all(color: AppColors.green)
-          ),
+              color: AppColors.green,
+              border: Border.all(color: AppColors.green)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -113,27 +112,27 @@ class DrawerListMobile extends StatelessWidget {
                   itemCount: titles.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 1.w, ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 1.w,
+                      ),
                       decoration: BoxDecoration(
                           color: index == cubit.selectedIndex
-                              ? AppColors.blackl
+                              ? AppColors.shimmerMain
                               : AppColors.transparent,
                           borderRadius: BorderRadius.circular(50)),
                       child: ListTile(
                         //selectedColor: AppColors.blackl,
-                        selectedTileColor: AppColors.blackl,
+                        selectedTileColor: AppColors.shimmerMain,
                         selected: index == cubit.selectedIndex,
                         horizontalTitleGap: 0.0,
                         onTap: () {
                           cubit.changeIndex(index);
-                          
                         },
                         leading: icons[index],
                         title: Text(
                           titles[index],
-                          style:
-                              TextStyle(fontSize: 15.sp, color: AppColors.white),
+                          style: TextStyle(
+                              fontSize: 15.sp, color: AppColors.white),
                         ),
                       ),
                     );
@@ -141,13 +140,22 @@ class DrawerListMobile extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(bottom: 1.h,left: 1.w),
+                padding: EdgeInsets.only(bottom: 1.h, left: 1.w),
                 child: ListTile(
-                  title: Text("Logout",style: TextStyle(fontSize: 15.sp,color: AppColors.white),),
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(fontSize: 15.sp, color: AppColors.white),
+                  ),
                   horizontalTitleGap: 0.0,
-                  leading: const Icon(Icons.logout,color: AppColors.white,),
+                  leading: const Icon(
+                    Icons.logout,
+                    color: AppColors.white,
+                  ),
                   onTap: () {
-                    Navigator.pushNamed(context, AppRouterNames.login);
+                    Navigator.pushNamed(
+                      context,
+                      Routes.login.name,
+                    );
                   },
                 ),
               )

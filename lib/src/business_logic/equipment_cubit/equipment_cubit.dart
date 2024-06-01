@@ -5,16 +5,16 @@ import 'package:jetboard/src/data/models/equipment_model.dart';
 import 'package:jetboard/src/data/network/requests/equipment_request.dart';
 import 'package:jetboard/src/data/network/responses/equipment_response.dart';
 
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import '../../presentation/widgets/toast.dart';
 
 part 'equipment_state.dart';
 
 class EquipmentCubit extends Cubit<EquipmentState> {
-  EquipmentCubit() : super(EquipmentInitial());
-
+  EquipmentCubit(this.networkService) : super(EquipmentInitial());
+  NetworkService networkService;
   static EquipmentCubit get(context) => BlocProvider.of(context);
 
   EquipmentRespons? getEquipmentResponse,
@@ -35,7 +35,7 @@ class EquipmentCubit extends Cubit<EquipmentState> {
     listCount= 0;
     try {
       emit(GetEquipmentLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getEquipment,
         query: {
           "keyword" : keyword,
@@ -65,7 +65,7 @@ class EquipmentCubit extends Cubit<EquipmentState> {
     getActiveEquipmentResponse=null;
     try {
       emit(GetActiveEquipmentLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getEquipment,
         query: {
           "keyword" : keyword,
@@ -98,7 +98,7 @@ class EquipmentCubit extends Cubit<EquipmentState> {
     printSuccess(equipmentRequest.name.toString());
     try {
       emit(AddEquipmentLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addEquipment,
         body: {
           'code': equipmentRequest.code,
@@ -125,7 +125,7 @@ class EquipmentCubit extends Cubit<EquipmentState> {
   Future deleteEquipment({required EquipmentModel equipmentModel}) async {
     try {
       emit(DeleteEquipmentLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteEquipment,
         body: {
           'id': equipmentModel.id,

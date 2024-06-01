@@ -1,16 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
-import 'package:jetboard/src/constants/end_points.dart';
-import 'package:jetboard/src/data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/states_response.dart';
 part 'states_state.dart';
 
 class StatesCubit extends Cubit<StatesState> {
-  StatesCubit() : super(StatesInitial());
+  StatesCubit(this.networkService) : super(StatesInitial());
+  NetworkService networkService;
   static StatesCubit get(context) => BlocProvider.of(context);
 
   List<String> statesList = [];
@@ -27,7 +28,7 @@ class StatesCubit extends Cubit<StatesState> {
   Future getAllStates({String? keyword}) async {
     try {
       emit(GetStatesLoading());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAllStates,
         query: {
           "keyword" : keyword,
@@ -55,7 +56,7 @@ class StatesCubit extends Cubit<StatesState> {
   }) async {
     try {
       emit(AddStatesLoading());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addState,
         body: {
           'nameEn': areaRequest.nameEn,
@@ -81,7 +82,7 @@ class StatesCubit extends Cubit<StatesState> {
   }) async {
     try {
       emit(UpdateStatesLoading());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.addState,
         body: {
           'id': areaRequest.id,
@@ -108,7 +109,7 @@ class StatesCubit extends Cubit<StatesState> {
   }) async {
     try {
       emit(DeleteStatesLoading());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteState,
         body: {
           'id': id,
@@ -134,7 +135,7 @@ class StatesCubit extends Cubit<StatesState> {
   }) async {
     try {
       emit(ChangeStatesLoading());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeStateStatus,
         body: {
           'id': id,

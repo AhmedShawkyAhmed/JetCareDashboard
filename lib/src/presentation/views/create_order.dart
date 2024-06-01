@@ -7,7 +7,7 @@ import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
-import 'package:jetboard/src/constants/constants_methods.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/models/cart_model.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
@@ -15,7 +15,7 @@ import 'package:jetboard/src/data/models/orders_model.dart';
 import 'package:jetboard/src/data/network/requests/address_request.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
@@ -56,7 +56,7 @@ class _CreateOrderState extends State<CreateOrder> {
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.teal,
-              primaryColorDark: Colors.teal,
+              // primaryColorDark: Colors.teal,
               accentColor: Colors.teal,
             ),
             dialogBackgroundColor: Colors.white,
@@ -131,7 +131,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             isGradient: !newClient,
                             gradientColors: const [
                               AppColors.green,
-                              AppColors.lightgreen,
+                              AppColors.lightGreen,
                             ],
                             fontSize: 3.sp,
                             title: "Current Client",
@@ -155,7 +155,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             isGradient: newClient,
                             gradientColors: const [
                               AppColors.green,
-                              AppColors.lightgreen,
+                              AppColors.lightGreen,
                             ],
                             fontSize: 3.sp,
                             title: "New Client",
@@ -366,7 +366,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                           haveShadow: false,
                                           horizontalPadding: 0,
                                           offset: const Offset(0, 0),
-                                          buttonColor: AppColors.pc,
+                                          buttonColor: AppColors.primary,
                                           textColor: AppColors.white,
                                           spreadRadius: 2,
                                           blurRadius: 2,
@@ -587,7 +587,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                                       fontSize: 3.sp,
                                                       textColor:
                                                           AppColors.white,
-                                                      buttonColor: AppColors.pc,
+                                                      buttonColor: AppColors.primary,
                                                       isGradient: false,
                                                       radius: 10,
                                                     ),
@@ -949,7 +949,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             height: 4.h,
                             fontSize: 3.sp,
                             textColor: AppColors.white,
-                            buttonColor: AppColors.pc,
+                            buttonColor: AppColors.primary,
                             isGradient: false,
                             radius: 10,
                           ),
@@ -1081,7 +1081,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                                 height: 4.h,
                                                 fontSize: 3.sp,
                                                 textColor: AppColors.white,
-                                                buttonColor: AppColors.pc,
+                                                buttonColor: AppColors.primary,
                                                 isGradient: false,
                                                 radius: 10,
                                               ),

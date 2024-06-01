@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 
 class DefaultDropdown<T> extends StatelessWidget {
   const DefaultDropdown({
@@ -66,7 +66,7 @@ class DefaultDropdown<T> extends StatelessWidget {
     var inputBorder = OutlineInputBorder(
       borderRadius: borderRadius ?? BorderRadius.circular(7).r,
       borderSide: BorderSide(
-        color: enabled ? AppColors.pc : const Color(0xff000000),
+        color: enabled ? AppColors.primary : const Color(0xff000000),
         width: 0.5,
       ),
     );
@@ -106,7 +106,7 @@ class DefaultDropdown<T> extends StatelessWidget {
                     style: dropdownTextStyle ??
                         TextStyle(
                           color: enabled
-                              ? AppColors.pc
+                              ? AppColors.primary
                               : const Color(0xff636363),
                           fontSize: 20.sp,
                         ),
@@ -134,13 +134,13 @@ class DefaultDropdown<T> extends StatelessWidget {
         icon: dropdownButtonBuilder ??
             Icon(
               Icons.keyboard_arrow_down,
-              color: enabled ? AppColors.pc : const Color(0xff636363),
+              color: enabled ? AppColors.primary : const Color(0xff636363),
               size: 20.r,
             ),
         selectedIcon: dropdownButtonBuilder ??
             Icon(
               Icons.keyboard_arrow_down,
-              color: enabled ? AppColors.pc : const Color(0xff636363),
+              color: enabled ? AppColors.primary : const Color(0xff636363),
               size: 20.r,
             ),
       ),
@@ -199,7 +199,7 @@ class DefaultDropdown<T> extends StatelessWidget {
                     style: selectedTextStyle ??
                         TextStyle(
                           color: enabled
-                              ? AppColors.pc
+                              ? AppColors.primary
                               : const Color(0xff636363),
                           fontSize: 20.sp,
                         ),

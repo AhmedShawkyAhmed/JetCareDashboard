@@ -1,20 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/role_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
-import '../../constants/constants_methods.dart';
-import '../../constants/end_points.dart';
-import '../../data/data_provider/remote/dio_helper.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/core/network/end_points.dart';
 import '../../presentation/widgets/toast.dart';
 part 'clients_state.dart';
 
 class ClientsCubit extends Cubit<ClientsState> {
-  ClientsCubit() : super(UsersCubitInitial());
-
+  ClientsCubit(this.networkService) : super(UsersCubitInitial());
+  NetworkService networkService;
   static ClientsCubit get(context) => BlocProvider.of(context);
   RoleResponse? roleResponse;
   GlobalResponse? globalResponse;
@@ -48,7 +48,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     listCount = 0;
     try {
       emit(UserLoadingState());
-      await DioHelper.getData(
+      await networkService.get(
         url: EndPoints.getAccounts,
         query: {
           "type": "client",
@@ -77,7 +77,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   }) async {
     try {
       emit(AddUserLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.register,
         body: {
           'name': userRequest.name,
@@ -110,7 +110,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   Future deleteClient({required UserModel userModel}) async {
     try {
       emit(DeleteUserLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.deleteAccount,
         body: {
           'id': userModel.id,
@@ -138,7 +138,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   }) async {
     try {
       emit(ChangeUserLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.changeAccountStatus,
         body: {
           'id': userRequest.id,
@@ -168,7 +168,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   }) async {
     try {
       emit(UpdateUserLoadingState());
-      await DioHelper.postData(
+      await networkService.post(
         url: EndPoints.updateAccount,
         body: {
           'id': userRequest.id,
@@ -207,7 +207,7 @@ class ClientsCubit extends Cubit<ClientsState> {
   }) async {
     try {
       emit(UserCommentLoadingState());
-      await DioHelper.postData(url: EndPoints.userAdminComment, body: {
+      await networkService.post(url: EndPoints.userAdminComment, body: {
         'id': userId,
         'comment': comment,
       }).then((value) {

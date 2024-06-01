@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/presentation/router/app_router_names.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/routing/routes.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
 import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
@@ -16,7 +16,7 @@ class LoginMobileScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: AppColors.blackl,
+          color: AppColors.shimmerMain,
           child: SingleChildScrollView(
             child: Stack(
               children: [
@@ -112,13 +112,14 @@ class LoginMobileScreen extends StatelessWidget {
                                 title: 'Sign In',
                                 onTap: () {
                                   Navigator.pushReplacementNamed(
-                                      context, AppRouterNames.layout);
+                                      context,
+                                    Routes.layout.name,);
                                 },
                                 fontSize: 15.sp,
                                 textColor: AppColors.white,
                                 gradientColors: const [
                                   AppColors.green,
-                                  AppColors.lightgreen,
+                                  AppColors.lightGreen,
                                 ],
                               )
                             ],

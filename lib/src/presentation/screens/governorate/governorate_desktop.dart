@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
-import 'package:jetboard/src/presentation/styles/app_colors.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
@@ -84,7 +84,7 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                       radius: 10,
                       gradientColors: const [
                         AppColors.green,
-                        AppColors.lightgreen,
+                        AppColors.lightGreen,
                       ],
                       fontSize: 4.sp,
                       haveShadow: false,
@@ -144,7 +144,7 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                                   height: 4.h,
                                   fontSize: 3.sp,
                                   textColor: AppColors.white,
-                                  buttonColor: AppColors.pc,
+                                  buttonColor: AppColors.primary,
                                   isGradient: false,
                                   radius: 10,
                                 ),
@@ -291,7 +291,7 @@ class _GovernorateDesktopState extends State<GovernorateDesktop> {
                                     ? true
                                     : false,
                                 activeColor: AppColors.green,
-                                activeTrackColor: AppColors.lightgreen,
+                                activeTrackColor: AppColors.lightGreen,
                                 inactiveThumbColor: AppColors.red,
                                 inactiveTrackColor: AppColors.lightGrey,
                                 splashRadius: 3.0,
