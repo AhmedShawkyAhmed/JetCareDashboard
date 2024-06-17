@@ -218,7 +218,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                     fontSize: 20.sp,
                     title: "Save",
                     onTap: () {
-                      IndicatorView.showIndicator(context);
+                      IndicatorView.showIndicator();
                       CalenderCubit.get(context).createCalenderPeriod(
                         calenderRequest: CalenderRequest(
                           areaId: widget.calenderModel.areas!.isNotEmpty

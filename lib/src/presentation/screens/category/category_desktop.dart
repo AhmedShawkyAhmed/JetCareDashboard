@@ -999,7 +999,7 @@ class _CategoryDesktopState extends State<CategoryDesktop> {
                                           },
                                         );
                                       } else if (item == SampleItem.addItems) {
-                                        IndicatorView.showIndicator(context);
+                                        IndicatorView.showIndicator();
                                         GlobalCubit.get(context)
                                             .getItemsForPackages(
                                                 afterSuccess: () {

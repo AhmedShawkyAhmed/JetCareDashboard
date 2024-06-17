@@ -212,7 +212,7 @@ class _ClientsDesktopState extends State<ClientsDesktop> {
                                         DefaultToast.showMyToast(
                                             "Please Enter Password more than 8 Characters");
                                       } else {
-                                        IndicatorView.showIndicator(context);
+                                        IndicatorView.showIndicator();
                                         userCubit.addClient(
                                           userRequest: UserRequset(
                                             name: fullName.text,
@@ -435,7 +435,7 @@ class _ClientsDesktopState extends State<ClientsDesktop> {
                                 // IconButton(
                                 //   onPressed: () {
                                 //     int clientId = userCubit.clinetList[index].id;
-                                //     IndicatorView.showIndicator(context);
+                                //     IndicatorView.showIndicator();
                                 //     // userCubit.getArea(
                                 //     //   crewId: clientId,
                                 //     //   afterSuccess: () {
@@ -550,7 +550,7 @@ class _ClientsDesktopState extends State<ClientsDesktop> {
                                                   DefaultToast.showMyToast(
                                                       "Please Enter Correct Email Address");
                                                 } else {
-                                                  IndicatorView.showIndicator(context);
+                                                  IndicatorView.showIndicator();
                                                   userCubit.updateClient(
                                                     userRequest: UserRequset(
                                                       id: userCubit.clinetList[index].id,

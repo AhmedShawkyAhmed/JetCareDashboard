@@ -18,10 +18,10 @@ import 'package:jetboard/src/presentation/screens/equipment/equipment.dart';
 import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule.dart';
 import 'package:jetboard/src/presentation/screens/extras/extras.dart';
 import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
-import 'package:jetboard/src/presentation/screens/home/home.dart';
+import 'package:jetboard/src/features/home/ui/screens/home.dart';
 import 'package:jetboard/src/presentation/screens/info/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
-import 'package:jetboard/src/presentation/screens/login/login.dart';
+import 'package:jetboard/src/features/auth/ui/screens/login.dart';
 import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
 import 'package:jetboard/src/presentation/screens/notifications/notifications.dart';
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
@@ -52,7 +52,6 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   PackagesResponse? packagesResponse;
   ItemsResponse? getItemsResponse, itemsResponse;
-  StatisticsResponse? statisticsResponse;
   CrewAreaResponse? crewAreaResponse;
   UserResponse? userResponse;
   int listCount = 0;
@@ -166,27 +165,6 @@ class GlobalCubit extends Cubit<GlobalState> {
     }
   }
 
-  Future getStatistics(
-      {String? month, String? year, required VoidCallback afterSuccess}) async {
-    try {
-      emit(StatisticsLoadingState());
-      await networkService.get(url: EndPoints.getStatistics, query: {
-        "month": month ?? DateTime.now().month.toString(),
-        "year": year ?? DateTime.now().year.toString(),
-      }).then((value) {
-        printResponse(value.data.toString());
-        statisticsResponse = StatisticsResponse.fromJson(value.data);
-        emit(StatisticsSuccessState());
-        afterSuccess();
-      });
-    } on DioError catch (n) {
-      emit(StatisticsErrorState());
-      printError(n.toString());
-    } catch (e) {
-      emit(StatisticsErrorState());
-      printError(e.toString());
-    }
-  }
 
   Future getItems() async {
     try {

@@ -764,7 +764,7 @@ class _CreateOrderState extends State<CreateOrder> {
                               } else if (cartItemsIds.isEmpty) {
                                 DefaultToast.showMyToast("Please Select Items");
                               } else {
-                                IndicatorView.showIndicator(context);
+                                IndicatorView.showIndicator();
                                 ClientsCubit.get(context).addClient(
                                   userRequest: UserRequset(
                                     phone: phoneController.text,
@@ -885,7 +885,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                 DefaultToast.showMyToast("Please Select Items");
                               }else{
 
-                                IndicatorView.showIndicator(context);
+                                IndicatorView.showIndicator();
                                 for (int c = 0;
                                 c < cartItemsIds.length;
                                 c++) {

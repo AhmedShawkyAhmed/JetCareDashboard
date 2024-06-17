@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/business_logic/auth_cubit/auth_cubit.dart';
 import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
 import 'package:jetboard/src/core/services/cache_service.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
@@ -103,11 +102,6 @@ class _SettingsDesktopState extends State<SettingsDesktop> {
                                   //     key: SharedPreferenceKeys.fcm,
                                   //     value: pushToken.toString());
                                   // } else {
-                                  AuthCubit.get(context).updateFCM(
-                                      id: CacheService
-                                          .get(
-                                              key: "id"),
-                                      fcm: "empty");
                                   // CacheHelper.saveDataSharedPreference(
                                   //     key: SharedPreferenceKeys.fcm,
                                   //     value: "empty");

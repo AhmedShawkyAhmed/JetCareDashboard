@@ -99,7 +99,7 @@ class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
                       haveShadow: false,
                       title: "Add",
                       onTap: () {
-                        IndicatorView.showIndicator(context);
+                        IndicatorView.showIndicator();
                         EquipmentCubit.get(context).getActiveEquipment(
                             afterSuccess: () {
                           GlobalCubit.get(context).getUser(

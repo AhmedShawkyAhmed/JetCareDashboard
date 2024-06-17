@@ -240,7 +240,7 @@ class _CorporatesDesktopState extends State<CorporatesDesktop> {
                                           DefaultToast.showMyToast(
                                               "Please Select Service");
                                         } else {
-                                          IndicatorView.showIndicator(context);
+                                          IndicatorView.showIndicator();
                                           CorporatesCubit.get(context)
                                               .corporateOrder(
                                             corporateRequest: CorporateRequest(

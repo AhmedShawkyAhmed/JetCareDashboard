@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:sizer/sizer.dart';
 
 class IndicatorView {
-  static Future showIndicator(BuildContext context) async {
+  static Future showIndicator() async {
     showDialog<void>(
       barrierDismissible: false,
-      context: context,
+      context: NavigationService.context,
       builder: (BuildContext context) {
         return Center(
           child: SizedBox(
-            width: 5.w,
-            height: 5.w,
+            width: 20.w,
+            height: 20.w,
             child: const CircularProgressIndicator(
-              color: AppColors.green,
+              color: AppColors.primary,
             ),
           ),
         );

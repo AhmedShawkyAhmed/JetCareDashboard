@@ -213,7 +213,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                         DefaultToast.showMyToast(
                                             "Please Enter Password more than 8 Characters");
                                       } else {
-                                        IndicatorView.showIndicator(context);
+                                        IndicatorView.showIndicator();
                                         crewCubit.addCrew(
                                           userRequest: UserRequset(
                                             name: fullName.text,
@@ -435,7 +435,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                 IconButton(
                                   onPressed: () {
                                     int crewId = crewCubit.crewList[index].id;
-                                    IndicatorView.showIndicator(context);
+                                    IndicatorView.showIndicator();
                                     CrewCubit.get(context).getArea(
                                       crewId: crewId,
                                       afterSuccess: () {
@@ -553,7 +553,7 @@ class _CrewsDesktopState extends State<CrewsDesktop> {
                                                   DefaultToast.showMyToast(
                                                       "Please Enter Correct Email Address");
                                                 } else {
-                                                  IndicatorView.showIndicator(context);
+                                                  IndicatorView.showIndicator();
                                                   crewCubit.updateCrew(
                                                     userRequest: UserRequset(
                                                       id: crewCubit.crewList[index].id,

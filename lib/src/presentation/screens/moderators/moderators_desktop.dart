@@ -212,7 +212,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                         DefaultToast.showMyToast(
                                             "Please Enter Password more than 8 Characters");
                                       } else {
-                                        IndicatorView.showIndicator(context);
+                                        IndicatorView.showIndicator();
                                         moderatorCubit.addModerator(
                                           userRequest: UserRequset(
                                             name: fullName.text,
@@ -553,7 +553,7 @@ class _ModeratorsDesktopState extends State<ModeratorsDesktop> {
                                                   DefaultToast.showMyToast(
                                                       "Please Enter Correct Email Address");
                                                 } else {
-                                                  IndicatorView.showIndicator(context);
+                                                  IndicatorView.showIndicator();
                                                   moderatorCubit.updateCrew(
                                                     userRequest: UserRequset(
                                                       id: moderatorCubit.moderatorList[index].id,

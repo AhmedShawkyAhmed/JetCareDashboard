@@ -6,7 +6,23 @@ class EndPoints {
   static const baseUrl = "https://api.jetcareeg.net/api/";
   static const imageDomain = "https://api.jetcareeg.net/public/images/";
 
-  static const getStatistics = "getStatistics";
+  // -------------------------- New API
+  // ------------------- Auth
+  static const login = "dashboard/login";
+  static const updateFCM = "update_fcm";
+  static const profile = "profile";
+  static const tabAccess = "get_access";
+  static const logout = "logout";
+
+  // ------------------- Home
+  static const getStatistics = "get_statistics";
+
+
+
+
+
+
+
   static const adminLogin = "adminLogin";
   static const register = "register";
   static const updateAccount = "updateAccount";
@@ -31,7 +47,6 @@ class EndPoints {
   static const userAdminComment = "userAdminComment";
   static const changeAdsStatus = "changeAdStatus";
   static const getAllAds = "getAllAds";
-  static const updateFCM = "updateFCM";
   static const notifyUser = "notifyUser";
   static const notifyAll = "notifyAll";
   static const saveNotification = "saveNotification";

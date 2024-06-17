@@ -98,11 +98,11 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                   printResponse(registerAreaId.toString());
                 }
               } else if (widget.type == "year") {
-                GlobalCubit.get(context).getStatistics(
-                  month: (selectedMonth + 1).toString(),
-                  year: value,
-                  afterSuccess: () {},
-                );
+                // GlobalCubit.get(context).getStatistics(
+                //   month: (selectedMonth + 1).toString(),
+                //   year: value,
+                //   afterSuccess: () {},
+                // );
                 year = value;
               } else if (widget.type == "status") {
                 OrdersCubit.get(context).updateOrderStatus(

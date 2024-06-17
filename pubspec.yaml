@@ -37,28 +37,24 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.8
   dio: ^5.4.3+1
   bloc: ^8.1.4
-  flutter_bloc: ^8.1.5
+  flutter_bloc: ^8.1.6
   get_it: ^7.7.0
   shared_preferences: ^2.2.3
   shimmer: ^3.0.0
-  fluttertoast: ^8.2.5
+  fluttertoast: ^8.2.6
   sizer: ^2.0.15
   responsive_builder: ^0.7.0
-#  flutter_svg: ^1.1.6
   image_picker: ^1.1.2
-  file_picker: ^8.0.3
-#  http: ^0.13.5
-#  http_parser: ^4.0.2
+  file_picker: ^8.0.5
   intl: ^0.19.0
   percent_indicator: ^4.2.3
   dropdown_search: ^5.0.6
-  flutter_screenutil: ^5.7.0
-#  date_time_picker: ^2.1.0
-  firebase_core: ^2.31.1
-  firebase_messaging: ^14.9.3
+  flutter_screenutil: ^5.9.3
+  firebase_core: ^3.1.0
+  firebase_messaging: ^15.0.1
   flutter_local_notifications: ^17.1.2
   retrofit: ^4.1.0
   json_annotation: ^4.9.0
@@ -78,7 +74,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_launcher_icons: 0.13.1
   retrofit_generator: ^8.1.0
-  build_runner: ^2.4.10
+  build_runner: ^2.4.11
   json_serializable: ^6.8.0
   freezed: ^2.5.2
 

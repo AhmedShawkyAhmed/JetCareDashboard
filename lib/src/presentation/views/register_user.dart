@@ -145,7 +145,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             DefaultToast.showMyToast(
                                 "Please Enter Password more than 8 Characters");
                           } else {
-                            IndicatorView.showIndicator(context);
+                            IndicatorView.showIndicator();
                             ClientsCubit.get(context).addClient(
                               userRequest: UserRequset(
                                 name: fullName.text,
