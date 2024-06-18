@@ -126,7 +126,7 @@ class DrawerListMobile extends StatelessWidget {
                         selected: index == cubit.selectedIndex,
                         horizontalTitleGap: 0.0,
                         onTap: () {
-                          cubit.changeIndex(index);
+
                         },
                         leading: icons[index],
                         title: Text(

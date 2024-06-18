@@ -65,36 +65,6 @@ class GlobalCubit extends Cubit<GlobalState> {
   List<UserModel> users = [];
   List<ItemsModel> itemListForPackages = [];
 
-  List<Widget> pages = [
-    const Home(),
-    const Orders(),
-    const Corporates(),
-    const Users(),
-    const Moderators(),
-    const Crews(),
-    const Calender(),
-    const Category(),
-    const Packages(),
-    const Items(),
-    const CorporateItems(),
-    const ExtrasItems(),
-    const Equipment(),
-    const EquipmentSchedule(),
-    const Ads(),
-    const Governorate(),
-    const Area(),
-    const Periods(),
-    const Support(),
-    const Notifications(),
-    const Info(),
-    //const Settings(),
-    const Login(),
-  ];
-
-  void changeIndex(int index) {
-    selectedIndex = index;
-    emit(AppChangeSideNavBarState());
-  }
 
   void isShadowE() {
     isShadow = !isShadow;
