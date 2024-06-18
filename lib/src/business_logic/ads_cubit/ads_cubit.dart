@@ -9,7 +9,7 @@ import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/ads_model.dart';
 import 'package:jetboard/src/data/network/requests/ads_request.dart';
 import 'package:jetboard/src/data/network/responses/ads_response.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 part 'ads_state.dart';
 

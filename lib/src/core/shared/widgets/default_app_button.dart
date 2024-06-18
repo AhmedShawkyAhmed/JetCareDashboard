@@ -45,8 +45,8 @@ class DefaultAppButton extends StatelessWidget {
     this.isGradient = true,
     this.haveShadow = false,
     this.horizontalPadding,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 class MonthItem extends StatelessWidget {

@@ -6,13 +6,13 @@ import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/moderator_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../views/loading_view.dart';
-import '../../widgets/default_app_button.dart';
-import '../../widgets/default_text.dart';
-import '../../widgets/default_text_field.dart';
+import '../../../core/shared/widgets/default_app_button.dart';
+import '../../../core/shared/widgets/default_text.dart';
+import '../../../core/shared/widgets/default_text_field.dart';
 
 class ModeratorsDesktop extends StatefulWidget {
   const ModeratorsDesktop({super.key});

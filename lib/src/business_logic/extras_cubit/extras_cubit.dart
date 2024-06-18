@@ -8,7 +8,7 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/network/requests/items_request.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 part 'extras_state.dart';
 

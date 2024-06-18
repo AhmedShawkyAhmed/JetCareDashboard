@@ -5,16 +5,16 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/calender_model.dart';
 import 'package:jetboard/src/data/network/requests/calender_request.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
-import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 import '../../data/models/area_model.dart';
 import '../../data/models/period_model.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import '../widgets/default_dropdown.dart';
-import '../widgets/default_text.dart';
+import '../../core/shared/widgets/default_dropdown.dart';
+import '../../core/shared/widgets/default_text.dart';
 
 class CreateCalenderView extends StatefulWidget {
   final CalenderModel calenderModel;

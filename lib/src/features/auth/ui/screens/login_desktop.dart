@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
-import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginDesktop extends StatefulWidget {

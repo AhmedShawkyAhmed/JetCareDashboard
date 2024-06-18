@@ -8,7 +8,7 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/corporate_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 import '../../data/models/corporates_model.dart';
 import '../../data/network/responses/corporates_response.dart';

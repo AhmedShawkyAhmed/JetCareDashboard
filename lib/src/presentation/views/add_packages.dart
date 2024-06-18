@@ -4,12 +4,12 @@ import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
 import '../../business_logic/packages_cubit/packages_cubit.dart';
-import '../widgets/default_app_button.dart';
+import '../../core/shared/widgets/default_app_button.dart';
 
 class AddPackages extends StatefulWidget {
   final int packageId;

@@ -9,7 +9,7 @@ import 'package:jetboard/src/data/network/requests/support_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/support_response.dart';
 
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'support_state.dart';
 

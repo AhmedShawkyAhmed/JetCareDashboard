@@ -9,7 +9,7 @@ import 'package:jetboard/src/data/network/requests/info_request.dart';
 import 'package:jetboard/src/data/network/responses/info_response.dart';
 import 'package:jetboard/src/data/network/responses/type_response.dart';
 
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 part 'info_state.dart';
 
 class InfoCubit extends Cubit<InfoState> {

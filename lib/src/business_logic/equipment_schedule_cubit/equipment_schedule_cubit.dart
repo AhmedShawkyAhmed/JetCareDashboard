@@ -7,7 +7,7 @@ import 'package:jetboard/src/data/network/responses/equipment_schedule_responses
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/network_service.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'equipment_schedule_state.dart';
 

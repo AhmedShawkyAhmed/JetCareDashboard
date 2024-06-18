@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:sizer/sizer.dart';
 
 class PercentItem extends StatelessWidget {
+  final String title;
+  final num percent, total;
+  final double cWidth;
+  final Color color;
+
   const PercentItem({
     required this.title,
     required this.percent,
     required this.total,
     required this.cWidth,
     required this.color,
-    Key? key,
-  }) : super(key: key);
-
-  final String title;
-  final num percent, total;
-  final double cWidth;
-  final Color color;
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +34,14 @@ class PercentItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width:5.w,
+                width: 5.w,
                 child: DefaultText(
                   text: title,
                   fontSize: 3.sp,
                 ),
               ),
               SizedBox(
-                width:15.w,
+                width: 15.w,
                 child: DefaultText(
                   text: "$percent / $total",
                   fontSize: 3.sp,
@@ -54,7 +54,7 @@ class PercentItem extends StatelessWidget {
         LinearPercentIndicator(
           width: cWidth,
           lineHeight: 1.5.h,
-          percent: (percent / (total == 0?1:total)).toDouble(),
+          percent: (percent / (total == 0 ? 1 : total)).toDouble(),
           progressColor: color,
           animation: true,
           animateFromLastPercent: true,

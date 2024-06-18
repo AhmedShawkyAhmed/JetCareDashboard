@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';

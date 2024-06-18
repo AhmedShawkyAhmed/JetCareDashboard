@@ -7,7 +7,7 @@ import '../../business_logic/category_cubit/category_cubit.dart';
 import '../../business_logic/period_cubit/period_cubit.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import '../widgets/default_app_button.dart';
+import '../../core/shared/widgets/default_app_button.dart';
 
 class AddPeriod extends StatefulWidget {
   int? periodId;

@@ -5,8 +5,8 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
 import 'package:jetboard/src/presentation/views/add_category_items.dart';
 import 'package:jetboard/src/presentation/views/add_packages.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
-import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../business_logic/category_cubit/category_cubit.dart';
@@ -17,8 +17,8 @@ import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../views/view_category_items.dart';
 import '../../views/view_packages.dart';
-import '../../widgets/default_app_button.dart';
-import '../../widgets/default_text_field.dart';
+import '../../../core/shared/widgets/default_app_button.dart';
+import '../../../core/shared/widgets/default_text_field.dart';
 
 class CategoryDesktop extends StatefulWidget {
   const CategoryDesktop({super.key});

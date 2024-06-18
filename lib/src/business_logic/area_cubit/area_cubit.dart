@@ -7,7 +7,7 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/network/requests/area_request.dart';
 import 'package:jetboard/src/data/network/responses/area_response.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'area_state.dart';
 

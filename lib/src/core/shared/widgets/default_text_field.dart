@@ -62,7 +62,7 @@ class DefaultTextField extends StatelessWidget {
     this.bottom,
     this.radius,
     this.keyboardType,
-    Key? key,
+    super.key,
     this.shadowColor,
     this.spreadRadius,
     this.blurRadius,
@@ -70,7 +70,7 @@ class DefaultTextField extends StatelessWidget {
     this.onChange,
     required this.password,
     required this.haveShadow,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

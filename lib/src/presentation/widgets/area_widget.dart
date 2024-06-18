@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/crew_cubit/crew_cubit.dart';
-import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/data/models/area_model.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 class AreaWidget extends StatefulWidget {
@@ -13,8 +13,8 @@ class AreaWidget extends StatefulWidget {
   const AreaWidget({
     required this.area,
     required this.crewId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AreaWidget> createState() => _AreaWidgetState();
@@ -65,9 +65,9 @@ class _AreaWidgetState extends State<AreaWidget> {
                             setState(() {
                               CrewCubit.get(context).crewAreasIds.remove(
                                   CrewCubit.get(context).crewAreasIds[
-                                  CrewCubit.get(context)
-                                      .areaIds
-                                      .indexOf(widget.area.id!)]);
+                                      CrewCubit.get(context)
+                                          .areaIds
+                                          .indexOf(widget.area.id!)]);
                               CrewCubit.get(context)
                                   .areaIds
                                   .remove(widget.area.id);

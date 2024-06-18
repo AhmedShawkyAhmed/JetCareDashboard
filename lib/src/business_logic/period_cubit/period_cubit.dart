@@ -8,7 +8,7 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/network_service.dart';
 import '../../data/models/period_model.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'period_state.dart';
 

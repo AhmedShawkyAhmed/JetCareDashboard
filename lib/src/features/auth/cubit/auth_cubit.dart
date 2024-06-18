@@ -16,8 +16,8 @@ import 'package:jetboard/src/features/auth/data/models/user_model.dart';
 import 'package:jetboard/src/features/auth/data/repo/auth_repo.dart';
 import 'package:jetboard/src/features/auth/data/requests/fcm_request.dart';
 import 'package:jetboard/src/features/auth/data/requests/login_request.dart';
-import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 part 'auth_state.dart';
 

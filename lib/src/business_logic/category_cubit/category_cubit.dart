@@ -10,7 +10,7 @@ import 'package:jetboard/src/data/network/requests/category_request.dart';
 
 import '../../data/models/packages_model.dart';
 import '../../data/network/responses/category_response.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'category_state.dart';
 

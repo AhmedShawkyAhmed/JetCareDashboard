@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/data/models/notification_model.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/views/endDrawer_notification.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
-import 'package:jetboard/src/presentation/widgets/default_text_field.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
 
 class NotificationsDesktop extends StatefulWidget {
@@ -25,8 +24,6 @@ class _NotificationsDesktopState extends State<NotificationsDesktop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerScrimColor: AppColors.transparent,
-      endDrawer: EndDrawerWidgetNotification(),
       backgroundColor: AppColors.green,
       body: Container(
         height: 100.h,

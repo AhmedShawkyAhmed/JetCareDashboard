@@ -7,7 +7,7 @@ import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/presentation/views/home_card.dart';
 import 'package:jetboard/src/presentation/views/month_item.dart';
 import 'package:jetboard/src/presentation/widgets/circular_item.dart';
-import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
+import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeDesktop extends StatefulWidget {

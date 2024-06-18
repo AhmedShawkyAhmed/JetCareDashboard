@@ -12,7 +12,7 @@ import 'package:jetboard/src/data/network/responses/package_details_response.dar
 import '../../data/models/packages_model.dart';
 import '../../data/network/requests/packages_request.dart';
 import '../../data/network/responses/packages_response.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'packages_state.dart';
 

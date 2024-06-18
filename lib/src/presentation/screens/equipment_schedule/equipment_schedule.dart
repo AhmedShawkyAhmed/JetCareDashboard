@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule_desktop.dart';
-import 'package:jetboard/src/core/shared/mobile.dart';
+import 'package:jetboard/src/core/shared/views/mobile.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class EquipmentSchedule extends StatelessWidget {

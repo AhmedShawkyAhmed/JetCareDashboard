@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
-import 'package:jetboard/src/presentation/widgets/percent_item.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/percent_item.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeCard extends StatelessWidget {

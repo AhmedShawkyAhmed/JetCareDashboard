@@ -9,7 +9,7 @@ import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 part 'crew_state.dart';
 

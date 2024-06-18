@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 class ModeratorWidget extends StatefulWidget {
@@ -10,22 +10,30 @@ class ModeratorWidget extends StatefulWidget {
   final String name;
   final String columnKey;
   final bool isMine;
-  int value = 0;
+  final int value;
 
-  ModeratorWidget({
+  const ModeratorWidget({
     required this.id,
     required this.name,
     required this.columnKey,
-    required this.value,
     required this.isMine,
-    Key? key,
-  }) : super(key: key);
+    this.value = 0,
+    super.key,
+  });
 
   @override
   State<ModeratorWidget> createState() => _ModeratorWidgetState();
 }
 
 class _ModeratorWidgetState extends State<ModeratorWidget> {
+  int value = 0;
+
+  @override
+  void initState() {
+    value = widget.value;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -38,7 +46,11 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
             borderRadius: BorderRadius.circular(5),
             color: AppColors.white,
             border: Border.all(
-              color: widget.name == "" ? AppColors.white : widget.value == 1?AppColors.primary:AppColors.red,
+              color: widget.name == ""
+                  ? AppColors.white
+                  : value == 1
+                      ? AppColors.primary
+                      : AppColors.red,
             ),
           ),
           child: widget.name == ""
@@ -51,47 +63,49 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
                       child: DefaultText(
                         text: widget.name,
                         fontSize: 2.5.sp,
-                        align: widget.isMine == false?TextAlign.start:TextAlign.center,
+                        align: widget.isMine == false
+                            ? TextAlign.start
+                            : TextAlign.center,
                       ),
                     ),
-                    if(widget.isMine == false)
-                    BlocBuilder<ModeratorCubit, ModeratorState>(
-                      builder: (context, state) {
-                        return Switch(
-                          value: widget.value == 1 ? true : false,
-                          activeColor: AppColors.green,
-                          activeTrackColor: AppColors.lightGreen,
-                          inactiveThumbColor: AppColors.red,
-                          inactiveTrackColor: AppColors.lightGrey,
-                          splashRadius: 3.0,
-                          onChanged: (value) {
-                            if (value) {
-                              ModeratorCubit.get(context).updateAccess(
-                                key: widget.columnKey,
-                                value: 1,
-                                id: widget.id,
-                                afterSuccess: () {
-                                  setState(() {
-                                    widget.value = 1;
-                                  });
-                                },
-                              );
-                            } else {
-                              ModeratorCubit.get(context).updateAccess(
-                                key: widget.columnKey,
-                                value: 0,
-                                id: widget.id,
-                                afterSuccess: () {
-                                  setState(() {
-                                    widget.value = 0;
-                                  });
-                                },
-                              );
-                            }
-                          },
-                        );
-                      },
-                    ),
+                    if (widget.isMine == false)
+                      BlocBuilder<ModeratorCubit, ModeratorState>(
+                        builder: (context, state) {
+                          return Switch(
+                            value: value == 1 ? true : false,
+                            activeColor: AppColors.green,
+                            activeTrackColor: AppColors.lightGreen,
+                            inactiveThumbColor: AppColors.red,
+                            inactiveTrackColor: AppColors.lightGrey,
+                            splashRadius: 3.0,
+                            onChanged: (val) {
+                              if (val) {
+                                ModeratorCubit.get(context).updateAccess(
+                                  key: widget.columnKey,
+                                  value: 1,
+                                  id: widget.id,
+                                  afterSuccess: () {
+                                    setState(() {
+                                      value = 1;
+                                    });
+                                  },
+                                );
+                              } else {
+                                ModeratorCubit.get(context).updateAccess(
+                                  key: widget.columnKey,
+                                  value: 0,
+                                  id: widget.id,
+                                  afterSuccess: () {
+                                    setState(() {
+                                      value = 0;
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
                   ],
                 ),
         ),

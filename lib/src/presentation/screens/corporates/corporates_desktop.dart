@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/corporate_request.dart';
-import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
-import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/Corporates_cubit/corporates_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../views/loading_view.dart';
 import '../../views/row_data.dart';
-import '../../widgets/default_text_field.dart';
+import '../../../core/shared/widgets/default_text_field.dart';
 
 class CorporatesDesktop extends StatefulWidget {
   const CorporatesDesktop({super.key});

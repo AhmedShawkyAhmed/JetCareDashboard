@@ -6,15 +6,15 @@ import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/create_order.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/presentation/views/view_orders_detales.dart';
-import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_dropdown.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
-import 'package:jetboard/src/presentation/widgets/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../core/constants/constants_variables.dart';
 import '../../views/loading_view.dart';
-import '../../widgets/default_text_field.dart';
+import '../../../core/shared/widgets/default_text_field.dart';
 
 class OrdersDesktop extends StatefulWidget {
   const OrdersDesktop({super.key});

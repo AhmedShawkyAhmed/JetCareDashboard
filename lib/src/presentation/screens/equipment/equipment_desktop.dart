@@ -6,11 +6,11 @@ import 'package:jetboard/src/data/network/requests/equipment_request.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/presentation/widgets/default_app_button.dart';
-import 'package:jetboard/src/presentation/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../widgets/default_text_field.dart';
+import '../../../core/shared/widgets/default_text_field.dart';
 
 class EquipmentsDesktop extends StatefulWidget {
   const EquipmentsDesktop({super.key});

@@ -10,7 +10,7 @@ import 'package:jetboard/src/data/network/responses/itemsType_response.dart';
 import 'package:jetboard/src/data/network/responses/items_response.dart';
 
 import 'package:jetboard/src/core/utils/shared_methods.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 
 part 'items_state.dart';
 

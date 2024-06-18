@@ -5,7 +5,7 @@ import 'package:jetboard/src/core/resources/app_colors.dart';
 
 class DefaultDropdown<T> extends StatelessWidget {
   const DefaultDropdown({
-    Key? key,
+    super.key,
     required this.items,
     this.selectedItem,
     this.hint,
@@ -33,7 +33,8 @@ class DefaultDropdown<T> extends StatelessWidget {
     this.selectedLeadingWidget,
     this.dropdownLeadingWidget,
     this.onBeforeChange,
-  }) : super(key: key);
+  });
+
   final List<T> items;
   final T? selectedItem;
   final String? hint;
@@ -117,8 +118,8 @@ class DefaultDropdown<T> extends StatelessWidget {
           ),
         ),
         menuProps: MenuProps(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7).r),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(7).r),
         ),
         constraints: BoxConstraints(
           maxHeight: maxHeight ??

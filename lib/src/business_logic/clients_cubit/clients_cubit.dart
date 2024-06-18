@@ -9,7 +9,7 @@ import 'package:jetboard/src/data/network/responses/role_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
-import '../../presentation/widgets/toast.dart';
+import '../../core/shared/widgets/toast.dart';
 part 'clients_state.dart';
 
 class ClientsCubit extends Cubit<ClientsState> {

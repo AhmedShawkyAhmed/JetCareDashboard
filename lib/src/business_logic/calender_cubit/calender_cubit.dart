@@ -6,7 +6,7 @@ import 'package:jetboard/src/data/models/calender_model.dart';
 import 'package:jetboard/src/data/network/requests/calender_request.dart';
 import 'package:jetboard/src/data/network/responses/calender_response.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
-import 'package:jetboard/src/presentation/widgets/toast.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/network/end_points.dart';

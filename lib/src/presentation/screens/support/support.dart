@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/core/shared/mobile.dart';
+import 'package:jetboard/src/core/shared/views/mobile.dart';
 import 'package:jetboard/src/presentation/screens/support/support_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

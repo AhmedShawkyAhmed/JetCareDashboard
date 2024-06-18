@@ -25,8 +25,8 @@ class DefaultText extends StatelessWidget {
     this.onTap,
     this.align,
     this.letterSpacing = 0.0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
