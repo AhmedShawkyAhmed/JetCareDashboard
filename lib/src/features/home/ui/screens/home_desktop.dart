@@ -4,9 +4,9 @@ import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
-import 'package:jetboard/src/presentation/views/home_card.dart';
-import 'package:jetboard/src/presentation/views/month_item.dart';
-import 'package:jetboard/src/presentation/widgets/circular_item.dart';
+import 'package:jetboard/src/features/home/ui/views/home_card.dart';
+import 'package:jetboard/src/core/shared/views/month_item.dart';
+import 'package:jetboard/src/features/home/ui/widgets/circular_item.dart';
 import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
 import 'package:sizer/sizer.dart';
 

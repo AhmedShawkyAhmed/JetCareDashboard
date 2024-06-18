@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
 import '../../business_logic/period_cubit/period_cubit.dart';
-import 'package:jetboard/src/core/utils/shared_methods.dart';
-import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../core/shared/widgets/default_app_button.dart';
 
 class AddPeriod extends StatefulWidget {
-  int? periodId;
-  AddPeriod({super.key, 
+  final int? periodId;
+
+  const AddPeriod({
+    super.key,
     this.periodId,
   });
+
   @override
   State<AddPeriod> createState() => _AddPeriodState();
 }
@@ -52,7 +55,9 @@ class _AddPeriodState extends State<AddPeriod> {
                 style: TextStyle(fontSize: 5.sp),
               ),
             ),
-            SizedBox(height: 1.h,),
+            SizedBox(
+              height: 1.h,
+            ),
             SizedBox(
               height: 55.h,
               width: 57.w,
@@ -120,7 +125,6 @@ class _AddPeriodState extends State<AddPeriod> {
                                       ),
                                     ],
                                   )),
-                              
                               Checkbox(
                                 value: periodsId
                                         .contains(cubitP.periodList[index].id)
@@ -149,7 +153,7 @@ class _AddPeriodState extends State<AddPeriod> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 25.w,top: 1.h),
+              padding: EdgeInsets.only(left: 25.w, top: 1.h),
               child: DefaultAppButton(
                   width: 6.w,
                   height: 4.h,

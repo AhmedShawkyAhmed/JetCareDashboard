@@ -10,7 +10,7 @@ import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/Corporates_cubit/corporates_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import '../../views/loading_view.dart';
+import '../../../core/shared/views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../../core/shared/widgets/default_text_field.dart';
 

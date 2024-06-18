@@ -10,8 +10,8 @@ class LoadingView extends StatelessWidget {
   const LoadingView({
     required this.width,
     required this.height,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

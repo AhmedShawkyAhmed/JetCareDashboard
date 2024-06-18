@@ -12,8 +12,8 @@ class CalenderView extends StatelessWidget {
   const CalenderView({
     required this.calenderModel,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

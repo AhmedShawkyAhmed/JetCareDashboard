@@ -9,7 +9,7 @@ import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../business_logic/period_cubit/period_cubit.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import '../../views/loading_view.dart';
+import '../../../core/shared/views/loading_view.dart';
 import '../../views/row_data.dart';
 import '../../../core/shared/widgets/default_app_button.dart';
 

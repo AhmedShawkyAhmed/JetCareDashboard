@@ -13,8 +13,8 @@ class ModeratorView extends StatefulWidget {
   const ModeratorView({
     required this.crewId,
     required this.isMine,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ModeratorView> createState() => _ModeratorViewState();

@@ -13,8 +13,8 @@ class MonthItem extends StatelessWidget {
     required this.color,
     required this.textColor,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

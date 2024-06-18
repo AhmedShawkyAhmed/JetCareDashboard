@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/support_cupit/support_cubit.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/views/loading_view.dart';
+import 'package:jetboard/src/core/shared/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';

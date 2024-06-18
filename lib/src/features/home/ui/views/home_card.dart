@@ -5,8 +5,14 @@ import 'package:jetboard/src/core/shared/widgets/percent_item.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeCard extends StatelessWidget {
-  HomeCard({
-    Key? key,
+  final String title;
+  final String? title1, title2;
+  final num percent, total, percent2;
+  final Widget? widget;
+  final double? cHeight, cWidth;
+
+  const HomeCard({
+    super.key,
     required this.title,
     required this.percent,
     required this.total,
@@ -16,13 +22,7 @@ class HomeCard extends StatelessWidget {
     this.cHeight,
     this.cWidth,
     this.widget,
-  }) : super(key: key);
-
-  String title;
-  String? title1,title2;
-  num percent, total, percent2;
-  Widget? widget;
-  double? cHeight, cWidth;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,8 @@ class HomeCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 1.h, left: 0.5.w,right: 0.5.w),
+                padding:
+                    EdgeInsets.only(bottom: 1.h, left: 0.5.w, right: 0.5.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -54,7 +55,8 @@ class HomeCard extends StatelessWidget {
                       fontSize: 4.sp,
                     ),
                     DefaultText(
-                      text: "${((percent / (total == 0?1:total)) * 100).toStringAsFixed(1)} %",
+                      text:
+                          "${((percent / (total == 0 ? 1 : total)) * 100).toStringAsFixed(1)} %",
                       fontSize: 4.sp,
                     ),
                   ],

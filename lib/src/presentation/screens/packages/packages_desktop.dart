@@ -11,7 +11,7 @@ import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../views/add_items.dart';
-import '../../views/loading_view.dart';
+import '../../../core/shared/views/loading_view.dart';
 import '../../views/view_items.dart';
 import '../../../core/shared/widgets/default_app_button.dart';
 import '../../../core/shared/widgets/default_text_field.dart';

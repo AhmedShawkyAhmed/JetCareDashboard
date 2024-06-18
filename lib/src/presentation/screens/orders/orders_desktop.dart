@@ -13,7 +13,7 @@ import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:sizer/sizer.dart';
 import '../../../business_logic/orders_cubit/orders_cubit.dart';
 import '../../../core/constants/constants_variables.dart';
-import '../../views/loading_view.dart';
+import '../../../core/shared/views/loading_view.dart';
 import '../../../core/shared/widgets/default_text_field.dart';
 
 class OrdersDesktop extends StatefulWidget {

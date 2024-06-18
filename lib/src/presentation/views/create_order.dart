@@ -26,7 +26,7 @@ import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateOrder extends StatefulWidget {
-  const CreateOrder({Key? key}) : super(key: key);
+  const CreateOrder({super.key});
 
   @override
   State<CreateOrder> createState() => _CreateOrderState();

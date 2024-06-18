@@ -7,7 +7,7 @@ import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/data/network/requests/ads_request.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/views/loading_view.dart';
+import 'package:jetboard/src/core/shared/views/loading_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';

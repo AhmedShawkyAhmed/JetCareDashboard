@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/views/loading_view.dart';
+import 'package:jetboard/src/core/shared/views/loading_view.dart';
 import 'package:jetboard/src/presentation/widgets/area_widget.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
@@ -12,8 +12,8 @@ class CrewArea extends StatefulWidget {
 
   const CrewArea({
     required this.crewId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CrewArea> createState() => _CrewAreaState();

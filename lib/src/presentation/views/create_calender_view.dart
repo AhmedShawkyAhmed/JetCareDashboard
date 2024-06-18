@@ -25,8 +25,8 @@ class CreateCalenderView extends StatefulWidget {
     required this.calenderModel,
     required this.periods,
     required this.areas,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CreateCalenderView> createState() => _CreateCalenderViewState();
