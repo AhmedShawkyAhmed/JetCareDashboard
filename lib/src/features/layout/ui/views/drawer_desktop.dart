@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/core/routing/routes.dart';
-import 'package:jetboard/src/core/services/cache_service.dart';
 import 'package:jetboard/src/core/shared/globals.dart';
+import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
 import 'package:jetboard/src/features/layout/cubit/layout_cubit.dart';
 import 'package:sizer/sizer.dart';
 
@@ -52,8 +52,8 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       color: AppColors.white,
                       child: Image.asset(
                         'assets/images/logo.png',
-                        height: 6.h,
-                        width: 6.h,
+                        height: 5.h,
+                        width: 5.h,
                       ),
                     ),
                   ),
@@ -87,7 +87,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     child: ListTile(
                       selectedTileColor: AppColors.shimmerMain,
                       selected: false,
-                      horizontalTitleGap: 0.0,
+                      horizontalTitleGap: 0.5.w,
                       onTap: () {
                         setState(() {
                           index = 0;
@@ -119,7 +119,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 1;
@@ -152,7 +152,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 2;
@@ -185,7 +185,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 3;
@@ -218,7 +218,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 4;
@@ -251,7 +251,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 5;
@@ -283,7 +283,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     child: ListTile(
                       selectedTileColor: AppColors.shimmerMain,
                       selected: false,
-                      horizontalTitleGap: 0.0,
+                      horizontalTitleGap: 0.5.w,
                       onTap: () {
                         setState(() {
                           index = 6;
@@ -315,7 +315,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 7;
@@ -348,7 +348,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 8;
@@ -381,7 +381,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 9;
@@ -414,7 +414,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 10;
@@ -447,7 +447,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 11;
@@ -480,7 +480,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 12;
@@ -513,7 +513,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 13;
@@ -546,7 +546,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 14;
@@ -579,7 +579,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 15;
@@ -612,7 +612,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 16;
@@ -645,7 +645,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 17;
@@ -678,7 +678,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 18;
@@ -711,7 +711,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 19;
@@ -744,7 +744,7 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                       child: ListTile(
                         selectedTileColor: AppColors.shimmerMain,
                         selected: false,
-                        horizontalTitleGap: 0.0,
+                        horizontalTitleGap: 0.5.w,
                         onTap: () {
                           setState(() {
                             index = 20;
@@ -807,14 +807,9 @@ class _DrawerListDesktopState extends State<DrawerListDesktop> {
                     child: ListTile(
                       selectedTileColor: AppColors.shimmerMain,
                       selected: false,
-                      horizontalTitleGap: 0.0,
+                      horizontalTitleGap: 0.5.w,
                       onTap: () {
-                        CacheService.clear();
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          Routes.login.name,
-                          (route) => false,
-                        );
+                        AuthCubit(instance()).logout();
                       },
                       leading: widget.cubit.items[21].icon,
                       title: Text(

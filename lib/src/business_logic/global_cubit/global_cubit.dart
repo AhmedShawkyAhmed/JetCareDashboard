@@ -7,35 +7,12 @@ import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
-import 'package:jetboard/src/data/network/responses/statistics_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
-import 'package:jetboard/src/presentation/screens/ads/ads.dart';
-import 'package:jetboard/src/presentation/screens/calender/calender.dart';
-import 'package:jetboard/src/presentation/screens/clients/clients.dart';
-import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';
-import 'package:jetboard/src/presentation/screens/crews/crews.dart';
-import 'package:jetboard/src/presentation/screens/equipment/equipment.dart';
-import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule.dart';
-import 'package:jetboard/src/presentation/screens/extras/extras.dart';
-import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
-import 'package:jetboard/src/features/home/ui/screens/home.dart';
-import 'package:jetboard/src/presentation/screens/info/info.dart';
-import 'package:jetboard/src/presentation/screens/items/items.dart';
-import 'package:jetboard/src/features/auth/ui/screens/login.dart';
-import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
-import 'package:jetboard/src/presentation/screens/notifications/notifications.dart';
-import 'package:jetboard/src/presentation/screens/orders/orders.dart';
-import 'package:jetboard/src/presentation/screens/packages/packages.dart';
-import 'package:jetboard/src/presentation/screens/support/support.dart';
 
 import '../../data/models/items_model.dart';
 import '../../data/models/orders_model.dart';
 import '../../data/network/responses/items_response.dart';
 import '../../data/network/responses/packages_response.dart';
-import '../../presentation/screens/areas/areas.dart';
-import '../../presentation/screens/category/category.dart';
-import '../../presentation/screens/corporates/corporates.dart';
-import '../../presentation/screens/periods/periods.dart';
 
 part 'global_state.dart';
 
@@ -64,7 +41,6 @@ class GlobalCubit extends Cubit<GlobalState> {
   List<User> crews = [];
   List<UserModel> users = [];
   List<ItemsModel> itemListForPackages = [];
-
 
   void isShadowE() {
     isShadow = !isShadow;
@@ -134,7 +110,6 @@ class GlobalCubit extends Cubit<GlobalState> {
       printError(e.toString());
     }
   }
-
 
   Future getItems() async {
     try {

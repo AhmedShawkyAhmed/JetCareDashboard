@@ -11,8 +11,8 @@ class DioFactory {
     dio.options = BaseOptions(
       baseUrl: EndPoints.baseUrl,
       receiveDataWhenStatusError: true,
-      receiveTimeout: const Duration(seconds: 120),
-      sendTimeout: const Duration(seconds: 120),
+      receiveTimeout: const Duration(seconds: 180),
+      sendTimeout: const Duration(seconds: 180),
     );
 
     if (!kReleaseMode) {

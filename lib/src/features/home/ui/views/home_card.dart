@@ -45,8 +45,11 @@ class HomeCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    EdgeInsets.only(bottom: 1.h, left: 0.5.w, right: 0.5.w),
+                padding: EdgeInsets.only(
+                  bottom: 1.h,
+                  left: 0.5.w,
+                  right: 0.5.w,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

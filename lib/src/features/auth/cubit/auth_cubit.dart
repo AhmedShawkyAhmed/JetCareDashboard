@@ -9,6 +9,8 @@ import 'package:jetboard/src/core/routing/routes.dart';
 import 'package:jetboard/src/core/services/cache_service.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/globals.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/enums.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/features/auth/data/models/tab_access_model.dart';
@@ -16,8 +18,6 @@ import 'package:jetboard/src/features/auth/data/models/user_model.dart';
 import 'package:jetboard/src/features/auth/data/repo/auth_repo.dart';
 import 'package:jetboard/src/features/auth/data/requests/fcm_request.dart';
 import 'package:jetboard/src/features/auth/data/requests/login_request.dart';
-import 'package:jetboard/src/core/shared/views/indicator_view.dart';
-import 'package:jetboard/src/core/shared/widgets/toast.dart';
 
 part 'auth_state.dart';
 
@@ -62,6 +62,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       failure: (NetworkExceptions error) {
         emit(LoginFailure());
+        NavigationService.pop();
         error.showError();
       },
     );

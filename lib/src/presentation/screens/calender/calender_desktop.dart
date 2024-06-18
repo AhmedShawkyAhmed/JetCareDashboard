@@ -76,7 +76,7 @@ class _CalenderDesktopState extends State<CalenderDesktop> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return MonthItem(
-                                title: month[index],
+                                title: monthList[index],
                                 color: selectedMonth == index
                                     ? AppColors.primary
                                     : AppColors.lightGrey,

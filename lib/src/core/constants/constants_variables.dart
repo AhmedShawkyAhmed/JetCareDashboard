@@ -15,7 +15,8 @@ List<int> lol = [
 ];
 String dropItemsInfo = '';
 String? imageApp;
-AreaModel selectedState = AreaModel(id: 0, nameEn: "All", nameAr: "الكل", active: 1);
+AreaModel selectedState =
+    AreaModel(id: 0, nameEn: "All", nameAr: "الكل", active: 1);
 String role = "All";
 String package = "All";
 String item = "All";
@@ -29,9 +30,23 @@ List<int> userId = [];
 int selectedMonth = DateTime.now().month - 1;
 String year = (DateTime.now().year).toString();
 String status = "";
-List<String> orderStatus = ['accepted','confirmed','completed','unassigned','canceled'];
+List<String> orderStatus = [
+  'accepted',
+  'confirmed',
+  'completed',
+  'unassigned',
+  'canceled'
+];
 SettingsModel? settingsModelGlobal;
-List<String> month = [
+List<String> yearList = [
+  (DateTime.now().year - 4).toString(),
+  (DateTime.now().year - 3).toString(),
+  (DateTime.now().year - 2).toString(),
+  (DateTime.now().year - 1).toString(),
+  (DateTime.now().year).toString(),
+  (DateTime.now().year + 1).toString(),
+];
+List<String> monthList = [
   "January",
   "February",
   "March",

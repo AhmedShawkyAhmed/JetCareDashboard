@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:sizer/sizer.dart';
 
 class DefaultTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -76,7 +76,9 @@ class DefaultTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(horizontal: horizontalPadding?.w ?? 0,vertical: verticalPadding?.h ?? 0),
+      margin: EdgeInsets.symmetric(
+          horizontal: horizontalPadding?.w ?? 0,
+          vertical: verticalPadding?.h ?? 0),
       height: height ?? 4.h,
       width: width ?? 500.w,
       decoration: BoxDecoration(
@@ -88,17 +90,6 @@ class DefaultTextField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
-        // autovalidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   if (validator != "") {
-        //     if (value == '') {
-        //       return 'You Can\'t leave this field empty';
-        //     }
-        //     return null;
-        //   } else {
-        //     return null;
-        //   }
-        // },
         textAlign: textAlign ?? TextAlign.left,
         keyboardType: keyboardType ?? TextInputType.text,
         textAlignVertical: TextAlignVertical.center,
@@ -119,7 +110,7 @@ class DefaultTextField extends StatelessWidget {
           hintText: hintText ?? "",
           alignLabelWithHint: true,
           hintStyle: TextStyle(
-            color: hintColor ??  AppColors.mainColor.withOpacity(0.7),
+            color: hintColor ?? AppColors.mainColor.withOpacity(0.7),
             fontSize: fontSize ?? 20.sp,
           ),
           border: InputBorder.none,
@@ -128,10 +119,10 @@ class DefaultTextField extends StatelessWidget {
           isCollapsed: collapsed ?? false,
           fillColor: AppColors.white,
           contentPadding: EdgeInsets.only(
-            top: 15.sp,
-            bottom: 15.sp,
-            left: 10.sp,
-            right: 10.sp,
+            // top: 15.sp,
+            bottom: suffix == null ? 2.sp : 0,
+            left: 2.sp,
+            right: 2.sp,
           ),
         ),
         obscureText: password,

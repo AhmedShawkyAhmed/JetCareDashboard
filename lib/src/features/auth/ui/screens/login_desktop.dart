@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
+import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginDesktop extends StatefulWidget {
@@ -59,34 +59,41 @@ class _LoginDesktopState extends State<LoginDesktop> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 25.h, left: 12.w),
+                    padding: EdgeInsets.only(top: 15.h, left: 12.w),
                     child: Row(
                       children: [
                         Container(
                           height: 25.h,
                           width: 20.w,
                           decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(
-                                      1, 1), // changes position of shadow
-                                )
-                              ],
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                                offset: const Offset(
+                                  1,
+                                  1,
+                                ), // changes position of shadow
+                              )
+                            ],
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(
+                              20,
+                            ),
+                          ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 2.w, vertical: 3.h),
+                              horizontal: 2.w,
+                              vertical: 3.h,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 DefaultTextField(
                                   password: false,
-                                  bottom: 5.h,
+                                  bottom: 1.h,
                                   haveShadow: true,
                                   spreadRadius: 2,
                                   blurRadius: 2,
@@ -118,6 +125,7 @@ class _LoginDesktopState extends State<LoginDesktop> {
                                   suffix: IconButton(
                                     onPressed: () {
                                       cubit.isPassword();
+                                      setState(() {});
                                     },
                                     icon: Icon(
                                       cubit.password
@@ -157,7 +165,7 @@ class _LoginDesktopState extends State<LoginDesktop> {
                             bottom: 2.h,
                             top: 5.h,
                           ),
-                          height: 30.h,
+                          height: 60.h,
                           child: Image.asset("assets/images/logo.png"),
                         ),
                       ],

@@ -11,8 +11,8 @@ class IndicatorView {
       builder: (BuildContext context) {
         return Center(
           child: SizedBox(
-            width: 20.w,
-            height: 20.w,
+            width: 5.w,
+            height: 5.w,
             child: const CircularProgressIndicator(
               color: AppColors.primary,
             ),

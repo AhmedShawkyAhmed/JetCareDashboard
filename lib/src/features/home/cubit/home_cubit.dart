@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
+import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/features/home/data/models/home_statistics_model.dart';
 import 'package:jetboard/src/features/home/data/repo/home_repo.dart';
 
@@ -17,7 +19,11 @@ class HomeCubit extends Cubit<HomeState> {
   Future getStatistics({
     String? month,
     String? year,
+    bool showLoading = true,
   }) async {
+    if(showLoading){
+      IndicatorView.showIndicator();
+    }
     emit(StatisticsLoading());
     var response = await repo.getStatistics(
       month: month,
@@ -26,10 +32,16 @@ class HomeCubit extends Cubit<HomeState> {
     response.when(
       success: (NetworkBaseModel response) async {
         homeStatisticsModel = response.data;
+        if(showLoading){
+          NavigationService.pop();
+        }
         emit(StatisticsSuccess());
       },
       failure: (NetworkExceptions error) {
         error.showError();
+        if(showLoading){
+          NavigationService.pop();
+        }
         emit(StatisticsFailure());
       },
     );

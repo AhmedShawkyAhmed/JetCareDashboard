@@ -5,7 +5,6 @@ import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../business_logic/category_cubit/category_cubit.dart';
 import '../../business_logic/period_cubit/period_cubit.dart';
 import '../../core/shared/widgets/default_app_button.dart';
 
@@ -27,7 +26,6 @@ class _AddPeriodState extends State<AddPeriod> {
 
   @override
   Widget build(BuildContext context) {
-    var cubitC = CategoryCubit.get(context);
     var cubitP = PeriodCubit.get(context);
     return Scaffold(
       backgroundColor: AppColors.transparent,

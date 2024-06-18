@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:sizer/sizer.dart';
 
 class DefaultDropdown<T> extends StatelessWidget {
   const DefaultDropdown({
@@ -63,9 +63,9 @@ class DefaultDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final relativeMenuHeight = (items.length *
-        ((20.sp + 200.h) * 1.6)); //Item count * approximate Item height
+        ((2.sp + 4.h) * 1.6)); //Item count * approximate Item height
     var inputBorder = OutlineInputBorder(
-      borderRadius: borderRadius ?? BorderRadius.circular(7).r,
+      borderRadius: borderRadius ?? BorderRadius.circular(2.sp),
       borderSide: BorderSide(
         color: enabled ? AppColors.primary : const Color(0xff000000),
         width: 0.5,
@@ -83,14 +83,14 @@ class DefaultDropdown<T> extends StatelessWidget {
             isCollapsed: false,
             constraints: const BoxConstraints(),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 2.h,
+              horizontal: 0.4.w,
+              vertical: 0.2.h,
             ),
           ),
         ),
         itemBuilder: (ctx, item, b) => Container(
           alignment: dropdownAlign ?? AlignmentDirectional.center,
-          padding: EdgeInsetsDirectional.fromSTEB(5.w, 5.h, 5.w, 5.h),
+          padding: EdgeInsetsDirectional.fromSTEB(0.5.w, 0.5.h, 0.5.w, 0.5.h),
           child: Row(
             children: [
               dropdownLeadingWidget?.call(ctx, item, b) ?? const SizedBox(),
@@ -107,9 +107,9 @@ class DefaultDropdown<T> extends StatelessWidget {
                     style: dropdownTextStyle ??
                         TextStyle(
                           color: enabled
-                              ? AppColors.primary
+                              ? AppColors.darkGrey
                               : const Color(0xff636363),
-                          fontSize: 20.sp,
+                          fontSize: 3.sp,
                         ),
                   ),
                 ),
@@ -118,12 +118,13 @@ class DefaultDropdown<T> extends StatelessWidget {
           ),
         ),
         menuProps: MenuProps(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(7).r),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(2.sp),
+          ),
         ),
         constraints: BoxConstraints(
           maxHeight: maxHeight ??
-              (relativeMenuHeight > 200.h ? 200.h : relativeMenuHeight),
+              (relativeMenuHeight > 30.h ? 30.h : relativeMenuHeight),
         ),
       ),
       selectedItem: selectedItem,
@@ -131,18 +132,18 @@ class DefaultDropdown<T> extends StatelessWidget {
       dropdownButtonProps: DropdownButtonProps(
         constraints: const BoxConstraints(minHeight: 0, minWidth: 0),
         splashRadius: 12,
-        iconSize: 20.r,
+        iconSize: 5.sp,
         icon: dropdownButtonBuilder ??
             Icon(
               Icons.keyboard_arrow_down,
               color: enabled ? AppColors.primary : const Color(0xff636363),
-              size: 20.r,
+              size: 5.sp,
             ),
         selectedIcon: dropdownButtonBuilder ??
             Icon(
               Icons.keyboard_arrow_down,
               color: enabled ? AppColors.primary : const Color(0xff636363),
-              size: 20.r,
+              size: 5.sp,
             ),
       ),
       dropdownDecoratorProps: DropDownDecoratorProps(
@@ -172,8 +173,8 @@ class DefaultDropdown<T> extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: hintStyle ??
                     TextStyle(
-                      color: AppColors.mainColor,
-                      fontSize: 20.sp,
+                      color: AppColors.darkGrey,
+                      fontSize: 3.sp,
                     ),
               ),
             ),
@@ -200,9 +201,9 @@ class DefaultDropdown<T> extends StatelessWidget {
                     style: selectedTextStyle ??
                         TextStyle(
                           color: enabled
-                              ? AppColors.primary
+                              ? AppColors.darkGrey
                               : const Color(0xff636363),
-                          fontSize: 20.sp,
+                          fontSize: 3.sp,
                         ),
                   ),
                 ),

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/shared/views/month_item.dart';
+import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
 import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/features/home/ui/views/home_card.dart';
-import 'package:jetboard/src/core/shared/views/month_item.dart';
 import 'package:jetboard/src/features/home/ui/widgets/circular_item.dart';
-import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeDesktop extends StatefulWidget {
@@ -20,10 +20,12 @@ class HomeDesktop extends StatefulWidget {
 class _HomeDesktopState extends State<HomeDesktop> {
   HomeCubit cubit = HomeCubit(instance());
 
+  int selectedMonth = DateTime.now().month - 1;
+  String year = (DateTime.now().year).toString();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => cubit..getStatistics(),
+      create: (context) => cubit..getStatistics(showLoading: false),
       child: Padding(
         padding: EdgeInsets.only(top: 2.h, bottom: 2.h, left: 3.w),
         child: SingleChildScrollView(
@@ -49,13 +51,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                                 hint: "Year",
                                 showSearchBox: true,
                                 selectedItem: year,
-                                items: [
-                                  (DateTime.now().year - 3).toString(),
-                                  (DateTime.now().year - 2).toString(),
-                                  (DateTime.now().year - 1).toString(),
-                                  (DateTime.now().year).toString(),
-                                  (DateTime.now().year + 1).toString(),
-                                ],
+                                items: yearList,
                                 onChanged: (val) {
                                   setState(() {
                                     cubit.getStatistics(
@@ -77,7 +73,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return MonthItem(
-                                  title: month[index],
+                                  title: monthList[index],
                                   color: selectedMonth == index
                                       ? AppColors.primary
                                       : AppColors.lightGrey,
@@ -86,10 +82,10 @@ class _HomeDesktopState extends State<HomeDesktop> {
                                       : AppColors.darkGrey,
                                   onTap: () {
                                     setState(() {
+                                      selectedMonth = index;
                                       cubit.getStatistics(
                                         month: (selectedMonth + 1).toString(),
                                       );
-                                      selectedMonth = index;
                                     });
                                   },
                                 );
@@ -245,60 +241,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                       percent: cubit.homeStatisticsModel.ads?.isActive ?? 0,
                       percent2: cubit.homeStatisticsModel.ads?.disabled ?? 0,
                     ),
-                    // HomeCard(
-                    //   title: "Categories",
-                    //   total: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.category
-                    //           ?.count ??
-                    //       1,
-                    //   percent: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.category
-                    //           ?.active ??
-                    //       0,
-                    //   percent2: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.category
-                    //           ?.disabled ??
-                    //       0,
-                    // ),
-                    // HomeCard(
-                    //   title: "Packages",
-                    //   total: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.package
-                    //           ?.count ??
-                    //       1,
-                    //   percent: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.package
-                    //           ?.active ??
-                    //       0,
-                    //   percent2: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.package
-                    //           ?.disabled ??
-                    //       0,
-                    // ),
-                    // HomeCard(
-                    //   title: "Items",
-                    //   total: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.item
-                    //           ?.count ??
-                    //       1,
-                    //   percent: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.item
-                    //           ?.active ??
-                    //       0,
-                    //   percent2: GlobalCubit.get(context)
-                    //           .statisticsResponse
-                    //           ?.item
-                    //           ?.disabled ??
-                    //       0,
-                    // ),
+
                   ],
                 );
               },
