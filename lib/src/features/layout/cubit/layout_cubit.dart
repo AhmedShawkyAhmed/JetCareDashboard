@@ -24,7 +24,7 @@ import 'package:jetboard/src/presentation/screens/notifications/notifications.da
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
 import 'package:jetboard/src/presentation/screens/packages/packages.dart';
 import 'package:jetboard/src/presentation/screens/periods/periods.dart';
-import 'package:jetboard/src/presentation/screens/support/support.dart';
+import 'package:jetboard/src/features/support/ui/screens/support.dart';
 
 part 'layout_state.dart';
 

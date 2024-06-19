@@ -36,7 +36,7 @@ class HomeCard extends StatelessWidget {
           BoxShadow(
             color: AppColors.black,
             blurRadius: 5,
-            offset: Offset(0, 0), // Shadow position
+            offset: Offset(0, 0),
           ),
         ],
       ),

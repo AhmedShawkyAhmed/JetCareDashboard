@@ -11,6 +11,9 @@ import 'package:jetboard/src/features/home/data/repo/home_repo.dart';
 import 'package:jetboard/src/features/home/service/home_web_service.dart';
 import 'package:jetboard/src/features/layout/cubit/layout_cubit.dart';
 import 'package:jetboard/src/features/splash/cubit/splash_cubit.dart';
+import 'package:jetboard/src/features/support/cubit/support_cubit.dart';
+import 'package:jetboard/src/features/support/data/repo/support_repo.dart';
+import 'package:jetboard/src/features/support/service/support_web_service.dart';
 
 final instance = GetIt.instance;
 
@@ -28,12 +31,15 @@ Future<void> initAppModule() async {
   instance.registerFactory<AuthCubit>(() => AuthCubit(instance()));
   instance.registerFactory<LayoutCubit>(() => LayoutCubit());
   instance.registerFactory<HomeCubit>(() => HomeCubit(instance()));
+  instance.registerFactory<SupportCubit>(() => SupportCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AuthRepo>(() => AuthRepo(instance()));
   instance.registerLazySingleton<HomeRepo>(() => HomeRepo(instance()));
+  instance.registerLazySingleton<SupportRepo>(() => SupportRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AuthWebService>(() => AuthWebService(instance()));
   instance.registerLazySingleton<HomeWebService>(() => HomeWebService(instance()));
+  instance.registerLazySingleton<SupportWebService>(() => SupportWebService(instance()));
 }

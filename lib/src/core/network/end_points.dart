@@ -17,6 +17,11 @@ class EndPoints {
   // ------------------- Home
   static const getStatistics = "get_statistics";
 
+  // ------------------- Home
+  static const getSupport = "get_support";
+  static const deleteSupport = "delete_support";
+  static const supportComment = "support_comment";
+
 
 
 
@@ -35,11 +40,6 @@ class EndPoints {
   static const deleteInfo = "deleteInfo";
   static const getTypes = "getTypes";
   static const updateInfo = "updateInfo";
-
-  static const getSupport = "getSupport";
-  static const deleteSupport = "deleteSupport";
-  static const changeSupportStatus = "changeSupportStatus";
-  static const supportComment = "supportComment";
 
   static const addAds = "addAds";
   static const updateAds = "updateAds";

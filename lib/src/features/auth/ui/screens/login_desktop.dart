@@ -71,11 +71,8 @@ class _LoginDesktopState extends State<LoginDesktop> {
                                 color: Colors.black.withOpacity(0.5),
                                 spreadRadius: 1,
                                 blurRadius: 2,
-                                offset: const Offset(
-                                  1,
-                                  1,
-                                ), // changes position of shadow
-                              )
+                                offset: const Offset(1, 1),
+                              ),
                             ],
                             color: AppColors.white,
                             borderRadius: BorderRadius.circular(

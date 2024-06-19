@@ -2,15 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
-import 'package:jetboard/src/business_logic/global_cubit/global_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
+import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:sizer/sizer.dart';
 
 class DefaultDropDownMenu extends StatefulWidget {

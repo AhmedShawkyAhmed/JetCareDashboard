@@ -7,7 +7,7 @@ import 'package:jetboard/src/core/shared/views/month_item.dart';
 import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
 import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/features/home/ui/views/home_card.dart';
-import 'package:jetboard/src/features/home/ui/widgets/circular_item.dart';
+import 'package:jetboard/src/features/home/ui/views/statistics_view.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeDesktop extends StatefulWidget {
@@ -22,6 +22,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
 
   int selectedMonth = DateTime.now().month - 1;
   String year = (DateTime.now().year).toString();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -95,109 +96,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                         ],
                       ),
                     ),
-                    HomeCard(
-                      cWidth: 78.w,
-                      title: "Orders",
-                      total: 1,
-                      percent: 1,
-                      percent2: 1,
-                      widget: Padding(
-                        padding: EdgeInsets.only(
-                          left: 1.w,
-                          right: 1.w,
-                          top: 1.h,
-                          bottom: 1.h,
-                        ),
-                        child: Center(
-                          child: Wrap(
-                            spacing: 1.w,
-                            runSpacing: 2.h,
-                            children: [
-                              CircularItem(
-                                percent: cubit.homeStatisticsModel.orders
-                                        ?.completed ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Completed",
-                                color: Colors.green,
-                              ),
-                              CircularItem(
-                                percent: cubit
-                                        .homeStatisticsModel.orders?.accepted ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Accepted",
-                                color: Colors.blueAccent,
-                              ),
-                              CircularItem(
-                                percent: cubit.homeStatisticsModel.orders
-                                        ?.confirmed ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Confirmed",
-                                color: Colors.teal,
-                              ),
-                              CircularItem(
-                                percent: cubit
-                                        .homeStatisticsModel.orders?.assigned ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Assigned",
-                                color: Colors.cyan,
-                              ),
-                              CircularItem(
-                                percent: cubit.homeStatisticsModel.orders
-                                        ?.unassigned ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Not Assigned",
-                                color: Colors.black38,
-                              ),
-                              CircularItem(
-                                percent: cubit
-                                        .homeStatisticsModel.orders?.rejected ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Rejected",
-                                color: Colors.orange,
-                              ),
-                              CircularItem(
-                                percent: cubit
-                                        .homeStatisticsModel.orders?.canceled ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Canceled",
-                                color: Colors.red,
-                              ),
-                              CircularItem(
-                                percent: cubit.homeStatisticsModel.orders
-                                        ?.corporate ??
-                                    0,
-                                count:
-                                    cubit.homeStatisticsModel.orders?.count ??
-                                        1,
-                                title: "Corporate",
-                                color: Colors.purple,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    StatisticsView(orders: cubit.homeStatisticsModel.orders!),
                     HomeCard(
                       cWidth: 38.w,
                       title: "Orders",
@@ -241,7 +140,6 @@ class _HomeDesktopState extends State<HomeDesktop> {
                       percent: cubit.homeStatisticsModel.ads?.isActive ?? 0,
                       percent2: cubit.homeStatisticsModel.ads?.disabled ?? 0,
                     ),
-
                   ],
                 );
               },
