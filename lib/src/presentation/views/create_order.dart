@@ -699,12 +699,12 @@ class _CreateOrderState extends State<CreateOrder> {
                           onChanged: (val) {
                             setState(() {
                               period = val!;
-                              periodId = OrdersCubit.get(context)
-                                  .periodResponse!
-                                  .periodModel![OrdersCubit.get(context)
-                                      .periods
-                                      .indexOf(val)]
-                                  .id!;
+                              // periodId = OrdersCubit.get(context)
+                              //     .periodResponse!
+                              //     .periodModel![OrdersCubit.get(context)
+                              //         .periods
+                              //         .indexOf(val)]
+                              //     .id!;
                               printLog(periodId.toString());
                             });
                           },

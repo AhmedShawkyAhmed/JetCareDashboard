@@ -1,5 +1,5 @@
 import 'package:jetboard/src/data/models/area_model.dart';
-import 'package:jetboard/src/data/models/period_model.dart';
+import 'package:jetboard/src/features/periods/data/models/period_model.dart';
 
 class CalenderModel {
   int? id;

@@ -99,7 +99,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                       onTap: () {
                         IndicatorView.showIndicator();
                         OrdersCubit.get(context)
-                          ..getPeriodsMobile()
+                          // ..getPeriodsMobile()
                           ..getClients().then((value) {
                             Navigator.pop(context);
                             showDialog<void>(

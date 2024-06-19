@@ -10,6 +10,9 @@ import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/features/home/data/repo/home_repo.dart';
 import 'package:jetboard/src/features/home/service/home_web_service.dart';
 import 'package:jetboard/src/features/layout/cubit/layout_cubit.dart';
+import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
+import 'package:jetboard/src/features/periods/data/repo/period_repo.dart';
+import 'package:jetboard/src/features/periods/service/period_web_service.dart';
 import 'package:jetboard/src/features/splash/cubit/splash_cubit.dart';
 import 'package:jetboard/src/features/support/cubit/support_cubit.dart';
 import 'package:jetboard/src/features/support/data/repo/support_repo.dart';
@@ -32,14 +35,17 @@ Future<void> initAppModule() async {
   instance.registerFactory<LayoutCubit>(() => LayoutCubit());
   instance.registerFactory<HomeCubit>(() => HomeCubit(instance()));
   instance.registerFactory<SupportCubit>(() => SupportCubit(instance()));
+  instance.registerFactory<PeriodCubit>(() => PeriodCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AuthRepo>(() => AuthRepo(instance()));
   instance.registerLazySingleton<HomeRepo>(() => HomeRepo(instance()));
   instance.registerLazySingleton<SupportRepo>(() => SupportRepo(instance()));
+  instance.registerLazySingleton<PeriodRepo>(() => PeriodRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AuthWebService>(() => AuthWebService(instance()));
   instance.registerLazySingleton<HomeWebService>(() => HomeWebService(instance()));
   instance.registerLazySingleton<SupportWebService>(() => SupportWebService(instance()));
+  instance.registerLazySingleton<PeriodWebService>(() => PeriodWebService(instance()));
 }

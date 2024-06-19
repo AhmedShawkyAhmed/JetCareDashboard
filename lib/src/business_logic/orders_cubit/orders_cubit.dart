@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jetboard/src/data/models/orders_model.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
-import 'package:jetboard/src/data/network/responses/period_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
@@ -22,7 +21,6 @@ class OrdersCubit extends Cubit<OrdersState> {
   OrdersResponse? getOrdersResponse, updateOrdersStatusResponse;
   UserResponse? clientsResponse;
   GlobalResponse? globalResponse, orderResponse;
-  PeriodResponse? periodResponse;
   List<String> periods = [];
   List<String> clients = [];
   List<OrdersModel> ordersList = [];
@@ -273,27 +271,27 @@ class OrdersCubit extends Cubit<OrdersState> {
     }
   }
 
-  Future getPeriodsMobile() async {
-    try {
-      emit(PeriodLoadingState());
-      await networkService.get(
-        url: EndPoints.getPeriodsMobile,
-      ).then((value) {
-        periodResponse = PeriodResponse.fromJson(value.data);
-        emit(PeriodLoadingState());
-        for(int i = 0; i < periodResponse!.periodModel!.length;i++){
-          periods.add("${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");
-        }
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(PeriodLoadingState());
-      printError(n.toString());
-    } catch (e) {
-      emit(PeriodLoadingState());
-      printError(e.toString());
-    }
-  }
+  // Future getPeriodsMobile() async {
+  //   try {
+  //     emit(PeriodLoadingState());
+  //     await networkService.get(
+  //       url: EndPoints.getPeriodsMobile,
+  //     ).then((value) {
+  //       periodResponse = PeriodResponse.fromJson(value.data);
+  //       emit(PeriodLoadingState());
+  //       for(int i = 0; i < periodResponse!.periodModel!.length;i++){
+  //         periods.add("${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");
+  //       }
+  //       printSuccess(value.data.toString());
+  //     });
+  //   } on DioError catch (n) {
+  //     emit(PeriodLoadingState());
+  //     printError(n.toString());
+  //   } catch (e) {
+  //     emit(PeriodLoadingState());
+  //     printError(e.toString());
+  //   }
+  // }
 
   Future getClients() async {
     try {

@@ -10,7 +10,6 @@ import 'package:jetboard/src/presentation/views/calender_view.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/shared/views/loading_view.dart';
-import '../../views/create_calender_view.dart';
 
 class CalenderDesktop extends StatefulWidget {
   const CalenderDesktop({super.key});
@@ -124,23 +123,23 @@ class _CalenderDesktopState extends State<CalenderDesktop> {
                               )
                             : CalenderView(
                                 onTap: () {
-                                  showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (BuildContext context) {
-                                      return CreateCalenderView(
-                                        areas: CalenderCubit.get(context)
-                                            .areaResponse!
-                                            .areaModel!,
-                                        periods: CalenderCubit.get(context)
-                                            .periodResponse!
-                                            .periodModel!,
-                                        calenderModel:
-                                            CalenderCubit.get(context)
-                                                .calenderList[index],
-                                      );
-                                    },
-                                  );
+                                  // showDialog<void>(
+                                  //   context: context,
+                                  //   barrierDismissible: true,
+                                  //   builder: (BuildContext context) {
+                                  //     return CreateCalenderView(
+                                  //       areas: CalenderCubit.get(context)
+                                  //           .areaResponse!
+                                  //           .areaModel!,
+                                  //       periods: CalenderCubit.get(context)
+                                  //           .periodResponse!
+                                  //           .periodModel!,
+                                  //       calenderModel:
+                                  //           CalenderCubit.get(context)
+                                  //               .calenderList[index],
+                                  //     );
+                                  //   },
+                                  // );
                                 },
                                 calenderModel: CalenderCubit.get(context)
                                     .calenderList[index],

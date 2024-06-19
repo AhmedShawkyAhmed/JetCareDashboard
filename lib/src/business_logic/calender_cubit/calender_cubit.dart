@@ -11,7 +11,6 @@ import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import '../../data/network/responses/area_response.dart';
-import '../../data/network/responses/period_response.dart';
 
 part 'calender_state.dart';
 
@@ -23,7 +22,6 @@ class CalenderCubit extends Cubit<CalenderState> {
 
   GlobalResponse? addCalenderResponse, deleteCalenderResponse;
   CalenderResponse? calenderResponse;
-  PeriodResponse? periodResponse;
   AreaResponse? areaResponse;
   List<String> periods = [];
   List<CalenderModel> calenderList = [];
@@ -111,28 +109,28 @@ class CalenderCubit extends Cubit<CalenderState> {
     }
   }
 
-  Future getPeriods() async {
-    try {
-      emit(PeriodCalenderInitial());
-      await networkService.get(
-        url: EndPoints.getPeriodsMobile,
-      ).then((value) {
-        periodResponse = PeriodResponse.fromJson(value.data);
-        emit(PeriodCalenderSuccess());
-        for (int i = 0; i < periodResponse!.periodModel!.length; i++) {
-          periods.add(
-              "${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");
-        }
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(PeriodCalenderError());
-      printError(n.toString());
-    } catch (e) {
-      emit(PeriodCalenderError());
-      printError(e.toString());
-    }
-  }
+  // Future getPeriods() async {
+  //   try {
+  //     emit(PeriodCalenderInitial());
+  //     await networkService.get(
+  //       url: EndPoints.getPeriodsMobile,
+  //     ).then((value) {
+  //       periodResponse = PeriodResponse.fromJson(value.data);
+  //       emit(PeriodCalenderSuccess());
+  //       for (int i = 0; i < periodResponse!.periodModel!.length; i++) {
+  //         periods.add(
+  //             "${periodResponse!.periodModel![i].from} - ${periodResponse!.periodModel![i].to}");
+  //       }
+  //       printSuccess(value.data.toString());
+  //     });
+  //   } on DioError catch (n) {
+  //     emit(PeriodCalenderError());
+  //     printError(n.toString());
+  //   } catch (e) {
+  //     emit(PeriodCalenderError());
+  //     printError(e.toString());
+  //   }
+  // }
 
   Future getArea() async {
     try {

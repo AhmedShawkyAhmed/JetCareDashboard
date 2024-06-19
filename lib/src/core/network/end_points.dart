@@ -17,10 +17,17 @@ class EndPoints {
   // ------------------- Home
   static const getStatistics = "get_statistics";
 
-  // ------------------- Home
+  // ------------------- Support
   static const getSupport = "get_support";
   static const deleteSupport = "delete_support";
   static const supportComment = "support_comment";
+
+  // ------------------- Period
+  static const getPeriods = "get_periods";
+  static const addPeriod = "add_period";
+  static const updatePeriod = "update_period";
+  static const deletePeriod = "delete_period";
+  static const changePeriodStatus = "change_period_status";
 
 
 
@@ -110,12 +117,7 @@ class EndPoints {
   static const addCategoryItem = "addCategoryItem";
   static const deleteCategorySub = "deleteCategorySub";
 
-  static const getPeriods = "getPeriods";
   static const getPeriodsMobile = "getPeriodsMobile";
-  static const addPeriod = "addPeriod";
-  static const updatePeriod = "updatePeriod";
-  static const deletePeriod = "deletePeriod";
-  static const changePeriodStatus = "changePeriodStatus";
 
   static const createCalenderPeriod = "createCalenderPeriod";
   static const deleteCalenderPeriod = "deleteCalenderPeriod";
