@@ -96,7 +96,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                         ],
                       ),
                     ),
-                    StatisticsView(orders: cubit.homeStatisticsModel.orders!),
+                    StatisticsView(orders: cubit.homeStatisticsModel.orders),
                     HomeCard(
                       cWidth: 38.w,
                       title: "Orders",

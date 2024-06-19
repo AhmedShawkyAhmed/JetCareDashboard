@@ -117,8 +117,6 @@ class EndPoints {
   static const addCategoryItem = "addCategoryItem";
   static const deleteCategorySub = "deleteCategorySub";
 
-  static const getPeriodsMobile = "getPeriodsMobile";
-
   static const createCalenderPeriod = "createCalenderPeriod";
   static const deleteCalenderPeriod = "deleteCalenderPeriod";
   static const getCalender = "getCalender";

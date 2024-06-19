@@ -11,7 +11,7 @@ part 'period_web_service.g.dart';
 abstract class PeriodWebService {
   factory PeriodWebService(Dio dio, {String baseUrl}) = _PeriodWebService;
 
-  @GET(EndPoints.tabAccess)
+  @GET(EndPoints.getPeriods)
   Future<NetworkBaseModel<List<PeriodModel>>> getPeriods({
     @Query("keyword") String? keyword,
   });

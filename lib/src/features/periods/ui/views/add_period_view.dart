@@ -6,18 +6,47 @@ import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
+import 'package:jetboard/src/features/periods/data/models/period_model.dart';
 import 'package:jetboard/src/features/periods/data/requests/period_request.dart';
 import 'package:sizer/sizer.dart';
 
-TextEditingController fromController = TextEditingController();
-TextEditingController toController = TextEditingController();
+class AddPeriodView extends StatefulWidget {
+  final String title;
+  final PeriodCubit cubit;
+  final PeriodModel? period;
 
-class AddPeriodView {
-  AddPeriodView._();
+  const AddPeriodView({
+    required this.title,
+    required this.cubit,
+    this.period,
+    super.key,
+  });
 
-  static void show({
-    required PeriodCubit cubit,
-  }) {
+  @override
+  State<AddPeriodView> createState() => _AddPeriodViewState();
+}
+
+class _AddPeriodViewState extends State<AddPeriodView> {
+  TextEditingController fromController = TextEditingController();
+  TextEditingController toController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.period != null) {
+      fromController.text = widget.period!.from ?? "";
+      toController.text = widget.period!.to ?? "";
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    fromController.clear();
+    toController.clear();
+    super.dispose();
+  }
+
+  void _show() {
     showDialog(
       context: NavigationService.context,
       barrierDismissible: true,
@@ -27,8 +56,8 @@ class AddPeriodView {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                const DefaultText(
-                  text: "Add New Time Period",
+                DefaultText(
+                  text: "${widget.title} Time Period",
                   align: TextAlign.center,
                 ),
                 SizedBox(
@@ -36,7 +65,7 @@ class AddPeriodView {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await showTimePicker(
+                    TimeOfDay? pickedTime = await showTimePicker(
                       initialTime: TimeOfDay.now(),
                       context: context,
                       builder: (BuildContext context, Widget? child) {
@@ -51,14 +80,15 @@ class AddPeriodView {
                           child: child!,
                         );
                       },
-                    ).then((value) {
-                      if (value != null) {
-                        toController.text = value.format(context);
-                      } else {
-                        printResponse("Time is not selected");
-                      }
-                      return null;
-                    });
+                    );
+                    if (pickedTime != null) {
+                      printResponse(pickedTime);
+                      setState(() {
+                        fromController.text = pickedTime.format(context);
+                      });
+                    } else {
+                      printResponse("Time is not selected");
+                    }
                   },
                   child: DefaultTextField(
                     controller: fromController,
@@ -84,7 +114,7 @@ class AddPeriodView {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await showTimePicker(
+                    TimeOfDay? pickedTime = await showTimePicker(
                       initialTime: TimeOfDay.now(),
                       context: context,
                       builder: (BuildContext context, Widget? child) {
@@ -99,14 +129,14 @@ class AddPeriodView {
                           child: child!,
                         );
                       },
-                    ).then((value) {
-                      if (value != null) {
-                        toController.text = value.format(context);
-                      } else {
-                        printResponse("Time is not selected");
-                      }
-                      return null;
-                    });
+                    );
+                    if (pickedTime != null) {
+                      setState(() {
+                        toController.text = pickedTime.format(context);
+                      });
+                    } else {
+                      printResponse("Time is not selected");
+                    }
                   },
                   child: DefaultTextField(
                     controller: toController,
@@ -134,15 +164,23 @@ class AddPeriodView {
           actions: <Widget>[
             DefaultAppButton(
               title: "Save",
-              onTap: () {
-                cubit.addPeriod(
-                  request: PeriodRequest(
-                    from: fromController.text,
-                    to: toController.text,
-                  ),
-                );
-                fromController.clear();
-                toController.clear();
+              onTap: () async {
+                if (widget.period == null) {
+                  await widget.cubit.addPeriod(
+                    request: PeriodRequest(
+                      from: fromController.text,
+                      to: toController.text,
+                    ),
+                  );
+                } else {
+                  await widget.cubit.updatePeriod(
+                    request: PeriodRequest(
+                      id: widget.period!.id,
+                      from: fromController.text,
+                      to: toController.text,
+                    ),
+                  );
+                }
                 NavigationService.pop();
               },
               width: 10.w,
@@ -171,6 +209,28 @@ class AddPeriodView {
             ),
           ],
         );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultAppButton(
+      width: 8.w,
+      height: 5.h,
+      offset: const Offset(0, 0),
+      spreadRadius: 2,
+      blurRadius: 2,
+      radius: 10,
+      gradientColors: const [
+        AppColors.green,
+        AppColors.lightGreen,
+      ],
+      fontSize: 4.sp,
+      haveShadow: false,
+      title: widget.title,
+      onTap: () {
+        _show();
       },
     );
   }

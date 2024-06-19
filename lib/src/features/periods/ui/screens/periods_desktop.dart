@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/views/loading_view.dart';
-import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
 import 'package:jetboard/src/features/periods/ui/views/add_period_view.dart';
@@ -50,24 +49,7 @@ class _PeriodsDesktopState extends State<PeriodsDesktop> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Spacer(),
-                      DefaultAppButton(
-                        width: 8.w,
-                        height: 5.h,
-                        offset: const Offset(0, 0),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        radius: 10,
-                        gradientColors: const [
-                          AppColors.green,
-                          AppColors.lightGreen,
-                        ],
-                        fontSize: 4.sp,
-                        haveShadow: false,
-                        title: "Add",
-                        onTap: () {
-                          AddPeriodView.show(cubit: cubit);
-                        },
-                      )
+                      AddPeriodView(title: "Add", cubit: cubit),
                     ],
                   ),
                 ),

@@ -77,8 +77,9 @@ class DefaultTextField extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
-          horizontal: horizontalPadding?.w ?? 0,
-          vertical: verticalPadding?.h ?? 0),
+        horizontal: horizontalPadding?.w ?? 0,
+        vertical: verticalPadding?.h ?? 0,
+      ),
       height: height ?? 4.h,
       width: width ?? 500.w,
       decoration: BoxDecoration(
@@ -100,7 +101,7 @@ class DefaultTextField extends StatelessWidget {
         textDirection: TextDirection.ltr,
         style: TextStyle(
           color: textColor ?? AppColors.darkGrey,
-          fontSize: fontSize ?? 20.sp,
+          fontSize: fontSize ?? 3.sp,
         ),
         cursorColor: cursorColor ?? AppColors.darkGrey,
         maxLines: expands == true ? null : maxLine ?? 1,
@@ -111,7 +112,7 @@ class DefaultTextField extends StatelessWidget {
           alignLabelWithHint: true,
           hintStyle: TextStyle(
             color: hintColor ?? AppColors.mainColor.withOpacity(0.7),
-            fontSize: fontSize ?? 20.sp,
+            fontSize: fontSize ?? 3.sp,
           ),
           border: InputBorder.none,
           hintTextDirection: TextDirection.ltr,

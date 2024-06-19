@@ -36,7 +36,7 @@ class _PeriodWebService implements PeriodWebService {
     )
             .compose(
               _dio.options,
-              'get_access',
+              'get_periods',
               queryParameters: queryParameters,
               data: _data,
             )
