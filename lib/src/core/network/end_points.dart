@@ -29,6 +29,13 @@ class EndPoints {
   static const deletePeriod = "delete_period";
   static const changePeriodStatus = "change_period_status";
 
+  // ------------------- Period
+  static const getAds = "get_ads";
+  static const addAds = "add_ads";
+  static const updateAds = "update_ads";
+  static const deleteAds = "delete_ads";
+  static const changeAdStatus = "change_ad_status";
+
 
 
 
@@ -48,12 +55,7 @@ class EndPoints {
   static const getTypes = "getTypes";
   static const updateInfo = "updateInfo";
 
-  static const addAds = "addAds";
-  static const updateAds = "updateAds";
-  static const deleteAds = "deleteAds";
   static const userAdminComment = "userAdminComment";
-  static const changeAdsStatus = "changeAdStatus";
-  static const getAllAds = "getAllAds";
   static const notifyUser = "notifyUser";
   static const notifyAll = "notifyAll";
   static const saveNotification = "saveNotification";

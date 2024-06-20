@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/presentation/screens/ads/ads_desktop.dart';
 import 'package:jetboard/src/core/shared/views/mobile.dart';
+import 'package:jetboard/src/features/ads/ui/screens/ads_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class Ads extends StatelessWidget {
@@ -8,10 +8,10 @@ class Ads extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: const MobileLayout(),
-      tablet: const MobileLayout(),
-      desktop: const AdsDesktop(),
+    return ScreenTypeLayout.builder(
+      mobile: (_) => const MobileLayout(),
+      tablet: (_) => const MobileLayout(),
+      desktop: (_) => const AdsDesktop(),
     );
   }
 }

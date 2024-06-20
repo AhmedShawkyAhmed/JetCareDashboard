@@ -3,6 +3,9 @@ import 'package:get_it/get_it.dart';
 import 'package:jetboard/src/core/network/dio_consumer.dart';
 import 'package:jetboard/src/core/network/dio_factory.dart';
 import 'package:jetboard/src/core/network/network_service.dart';
+import 'package:jetboard/src/features/ads/cubit/ads_cubit.dart';
+import 'package:jetboard/src/features/ads/data/repo/ads_repo.dart';
+import 'package:jetboard/src/features/ads/service/ads_web_service.dart';
 import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
 import 'package:jetboard/src/features/auth/data/repo/auth_repo.dart';
 import 'package:jetboard/src/features/auth/service/auth_web_service.dart';
@@ -36,16 +39,19 @@ Future<void> initAppModule() async {
   instance.registerFactory<HomeCubit>(() => HomeCubit(instance()));
   instance.registerFactory<SupportCubit>(() => SupportCubit(instance()));
   instance.registerFactory<PeriodCubit>(() => PeriodCubit(instance()));
+  instance.registerFactory<AdsCubit>(() => AdsCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AuthRepo>(() => AuthRepo(instance()));
   instance.registerLazySingleton<HomeRepo>(() => HomeRepo(instance()));
   instance.registerLazySingleton<SupportRepo>(() => SupportRepo(instance()));
   instance.registerLazySingleton<PeriodRepo>(() => PeriodRepo(instance()));
+  instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AuthWebService>(() => AuthWebService(instance()));
   instance.registerLazySingleton<HomeWebService>(() => HomeWebService(instance()));
   instance.registerLazySingleton<SupportWebService>(() => SupportWebService(instance()));
   instance.registerLazySingleton<PeriodWebService>(() => PeriodWebService(instance()));
+  instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
 }
