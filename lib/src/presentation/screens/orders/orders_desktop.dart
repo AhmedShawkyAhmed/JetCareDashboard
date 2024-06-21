@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/notification_cubit/notification_cubit.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/create_order.dart';
@@ -318,29 +317,29 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                                       .status = val;
                                                 },
                                               );
-                                              NotificationCubit.get(context)
-                                                  .notifyUser(
-                                                id: OrdersCubit.get(context)
-                                                    .ordersList[index]
-                                                    .user!
-                                                    .id!,
-                                                title: "الطلبات",
-                                                message:
-                                                    "تم تغيير حالة طلبك رقم ${OrdersCubit.get(context).ordersList[index].id} إلي $val",
-                                                afterSuccess: () {
-                                                  NotificationCubit.get(context)
-                                                      .saveNotification(
-                                                    id: OrdersCubit.get(context)
-                                                        .ordersList[index]
-                                                        .user!
-                                                        .id!,
-                                                    title: "الطلبات",
-                                                    message:
-                                                        "تم تغيير حالة طلبك رقم ${OrdersCubit.get(context).ordersList[index].id} إلي $val",
-                                                    afterSuccess: () {},
-                                                  );
-                                                },
-                                              );
+                                              // NotificationCubit.get(context)
+                                              //     .notifyUser(
+                                              //   id: OrdersCubit.get(context)
+                                              //       .ordersList[index]
+                                              //       .user!
+                                              //       .id!,
+                                              //   title: "الطلبات",
+                                              //   message:
+                                              //       "تم تغيير حالة طلبك رقم ${OrdersCubit.get(context).ordersList[index].id} إلي $val",
+                                              //   afterSuccess: () {
+                                              //     NotificationCubit.get(context)
+                                              //         .saveNotification(
+                                              //       id: OrdersCubit.get(context)
+                                              //           .ordersList[index]
+                                              //           .user!
+                                              //           .id!,
+                                              //       title: "الطلبات",
+                                              //       message:
+                                              //           "تم تغيير حالة طلبك رقم ${OrdersCubit.get(context).ordersList[index].id} إلي $val",
+                                              //       afterSuccess: () {},
+                                              //     );
+                                              //   },
+                                              // );
                                             },
                                           );
                                         },

@@ -20,7 +20,7 @@ import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
 import 'package:jetboard/src/presentation/screens/info/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
 import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
-import 'package:jetboard/src/presentation/screens/notifications/notifications.dart';
+import 'package:jetboard/src/features/notifications/ui/screens/notifications.dart';
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
 import 'package:jetboard/src/presentation/screens/packages/packages.dart';
 import 'package:jetboard/src/features/periods/ui/screens/periods.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/shared/views/mobile.dart';
-import 'package:jetboard/src/presentation/screens/notifications/notifications_desktop.dart';
+import 'package:jetboard/src/features/notifications/ui/screens/notifications_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class Notifications extends StatelessWidget {
@@ -8,10 +8,10 @@ class Notifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: const MobileLayout(),
-      tablet: const MobileLayout(),
-      desktop: const NotificationsDesktop(),
+    return ScreenTypeLayout.builder(
+      mobile: (_) => const MobileLayout(),
+      tablet: (_) => const MobileLayout(),
+      desktop: (_) => const NotificationsDesktop(),
     );
   }
 }

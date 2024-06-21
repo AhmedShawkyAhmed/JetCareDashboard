@@ -64,7 +64,6 @@ class AdsCubit extends Cubit<AdsState> {
 
   Future addAds({
     required AdsRequest request,
-    // required File image,
   }) async {
     emit(AddAdsLoading());
     var response = await repo.addAds(
