@@ -5,7 +5,6 @@ import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
 import 'package:jetboard/src/data/network/responses/global_response.dart';
-import 'package:jetboard/src/data/network/responses/role_response.dart';
 import 'package:jetboard/src/data/network/responses/user_response.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
@@ -16,7 +15,6 @@ class ClientsCubit extends Cubit<ClientsState> {
   ClientsCubit(this.networkService) : super(UsersCubitInitial());
   NetworkService networkService;
   static ClientsCubit get(context) => BlocProvider.of(context);
-  RoleResponse? roleResponse;
   GlobalResponse? globalResponse;
   UserResponse? getUserResponse,
       addUserResponse,

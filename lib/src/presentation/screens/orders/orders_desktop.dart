@@ -550,9 +550,9 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                                     builder: (BuildContext context) {
                                       return AlertDialog(
                                         backgroundColor: AppColors.white,
-                                        content: SingleChildScrollView(
+                                        content: const SingleChildScrollView(
                                           child: ListBody(
-                                            children: const <Widget>[
+                                            children: <Widget>[
                                               DefaultText(
                                                   text:
                                                       "Are you Sure you want to Delete this Order !!")

@@ -11,6 +11,7 @@ NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num?)?.toInt(),
       title: json['title'] as String?,
       message: json['message'] as String?,
+      createdAt: json['created_at'] as String?,
       isRead: json['is_read'] as bool?,
     );
 
@@ -26,6 +27,7 @@ Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) {
   writeNotNull('id', instance.id);
   writeNotNull('title', instance.title);
   writeNotNull('message', instance.message);
+  writeNotNull('created_at', instance.createdAt);
   writeNotNull('is_read', instance.isRead);
   return val;
 }

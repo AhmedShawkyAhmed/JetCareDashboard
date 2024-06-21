@@ -42,6 +42,17 @@ class EndPoints {
   static const notifyAll = "notify_all";
   static const saveNotification = "save_notification";
 
+  // ------------------- Notifications
+  static const addInfo = "add_info";
+  static const updateInfo = "update_info";
+  static const deleteInfo = "delete_info";
+  static const getInfo = "get_info";
+  static const getTypes = "get_types";
+  static const getUnit = "get_unit";
+  static const getRole = "get_role";
+  static const getCategory = "get_category";
+  static const getItemsTypes = "get_items_types";
+
 
 
 
@@ -55,12 +66,6 @@ class EndPoints {
   static const changeAccountStatus = "changeAccountStatus";
   static const getAccounts = "getAccounts";
 
-  static const getInfo = "getInfo";
-  static const addInfo = "addInfo";
-  static const deleteInfo = "deleteInfo";
-  static const getTypes = "getTypes";
-  static const updateInfo = "updateInfo";
-
   static const userAdminComment = "userAdminComment";
 
   static const addItem = "addItem";
@@ -69,7 +74,6 @@ class EndPoints {
   static const deleteItem = "deleteItem";
   static const getItems = "getItems";
   static const getExtras = "getExtras";
-  static const getItemsTypes = "getItemsTypes";
 
   static const addPackage = "addPackage";
   static const addPackageItem = "addPackageItem";
@@ -82,7 +86,6 @@ class EndPoints {
   static const getPackagesMobile = "getPackagesMobile";
   static const getPackageDetails = "getPackageDetails";
   static const getItemsMobile = "getItemsMobile";
-  static const getCategory = "getCategory";
   static const getCorporates = "getCorporates";
   static const addCorporateOrder = "addCorporateOrder";
   static const addToCart = "addToCart";

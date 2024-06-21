@@ -7,7 +7,7 @@ import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
 import 'package:jetboard/src/features/layout/cubit/layout_cubit.dart';
 import 'package:jetboard/src/features/splash/cubit/splash_cubit.dart';
 import 'package:jetboard/src/presentation/screens/clients/clients_desktop.dart';
-import 'package:jetboard/src/presentation/screens/info/info.dart';
+import 'package:jetboard/src/features/info/ui/screens/info.dart';
 import 'package:jetboard/src/features/layout/ui/screens/layout.dart';
 import 'package:jetboard/src/features/auth/ui/screens/login.dart';
 import 'package:jetboard/src/features/splash/ui/screens/splash.dart';
