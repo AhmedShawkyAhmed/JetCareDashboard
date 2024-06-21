@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/views/loading_view.dart';
 import 'package:jetboard/src/presentation/widgets/area_widget.dart';
@@ -63,58 +62,58 @@ class _CrewAreaState extends State<CrewArea> {
                   ),
                 ],
               ),
-              SizedBox(
-                child: BlocBuilder<AreaCubit, AreaState>(
-                  builder: (context, state) {
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(left: 2.w, right: 2.w, top: 1.h),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
-                        childAspectRatio: (20.w / 10.h),
-                      ),
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        if (AreaCubit.get(context).getAreaResponse?.areaModel ==
-                            null) {
-                          return LoadingView(
-                            width: 20.w,
-                            height: 6.h,
-                          );
-                        }
-                        if (AreaCubit.get(context)
-                            .getAreaResponse!
-                            .areaModel!
-                            .isEmpty) {
-                          return Center(
-                            child: DefaultText(
-                              text: "No Areas Found !",
-                              fontSize: 5.sp,
-                            ),
-                          );
-                        }
-                        return AreaWidget(
-                          area: AreaCubit.get(context)
-                              .getAreaResponse!
-                              .areaModel![index],
-                          crewId: widget.crewId,
-                        );
-                      },
-                      itemCount:
-                          AreaCubit.get(context).getAreaResponse?.areaModel ==
-                                  null
-                              ? 15
-                              : AreaCubit.get(context)
-                                  .getAreaResponse!
-                                  .areaModel!
-                                  .length,
-                    );
-                  },
-                ),
-              ),
+              // SizedBox(
+              //   child: BlocBuilder<AreaCubit, AreaState>(
+              //     builder: (context, state) {
+              //       return GridView.builder(
+              //         shrinkWrap: true,
+              //         physics: const BouncingScrollPhysics(),
+              //         padding: EdgeInsets.only(left: 2.w, right: 2.w, top: 1.h),
+              //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //           crossAxisCount: 3,
+              //           crossAxisSpacing: 0,
+              //           mainAxisSpacing: 0,
+              //           childAspectRatio: (20.w / 10.h),
+              //         ),
+              //         scrollDirection: Axis.vertical,
+              //         itemBuilder: (context, index) {
+              //           if (AreaCubit.get(context).getAreaResponse?.areaModel ==
+              //               null) {
+              //             return LoadingView(
+              //               width: 20.w,
+              //               height: 6.h,
+              //             );
+              //           }
+              //           if (AreaCubit.get(context)
+              //               .getAreaResponse!
+              //               .areaModel!
+              //               .isEmpty) {
+              //             return Center(
+              //               child: DefaultText(
+              //                 text: "No Areas Found !",
+              //                 fontSize: 5.sp,
+              //               ),
+              //             );
+              //           }
+              //           return AreaWidget(
+              //             area: AreaCubit.get(context)
+              //                 .getAreaResponse!
+              //                 .areaModel![index],
+              //             crewId: widget.crewId,
+              //           );
+              //         },
+              //         itemCount:
+              //             AreaCubit.get(context).getAreaResponse?.areaModel ==
+              //                     null
+              //                 ? 15
+              //                 : AreaCubit.get(context)
+              //                     .getAreaResponse!
+              //                     .areaModel!
+              //                     .length,
+              //       );
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),

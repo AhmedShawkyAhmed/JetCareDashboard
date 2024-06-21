@@ -53,6 +53,17 @@ class EndPoints {
   static const getCategory = "get_category";
   static const getItemsTypes = "get_items_types";
 
+  // ------------------- Areas
+  static const getAllAreas = "get_all_areas";
+  static const getAreasOfState = "get_areas_of_state";
+  static const addArea = "add_area";
+  static const updateArea = "update_area";
+  static const deleteArea = "delete_area";
+  static const changeAreaStatus = "change_area_status";
+
+  // ------------------- Areas
+  static const getAllStates = "get_all_states";
+
 
 
 
@@ -90,14 +101,6 @@ class EndPoints {
   static const addCorporateOrder = "addCorporateOrder";
   static const addToCart = "addToCart";
 
-  static const getAreasOfState = "getAreasOfState";
-  static const getAllAreas = "getAllAreas";
-  static const addArea = "addArea";
-  static const updatearea = "updatearea";
-  static const deleteArea = "deleteArea";
-  static const changeAreaStatus = "changeAreaStatus";
-
-  static const getAllStates = "getAllStates";
   static const addState = "addState";
   static const updateState = "updateState";
   static const deleteState = "deleteState";

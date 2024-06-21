@@ -1,14 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/core/shared/widgets/toast.dart';
-import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:sizer/sizer.dart';
 
 class DefaultDropDownMenu extends StatefulWidget {
@@ -83,18 +80,18 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
             setState(() {
               widget.value = value!;
               if (widget.type == "newCrew") {
-                if (AreaCubit.get(context)
-                        .areaId[AreaCubit.get(context)
-                            .areas
-                            .indexOf(value.toString())]
-                        .toString() ==
-                    "0") {
-                  DefaultToast.showMyToast("Please Select Correct Area");
-                } else {
-                  registerAreaId = AreaCubit.get(context).areaId[
-                      AreaCubit.get(context).areas.indexOf(value.toString())];
-                  printResponse(registerAreaId.toString());
-                }
+                // if (AreaCubit.get(context)
+                //         .areaId[AreaCubit.get(context)
+                //             .areas
+                //             .indexOf(value.toString())]
+                //         .toString() ==
+                //     "0") {
+                //   DefaultToast.showMyToast("Please Select Correct Area");
+                // } else {
+                //   registerAreaId = AreaCubit.get(context).areaId[
+                //       AreaCubit.get(context).areas.indexOf(value.toString())];
+                //   printResponse(registerAreaId.toString());
+                // }
               } else if (widget.type == "year") {
                 // GlobalCubit.get(context).getStatistics(
                 //   month: (selectedMonth + 1).toString(),

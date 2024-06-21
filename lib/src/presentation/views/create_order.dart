@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
-import 'package:jetboard/src/business_logic/area_cubit/area_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
@@ -262,13 +261,13 @@ class _CreateOrderState extends State<CreateOrder> {
                                               .statesList!,
                                           onChanged: (val) {
                                             setState(() {
-                                              AreaCubit.get(context)
-                                                  .getAllAreas(
-                                                      stateId: val!.id == 0
-                                                          ? 0
-                                                          : val.id);
-                                              stateId =
-                                                  (val.id == 0 ? 0 : val.id)!;
+                                              // AreaCubit.get(context)
+                                              //     .getAllAreas(
+                                              //         stateId: val!.id == 0
+                                              //             ? 0
+                                              //             : val.id);
+                                              // stateId =
+                                              //     (val.id == 0 ? 0 : val.id)!;
                                             });
                                           },
                                         ),
@@ -278,39 +277,39 @@ class _CreateOrderState extends State<CreateOrder> {
                             SizedBox(
                               width: 4.h,
                             ),
-                            BlocBuilder<AreaCubit, AreaState>(
-                              builder: (context, state) {
-                                if (AreaCubit.get(context).areaList.isEmpty ||
-                                    stateId == 0) {
-                                  return SizedBox(
-                                    height: 4.h,
-                                    width: 12.w,
-                                    child: Center(
-                                      child: DefaultText(
-                                          text: "Select Governorate First",
-                                          fontSize: 2.sp),
-                                    ),
-                                  );
-                                }
-                                return SizedBox(
-                                  height: 4.h,
-                                  width: 12.w,
-                                  child: DefaultDropdown<AreaModel>(
-                                    hint: "Areas",
-                                    showSearchBox: true,
-                                    itemAsString: (AreaModel? u) =>
-                                        u?.nameAr ?? "",
-                                    items: AreaCubit.get(context).areaList,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        areaId = (val!.id == 0 ? 0 : val.id)!;
-                                        printSuccess(areaId.toString());
-                                      });
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
+                            // BlocBuilder<AreaCubit, AreaState>(
+                            //   builder: (context, state) {
+                            //     if (AreaCubit.get(context).areaList.isEmpty ||
+                            //         stateId == 0) {
+                            //       return SizedBox(
+                            //         height: 4.h,
+                            //         width: 12.w,
+                            //         child: Center(
+                            //           child: DefaultText(
+                            //               text: "Select Governorate First",
+                            //               fontSize: 2.sp),
+                            //         ),
+                            //       );
+                            //     }
+                            //     return SizedBox(
+                            //       height: 4.h,
+                            //       width: 12.w,
+                            //       child: DefaultDropdown<AreaModel>(
+                            //         hint: "Areas",
+                            //         showSearchBox: true,
+                            //         itemAsString: (AreaModel? u) =>
+                            //             u?.nameAr ?? "",
+                            //         items: AreaCubit.get(context).areaList,
+                            //         onChanged: (val) {
+                            //           setState(() {
+                            //             areaId = (val!.id == 0 ? 0 : val.id)!;
+                            //             printSuccess(areaId.toString());
+                            //           });
+                            //         },
+                            //       ),
+                            //     );
+                            //   },
+                            // ),
                           ],
                         ),
                       ]
@@ -455,8 +454,8 @@ class _CreateOrderState extends State<CreateOrder> {
                                                                           onChanged:
                                                                               (val) {
                                                                             setState(() {
-                                                                              AreaCubit.get(context).getAllAreas(stateId: val!.id == 0 ? 0 : val.id);
-                                                                              stateId = (val.id == 0 ? 0 : val.id)!;
+                                                                              // AreaCubit.get(context).getAllAreas(stateId: val!.id == 0 ? 0 : val.id);
+                                                                              // stateId = (val.id == 0 ? 0 : val.id)!;
                                                                             });
                                                                           },
                                                                         ),
@@ -466,63 +465,63 @@ class _CreateOrderState extends State<CreateOrder> {
                                                             SizedBox(
                                                               width: 4.h,
                                                             ),
-                                                            BlocBuilder<
-                                                                AreaCubit,
-                                                                AreaState>(
-                                                              builder: (context,
-                                                                  state) {
-                                                                if (AreaCubit.get(
-                                                                            context)
-                                                                        .areaList
-                                                                        .isEmpty ||
-                                                                    stateId ==
-                                                                        0) {
-                                                                  return SizedBox(
-                                                                    height: 4.h,
-                                                                    width: 10.w,
-                                                                    child:
-                                                                        Center(
-                                                                      child: DefaultText(
-                                                                          text:
-                                                                              "Select Governorate First",
-                                                                          fontSize:
-                                                                              2.sp),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                                return SizedBox(
-                                                                  height: 4.h,
-                                                                  width: 10.w,
-                                                                  child: DefaultDropdown<
-                                                                      AreaModel>(
-                                                                    hint:
-                                                                        "Areas",
-                                                                    showSearchBox:
-                                                                        true,
-                                                                    itemAsString:
-                                                                        (AreaModel?
-                                                                                u) =>
-                                                                            u?.nameAr ??
-                                                                            "",
-                                                                    items: AreaCubit.get(
-                                                                            context)
-                                                                        .areaList,
-                                                                    onChanged:
-                                                                        (val) {
-                                                                      setState(
-                                                                          () {
-                                                                        areaId = (val!.id ==
-                                                                                0
-                                                                            ? 0
-                                                                            : val.id)!;
-                                                                        printSuccess(
-                                                                            areaId.toString());
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
+                                                            // BlocBuilder<
+                                                            //     AreaCubit,
+                                                            //     AreaState>(
+                                                            //   builder: (context,
+                                                            //       state) {
+                                                            //     if (AreaCubit.get(
+                                                            //                 context)
+                                                            //             .areaList
+                                                            //             .isEmpty ||
+                                                            //         stateId ==
+                                                            //             0) {
+                                                            //       return SizedBox(
+                                                            //         height: 4.h,
+                                                            //         width: 10.w,
+                                                            //         child:
+                                                            //             Center(
+                                                            //           child: DefaultText(
+                                                            //               text:
+                                                            //                   "Select Governorate First",
+                                                            //               fontSize:
+                                                            //                   2.sp),
+                                                            //         ),
+                                                            //       );
+                                                            //     }
+                                                            //     return SizedBox(
+                                                            //       height: 4.h,
+                                                            //       width: 10.w,
+                                                            //       child: DefaultDropdown<
+                                                            //           AreaModel>(
+                                                            //         hint:
+                                                            //             "Areas",
+                                                            //         showSearchBox:
+                                                            //             true,
+                                                            //         itemAsString:
+                                                            //             (AreaModel?
+                                                            //                     u) =>
+                                                            //                 u?.nameAr ??
+                                                            //                 "",
+                                                            //         items: AreaCubit.get(
+                                                            //                 context)
+                                                            //             .areaList,
+                                                            //         onChanged:
+                                                            //             (val) {
+                                                            //           setState(
+                                                            //               () {
+                                                            //             areaId = (val!.id ==
+                                                            //                     0
+                                                            //                 ? 0
+                                                            //                 : val.id)!;
+                                                            //             printSuccess(
+                                                            //                 areaId.toString());
+                                                            //           });
+                                                            //         },
+                                                            //       ),
+                                                            //     );
+                                                            //   },
+                                                            // ),
                                                           ],
                                                         ),
                                                       ],
