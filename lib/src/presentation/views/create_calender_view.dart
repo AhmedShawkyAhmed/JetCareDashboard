@@ -3,6 +3,7 @@ import 'package:jetboard/src/business_logic/calender_cubit/calender_cubit.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/calender_model.dart';
 import 'package:jetboard/src/data/network/requests/calender_request.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
 import 'package:jetboard/src/features/periods/data/models/period_model.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
@@ -10,8 +11,6 @@ import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../data/models/area_model.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../core/shared/widgets/default_dropdown.dart';
 import '../../core/shared/widgets/default_text.dart';

@@ -1,22 +1,7 @@
-import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/models/settings_model.dart';
 
-List<int> lol = [
-  0,
-  1,
-  0,
-  1,
-  0,
-  1,
-  0,
-  1,
-  0,
-  1,
-];
 String dropItemsInfo = '';
 String? imageApp;
-AreaModel selectedState =
-    AreaModel(id: 0, nameEn: "All", nameAr: "الكل", active: 1);
 String role = "All";
 String package = "All";
 String item = "All";
@@ -38,6 +23,7 @@ List<String> orderStatus = [
   'canceled'
 ];
 SettingsModel? settingsModelGlobal;
+
 List<String> yearList = [
   (DateTime.now().year - 4).toString(),
   (DateTime.now().year - 3).toString(),

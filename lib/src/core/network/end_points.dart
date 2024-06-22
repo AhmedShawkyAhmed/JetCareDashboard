@@ -61,8 +61,12 @@ class EndPoints {
   static const deleteArea = "delete_area";
   static const changeAreaStatus = "change_area_status";
 
-  // ------------------- Areas
+  // ------------------- States
   static const getAllStates = "get_all_states";
+  static const addState = "add_state";
+  static const updateState = "update_state";
+  static const deleteState = "delete_state";
+  static const changeStateStatus = "change_state_status";
 
 
 
@@ -100,11 +104,6 @@ class EndPoints {
   static const getCorporates = "getCorporates";
   static const addCorporateOrder = "addCorporateOrder";
   static const addToCart = "addToCart";
-
-  static const addState = "addState";
-  static const updateState = "updateState";
-  static const deleteState = "deleteState";
-  static const changeStateStatus = "changeStateStatus";
 
   static const getDates = "getDates";
   static const addDate = "addDate";

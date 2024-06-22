@@ -8,7 +8,7 @@ import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/features/areas/cubit/areas_cubit.dart';
 import 'package:jetboard/src/features/areas/data/models/area_model.dart';
-import 'package:jetboard/src/features/areas/data/models/state_model.dart';
+import 'package:jetboard/src/features/states/data/models/state_model.dart';
 import 'package:jetboard/src/features/areas/data/requests/area_request.dart';
 import 'package:sizer/sizer.dart';
 
@@ -39,7 +39,6 @@ class _AddAreaViewState extends State<AddAreaView> {
 
   @override
   void initState() {
-    widget.cubit.getAllStates();
     if (widget.area != null) {
       nameEnController.text = widget.area!.nameEn!;
       nameArController.text = widget.area!.nameAr!;

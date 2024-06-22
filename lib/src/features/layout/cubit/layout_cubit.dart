@@ -16,7 +16,7 @@ import 'package:jetboard/src/presentation/screens/crews/crews.dart';
 import 'package:jetboard/src/presentation/screens/equipment/equipment.dart';
 import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule.dart';
 import 'package:jetboard/src/presentation/screens/extras/extras.dart';
-import 'package:jetboard/src/presentation/screens/governorate/governorate.dart';
+import 'package:jetboard/src/features/states/ui/screens/states.dart';
 import 'package:jetboard/src/features/info/ui/screens/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
 import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
@@ -156,7 +156,7 @@ class LayoutCubit extends Cubit<LayoutState> {
     ),
     HomeItemModel(
       title: "Governorate",
-      page: const Governorate(),
+      page: const States(),
       icon: const Icon(
         Icons.map_outlined,
         color: AppColors.white,

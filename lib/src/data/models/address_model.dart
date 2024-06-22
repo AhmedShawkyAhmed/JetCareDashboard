@@ -1,5 +1,4 @@
-
-import 'package:jetboard/src/data/models/area_model.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
 
 class AddressModel {
   int? id;
@@ -17,26 +16,22 @@ class AddressModel {
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
-    id: json['id'] ?? 0,
-    longitude: json['longitude'] ?? "",
-    latitude: json['latitude'] ?? "",
-    area: json["area"] != null
-        ? AreaModel.fromJson(json["area"])
-        : null,
-    address: json['address'] ?? "",
-    state: json["state"] != null
-        ? AreaModel.fromJson(json["state"])
-        : null,
-    phone: json['phone'] ?? "",
-  );
+        id: json['id'] ?? 0,
+        longitude: json['longitude'] ?? "",
+        latitude: json['latitude'] ?? "",
+        area: json["area"] != null ? AreaModel.fromJson(json["area"]) : null,
+        address: json['address'] ?? "",
+        state: json["state"] != null ? AreaModel.fromJson(json["state"]) : null,
+        phone: json['phone'] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'longitude': longitude,
-    'latitude': latitude,
-    'area': area,
-    'state': state,
-    'phone': phone,
-    'address': address,
-  };
+        'id': id,
+        'longitude': longitude,
+        'latitude': latitude,
+        'area': area,
+        'state': state,
+        'phone': phone,
+        'address': address,
+      };
 }

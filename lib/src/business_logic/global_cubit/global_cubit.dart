@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
@@ -45,11 +44,6 @@ class GlobalCubit extends Cubit<GlobalState> {
   void isShadowE() {
     isShadow = !isShadow;
     emit(AppChangeShadowState());
-  }
-
-  void switched(int index) {
-    lol[index] == 1 ? lol[index] = 0 : lol[index] = 1;
-    emit(AppChangeSwitchState());
   }
 
   Future getUser({required VoidCallback afterSuccess}) async {

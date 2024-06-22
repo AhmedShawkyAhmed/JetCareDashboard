@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/features/areas/data/models/area_model.dart';
-import 'package:jetboard/src/features/areas/data/models/state_model.dart';
+import 'package:jetboard/src/features/states/data/models/state_model.dart';
 import 'package:jetboard/src/features/areas/data/requests/area_request.dart';
 import 'package:retrofit/retrofit.dart';
 

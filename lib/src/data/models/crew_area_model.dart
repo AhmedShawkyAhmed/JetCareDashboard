@@ -1,4 +1,4 @@
-import 'package:jetboard/src/data/models/area_model.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
 import 'package:jetboard/src/data/models/orders_model.dart';
 
 class CrewAreaModel {

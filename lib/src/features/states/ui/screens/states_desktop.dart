@@ -3,39 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/views/loading_view.dart';
-import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
-import 'package:jetboard/src/core/utils/shared_methods.dart';
-import 'package:jetboard/src/features/areas/cubit/areas_cubit.dart';
-import 'package:jetboard/src/features/areas/data/models/area_model.dart';
-import 'package:jetboard/src/features/areas/ui/views/add_area_view.dart';
-import 'package:jetboard/src/features/areas/ui/views/area_view.dart';
+import 'package:jetboard/src/features/states/cubit/states_cubit.dart';
+import 'package:jetboard/src/features/states/ui/views/add_state_view.dart';
+import 'package:jetboard/src/features/states/ui/views/state_view.dart';
 import 'package:sizer/sizer.dart';
 
-class AreaDesktop extends StatefulWidget {
-  const AreaDesktop({super.key});
+class StatesDesktop extends StatefulWidget {
+  const StatesDesktop({super.key});
 
   @override
-  State<AreaDesktop> createState() => _AreaDesktopState();
+  State<StatesDesktop> createState() => _StatesDesktopState();
 }
 
-class _AreaDesktopState extends State<AreaDesktop> {
-  AreasCubit cubit = AreasCubit(instance());
-  TextEditingController searchController = TextEditingController();
-  AreaModel? filteredState;
-
-  @override
-  void dispose() {
-    searchController.clear();
-    super.dispose();
-  }
+class _StatesDesktopState extends State<StatesDesktop> {
+  StatesCubit cubit = StatesCubit(instance());
+  TextEditingController search = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => cubit..getAllAreas()..getAllStates(),
+      create: (context) => cubit..getAllStates(),
       child: Scaffold(
+        drawerScrimColor: AppColors.transparent,
         backgroundColor: AppColors.green,
         body: Container(
           height: 100.h,
@@ -70,17 +61,16 @@ class _AreaDesktopState extends State<AreaDesktop> {
                         blurRadius: 2,
                         shadowColor: AppColors.black.withOpacity(0.05),
                         haveShadow: true,
-                        controller: searchController,
+                        controller: search,
                         onChange: (value) {
                           if (value == "") {
-                            cubit.getAllAreas();
+                            cubit.getAllStates();
                           }
                         },
                         suffix: IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {
-                            cubit.getAllAreas(keyword: searchController.text);
-                            printResponse(searchController.text);
+                            cubit.getAllStates(keyword: search.text);
                           },
                           color: AppColors.black,
                         ),
@@ -88,39 +78,14 @@ class _AreaDesktopState extends State<AreaDesktop> {
                       SizedBox(
                         width: 1.w,
                       ),
-                      BlocBuilder<AreasCubit, AreasState>(
-                        builder: (context, state) {
-                          return cubit.areasOfStates == null
-                              ? const SizedBox()
-                              : SizedBox(
-                                  width: 8.w,
-                                  height: 5.h,
-                                  child: DefaultDropdown<AreaModel>(
-                                    hint: "Governorate",
-                                    showSearchBox: true,
-                                    itemAsString: (AreaModel? u) =>
-                                        u?.nameAr ?? "",
-                                    items: cubit.areasOfStates!,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        cubit.getAreasOfState(
-                                            stateId:
-                                                val!.id == 0 ? 0 : val.id!);
-                                        filteredState = val;
-                                      });
-                                    },
-                                  ),
-                                );
-                        },
-                      ),
                       const Spacer(),
-                      AddAreaView(title: "Add",cubit: cubit),
+                      AddStateView(cubit: cubit),
                     ],
                   ),
                 ),
-                BlocBuilder<AreasCubit, AreasState>(
+                BlocBuilder<StatesCubit, StatesState>(
                   builder: (context, state) {
-                    if (cubit.areas == null) {
+                    if (cubit.states == null) {
                       return SizedBox(
                         height: 79.h,
                         child: ListView.builder(
@@ -139,16 +104,16 @@ class _AreaDesktopState extends State<AreaDesktop> {
                           ),
                         ),
                       );
-                    } else if (cubit.areas!.isEmpty) {
+                    } else if (cubit.states!.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
-                          text: "No Areas Found !",
+                          text: "No States Found !",
                           fontSize: 5.sp,
                         ),
                       );
                     }
-                    return AreaView(cubit: cubit);
+                    return StateView(cubit: cubit);
                   },
                 ),
               ],

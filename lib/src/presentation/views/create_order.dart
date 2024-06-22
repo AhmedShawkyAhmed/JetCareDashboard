@@ -2,26 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
+import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
-import 'package:jetboard/src/business_logic/states_cubit/states_cubit.dart';
-import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
-import 'package:jetboard/src/data/models/area_model.dart';
 import 'package:jetboard/src/data/models/cart_model.dart';
 import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/models/orders_model.dart';
 import 'package:jetboard/src/data/network/requests/address_request.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
 import 'package:jetboard/src/data/network/requests/user_request.dart';
-import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
-import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
-import 'package:jetboard/src/core/shared/widgets/default_text.dart';
-import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
-import 'package:jetboard/src/core/shared/views/indicator_view.dart';
-import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateOrder extends StatefulWidget {
@@ -233,47 +231,47 @@ class _CreateOrderState extends State<CreateOrder> {
                         ),
                         Row(
                           children: [
-                            BlocBuilder<StatesCubit, StatesState>(
-                              builder: (context, state) {
-                                return StatesCubit.get(context)
-                                            .allStatesResponse
-                                            ?.statesList ==
-                                        null
-                                    ? SizedBox(
-                                        height: 4.h,
-                                        width: 12.w,
-                                        child: Center(
-                                          child: DefaultText(
-                                              text: "No Governorate Found !",
-                                              fontSize: 2.sp),
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        width: 12.w,
-                                        height: 4.h,
-                                        child: DefaultDropdown<AreaModel>(
-                                          hint: "Governorate",
-                                          showSearchBox: true,
-                                          itemAsString: (AreaModel? u) =>
-                                              u?.nameAr ?? "",
-                                          items: StatesCubit.get(context)
-                                              .allStatesResponse!
-                                              .statesList!,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              // AreaCubit.get(context)
-                                              //     .getAllAreas(
-                                              //         stateId: val!.id == 0
-                                              //             ? 0
-                                              //             : val.id);
-                                              // stateId =
-                                              //     (val.id == 0 ? 0 : val.id)!;
-                                            });
-                                          },
-                                        ),
-                                      );
-                              },
-                            ),
+                            // BlocBuilder<StatesCubit, StatesState>(
+                            //   builder: (context, state) {
+                            //     return StatesCubit.get(context)
+                            //                 .allStatesResponse
+                            //                 ?.statesList ==
+                            //             null
+                            //         ? SizedBox(
+                            //             height: 4.h,
+                            //             width: 12.w,
+                            //             child: Center(
+                            //               child: DefaultText(
+                            //                   text: "No Governorate Found !",
+                            //                   fontSize: 2.sp),
+                            //             ),
+                            //           )
+                            //         : SizedBox(
+                            //             width: 12.w,
+                            //             height: 4.h,
+                            //             child: DefaultDropdown<AreaModel>(
+                            //               hint: "Governorate",
+                            //               showSearchBox: true,
+                            //               itemAsString: (AreaModel? u) =>
+                            //                   u?.nameAr ?? "",
+                            //               items: StatesCubit.get(context)
+                            //                   .allStatesResponse!
+                            //                   .statesList!,
+                            //               onChanged: (val) {
+                            //                 setState(() {
+                            //                   // AreaCubit.get(context)
+                            //                   //     .getAllAreas(
+                            //                   //         stateId: val!.id == 0
+                            //                   //             ? 0
+                            //                   //             : val.id);
+                            //                   // stateId =
+                            //                   //     (val.id == 0 ? 0 : val.id)!;
+                            //                 });
+                            //               },
+                            //             ),
+                            //           );
+                            //   },
+                            // ),
                             SizedBox(
                               width: 4.h,
                             ),
@@ -312,8 +310,7 @@ class _CreateOrderState extends State<CreateOrder> {
                             // ),
                           ],
                         ),
-                      ]
-                      else ...[
+                      ] else ...[
                         SizedBox(
                           width: 26.w,
                           height: 4.h,
@@ -413,55 +410,56 @@ class _CreateOrderState extends State<CreateOrder> {
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            BlocBuilder<
-                                                                StatesCubit,
-                                                                StatesState>(
-                                                              builder: (context,
-                                                                  state) {
-                                                                return StatesCubit.get(context)
-                                                                            .allStatesResponse
-                                                                            ?.statesList ==
-                                                                        null
-                                                                    ? SizedBox(
-                                                                        height:
-                                                                            4.h,
-                                                                        width:
-                                                                            10.w,
-                                                                        child:
-                                                                            Center(
-                                                                          child: DefaultText(
-                                                                              text: "No Governorate Found !",
-                                                                              fontSize: 2.sp),
-                                                                        ),
-                                                                      )
-                                                                    : SizedBox(
-                                                                        width:
-                                                                            10.w,
-                                                                        height:
-                                                                            4.h,
-                                                                        child: DefaultDropdown<
-                                                                            AreaModel>(
-                                                                          hint:
-                                                                              "Governorate",
-                                                                          showSearchBox:
-                                                                              true,
-                                                                          itemAsString: (AreaModel? u) =>
-                                                                              u?.nameAr ??
-                                                                              "",
-                                                                          items: StatesCubit.get(context)
-                                                                              .allStatesResponse!
-                                                                              .statesList!,
-                                                                          onChanged:
-                                                                              (val) {
-                                                                            setState(() {
-                                                                              // AreaCubit.get(context).getAllAreas(stateId: val!.id == 0 ? 0 : val.id);
-                                                                              // stateId = (val.id == 0 ? 0 : val.id)!;
-                                                                            });
-                                                                          },
-                                                                        ),
-                                                                      );
-                                                              },
-                                                            ),
+                                                            // BlocBuilder<
+                                                            //     StatesCubit,
+                                                            //     StatesState>(
+                                                            //   builder: (context,
+                                                            //       state) {
+                                                            //     return StatesCubit.get(context)
+                                                            //                 .allStatesResponse
+                                                            //                 ?.statesList ==
+                                                            //             null
+                                                            //         ? SizedBox(
+                                                            //             height:
+                                                            //                 4.h,
+                                                            //             width:
+                                                            //                 10.w,
+                                                            //             child:
+                                                            //                 Center(
+                                                            //               child: DefaultText(
+                                                            //                   text: "No Governorate Found !",
+                                                            //                   fontSize: 2.sp),
+                                                            //             ),
+                                                            //           )
+                                                            //         : SizedBox(
+                                                            //             width:
+                                                            //                 10.w,
+                                                            //             height:
+                                                            //                 4.h,
+                                                            //             child: DefaultDropdown<
+                                                            //                 AreaModel>(
+                                                            //               hint:
+                                                            //                   "Governorate",
+                                                            //               showSearchBox:
+                                                            //                   true,
+                                                            //               itemAsString: (AreaModel? u) =>
+                                                            //                   u?.nameAr ??
+                                                            //                   "",
+                                                            //               items:[],
+                                                            //               // items: StatesCubit.get(context)
+                                                            //               //     .allStatesResponse!
+                                                            //               //     .statesList!,
+                                                            //               onChanged:
+                                                            //                   (val) {
+                                                            //                 setState(() {
+                                                            //                   // AreaCubit.get(context).getAllAreas(stateId: val!.id == 0 ? 0 : val.id);
+                                                            //                   // stateId = (val.id == 0 ? 0 : val.id)!;
+                                                            //                 });
+                                                            //               },
+                                                            //             ),
+                                                            //           );
+                                                            //   },
+                                                            // ),
                                                             SizedBox(
                                                               width: 4.h,
                                                             ),
@@ -560,7 +558,10 @@ class _CreateOrderState extends State<CreateOrder> {
                                                               latitude: "0.0",
                                                               longitude: "0.0",
                                                               stateId: stateId,
-                                                              areaId: areaId, address: addressController.text,
+                                                              areaId: areaId,
+                                                              address:
+                                                                  addressController
+                                                                      .text,
                                                             ),
                                                             afterSuccess: () {
                                                               AddressCubit.get(
@@ -570,9 +571,10 @@ class _CreateOrderState extends State<CreateOrder> {
                                                                     clientId,
                                                                 afterSuccess:
                                                                     () {
-                                                                      addressController.clear();
-                                                                      stateId = 0;
-                                                                      areaId = 0;
+                                                                  addressController
+                                                                      .clear();
+                                                                  stateId = 0;
+                                                                  areaId = 0;
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
@@ -586,7 +588,8 @@ class _CreateOrderState extends State<CreateOrder> {
                                                       fontSize: 3.sp,
                                                       textColor:
                                                           AppColors.white,
-                                                      buttonColor: AppColors.primary,
+                                                      buttonColor:
+                                                          AppColors.primary,
                                                       isGradient: false,
                                                       radius: 10,
                                                     ),
@@ -737,213 +740,235 @@ class _CreateOrderState extends State<CreateOrder> {
                         children: [
                           DefaultAppButton(
                             title: "Create",
-                            onTap:newClient? () {
-                              if (nameController.text == "") {
-                                DefaultToast.showMyToast(
-                                    "Please Enter Client Name");
-                              } else if (phoneController.text == "") {
-                                DefaultToast.showMyToast(
-                                    "Please Enter Phone Number");
-                              } else if (addressController.text == "") {
-                                DefaultToast.showMyToast(
-                                    "Please Enter the Address");
-                              } else if (stateId == 0) {
-                                DefaultToast.showMyToast(
-                                    "Please Select Governorate");
-                              } else if (areaId == 0) {
-                                DefaultToast.showMyToast("Please Select Area");
-                              } else if (shippingController.text == "") {
-                                DefaultToast.showMyToast(
-                                    "Please Enter the Shipping Cost");
-                              } else if (dateController.text == "") {
-                                DefaultToast.showMyToast("Please Select Date");
-                              } else if (periodId == 0) {
-                                DefaultToast.showMyToast(
-                                    "Please Select Period");
-                              } else if (cartItemsIds.isEmpty) {
-                                DefaultToast.showMyToast("Please Select Items");
-                              } else {
-                                IndicatorView.showIndicator();
-                                ClientsCubit.get(context).addClient(
-                                  userRequest: UserRequset(
-                                    phone: phoneController.text,
-                                    email: emailController.text == ""
-                                        ? "empty"
-                                        : emailController.text,
-                                    password: "12345678",
-                                    role: "client",
-                                    name: nameController.text,
-                                  ),
-                                  onError: (){
-                                    Navigator.pop(context);
-                                  },
-                                  afterSuccess: () {
-                                    AddressCubit.get(context).addAddress(
-                                      addressRequest: AddressRequest(
-                                        userId: ClientsCubit.get(context)
-                                            .addUserResponse!
-                                            .userModell!
-                                            .id,
-                                        stateId: stateId,
-                                        areaId: areaId,
-                                        address: addressController.text,
-                                        phone: phoneController.text,
-                                        latitude: "0",
-                                        longitude: "0",
-                                      ),
-                                      afterSuccess: () {
-                                        for (int c = 0;
-                                            c < cartItemsIds.length;
-                                            c++) {
-                                          OrdersCubit.get(context).addToCart(
-                                            userId: ClientsCubit.get(context)
-                                                .addUserResponse!
-                                                .userModell!
-                                                .id,
-                                            count: cart[c].count.toInt(),
-                                            price: cart[c].price.toDouble(),
-                                            itemId: cart[c].id,
+                            onTap: newClient
+                                ? () {
+                                    if (nameController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Enter Client Name");
+                                    } else if (phoneController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Enter Phone Number");
+                                    } else if (addressController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Enter the Address");
+                                    } else if (stateId == 0) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Governorate");
+                                    } else if (areaId == 0) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Area");
+                                    } else if (shippingController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Enter the Shipping Cost");
+                                    } else if (dateController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Date");
+                                    } else if (periodId == 0) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Period");
+                                    } else if (cartItemsIds.isEmpty) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Items");
+                                    } else {
+                                      IndicatorView.showIndicator();
+                                      ClientsCubit.get(context).addClient(
+                                        userRequest: UserRequset(
+                                          phone: phoneController.text,
+                                          email: emailController.text == ""
+                                              ? "empty"
+                                              : emailController.text,
+                                          password: "12345678",
+                                          role: "client",
+                                          name: nameController.text,
+                                        ),
+                                        onError: () {
+                                          Navigator.pop(context);
+                                        },
+                                        afterSuccess: () {
+                                          AddressCubit.get(context).addAddress(
+                                            addressRequest: AddressRequest(
+                                              userId: ClientsCubit.get(context)
+                                                  .addUserResponse!
+                                                  .userModell!
+                                                  .id,
+                                              stateId: stateId,
+                                              areaId: areaId,
+                                              address: addressController.text,
+                                              phone: phoneController.text,
+                                              latitude: "0",
+                                              longitude: "0",
+                                            ),
                                             afterSuccess: () {
-                                              cart.removeAt(0);
-                                              if (cart.isEmpty) {
+                                              for (int c = 0;
+                                                  c < cartItemsIds.length;
+                                                  c++) {
                                                 OrdersCubit.get(context)
-                                                    .createOrder(
-                                                  orderRequest: OrderRequest(
-                                                    userId:
-                                                    ClientsCubit.get(context)
-                                                            .addUserResponse!
-                                                            .userModell!
-                                                            .id,
-                                                    total: (total + shipping)
-                                                        .toString(),
-                                                    price: total.toString(),
-                                                    comment:
-                                                        messageController.text,
-                                                    shipping:
-                                                        shipping.toString(),
-                                                    addressId: AddressCubit.get(
-                                                            context)
-                                                        .addAddressResponse!
-                                                        .addressModel!
-                                                        .id!,
-                                                    periodId: periodId,
-                                                    date: dateController.text,
-                                                  ),
+                                                    .addToCart(
+                                                  userId:
+                                                      ClientsCubit.get(context)
+                                                          .addUserResponse!
+                                                          .userModell!
+                                                          .id,
+                                                  count: cart[c].count.toInt(),
+                                                  price:
+                                                      cart[c].price.toDouble(),
+                                                  itemId: cart[c].id,
                                                   afterSuccess: () {
-                                                    OrdersCubit.get(context)
-                                                        .getOrders();
-                                                    nameController.clear();
-                                                    emailController.clear();
-                                                    phoneController.clear();
-                                                    messageController.clear();
-                                                    addressController.clear();
-                                                    shippingController.clear();
-                                                    stateId = 0;
-                                                    areaId = 0;
-                                                    periodId = 0;
-                                                    period = "";
-                                                    client = "";
-                                                    clientId = 0;
-                                                    address = "";
-                                                    addressId = 0;
-                                                    cartItemsIds.clear();
-                                                    cart.clear();
-                                                    price = 0;
-                                                    count = 0;
-                                                    total = 0;
-                                                    shipping = 0;
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
+                                                    cart.removeAt(0);
+                                                    if (cart.isEmpty) {
+                                                      OrdersCubit.get(context)
+                                                          .createOrder(
+                                                        orderRequest:
+                                                            OrderRequest(
+                                                          userId: ClientsCubit
+                                                                  .get(context)
+                                                              .addUserResponse!
+                                                              .userModell!
+                                                              .id,
+                                                          total:
+                                                              (total + shipping)
+                                                                  .toString(),
+                                                          price:
+                                                              total.toString(),
+                                                          comment:
+                                                              messageController
+                                                                  .text,
+                                                          shipping: shipping
+                                                              .toString(),
+                                                          addressId: AddressCubit
+                                                                  .get(context)
+                                                              .addAddressResponse!
+                                                              .addressModel!
+                                                              .id!,
+                                                          periodId: periodId,
+                                                          date: dateController
+                                                              .text,
+                                                        ),
+                                                        afterSuccess: () {
+                                                          OrdersCubit.get(
+                                                                  context)
+                                                              .getOrders();
+                                                          nameController
+                                                              .clear();
+                                                          emailController
+                                                              .clear();
+                                                          phoneController
+                                                              .clear();
+                                                          messageController
+                                                              .clear();
+                                                          addressController
+                                                              .clear();
+                                                          shippingController
+                                                              .clear();
+                                                          stateId = 0;
+                                                          areaId = 0;
+                                                          periodId = 0;
+                                                          period = "";
+                                                          client = "";
+                                                          clientId = 0;
+                                                          address = "";
+                                                          addressId = 0;
+                                                          cartItemsIds.clear();
+                                                          cart.clear();
+                                                          price = 0;
+                                                          count = 0;
+                                                          total = 0;
+                                                          shipping = 0;
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      );
+                                                    }
                                                   },
                                                 );
                                               }
                                             },
                                           );
-                                        }
-                                      },
-                                    );
-                                  },
-                                );
-                              }
-                            }:(){
-                              if (clientId == 0) {
-                                DefaultToast.showMyToast(
-                                    "Please Select Client");
-                              } else if (addressId == 0) {
-                                DefaultToast.showMyToast(
-                                    "Please Select Address");
-                              } else if (shippingController.text == "") {
-                                DefaultToast.showMyToast(
-                                    "Please Enter the Shipping Cost");
-                              } else if (dateController.text == "") {
-                                DefaultToast.showMyToast("Please Select Date");
-                              } else if (periodId == 0) {
-                                DefaultToast.showMyToast(
-                                    "Please Select Period");
-                              } else if (cartItemsIds.isEmpty) {
-                                DefaultToast.showMyToast("Please Select Items");
-                              }else{
-
-                                IndicatorView.showIndicator();
-                                for (int c = 0;
-                                c < cartItemsIds.length;
-                                c++) {
-                                  OrdersCubit.get(context).addToCart(
-                                    userId: clientId,
-                                    count: cart[c].count.toInt(),
-                                    price: cart[c].price.toDouble(),
-                                    itemId: cart[c].id,
-                                    afterSuccess: () {
-                                      cart.removeAt(0);
-                                      if (cart.isEmpty) {
-                                        OrdersCubit.get(context)
-                                            .createOrder(
-                                          orderRequest: OrderRequest(
-                                            userId:clientId,
-                                            total: (total + shipping)
-                                                .toString(),
-                                            price: total.toString(),
-                                            comment:
-                                            messageController.text,
-                                            shipping:
-                                            shipping.toString(),
-                                            addressId: addressId,
-                                            periodId: periodId,
-                                            date: dateController.text,
-                                          ),
+                                        },
+                                      );
+                                    }
+                                  }
+                                : () {
+                                    if (clientId == 0) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Client");
+                                    } else if (addressId == 0) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Address");
+                                    } else if (shippingController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Enter the Shipping Cost");
+                                    } else if (dateController.text == "") {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Date");
+                                    } else if (periodId == 0) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Period");
+                                    } else if (cartItemsIds.isEmpty) {
+                                      DefaultToast.showMyToast(
+                                          "Please Select Items");
+                                    } else {
+                                      IndicatorView.showIndicator();
+                                      for (int c = 0;
+                                          c < cartItemsIds.length;
+                                          c++) {
+                                        OrdersCubit.get(context).addToCart(
+                                          userId: clientId,
+                                          count: cart[c].count.toInt(),
+                                          price: cart[c].price.toDouble(),
+                                          itemId: cart[c].id,
                                           afterSuccess: () {
-                                            OrdersCubit.get(context)
-                                                .getOrders();
-                                            nameController.clear();
-                                            emailController.clear();
-                                            phoneController.clear();
-                                            messageController.clear();
-                                            addressController.clear();
-                                            shippingController.clear();
-                                            stateId = 0;
-                                            areaId = 0;
-                                            periodId = 0;
-                                            period = "";
-                                            client = "";
-                                            clientId = 0;
-                                            address = "";
-                                            addressId = 0;
-                                            cartItemsIds.clear();
-                                            cart.clear();
-                                            price = 0;
-                                            count = 0;
-                                            total = 0;
-                                            shipping = 0;
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
+                                            cart.removeAt(0);
+                                            if (cart.isEmpty) {
+                                              OrdersCubit.get(context)
+                                                  .createOrder(
+                                                orderRequest: OrderRequest(
+                                                  userId: clientId,
+                                                  total: (total + shipping)
+                                                      .toString(),
+                                                  price: total.toString(),
+                                                  comment:
+                                                      messageController.text,
+                                                  shipping: shipping.toString(),
+                                                  addressId: addressId,
+                                                  periodId: periodId,
+                                                  date: dateController.text,
+                                                ),
+                                                afterSuccess: () {
+                                                  OrdersCubit.get(context)
+                                                      .getOrders();
+                                                  nameController.clear();
+                                                  emailController.clear();
+                                                  phoneController.clear();
+                                                  messageController.clear();
+                                                  addressController.clear();
+                                                  shippingController.clear();
+                                                  stateId = 0;
+                                                  areaId = 0;
+                                                  periodId = 0;
+                                                  period = "";
+                                                  client = "";
+                                                  clientId = 0;
+                                                  address = "";
+                                                  addressId = 0;
+                                                  cartItemsIds.clear();
+                                                  cart.clear();
+                                                  price = 0;
+                                                  count = 0;
+                                                  total = 0;
+                                                  shipping = 0;
+                                                  Navigator.pop(context);
+                                                  Navigator.pop(context);
+                                                },
+                                              );
+                                            }
                                           },
                                         );
                                       }
-                                    },
-                                  );
-                                }
-                              }
-                            },
+                                    }
+                                  },
                             width: 10.w,
                             height: 4.h,
                             fontSize: 3.sp,
@@ -965,11 +990,11 @@ class _CreateOrderState extends State<CreateOrder> {
                               stateId = 0;
                               areaId = 0;
                               periodId = 0;
-                               period = "";
-                               client = "";
-                               clientId = 0;
-                               address = "";
-                               addressId = 0;
+                              period = "";
+                              client = "";
+                              clientId = 0;
+                              address = "";
+                              addressId = 0;
                               cartItemsIds.clear();
                               cart.clear();
                               price = 0;
