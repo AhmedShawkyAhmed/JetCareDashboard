@@ -7,7 +7,7 @@ import 'package:jetboard/src/features/home/ui/screens/home.dart';
 import 'package:jetboard/src/features/layout/data/models/home_item_model.dart';
 import 'package:jetboard/src/features/ads/ui/screens/ads.dart';
 import 'package:jetboard/src/features/areas/ui/screens/areas.dart';
-import 'package:jetboard/src/presentation/screens/calender/calender.dart';
+import 'package:jetboard/src/features/calendar/ui/screens/calender.dart';
 import 'package:jetboard/src/presentation/screens/category/category.dart';
 import 'package:jetboard/src/presentation/screens/clients/clients.dart';
 import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';

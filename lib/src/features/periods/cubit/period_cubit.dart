@@ -110,7 +110,7 @@ class PeriodCubit extends Cubit<PeriodState> {
   Future deletePeriod({
     required int id,
   }) async {
-    emit(UpdatePeriodLoading());
+    emit(DeletePeriodLoading());
     var response = await repo.deletePeriod(
       id: id,
     );
@@ -119,10 +119,10 @@ class PeriodCubit extends Cubit<PeriodState> {
         if (periods != null) {
           periods!.removeWhere((item) => item.id == id);
         }
-        emit(UpdatePeriodSuccess());
+        emit(DeletePeriodSuccess());
       },
       failure: (NetworkExceptions error) {
-        emit(UpdatePeriodFailure());
+        emit(DeletePeriodFailure());
         error.showError();
       },
     );

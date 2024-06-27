@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/features/calendar/data/models/calendar_model.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../data/models/calender_model.dart';
-
 class CalenderView extends StatelessWidget {
-  final CalenderModel calenderModel;
+  final CalendarModel calendarModel;
   final VoidCallback onTap;
 
   const CalenderView({
-    required this.calenderModel,
+    required this.calendarModel,
     required this.onTap,
     super.key,
   });
@@ -32,23 +31,23 @@ class CalenderView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DefaultText(
-                  text: calenderModel.dayName!,
+                  text: calendarModel.dayName!,
                   fontWeight: FontWeight.w500,
                 ),
                 DefaultText(
-                  text: calenderModel.day.toString(),
+                  text: calendarModel.day.toString(),
                   fontSize: 5.sp,
                 ),
                 DefaultText(
-                  text: "Requests ${calenderModel.periods!.length.toString()}",
+                  text: "Requests ${calendarModel.periods!.length.toString()}",
                   fontWeight: FontWeight.w500,
                 ),
                 DefaultText(
-                  text: calenderModel.areas == null
+                  text: calendarModel.area == null
                       ? ""
-                      : calenderModel.areas!.isEmpty
+                      : calendarModel.area!.isEmpty
                           ? ""
-                          : calenderModel.areas?[0].nameAr ?? "",
+                          : calendarModel.area?[0].nameAr ?? "",
                   fontWeight: FontWeight.w500,
                 ),
               ],

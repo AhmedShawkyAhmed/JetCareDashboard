@@ -6,9 +6,15 @@ import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/features/ads/cubit/ads_cubit.dart';
 import 'package:jetboard/src/features/ads/data/repo/ads_repo.dart';
 import 'package:jetboard/src/features/ads/service/ads_web_service.dart';
+import 'package:jetboard/src/features/areas/cubit/areas_cubit.dart';
+import 'package:jetboard/src/features/areas/data/repo/area_repo.dart';
+import 'package:jetboard/src/features/areas/service/areas_web_service.dart';
 import 'package:jetboard/src/features/auth/cubit/auth_cubit.dart';
 import 'package:jetboard/src/features/auth/data/repo/auth_repo.dart';
 import 'package:jetboard/src/features/auth/service/auth_web_service.dart';
+import 'package:jetboard/src/features/calendar/cubit/calendar_cubit.dart';
+import 'package:jetboard/src/features/calendar/data/repo/calendar_repo.dart';
+import 'package:jetboard/src/features/calendar/service/calendar_web_service.dart';
 import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/features/home/data/repo/home_repo.dart';
 import 'package:jetboard/src/features/home/service/home_web_service.dart';
@@ -23,6 +29,9 @@ import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
 import 'package:jetboard/src/features/periods/data/repo/period_repo.dart';
 import 'package:jetboard/src/features/periods/service/period_web_service.dart';
 import 'package:jetboard/src/features/splash/cubit/splash_cubit.dart';
+import 'package:jetboard/src/features/states/cubit/states_cubit.dart';
+import 'package:jetboard/src/features/states/data/repo/state_repo.dart';
+import 'package:jetboard/src/features/states/service/states_web_service.dart';
 import 'package:jetboard/src/features/support/cubit/support_cubit.dart';
 import 'package:jetboard/src/features/support/data/repo/support_repo.dart';
 import 'package:jetboard/src/features/support/service/support_web_service.dart';
@@ -48,6 +57,9 @@ Future<void> initAppModule() async {
   instance.registerFactory<PeriodCubit>(() => PeriodCubit(instance()));
   instance.registerFactory<SplashCubit>(() => SplashCubit());
   instance.registerFactory<SupportCubit>(() => SupportCubit(instance()));
+  instance.registerFactory<AreasCubit>(() => AreasCubit(instance()));
+  instance.registerFactory<StatesCubit>(() => StatesCubit(instance()));
+  instance.registerFactory<CalendarCubit>(() => CalendarCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
@@ -57,6 +69,9 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<NotificationRepo>(() => NotificationRepo(instance()));
   instance.registerLazySingleton<PeriodRepo>(() => PeriodRepo(instance()));
   instance.registerLazySingleton<SupportRepo>(() => SupportRepo(instance()));
+  instance.registerLazySingleton<AreaRepo>(() => AreaRepo(instance()));
+  instance.registerLazySingleton<StateRepo>(() => StateRepo(instance()));
+  instance.registerLazySingleton<CalendarRepo>(() => CalendarRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
@@ -66,4 +81,7 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<NotificationsWebService>(() => NotificationsWebService(instance()));
   instance.registerLazySingleton<PeriodWebService>(() => PeriodWebService(instance()));
   instance.registerLazySingleton<SupportWebService>(() => SupportWebService(instance()));
+  instance.registerLazySingleton<AreasWebService>(() => AreasWebService(instance()));
+  instance.registerLazySingleton<StatesWebService>(() => StatesWebService(instance()));
+  instance.registerLazySingleton<CalendarWebService>(() => CalendarWebService(instance()));
 }

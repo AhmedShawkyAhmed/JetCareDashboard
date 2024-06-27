@@ -68,6 +68,11 @@ class EndPoints {
   static const deleteState = "delete_state";
   static const changeStateStatus = "change_state_status";
 
+  // ------------------- Calendar
+  static const getCalendar = "get_calendar";
+  static const addCalendarPeriod = "add_calendar_period";
+  static const deleteCalendarPeriod = "delete_calendar_period";
+
 
 
 

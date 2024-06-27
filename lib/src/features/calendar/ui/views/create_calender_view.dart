@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/business_logic/calender_cubit/calender_cubit.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
-import 'package:jetboard/src/data/models/calender_model.dart';
-import 'package:jetboard/src/data/network/requests/calender_request.dart';
 import 'package:jetboard/src/features/areas/data/models/area_model.dart';
+import 'package:jetboard/src/features/calendar/cubit/calendar_cubit.dart';
+import 'package:jetboard/src/features/calendar/data/models/calendar_model.dart';
+import 'package:jetboard/src/features/calendar/data/requests/calendar_request.dart';
 import 'package:jetboard/src/features/periods/data/models/period_model.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
-import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
-import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
-import 'package:jetboard/src/core/shared/views/indicator_view.dart';
-import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:sizer/sizer.dart';
-import 'package:jetboard/src/core/resources/app_colors.dart';
-import '../../core/shared/widgets/default_dropdown.dart';
-import '../../core/shared/widgets/default_text.dart';
 
 class CreateCalenderView extends StatefulWidget {
-  final CalenderModel calenderModel;
+  final CalendarCubit cubit;
+  final CalendarModel calendarModel;
   final List<PeriodModel> periods;
   final List<AreaModel> areas;
 
   const CreateCalenderView({
-    required this.calenderModel,
+    required this.cubit,
+    required this.calendarModel,
     required this.periods,
     required this.areas,
     super.key,
@@ -62,7 +65,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                 height: 30.h,
               ),
               DefaultText(
-                text: widget.calenderModel.date.toString(),
+                text: widget.calendarModel.date.toString(),
                 align: TextAlign.center,
               ),
               Padding(
@@ -77,11 +80,17 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                     onChanged: (val) {
                       setState(() {
                         periodModel = val!;
-                        printLog(widget.calenderModel.periods!.indexWhere((element) => element.id == periodModel.id).toString());
-                        if (widget.calenderModel.periods!.indexWhere((element) => element.id == periodModel.id) != -1) {
-                          DefaultToast.showMyToast("You Can't Add The Same Period Twice");
+                        printLog(widget.calendarModel.periods!
+                            .indexWhere(
+                                (element) => element.id == periodModel.id)
+                            .toString());
+                        if (widget.calendarModel.periods!.indexWhere(
+                                (element) => element.id == periodModel.id) !=
+                            -1) {
+                          DefaultToast.showMyToast(
+                              "You Can't Add The Same Period Twice");
                         } else {
-                          widget.calenderModel.periods!.add(periodModel);
+                          widget.calendarModel.periods!.add(periodModel);
                           periodsIds.add(val.id!);
                           printLog(val.toJson().toString());
                         }
@@ -90,8 +99,8 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                   ),
                 ),
               ),
-              if (widget.calenderModel.periods!.isNotEmpty &&
-                  widget.calenderModel.areas!.isNotEmpty) ...[
+              if (widget.calendarModel.periods!.isNotEmpty &&
+                  widget.calendarModel.area!.isNotEmpty) ...[
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 30.h),
                   child: DefaultTextField(
@@ -103,7 +112,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                     enabled: false,
                     textAlign: TextAlign.center,
                     hintColor: AppColors.primary,
-                    hintText: widget.calenderModel.areas![0].nameAr,
+                    hintText: widget.calendarModel.area![0].nameAr,
                   ),
                 )
               ] else ...[
@@ -138,7 +147,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                         padding: const EdgeInsets.symmetric(
                           vertical: 10,
                         ),
-                        itemCount: widget.calenderModel.periods?.length ?? 0,
+                        itemCount: widget.calendarModel.periods?.length ?? 0,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 12),
@@ -149,7 +158,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                                 Expanded(
                                   flex: 4,
                                   child: Text(
-                                    "${widget.calenderModel.periods?[index].from} -  ${widget.calenderModel.periods?[index].to}",
+                                    "${widget.calendarModel.periods?[index].from} -  ${widget.calendarModel.periods?[index].to}",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(fontSize: 20.sp),
@@ -162,30 +171,21 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                                       Iterable<int> myListFiltered =
                                           periodsIds.where((e) =>
                                               e ==
-                                              widget.calenderModel
+                                              widget.calendarModel
                                                   .periods?[index].id);
-                                      printLog(myListFiltered
-                                          .toList()
-                                          .isNotEmpty
-                                          .toString());
                                       if (myListFiltered.toList().isNotEmpty) {
                                         setState(() {
                                           periodsIds.remove(
                                               myListFiltered.toList().first);
-                                          widget.calenderModel.periods!
+                                          widget.calendarModel.periods!
                                               .removeAt(index);
                                         });
                                       } else {
-                                        CalenderCubit.get(context)
-                                            .deleteCalenderPeriod(
-                                          id: widget.calenderModel
+                                        widget.cubit.deleteCalendarPeriod(
+                                          id: widget.calendarModel
                                               .periods![index].relationId!,
-                                          afterSuccess: () {
-                                            setState(() {
-                                              widget.calenderModel.periods!
-                                                  .removeAt(index);
-                                            });
-                                          },
+                                          calendarModel: widget.calendarModel,
+                                          index: index,
                                         );
                                       }
                                     },
@@ -218,19 +218,18 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                     title: "Save",
                     onTap: () {
                       IndicatorView.showIndicator();
-                      CalenderCubit.get(context).createCalenderPeriod(
-                        calenderRequest: CalenderRequest(
-                          areaId: widget.calenderModel.areas!.isNotEmpty
-                              ? widget.calenderModel.areas![0].id!
+                      widget.cubit.addCalendarPeriod(
+                        request: CalendarRequest(
+                          areaId: widget.calendarModel.area!.isNotEmpty
+                              ? widget.calendarModel.area![0].id!
                               : areaModel.id!,
-                          periodId: periodsIds,
-                          calenderId: widget.calenderModel.id!,
+                          periodIds: periodsIds,
+                          calendarId: widget.calendarModel.id!,
+                          areaModel: widget.calendarModel.area!.isNotEmpty
+                              ? widget.calendarModel.area![0]
+                              : areaModel,
+                          calendarModel: widget.calendarModel,
                         ),
-                        afterSuccess: () {
-                          widget.calenderModel.areas!.add(areaModel);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
                       );
                     },
                     buttonColor: AppColors.primary,
@@ -244,7 +243,7 @@ class _CreateCalenderViewState extends State<CreateCalenderView> {
                     title: "Cancel",
                     onTap: () {
                       periodsIds.clear();
-                      Navigator.pop(context);
+                      NavigationService.pop();
                     },
                     isGradient: false,
                   ),
