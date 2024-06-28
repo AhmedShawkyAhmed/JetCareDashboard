@@ -2,46 +2,28 @@ import 'package:dio/dio.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/shared/models/user_model.dart';
-import 'package:jetboard/src/features/moderators/data/models/moderator_access_model.dart';
-import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'moderators_web_service.g.dart';
+part 'clients_web_service.g.dart';
 
 @RestApi(baseUrl: EndPoints.baseUrl)
-abstract class ModeratorsWebService {
-  factory ModeratorsWebService(Dio dio, {String baseUrl}) =
-      _ModeratorsWebService;
+abstract class ClientsWebService {
+  factory ClientsWebService(Dio dio, {String baseUrl}) = _ClientsWebService;
 
-  @GET(EndPoints.getModerators)
-  Future<NetworkBaseModel<List<UserModel>>> getModerators({
+  @GET(EndPoints.getClients)
+  Future<NetworkBaseModel<List<UserModel>>> getClients({
     @Query("keyword") String? keyword,
   });
 
-  @GET(EndPoints.getTabAccess)
-  Future<NetworkBaseModel<ModeratorAccessModel>> getTabAccess({
-    @Query("moderator_id") int? id,
-  });
-
   @POST(EndPoints.register)
-  Future<NetworkBaseModel<UserModel>> addModerator({
+  Future<NetworkBaseModel<UserModel>> addClient({
     @Body() RegisterRequest? request,
   });
 
   @POST(EndPoints.updateAccount)
-  Future<NetworkBaseModel> updateModerator({
+  Future<NetworkBaseModel> updateClient({
     @Body() UserModel? request,
-  });
-
-  @POST(EndPoints.createAccess)
-  Future<NetworkBaseModel> createAccess({
-    @Field("moderator_id") int? moderatorId,
-  });
-
-  @POST(EndPoints.updateAccess)
-  Future<NetworkBaseModel> updateAccess({
-    @Body() AccessRequest? request,
   });
 
   @POST(EndPoints.activateAccount)
@@ -61,7 +43,7 @@ abstract class ModeratorsWebService {
   });
 
   @DELETE(EndPoints.deleteAccount)
-  Future<NetworkBaseModel> deleteModerator({
+  Future<NetworkBaseModel> deleteClient({
     @Query("id") int? id,
   });
 }

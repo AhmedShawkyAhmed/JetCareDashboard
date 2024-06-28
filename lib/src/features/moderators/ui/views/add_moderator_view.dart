@@ -4,9 +4,9 @@ import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
-import 'package:jetboard/src/features/auth/data/models/user_model.dart';
+import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
-import 'package:jetboard/src/features/moderators/data/requests/register_request.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:sizer/sizer.dart';
 
 class AddModeratorView extends StatefulWidget {
@@ -138,7 +138,7 @@ class _AddModeratorViewState extends State<AddModeratorView> {
                     ),
                   );
                 } else {
-                  widget.cubit.updateAccount(
+                  widget.cubit.updateModerator(
                     request: UserModel(
                       id: widget.moderator!.id,
                       name: fullName.text,

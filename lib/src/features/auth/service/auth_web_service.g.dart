@@ -129,7 +129,7 @@ class _AuthWebService implements AuthWebService {
     )
             .compose(
               _dio.options,
-              'get_access',
+              'get_my_access',
               queryParameters: queryParameters,
               data: _data,
             )

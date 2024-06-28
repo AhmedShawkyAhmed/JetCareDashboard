@@ -15,6 +15,9 @@ import 'package:jetboard/src/features/auth/service/auth_web_service.dart';
 import 'package:jetboard/src/features/calendar/cubit/calendar_cubit.dart';
 import 'package:jetboard/src/features/calendar/data/repo/calendar_repo.dart';
 import 'package:jetboard/src/features/calendar/service/calendar_web_service.dart';
+import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
+import 'package:jetboard/src/features/clients/data/repo/clients_repo.dart';
+import 'package:jetboard/src/features/clients/service/clients_web_service.dart';
 import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/features/home/data/repo/home_repo.dart';
 import 'package:jetboard/src/features/home/service/home_web_service.dart';
@@ -64,6 +67,7 @@ Future<void> initAppModule() async {
   instance.registerFactory<StatesCubit>(() => StatesCubit(instance()));
   instance.registerFactory<CalendarCubit>(() => CalendarCubit(instance()));
   instance.registerFactory<ModeratorsCubit>(() => ModeratorsCubit(instance()));
+  instance.registerFactory<ClientsCubit>(() => ClientsCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
@@ -77,6 +81,7 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<StateRepo>(() => StateRepo(instance()));
   instance.registerLazySingleton<CalendarRepo>(() => CalendarRepo(instance()));
   instance.registerLazySingleton<ModeratorsRepo>(() => ModeratorsRepo(instance()));
+  instance.registerLazySingleton<ClientsRepo>(() => ClientsRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
@@ -90,4 +95,5 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<StatesWebService>(() => StatesWebService(instance()));
   instance.registerLazySingleton<CalendarWebService>(() => CalendarWebService(instance()));
   instance.registerLazySingleton<ModeratorsWebService>(() => ModeratorsWebService(instance()));
+  instance.registerLazySingleton<ClientsWebService>(() => ClientsWebService(instance()));
 }

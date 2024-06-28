@@ -11,8 +11,6 @@ class EndPoints {
   static const login = "dashboard/login";
   static const updateFCM = "update_fcm";
   static const profile = "profile";
-  static const register = "register";
-  static const getTabAccess = "get_access";
   static const getMyAccess = "get_my_access";
   static const logout = "logout";
 
@@ -75,15 +73,22 @@ class EndPoints {
   static const addCalendarPeriod = "add_calendar_period";
   static const deleteCalendarPeriod = "delete_calendar_period";
 
-  // ------------------- Moderators
-  static const getModerators = "get_moderators";
-  static const createAccess = "create_access";
-  static const updateAccess = "update_access";
+  // ------------------- Shared Clients - Crews - Moderators
+  static const register = "register";
   static const activateAccount = "activate_account";
   static const stopAccount = "stop_account";
   static const deleteAccount = "delete_account";
   static const updateAccount = "update_account";
   static const userAdminComment = "user_admin_comment";
+
+  // ------------------- Clients
+  static const getClients = "get_clients";
+
+  // ------------------- Moderators
+  static const getModerators = "get_moderators";
+  static const createAccess = "create_access";
+  static const updateAccess = "update_access";
+  static const getTabAccess = "get_access";
 
 
 

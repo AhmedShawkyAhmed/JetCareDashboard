@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jetboard/src/core/network/models/key_value_model.dart';
+import 'package:jetboard/src/core/shared/models/key_value_model.dart';
 
 part 'tab_access_model.g.dart';
 

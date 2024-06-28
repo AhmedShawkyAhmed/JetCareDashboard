@@ -3,76 +3,41 @@ import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/network/models/network_result.dart';
 import 'package:jetboard/src/core/shared/models/user_model.dart';
-import 'package:jetboard/src/features/moderators/data/models/moderator_access_model.dart';
-import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
-import 'package:jetboard/src/features/moderators/service/moderators_web_service.dart';
+import 'package:jetboard/src/features/clients/service/clients_web_service.dart';
 
-class ModeratorsRepo {
-  final ModeratorsWebService webService;
+class ClientsRepo {
+  final ClientsWebService webService;
 
-  ModeratorsRepo(this.webService);
+  ClientsRepo(this.webService);
 
-  Future<NetworkResult<NetworkBaseModel<List<UserModel>>>> getModerators({
+  Future<NetworkResult<NetworkBaseModel<List<UserModel>>>> getClients({
     String? keyword,
   }) async {
     try {
-      var response = await webService.getModerators(keyword: keyword);
+      var response = await webService.getClients(keyword: keyword);
       return NetworkResult.success(response);
     } on DioException catch (error) {
       return NetworkResult.failure(NetworkExceptions.getException(error));
     }
   }
 
-  Future<NetworkResult<NetworkBaseModel<ModeratorAccessModel>>> getTabAccess({
-    required int id,
-  }) async {
-    try {
-      var response = await webService.getTabAccess(id: id);
-      return NetworkResult.success(response);
-    } on DioException catch (error) {
-      return NetworkResult.failure(NetworkExceptions.getException(error));
-    }
-  }
-
-  Future<NetworkResult<NetworkBaseModel>> addModerator({
+  Future<NetworkResult<NetworkBaseModel>> addClient({
     required RegisterRequest request,
   }) async {
     try {
-      var response = await webService.addModerator(request: request);
+      var response = await webService.addClient(request: request);
       return NetworkResult.success(response);
     } on DioException catch (error) {
       return NetworkResult.failure(NetworkExceptions.getException(error));
     }
   }
 
-  Future<NetworkResult<NetworkBaseModel>> updateModerator({
+  Future<NetworkResult<NetworkBaseModel>> updateClient({
     required UserModel request,
   }) async {
     try {
-      var response = await webService.updateModerator(request: request);
-      return NetworkResult.success(response);
-    } on DioException catch (error) {
-      return NetworkResult.failure(NetworkExceptions.getException(error));
-    }
-  }
-
-  Future<NetworkResult<NetworkBaseModel>> createAccess({
-    required int moderatorId,
-  }) async {
-    try {
-      var response = await webService.createAccess(moderatorId: moderatorId);
-      return NetworkResult.success(response);
-    } on DioException catch (error) {
-      return NetworkResult.failure(NetworkExceptions.getException(error));
-    }
-  }
-
-  Future<NetworkResult<NetworkBaseModel>> updateAccess({
-    required AccessRequest request,
-  }) async {
-    try {
-      var response = await webService.updateAccess(request: request);
+      var response = await webService.updateClient(request: request);
       return NetworkResult.success(response);
     } on DioException catch (error) {
       return NetworkResult.failure(NetworkExceptions.getException(error));
@@ -116,11 +81,11 @@ class ModeratorsRepo {
     }
   }
 
-  Future<NetworkResult<NetworkBaseModel>> deleteModerator({
+  Future<NetworkResult<NetworkBaseModel>> deleteClient({
     required int id,
   }) async {
     try {
-      var response = await webService.deleteModerator(
+      var response = await webService.deleteClient(
         id: id,
       );
       return NetworkResult.success(response);

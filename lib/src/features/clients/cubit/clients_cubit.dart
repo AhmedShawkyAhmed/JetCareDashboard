@@ -3,23 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/models/user_model.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
-import 'package:jetboard/src/core/shared/models/user_model.dart';
-import 'package:jetboard/src/features/moderators/data/models/moderator_access_model.dart';
-import 'package:jetboard/src/features/moderators/data/repo/moderators_repo.dart';
-import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
-import 'package:jetboard/src/core/shared/requests/register_request.dart';
+import 'package:jetboard/src/features/clients/data/repo/clients_repo.dart';
 
-part 'moderators_state.dart';
+part 'clients_state.dart';
 
-class ModeratorsCubit extends Cubit<ModeratorsState> {
-  ModeratorsCubit(this.repo) : super(ModeratorsInitial());
+class ClientsCubit extends Cubit<ClientsState> {
+  ClientsCubit(this.repo) : super(ClientsInitial());
+  final ClientsRepo repo;
 
-  final ModeratorsRepo repo;
-
-  List<UserModel>? moderators;
-  ModeratorAccessModel? accessModel;
+  List<UserModel>? clients;
 
   bool pass = true;
 
@@ -27,54 +23,35 @@ class ModeratorsCubit extends Cubit<ModeratorsState> {
     pass = !pass;
   }
 
-  Future switched(UserModel moderator) async {
-    if (moderator.isActive!) {
-      await stopAccount(userId: moderator.id!);
+  Future switched(UserModel client) async {
+    if (client.isActive!) {
+      await stopAccount(userId: client.id!);
     } else {
-      await activateAccount(userId: moderator.id!);
+      await activateAccount(userId: client.id!);
     }
     emit(PickedSwitchState());
   }
 
-  Future getModerators({
+  Future getClients({
     String? keyword,
   }) async {
-    emit(GetModeratorsLoading());
-    var response = await repo.getModerators(
+    emit(GetClientsLoading());
+    var response = await repo.getClients(
       keyword: keyword,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        moderators = response.data;
-        emit(GetModeratorsSuccess());
+        clients = response.data;
+        emit(GetClientsSuccess());
       },
       failure: (NetworkExceptions error) {
-        emit(GetModeratorsFailure());
+        emit(GetClientsFailure());
         error.showError();
       },
     );
   }
 
-  Future getTabAccess({
-    required int id,
-  }) async {
-    emit(GetTabAccessLoading());
-    var response = await repo.getTabAccess(
-      id: id,
-    );
-    response.when(
-      success: (NetworkBaseModel response) async {
-        accessModel = response.data;
-        emit(GetTabAccessSuccess());
-      },
-      failure: (NetworkExceptions error) {
-        emit(GetTabAccessFailure());
-        error.showError();
-      },
-    );
-  }
-
-  Future addModerator({
+  Future addClient({
     required RegisterRequest request,
   }) async {
     if (request.name == "") {
@@ -91,85 +68,45 @@ class ModeratorsCubit extends Cubit<ModeratorsState> {
       return;
     }
     IndicatorView.showIndicator();
-    emit(AddModeratorLoading());
-    var response = await repo.addModerator(
+    emit(AddClientLoading());
+    var response = await repo.addClient(
       request: request,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        emit(AddModeratorSuccess());
-        await createAccess(moderatorId: response.data.id);
+        emit(AddClientSuccess());
         NavigationService.pop();
         NavigationService.pop();
       },
       failure: (NetworkExceptions error) {
-        emit(AddModeratorFailure());
+        emit(AddClientFailure());
         NavigationService.pop();
         error.showError();
       },
     );
   }
 
-  Future updateModerator({
+  Future updateClient({
     required UserModel request,
   }) async {
     IndicatorView.showIndicator();
-    emit(UpdateModeratorLoading());
-    var response = await repo.updateModerator(
+    emit(UpdateClientLoading());
+    var response = await repo.updateClient(
       request: request,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        emit(UpdateModeratorSuccess());
+        emit(UpdateClientSuccess());
         NavigationService.pop();
         NavigationService.pop();
       },
       failure: (NetworkExceptions error) {
-        emit(UpdateModeratorFailure());
+        emit(UpdateClientFailure());
         NavigationService.pop();
         error.showError();
       },
     );
   }
-
-  Future createAccess({
-    required int moderatorId,
-  }) async {
-    emit(CreateAccessLoading());
-    var response = await repo.createAccess(
-      moderatorId: moderatorId,
-    );
-    response.when(
-      success: (NetworkBaseModel response) async {
-        emit(CreateAccessSuccess());
-      },
-      failure: (NetworkExceptions error) {
-        emit(CreateAccessFailure());
-        error.showError();
-      },
-    );
-  }
-
-  Future updateAccess({
-    required AccessRequest request,
-    required VoidCallback afterSuccess,
-  }) async {
-    emit(UpdateAccessLoading());
-    var response = await repo.updateAccess(
-      request: request,
-    );
-    response.when(
-      success: (NetworkBaseModel response) async {
-        afterSuccess();
-        emit(UpdateAccessSuccess());
-      },
-      failure: (NetworkExceptions error) {
-        emit(UpdateAccessFailure());
-        error.showError();
-      },
-    );
-  }
-
   Future activateAccount({
     required int userId,
   }) async {
@@ -179,8 +116,8 @@ class ModeratorsCubit extends Cubit<ModeratorsState> {
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        if (moderators != null) {
-          moderators!.firstWhere((item) => item.id == userId).isActive =
+        if (clients != null) {
+          clients!.firstWhere((item) => item.id == userId).isActive =
           true;
         }
         emit(ActivateAccountSuccess());
@@ -201,9 +138,9 @@ class ModeratorsCubit extends Cubit<ModeratorsState> {
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        if (moderators != null) {
-          moderators!.firstWhere((item) => item.id == userId).isActive =
-              false;
+        if (clients != null) {
+          clients!.firstWhere((item) => item.id == userId).isActive =
+          false;
         }
         emit(StopAccountSuccess());
       },
@@ -236,19 +173,19 @@ class ModeratorsCubit extends Cubit<ModeratorsState> {
     );
   }
 
-  Future deleteModerator({
+  Future deleteClient({
     required int id,
   }) async {
-    emit(DeleteModeratorLoading());
-    var response = await repo.deleteModerator(
+    emit(DeleteClientLoading());
+    var response = await repo.deleteClient(
       id: id,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        emit(DeleteModeratorSuccess());
+        emit(DeleteClientSuccess());
       },
       failure: (NetworkExceptions error) {
-        emit(DeleteModeratorFailure());
+        emit(DeleteClientFailure());
         error.showError();
       },
     );

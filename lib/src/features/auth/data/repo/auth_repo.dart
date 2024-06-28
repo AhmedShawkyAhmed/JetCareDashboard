@@ -4,7 +4,7 @@ import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/network/models/network_result.dart';
 import 'package:jetboard/src/core/shared/globals.dart';
 import 'package:jetboard/src/features/auth/data/models/tab_access_model.dart';
-import 'package:jetboard/src/features/auth/data/models/user_model.dart';
+import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/features/auth/data/requests/fcm_request.dart';
 import 'package:jetboard/src/features/auth/data/requests/login_request.dart';
 import 'package:jetboard/src/features/auth/service/auth_web_service.dart';

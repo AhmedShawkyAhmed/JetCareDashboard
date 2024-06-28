@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/views/comment_view.dart';
-import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
-import 'package:jetboard/src/features/moderators/ui/views/add_moderator_view.dart';
-import 'package:jetboard/src/features/moderators/ui/views/moderator_access_view.dart';
+import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
+import 'package:jetboard/src/features/clients/ui/views/add_client_view.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
-class ModeratorView extends StatefulWidget {
-  final ModeratorsCubit cubit;
+class ClientsView extends StatefulWidget {
+  final ClientsCubit cubit;
 
-  const ModeratorView({
+  const ClientsView({
     required this.cubit,
     super.key,
   });
 
   @override
-  State<ModeratorView> createState() => _ModeratorViewState();
+  State<ClientsView> createState() => _ClientsViewState();
 }
 
-class _ModeratorViewState extends State<ModeratorView> {
+class _ClientsViewState extends State<ClientsView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +26,7 @@ class _ModeratorViewState extends State<ModeratorView> {
       child: SizedBox(
         height: 90.h,
         child: ListView.builder(
-          itemCount: widget.cubit.moderators!.length,
+          itemCount: widget.cubit.clients!.length,
           itemBuilder: (context, index) => Padding(
             padding: EdgeInsets.only(
               top: 2.h,
@@ -52,7 +50,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.moderators![index].name ?? "",
+                        widget.cubit.clients![index].name ?? "",
                         style: TextStyle(fontSize: 3.sp),
                       ),
                     ],
@@ -71,7 +69,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.moderators![index].phone ?? "",
+                        widget.cubit.clients![index].phone ?? "",
                         style: TextStyle(fontSize: 3.sp),
                       ),
                     ],
@@ -90,7 +88,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.moderators![index].email ?? "",
+                        widget.cubit.clients![index].email ?? "",
                         style: TextStyle(
                           fontSize: 2.5.sp,
                           fontWeight: FontWeight.bold,
@@ -112,7 +110,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.moderators![index].rate.toString(),
+                        widget.cubit.clients![index].rate.toString(),
                         style: TextStyle(fontSize: 3.sp),
                       ),
                     ],
@@ -122,7 +120,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                   height: 2.5.h,
                   child: CircleAvatar(
                     backgroundColor:
-                        widget.cubit.moderators![index].isActive == true
+                        widget.cubit.clients![index].isActive == true
                             ? AppColors.green
                             : AppColors.red,
                   ),
@@ -131,7 +129,7 @@ class _ModeratorViewState extends State<ModeratorView> {
                   width: 2.w,
                 ),
                 Switch(
-                  value: widget.cubit.moderators![index].isActive == true
+                  value: widget.cubit.clients![index].isActive == true
                       ? true
                       : false,
                   activeColor: AppColors.green,
@@ -140,70 +138,27 @@ class _ModeratorViewState extends State<ModeratorView> {
                   inactiveTrackColor: AppColors.lightGrey,
                   splashRadius: 3.0,
                   onChanged: (value) {
-                    widget.cubit.switched(widget.cubit.moderators![index]);
+                    widget.cubit.switched(widget.cubit.clients![index]);
                   },
                 ),
                 SizedBox(
                   width: 1.w,
                 ),
-                IconButton(
-                  onPressed: () {
-                    showDialog<void>(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return ModeratorAccessView(
-                          moderatorId: widget.cubit.moderators![index].id!,
-                        );
-                      },
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.desktop_access_disabled_outlined,
-                    color: AppColors.grey,
-                    size: 20,
-                  ),
-                ),
-                SizedBox(
-                  width: 1.w,
-                ),
-                AddModeratorView(
-                  title: "update",
+                AddClientView(
                   cubit: widget.cubit,
-                  moderator: widget.cubit.moderators![index],
+                  title: "Update",
+                  client: widget.cubit.clients![index],
                 ),
                 SizedBox(
                   width: 1.w,
                 ),
                 CommentView(
-                  comment: widget.cubit.moderators![index].adminComment ?? "",
+                  comment: widget.cubit.clients![index].adminComment!,
                   onSave: (value) {
-                    widget.cubit.userAdminComment(
-                      userId: widget.cubit.moderators![index].id!,
-                      adminComment: value,
-                      afterSuccess: () {
-                        setState(() {
-                          widget.cubit.moderators![index].adminComment = value;
-                        });
-                        NavigationService.pop();
-                      },
-                    );
+                    setState(() {
+                      widget.cubit.clients![index].adminComment = value;
+                    });
                   },
-                ),
-                SizedBox(
-                  width: 1.w,
-                ),
-                IconButton(
-                  onPressed: () {
-                    widget.cubit.deleteModerator(
-                      id: widget.cubit.moderators![index].id!,
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: AppColors.red,
-                    size: 20,
-                  ),
                 ),
                 SizedBox(
                   width: 2.w,

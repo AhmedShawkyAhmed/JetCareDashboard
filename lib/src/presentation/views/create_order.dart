@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
-import 'package:jetboard/src/business_logic/clients_cubit/clients_cubit.dart';
 import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
+import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_dropdown.dart';
@@ -18,7 +19,7 @@ import 'package:jetboard/src/data/models/items_model.dart';
 import 'package:jetboard/src/data/models/orders_model.dart';
 import 'package:jetboard/src/data/network/requests/address_request.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
-import 'package:jetboard/src/data/network/requests/user_request.dart';
+import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
@@ -771,8 +772,8 @@ class _CreateOrderState extends State<CreateOrder> {
                                           "Please Select Items");
                                     } else {
                                       IndicatorView.showIndicator();
-                                      ClientsCubit.get(context).addClient(
-                                        userRequest: UserRequset(
+                                      ClientsCubit(instance()).addClient(
+                                        request: RegisterRequest(
                                           phone: phoneController.text,
                                           email: emailController.text == ""
                                               ? "empty"
@@ -781,112 +782,111 @@ class _CreateOrderState extends State<CreateOrder> {
                                           role: "client",
                                           name: nameController.text,
                                         ),
-                                        onError: () {
-                                          Navigator.pop(context);
-                                        },
-                                        afterSuccess: () {
-                                          AddressCubit.get(context).addAddress(
-                                            addressRequest: AddressRequest(
-                                              userId: ClientsCubit.get(context)
-                                                  .addUserResponse!
-                                                  .userModell!
-                                                  .id,
-                                              stateId: stateId,
-                                              areaId: areaId,
-                                              address: addressController.text,
-                                              phone: phoneController.text,
-                                              latitude: "0",
-                                              longitude: "0",
-                                            ),
-                                            afterSuccess: () {
-                                              for (int c = 0;
-                                                  c < cartItemsIds.length;
-                                                  c++) {
-                                                OrdersCubit.get(context)
-                                                    .addToCart(
-                                                  userId:
-                                                      ClientsCubit.get(context)
-                                                          .addUserResponse!
-                                                          .userModell!
-                                                          .id,
-                                                  count: cart[c].count.toInt(),
-                                                  price:
-                                                      cart[c].price.toDouble(),
-                                                  itemId: cart[c].id,
-                                                  afterSuccess: () {
-                                                    cart.removeAt(0);
-                                                    if (cart.isEmpty) {
-                                                      OrdersCubit.get(context)
-                                                          .createOrder(
-                                                        orderRequest:
-                                                            OrderRequest(
-                                                          userId: ClientsCubit
-                                                                  .get(context)
-                                                              .addUserResponse!
-                                                              .userModell!
-                                                              .id,
-                                                          total:
-                                                              (total + shipping)
-                                                                  .toString(),
-                                                          price:
-                                                              total.toString(),
-                                                          comment:
-                                                              messageController
-                                                                  .text,
-                                                          shipping: shipping
-                                                              .toString(),
-                                                          addressId: AddressCubit
-                                                                  .get(context)
-                                                              .addAddressResponse!
-                                                              .addressModel!
-                                                              .id!,
-                                                          periodId: periodId,
-                                                          date: dateController
-                                                              .text,
-                                                        ),
-                                                        afterSuccess: () {
-                                                          OrdersCubit.get(
-                                                                  context)
-                                                              .getOrders();
-                                                          nameController
-                                                              .clear();
-                                                          emailController
-                                                              .clear();
-                                                          phoneController
-                                                              .clear();
-                                                          messageController
-                                                              .clear();
-                                                          addressController
-                                                              .clear();
-                                                          shippingController
-                                                              .clear();
-                                                          stateId = 0;
-                                                          areaId = 0;
-                                                          periodId = 0;
-                                                          period = "";
-                                                          client = "";
-                                                          clientId = 0;
-                                                          address = "";
-                                                          addressId = 0;
-                                                          cartItemsIds.clear();
-                                                          cart.clear();
-                                                          price = 0;
-                                                          count = 0;
-                                                          total = 0;
-                                                          shipping = 0;
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      );
-                                                    }
-                                                  },
-                                                );
-                                              }
-                                            },
-                                          );
-                                        },
+
+                                        // TODO
+                                        // afterSuccess: () {
+                                        //   AddressCubit.get(context).addAddress(
+                                        //     addressRequest: AddressRequest(
+                                        //       userId: ClientsCubit.get(context)
+                                        //           .addUserResponse!
+                                        //           .userModell!
+                                        //           .id,
+                                        //       stateId: stateId,
+                                        //       areaId: areaId,
+                                        //       address: addressController.text,
+                                        //       phone: phoneController.text,
+                                        //       latitude: "0",
+                                        //       longitude: "0",
+                                        //     ),
+                                        //     afterSuccess: () {
+                                        //       for (int c = 0;
+                                        //           c < cartItemsIds.length;
+                                        //           c++) {
+                                        //         OrdersCubit.get(context)
+                                        //             .addToCart(
+                                        //           userId:
+                                        //               ClientsCubit.get(context)
+                                        //                   .addUserResponse!
+                                        //                   .userModell!
+                                        //                   .id,
+                                        //           count: cart[c].count.toInt(),
+                                        //           price:
+                                        //               cart[c].price.toDouble(),
+                                        //           itemId: cart[c].id,
+                                        //           afterSuccess: () {
+                                        //             cart.removeAt(0);
+                                        //             if (cart.isEmpty) {
+                                        //               OrdersCubit.get(context)
+                                        //                   .createOrder(
+                                        //                 orderRequest:
+                                        //                     OrderRequest(
+                                        //                   userId: ClientsCubit
+                                        //                           .get(context)
+                                        //                       .addUserResponse!
+                                        //                       .userModell!
+                                        //                       .id,
+                                        //                   total:
+                                        //                       (total + shipping)
+                                        //                           .toString(),
+                                        //                   price:
+                                        //                       total.toString(),
+                                        //                   comment:
+                                        //                       messageController
+                                        //                           .text,
+                                        //                   shipping: shipping
+                                        //                       .toString(),
+                                        //                   addressId: AddressCubit
+                                        //                           .get(context)
+                                        //                       .addAddressResponse!
+                                        //                       .addressModel!
+                                        //                       .id!,
+                                        //                   periodId: periodId,
+                                        //                   date: dateController
+                                        //                       .text,
+                                        //                 ),
+                                        //                 afterSuccess: () {
+                                        //                   OrdersCubit.get(
+                                        //                           context)
+                                        //                       .getOrders();
+                                        //                   nameController
+                                        //                       .clear();
+                                        //                   emailController
+                                        //                       .clear();
+                                        //                   phoneController
+                                        //                       .clear();
+                                        //                   messageController
+                                        //                       .clear();
+                                        //                   addressController
+                                        //                       .clear();
+                                        //                   shippingController
+                                        //                       .clear();
+                                        //                   stateId = 0;
+                                        //                   areaId = 0;
+                                        //                   periodId = 0;
+                                        //                   period = "";
+                                        //                   client = "";
+                                        //                   clientId = 0;
+                                        //                   address = "";
+                                        //                   addressId = 0;
+                                        //                   cartItemsIds.clear();
+                                        //                   cart.clear();
+                                        //                   price = 0;
+                                        //                   count = 0;
+                                        //                   total = 0;
+                                        //                   shipping = 0;
+                                        //                   Navigator.pop(
+                                        //                       context);
+                                        //                   Navigator.pop(
+                                        //                       context);
+                                        //                 },
+                                        //               );
+                                        //             }
+                                        //           },
+                                        //         );
+                                        //       }
+                                        //     },
+                                        //   );
+                                        // },
                                       );
                                     }
                                   }
