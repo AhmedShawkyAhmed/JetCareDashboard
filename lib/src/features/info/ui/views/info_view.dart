@@ -129,18 +129,10 @@ class _InfoViewState extends State<InfoView> {
                   ],
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  AddInfoView(
-                    title: "Update",
-                    cubit: widget.cubit,
-                    info: widget.cubit.info![index],
-                  );
-                },
-                icon: const Icon(
-                  Icons.edit,
-                  color: AppColors.grey,
-                ),
+              AddInfoView(
+                title: "Update",
+                cubit: widget.cubit,
+                info: widget.cubit.info![index],
               ),
               SizedBox(
                 width: 2.w,

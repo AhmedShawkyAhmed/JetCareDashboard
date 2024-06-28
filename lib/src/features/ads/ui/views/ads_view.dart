@@ -145,18 +145,10 @@ class _AdsViewState extends State<AdsView> {
                 SizedBox(
                   width: 1.w,
                 ),
-                IconButton(
-                  onPressed: () {
-                    AddAdsView(
-                      title: "Update",
-                      cubit: widget.cubit,
-                      adsModel: widget.cubit.ads![index],
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.edit,
-                    color: AppColors.grey,
-                  ),
+                AddAdsView(
+                  title: "Update",
+                  cubit: widget.cubit,
+                  adsModel: widget.cubit.ads![index],
                 ),
                 SizedBox(
                   width: 1.w,

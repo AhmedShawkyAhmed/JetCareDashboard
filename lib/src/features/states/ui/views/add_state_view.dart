@@ -5,14 +5,17 @@ import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/features/states/cubit/states_cubit.dart';
+import 'package:jetboard/src/features/states/data/models/state_model.dart';
 import 'package:jetboard/src/features/states/data/requests/state_request.dart';
 import 'package:sizer/sizer.dart';
 
 class AddStateView extends StatefulWidget {
   final StatesCubit cubit;
+  final StateModel? stateModel;
 
   const AddStateView({
     required this.cubit,
+     this.stateModel,
     super.key,
   });
 
@@ -112,9 +115,11 @@ class _AddStateViewState extends State<AddStateView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultAppButton(
+    return widget.stateModel == null
+        ? DefaultAppButton(
       width: 8.w,
       height: 5.h,
+      haveShadow: false,
       offset: const Offset(0, 0),
       spreadRadius: 2,
       blurRadius: 2,
@@ -124,11 +129,17 @@ class _AddStateViewState extends State<AddStateView> {
         AppColors.lightGreen,
       ],
       fontSize: 4.sp,
-      haveShadow: false,
       title: "Add",
       onTap: () {
         _show();
       },
+    )
+        : IconButton(
+      onPressed: () {
+        _show();
+      },
+      icon: const Icon(Icons.edit),
+      color: AppColors.grey,
     );
   }
 }

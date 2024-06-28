@@ -276,9 +276,11 @@ class _AddAdsViewState extends State<AddAdsView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultAppButton(
+    return widget.adsModel == null
+        ? DefaultAppButton(
       width: 8.w,
       height: 5.h,
+      haveShadow: false,
       offset: const Offset(0, 0),
       spreadRadius: 2,
       blurRadius: 2,
@@ -288,11 +290,17 @@ class _AddAdsViewState extends State<AddAdsView> {
         AppColors.lightGreen,
       ],
       fontSize: 4.sp,
-      haveShadow: false,
-      title: widget.title,
+      title: "Add",
       onTap: () {
         _show();
       },
+    )
+        : IconButton(
+      onPressed: () {
+        _show();
+      },
+      icon: const Icon(Icons.edit),
+      color: AppColors.grey,
     );
   }
 }

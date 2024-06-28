@@ -230,7 +230,8 @@ class _AddInfoViewState extends State<AddInfoView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultAppButton(
+    return widget.info == null
+        ? DefaultAppButton(
       width: 8.w,
       height: 5.h,
       haveShadow: false,
@@ -247,6 +248,13 @@ class _AddInfoViewState extends State<AddInfoView> {
       onTap: () {
         _show();
       },
+    )
+        : IconButton(
+      onPressed: () {
+        _show();
+      },
+      icon: const Icon(Icons.edit),
+      color: AppColors.grey,
     );
   }
 }

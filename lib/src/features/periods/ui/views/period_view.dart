@@ -102,18 +102,10 @@ class _PeriodViewState extends State<PeriodView> {
                 SizedBox(
                   width: 1.w,
                 ),
-                IconButton(
-                  onPressed: () {
-                    AddPeriodView(
-                      title: "Update",
-                      cubit: widget.cubit,
-                      period: widget.cubit.periods![index],
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.edit,
-                    color: AppColors.grey,
-                  ),
+                AddPeriodView(
+                  title: "Update",
+                  cubit: widget.cubit,
+                  period: widget.cubit.periods![index],
                 ),
                 SizedBox(
                   width: 2.w,
