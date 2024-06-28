@@ -4,29 +4,40 @@ import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/views/loading_view.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
-import 'package:jetboard/src/core/utils/shared_methods.dart';
+import 'package:jetboard/src/features/crew/cubit/crew_cubit.dart';
+import 'package:jetboard/src/features/equipment_schedule/cubit/equipment_schedule_cubit.dart';
+import 'package:jetboard/src/features/equipment_schedule/ui/views/add_schedule_view.dart';
+import 'package:jetboard/src/features/equipment_schedule/ui/views/equipment_schedule_view.dart';
 import 'package:jetboard/src/features/equipments/cubit/equipment_cubit.dart';
-import 'package:jetboard/src/features/equipments/ui/views/add_equipment_view.dart';
-import 'package:jetboard/src/features/equipments/ui/views/equipment_view.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../core/shared/widgets/default_text_field.dart';
-
-class EquipmentsDesktop extends StatefulWidget {
-  const EquipmentsDesktop({super.key});
+class EquipmentScheduleDesktop extends StatefulWidget {
+  const EquipmentScheduleDesktop({super.key});
 
   @override
-  State<EquipmentsDesktop> createState() => _EquipmentsDesktopState();
+  State<EquipmentScheduleDesktop> createState() =>
+      _EquipmentScheduleDesktopState();
 }
 
-class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
-  EquipmentCubit cubit = EquipmentCubit(instance());
-  TextEditingController searchController = TextEditingController();
+class _EquipmentScheduleDesktopState extends State<EquipmentScheduleDesktop> {
+  EquipmentScheduleCubit cubit = EquipmentScheduleCubit(instance());
+  EquipmentCubit equipmentCubit = EquipmentCubit(instance());
+  CrewCubit crewCubit = CrewCubit(instance());
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => cubit..getEquipment(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => cubit..getEquipmentSchedule(),
+        ),
+        BlocProvider(
+          create: (context) => equipmentCubit..getActiveEquipment(),
+        ),
+        BlocProvider(
+          create: (context) => crewCubit..getCrew(),
+        ),
+      ],
       child: Scaffold(
         drawerScrimColor: AppColors.transparent,
         backgroundColor: AppColors.green,
@@ -51,41 +62,18 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DefaultTextField(
-                        password: false,
-                        width: 25.w,
-                        height: 5.h,
-                        fontSize: 3.sp,
-                        color: AppColors.white,
-                        bottom: 0.5.h,
-                        hintText: 'Code / Name',
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        shadowColor: AppColors.black.withOpacity(0.05),
-                        haveShadow: true,
-                        controller: searchController,
-                        onChange: (value) {
-                          if (value == "") {
-                            cubit.getEquipment();
-                          }
-                        },
-                        suffix: IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () {
-                            cubit.getEquipment(keyword: searchController.text);
-                            printResponse(searchController.text);
-                          },
-                          color: AppColors.black,
-                        ),
-                      ),
                       const Spacer(),
-                      AddEquipmentView(cubit: cubit),
+                      AddScheduleView(
+                        cubit: cubit,
+                        equipmentCubit: equipmentCubit,
+                        crewCubit: crewCubit,
+                      ),
                     ],
                   ),
                 ),
-                BlocBuilder<EquipmentCubit, EquipmentState>(
+                BlocBuilder<EquipmentScheduleCubit, EquipmentScheduleState>(
                   builder: (context, state) {
-                    if (cubit.equipments == null) {
+                    if (cubit.schedules == null) {
                       return Padding(
                         padding: EdgeInsets.only(top: 2.h),
                         child: SizedBox(
@@ -106,16 +94,16 @@ class _EquipmentsDesktopState extends State<EquipmentsDesktop> {
                           ),
                         ),
                       );
-                    } else if (cubit.equipments!.isEmpty) {
+                    } else if (cubit.schedules!.isEmpty) {
                       return Padding(
                         padding: EdgeInsets.only(top: 40.h),
                         child: DefaultText(
-                          text: "No Equipment Found !",
+                          text: "No Schedules Found !",
                           fontSize: 5.sp,
                         ),
                       );
                     }
-                    return EquipmentView(cubit: cubit);
+                    return EquipmentScheduleView(cubit: cubit);
                   },
                 ),
               ],

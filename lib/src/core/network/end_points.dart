@@ -104,7 +104,7 @@ class EndPoints {
   // ------------------- Equipments Schedule
   static const getEquipmentSchedule = "get_equipment_schedule";
   static const assignEquipment = "assign_equipment";
-  static const returnDate = "return_equipment";
+  static const returnEquipment = "return_equipment";
 
 
 

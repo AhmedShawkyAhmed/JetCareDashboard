@@ -14,7 +14,7 @@ import 'package:jetboard/src/presentation/screens/corporate_items/corporate_item
 import 'package:jetboard/src/presentation/screens/corporates/corporates.dart';
 import 'package:jetboard/src/features/crew/ui/screens/crew.dart';
 import 'package:jetboard/src/features/equipments/ui/screens/equipment.dart';
-import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule.dart';
+import 'package:jetboard/src/features/equipment_schedule/ui/screens/equipment_schedule.dart';
 import 'package:jetboard/src/presentation/screens/extras/extras.dart';
 import 'package:jetboard/src/features/states/ui/screens/states.dart';
 import 'package:jetboard/src/features/info/ui/screens/info.dart';

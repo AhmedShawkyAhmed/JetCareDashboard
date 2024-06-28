@@ -10,8 +10,6 @@ class EquipmentRepo{
 
   EquipmentRepo(this.webService);
 
-
-
   Future<NetworkResult<NetworkBaseModel<List<EquipmentModel>>>> getEquipment({
     String? keyword,
   }) async {

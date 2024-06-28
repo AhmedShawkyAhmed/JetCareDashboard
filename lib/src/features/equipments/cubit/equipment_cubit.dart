@@ -13,6 +13,7 @@ class EquipmentCubit extends Cubit<EquipmentState> {
   final EquipmentRepo repo;
 
   List<EquipmentModel>? equipments;
+  List<EquipmentModel>? activeEquipments;
 
   Future getEquipment({
     String? keyword,
@@ -24,6 +25,23 @@ class EquipmentCubit extends Cubit<EquipmentState> {
     response.when(
       success: (NetworkBaseModel response) async {
         equipments = response.data;
+        emit(GetEquipmentSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        emit(GetEquipmentFailure());
+        error.showError();
+      },
+    );
+  }
+
+  Future getActiveEquipment() async {
+    emit(GetEquipmentLoading());
+    var response = await repo.getEquipment();
+    response.when(
+      success: (NetworkBaseModel response) async {
+        equipments = response.data;
+        activeEquipments!
+            .addAll(equipments!.where((item) => item.isActive == true));
         emit(GetEquipmentSuccess());
       },
       failure: (NetworkExceptions error) {

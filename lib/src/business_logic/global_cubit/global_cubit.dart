@@ -46,32 +46,6 @@ class GlobalCubit extends Cubit<GlobalState> {
     emit(AppChangeShadowState());
   }
 
-  Future getUser({required VoidCallback afterSuccess}) async {
-    users.clear();
-    try {
-      emit(CrewLoadingState());
-      await networkService.get(
-        url: EndPoints.getAccounts,
-        query: {
-          "type": "crew",
-        },
-      ).then((value) {
-        printSuccess(value.data.toString());
-        userResponse = UserResponse.fromJson(value.data);
-        for (var i = 0; i < userResponse!.userModel!.length; i++) {
-          users.add(userResponse!.userModel![i]);
-        }
-        emit(CrewSuccessState());
-        afterSuccess();
-      });
-    } on DioError catch (n) {
-      emit(CrewErrorState());
-      printError(n.toString());
-    } catch (e) {
-      emit(CrewErrorState());
-      printError(e.toString());
-    }
-  }
 
   Future getCrews({
     required int areaId,
