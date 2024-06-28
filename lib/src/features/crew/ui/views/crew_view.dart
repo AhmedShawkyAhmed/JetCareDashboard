@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/views/comment_view.dart';
-import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
-import 'package:jetboard/src/features/clients/ui/views/add_client_view.dart';
+import 'package:jetboard/src/features/crew/cubit/crew_cubit.dart';
+import 'package:jetboard/src/features/crew/ui/views/add_crew_view.dart';
+import 'package:jetboard/src/features/crew/ui/views/crew_area.dart';
 import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
-class ClientsView extends StatefulWidget {
-  final ClientsCubit cubit;
+class CrewView extends StatefulWidget {
+  final CrewCubit cubit;
 
-  const ClientsView({
+  const CrewView({
     required this.cubit,
     super.key,
   });
 
   @override
-  State<ClientsView> createState() => _ClientsViewState();
+  State<CrewView> createState() => _CrewViewState();
 }
 
-class _ClientsViewState extends State<ClientsView> {
+class _CrewViewState extends State<CrewView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +28,7 @@ class _ClientsViewState extends State<ClientsView> {
       child: SizedBox(
         height: 90.h,
         child: ListView.builder(
-          itemCount: widget.cubit.clients!.length,
+          itemCount: widget.cubit.crew!.length,
           itemBuilder: (context, index) => Padding(
             padding: EdgeInsets.only(
               top: 2.h,
@@ -51,7 +52,7 @@ class _ClientsViewState extends State<ClientsView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.clients![index].name ?? "",
+                        widget.cubit.crew![index].name ?? "",
                         style: TextStyle(fontSize: 3.sp),
                       ),
                     ],
@@ -70,7 +71,7 @@ class _ClientsViewState extends State<ClientsView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.clients![index].phone ?? "",
+                        widget.cubit.crew![index].phone ?? "",
                         style: TextStyle(fontSize: 3.sp),
                       ),
                     ],
@@ -89,7 +90,7 @@ class _ClientsViewState extends State<ClientsView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.clients![index].email ?? "",
+                        widget.cubit.crew![index].email ?? "",
                         style: TextStyle(
                           fontSize: 2.5.sp,
                           fontWeight: FontWeight.bold,
@@ -111,7 +112,7 @@ class _ClientsViewState extends State<ClientsView> {
                         height: 0.5.h,
                       ),
                       Text(
-                        widget.cubit.clients![index].rate.toString(),
+                        widget.cubit.crew![index].rate.toString(),
                         style: TextStyle(fontSize: 3.sp),
                       ),
                     ],
@@ -120,53 +121,87 @@ class _ClientsViewState extends State<ClientsView> {
                 SizedBox(
                   height: 2.5.h,
                   child: CircleAvatar(
-                    backgroundColor:
-                        widget.cubit.clients![index].isActive == true
-                            ? AppColors.green
-                            : AppColors.red,
+                    backgroundColor: widget.cubit.crew![index].isActive == true
+                        ? AppColors.green
+                        : AppColors.red,
                   ),
                 ),
                 SizedBox(
                   width: 2.w,
                 ),
                 Switch(
-                  value: widget.cubit.clients![index].isActive == true
-                      ? true
-                      : false,
+                  value:
+                      widget.cubit.crew![index].isActive == true ? true : false,
                   activeColor: AppColors.green,
                   activeTrackColor: AppColors.lightGreen,
                   inactiveThumbColor: AppColors.red,
                   inactiveTrackColor: AppColors.lightGrey,
                   splashRadius: 3.0,
                   onChanged: (value) {
-                    widget.cubit.switched(widget.cubit.clients![index]);
+                    widget.cubit.switched(widget.cubit.crew![index]);
                   },
                 ),
                 SizedBox(
                   width: 1.w,
                 ),
-                AddClientView(
+                IconButton(
+                  onPressed: () {
+                    showDialog<void>(
+                      context: NavigationService.context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return CrewArea(
+                          crewId: widget.cubit.crew![index].id!,
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.area_chart,
+                    color: AppColors.grey,
+                    size: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: 1.w,
+                ),
+                AddCrewView(
                   cubit: widget.cubit,
                   title: "Update",
-                  client: widget.cubit.clients![index],
+                  crew: widget.cubit.crew![index],
                 ),
                 SizedBox(
                   width: 1.w,
                 ),
                 CommentView(
-                  comment: widget.cubit.clients![index].adminComment!,
+                  comment: widget.cubit.crew![index].adminComment!,
                   onSave: (value) {
                     widget.cubit.userAdminComment(
-                      userId: widget.cubit.clients![index].id!,
+                      userId: widget.cubit.crew![index].id!,
                       adminComment: value,
                       afterSuccess: () {
                         setState(() {
-                          widget.cubit.clients![index].adminComment = value;
+                          widget.cubit.crew![index].adminComment = value;
                         });
                         NavigationService.pop();
                       },
                     );
                   },
+                ),
+                SizedBox(
+                  width: 1.w,
+                ),
+                IconButton(
+                  onPressed: () {
+                    widget.cubit.deleteCrew(
+                      id: widget.cubit.crew![index].id!,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppColors.red,
+                    size: 20,
+                  ),
                 ),
                 SizedBox(
                   width: 2.w,

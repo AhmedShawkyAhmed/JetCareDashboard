@@ -18,6 +18,9 @@ import 'package:jetboard/src/features/calendar/service/calendar_web_service.dart
 import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
 import 'package:jetboard/src/features/clients/data/repo/clients_repo.dart';
 import 'package:jetboard/src/features/clients/service/clients_web_service.dart';
+import 'package:jetboard/src/features/crew/cubit/crew_cubit.dart';
+import 'package:jetboard/src/features/crew/data/repo/crew_repo.dart';
+import 'package:jetboard/src/features/crew/service/crew_web_service.dart';
 import 'package:jetboard/src/features/home/cubit/home_cubit.dart';
 import 'package:jetboard/src/features/home/data/repo/home_repo.dart';
 import 'package:jetboard/src/features/home/service/home_web_service.dart';
@@ -68,6 +71,7 @@ Future<void> initAppModule() async {
   instance.registerFactory<CalendarCubit>(() => CalendarCubit(instance()));
   instance.registerFactory<ModeratorsCubit>(() => ModeratorsCubit(instance()));
   instance.registerFactory<ClientsCubit>(() => ClientsCubit(instance()));
+  instance.registerFactory<CrewCubit>(() => CrewCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
@@ -82,6 +86,7 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<CalendarRepo>(() => CalendarRepo(instance()));
   instance.registerLazySingleton<ModeratorsRepo>(() => ModeratorsRepo(instance()));
   instance.registerLazySingleton<ClientsRepo>(() => ClientsRepo(instance()));
+  instance.registerLazySingleton<CrewRepo>(() => CrewRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
@@ -96,4 +101,5 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<CalendarWebService>(() => CalendarWebService(instance()));
   instance.registerLazySingleton<ModeratorsWebService>(() => ModeratorsWebService(instance()));
   instance.registerLazySingleton<ClientsWebService>(() => ClientsWebService(instance()));
+  instance.registerLazySingleton<CrewWebService>(() => CrewWebService(instance()));
 }

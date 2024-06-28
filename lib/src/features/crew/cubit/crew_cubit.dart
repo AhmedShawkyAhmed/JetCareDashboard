@@ -7,15 +7,19 @@ import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
-import 'package:jetboard/src/features/clients/data/repo/clients_repo.dart';
+import 'package:jetboard/src/features/crew/data/models/crew_area_model.dart';
+import 'package:jetboard/src/features/crew/data/repo/crew_repo.dart';
 
-part 'clients_state.dart';
+part 'crew_state.dart';
 
-class ClientsCubit extends Cubit<ClientsState> {
-  ClientsCubit(this.repo) : super(ClientsInitial());
-  final ClientsRepo repo;
+class CrewCubit extends Cubit<CrewState> {
+  CrewCubit(this.repo) : super(CrewInitial());
+  final CrewRepo repo;
 
-  List<UserModel>? clients;
+  List<UserModel>? crew;
+  List<CrewAreaModel>? crewAreas;
+  List<int> areaIds = [];
+  List<int> crewAreasIds = [];
 
   bool pass = true;
 
@@ -23,35 +27,35 @@ class ClientsCubit extends Cubit<ClientsState> {
     pass = !pass;
   }
 
-  Future switched(UserModel client) async {
-    if (client.isActive!) {
-      await stopAccount(userId: client.id!);
+  Future switched(UserModel crew) async {
+    if (crew.isActive!) {
+      await stopAccount(userId: crew.id!);
     } else {
-      await activateAccount(userId: client.id!);
+      await activateAccount(userId: crew.id!);
     }
     emit(PickedSwitchState());
   }
 
-  Future getClients({
+  Future getCrew({
     String? keyword,
   }) async {
-    emit(GetClientsLoading());
-    var response = await repo.getClients(
+    emit(GetCrewLoading());
+    var response = await repo.getCrews(
       keyword: keyword,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        clients = response.data;
-        emit(GetClientsSuccess());
+        crew = response.data;
+        emit(GetCrewSuccess());
       },
       failure: (NetworkExceptions error) {
-        emit(GetClientsFailure());
+        emit(GetCrewFailure());
         error.showError();
       },
     );
   }
 
-  Future addClient({
+  Future addCrew({
     required RegisterRequest request,
   }) async {
     if (request.name == "") {
@@ -68,40 +72,40 @@ class ClientsCubit extends Cubit<ClientsState> {
       return;
     }
     IndicatorView.showIndicator();
-    emit(AddClientLoading());
-    var response = await repo.addClient(
+    emit(AddCrewLoading());
+    var response = await repo.addCrew(
       request: request,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        emit(AddClientSuccess());
+        emit(AddCrewSuccess());
         NavigationService.pop();
         NavigationService.pop();
       },
       failure: (NetworkExceptions error) {
-        emit(AddClientFailure());
+        emit(AddCrewFailure());
         NavigationService.pop();
         error.showError();
       },
     );
   }
 
-  Future updateClient({
+  Future updateCrew({
     required UserModel request,
   }) async {
     IndicatorView.showIndicator();
-    emit(UpdateClientLoading());
-    var response = await repo.updateClient(
+    emit(UpdateCrewLoading());
+    var response = await repo.updateCrew(
       request: request,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        emit(UpdateClientSuccess());
+        emit(UpdateCrewSuccess());
         NavigationService.pop();
         NavigationService.pop();
       },
       failure: (NetworkExceptions error) {
-        emit(UpdateClientFailure());
+        emit(UpdateCrewFailure());
         NavigationService.pop();
         error.showError();
       },
@@ -117,9 +121,8 @@ class ClientsCubit extends Cubit<ClientsState> {
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        if (clients != null) {
-          clients!.firstWhere((item) => item.id == userId).isActive =
-          true;
+        if (crew != null) {
+          crew!.firstWhere((item) => item.id == userId).isActive = true;
         }
         emit(ActivateAccountSuccess());
       },
@@ -139,9 +142,8 @@ class ClientsCubit extends Cubit<ClientsState> {
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        if (clients != null) {
-          clients!.firstWhere((item) => item.id == userId).isActive =
-          false;
+        if (crew != null) {
+          crew!.firstWhere((item) => item.id == userId).isActive = false;
         }
         emit(StopAccountSuccess());
       },
@@ -174,19 +176,85 @@ class ClientsCubit extends Cubit<ClientsState> {
     );
   }
 
-  Future deleteClient({
+  Future deleteCrew({
     required int id,
   }) async {
-    emit(DeleteClientLoading());
-    var response = await repo.deleteClient(
+    emit(DeleteCrewLoading());
+    var response = await repo.deleteCrew(
       id: id,
     );
     response.when(
       success: (NetworkBaseModel response) async {
-        emit(DeleteClientSuccess());
+        emit(DeleteCrewSuccess());
       },
       failure: (NetworkExceptions error) {
-        emit(DeleteClientFailure());
+        emit(DeleteCrewFailure());
+        error.showError();
+      },
+    );
+  }
+
+  Future getCrewAreas({
+    required int crewId,
+  }) async {
+    areaIds.clear();
+    crewAreasIds.clear();
+    emit(GetCrewAreaLoading());
+    var response = await repo.getCrewAreas(
+      crewId: crewId,
+    );
+    response.when(
+      success: (NetworkBaseModel response) async {
+        crewAreas = response.data;
+        for (int a = 0; a < crewAreas!.length; a++) {
+          areaIds.add(crewAreas![a].area!.id!);
+          crewAreasIds.add(crewAreas![a].id!);
+        }
+        emit(GetCrewAreaSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        emit(GetCrewAreaFailure());
+        error.showError();
+      },
+    );
+  }
+
+  Future addAreaToCrew({
+    required int crewId,
+    required int areaId,
+  }) async {
+    emit(AddCrewAreaLoading());
+    var response = await repo.addAreaToCrew(
+      crewId: crewId,
+      areaId: areaId,
+    );
+    response.when(
+      success: (NetworkBaseModel response) async {
+        getCrewAreas(crewId: crewId);
+        emit(AddCrewAreaSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        emit(AddCrewAreaFailure());
+        error.showError();
+      },
+    );
+  }
+
+  Future deleteCrewArea({
+    required int areaId,
+  }) async {
+    emit(DeleteCrewAreaLoading());
+    var response = await repo.deleteCrewArea(
+      id: crewAreasIds[areaIds.indexOf(areaId)],
+    );
+    response.when(
+      success: (NetworkBaseModel response) async {
+        crewAreasIds.remove(crewAreasIds[areaIds.indexOf(areaId)]);
+        areaIds.remove(areaId);
+        emit(DeleteCrewAreaSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        emit(DeleteCrewAreaFailure());
         error.showError();
       },
     );

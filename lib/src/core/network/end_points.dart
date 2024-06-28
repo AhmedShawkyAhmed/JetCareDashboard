@@ -84,6 +84,12 @@ class EndPoints {
   // ------------------- Clients
   static const getClients = "get_clients";
 
+  // ------------------- Crew
+  static const getCrew = "get_crew";
+  static const addAreaToCrew = "add_area_to_crew";
+  static const deleteCrewArea = "delete_crew_area";
+  static const getCrewAreas = "get_crew_areas";
+
   // ------------------- Moderators
   static const getModerators = "get_moderators";
   static const createAccess = "create_access";
@@ -158,10 +164,6 @@ class EndPoints {
 
   static const getMyAddresses = "getMyAddresses";
   static const addAddress = "addAddress";
-
-  static const addAreaToCrew = "addAreaToCrew";
-  static const deleteCrewArea = "deleteCrewArea";
-  static const getCrewAreas = "getCrewAreas";
   static const getCrewOfAreas = "getCrewOfAreas";
 
   static const addEquipment = "addEquipment";
