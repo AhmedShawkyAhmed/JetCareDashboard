@@ -4,7 +4,7 @@ import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 class MobileLayout extends StatelessWidget {
-  const MobileLayout({Key? key}) : super(key: key);
+  const MobileLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class MobileLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(),
+          const Row(),
           SizedBox(
             width: 90.w,
             height: 35.h,

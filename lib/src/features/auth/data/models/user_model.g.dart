@@ -15,6 +15,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       role: $enumDecodeNullable(_$RolesEnumMap, json['role']),
       token: json['token'] as String?,
       fcm: json['fcm'] as String?,
+      adminComment: json['admin_comment'] as String?,
       isActive: json['is_active'] as bool?,
       isArchived: json['is_archived'] as bool?,
     );
@@ -36,6 +37,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) {
   writeNotNull('role', _$RolesEnumMap[instance.role]);
   writeNotNull('token', instance.token);
   writeNotNull('fcm', instance.fcm);
+  writeNotNull('admin_comment', instance.adminComment);
   writeNotNull('is_active', instance.isActive);
   writeNotNull('is_archived', instance.isArchived);
   return val;

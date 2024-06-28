@@ -1,30 +1,30 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jetboard/src/core/network/models/key_value_model.dart';
 
 part 'tab_access_model.g.dart';
 
 @JsonSerializable()
 class TabAccessModel{
   int? id;
-  int? moderatorId;
-  bool? orders;
-  bool? corporates;
-  bool? clients;
-  bool? moderators;
-  bool? crews;
-  bool? category;
-  bool? offers;
-  bool? items;
-  bool? corporateItems;
-  bool? extrasItems;
-  bool? equipment;
-  bool? equipmentSchedule;
-  bool? ads;
-  bool? governorate;
-  bool? area;
-  bool? periods;
-  bool? support;
-  bool? notifications;
-  bool? info;
+  KeyValueModel? orders;
+  KeyValueModel? corporates;
+  KeyValueModel? clients;
+  KeyValueModel? moderators;
+  KeyValueModel? crews;
+  KeyValueModel? category;
+  KeyValueModel? offers;
+  KeyValueModel? items;
+  KeyValueModel? corporateItems;
+  KeyValueModel? extrasItems;
+  KeyValueModel? equipment;
+  KeyValueModel? equipmentSchedule;
+  KeyValueModel? ads;
+  KeyValueModel? governorate;
+  KeyValueModel? area;
+  KeyValueModel? periods;
+  KeyValueModel? support;
+  KeyValueModel? notifications;
+  KeyValueModel? info;
 
   TabAccessModel({
      this.id,
@@ -44,7 +44,6 @@ class TabAccessModel{
      this.extrasItems,
      this.governorate,
      this.info,
-     this.moderatorId,
      this.moderators,
      this.offers,
      this.support,

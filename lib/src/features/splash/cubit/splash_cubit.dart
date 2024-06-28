@@ -14,6 +14,7 @@ class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(SplashInitial());
 
   Future<void> init() async {
+    CacheService.add(key: CacheKeys.token, value: "39|cIByR0vMaunoKjil4KPUxsVKUTfWXHVUxqfW2A5T");
     String? token = CacheService.get(key: CacheKeys.token);
     printLog("Token | $token");
     await Future.delayed(const Duration(seconds: 2), () {

@@ -13,6 +13,7 @@ class UserModel {
   Roles? role;
   String? token;
   String? fcm;
+  String? adminComment;
   bool? isActive;
   bool? isArchived;
 
@@ -25,6 +26,7 @@ class UserModel {
     this.role,
     this.token,
     this.fcm,
+    this.adminComment,
     this.isActive,
     this.isArchived,
   });

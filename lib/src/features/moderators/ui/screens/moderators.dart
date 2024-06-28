@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/shared/views/mobile.dart';
-import 'package:jetboard/src/presentation/screens/moderators/moderators_desktop.dart';
+import 'package:jetboard/src/features/moderators/ui/screens/moderators_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class Moderators extends StatelessWidget {
@@ -8,10 +8,10 @@ class Moderators extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: const MobileLayout(),
-      tablet: const MobileLayout(),
-      desktop: const ModeratorsDesktop(),
+    return ScreenTypeLayout.builder(
+      mobile: (_) => const MobileLayout(),
+      tablet: (_) => const MobileLayout(),
+      desktop: (_) => const ModeratorsDesktop(),
     );
   }
 }

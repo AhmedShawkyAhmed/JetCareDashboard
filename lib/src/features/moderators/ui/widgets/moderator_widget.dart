@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/business_logic/moderator_cubit/moderator_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
+import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
 import 'package:sizer/sizer.dart';
 
 class ModeratorWidget extends StatefulWidget {
   final int id;
   final String name;
   final String columnKey;
-  final bool isMine;
-  final int value;
+  final bool value;
+  final ModeratorsCubit cubit;
 
   const ModeratorWidget({
+    required this.cubit,
     required this.id,
     required this.name,
     required this.columnKey,
-    required this.isMine,
-    this.value = 0,
+    this.value = false,
     super.key,
   });
 
@@ -26,7 +27,7 @@ class ModeratorWidget extends StatefulWidget {
 }
 
 class _ModeratorWidgetState extends State<ModeratorWidget> {
-  int value = 0;
+  bool value = false;
 
   @override
   void initState() {
@@ -48,7 +49,7 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
             border: Border.all(
               color: widget.name == ""
                   ? AppColors.white
-                  : value == 1
+                  : value == true
                       ? AppColors.primary
                       : AppColors.red,
             ),
@@ -63,49 +64,50 @@ class _ModeratorWidgetState extends State<ModeratorWidget> {
                       child: DefaultText(
                         text: widget.name,
                         fontSize: 2.5.sp,
-                        align: widget.isMine == false
-                            ? TextAlign.start
-                            : TextAlign.center,
+                        align: TextAlign.start,
                       ),
                     ),
-                    if (widget.isMine == false)
-                      BlocBuilder<ModeratorCubit, ModeratorState>(
-                        builder: (context, state) {
-                          return Switch(
-                            value: value == 1 ? true : false,
-                            activeColor: AppColors.green,
-                            activeTrackColor: AppColors.lightGreen,
-                            inactiveThumbColor: AppColors.red,
-                            inactiveTrackColor: AppColors.lightGrey,
-                            splashRadius: 3.0,
-                            onChanged: (val) {
-                              if (val) {
-                                ModeratorCubit.get(context).updateAccess(
+                    BlocBuilder<ModeratorsCubit, ModeratorsState>(
+                      builder: (context, state) {
+                        return Switch(
+                          value: value == true ? true : false,
+                          activeColor: AppColors.green,
+                          activeTrackColor: AppColors.lightGreen,
+                          inactiveThumbColor: AppColors.red,
+                          inactiveTrackColor: AppColors.lightGrey,
+                          splashRadius: 3.0,
+                          onChanged: (val) {
+                            if (val) {
+                              widget.cubit.updateAccess(
+                                request: AccessRequest(
+                                  id: widget.id,
                                   key: widget.columnKey,
                                   value: 1,
+                                ),
+                                afterSuccess: () {
+                                  setState(() {
+                                    value = true;
+                                  });
+                                },
+                              );
+                            } else {
+                              widget.cubit.updateAccess(
+                                request: AccessRequest(
                                   id: widget.id,
-                                  afterSuccess: () {
-                                    setState(() {
-                                      value = 1;
-                                    });
-                                  },
-                                );
-                              } else {
-                                ModeratorCubit.get(context).updateAccess(
                                   key: widget.columnKey,
                                   value: 0,
-                                  id: widget.id,
-                                  afterSuccess: () {
-                                    setState(() {
-                                      value = 0;
-                                    });
-                                  },
-                                );
-                              }
-                            },
-                          );
-                        },
-                      ),
+                                ),
+                                afterSuccess: () {
+                                  setState(() {
+                                    value = false;
+                                  });
+                                },
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
         ),

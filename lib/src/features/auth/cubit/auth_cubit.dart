@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/constants/cache_keys.dart';
+import 'package:jetboard/src/core/network/models/key_value_model.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/routing/routes.dart';
@@ -124,25 +125,25 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     if (role == Roles.admin) {
       Globals.tabAccessData = TabAccessModel(
-        category: true,
-        ads: true,
-        area: true,
-        clients: true,
-        corporateItems: true,
-        corporates: true,
-        crews: true,
-        equipment: true,
-        equipmentSchedule: true,
-        extrasItems: true,
-        governorate: true,
-        info: true,
-        items: true,
-        moderators: true,
-        notifications: true,
-        offers: true,
-        orders: true,
-        periods: true,
-        support: true,
+        category: KeyValueModel(key: "category",value: true),
+        ads: KeyValueModel(key: "ads",value: true),
+        area: KeyValueModel(key: "area",value: true),
+        clients: KeyValueModel(key: "clients",value: true),
+        corporateItems: KeyValueModel(key: "corporate_items",value: true),
+        corporates: KeyValueModel(key: "corporates",value: true),
+        crews: KeyValueModel(key: "crews",value: true),
+        equipment: KeyValueModel(key: "equipment",value: true),
+        equipmentSchedule: KeyValueModel(key: "equipment_schedule",value: true),
+        extrasItems: KeyValueModel(key: "extras_items",value: true),
+        governorate: KeyValueModel(key: "governorate",value: true),
+        info: KeyValueModel(key: "info",value: true),
+        items: KeyValueModel(key: "items",value: true),
+        moderators: KeyValueModel(key: "moderators",value: true),
+        notifications: KeyValueModel(key: "notifications",value: true),
+        offers: KeyValueModel(key: "offers",value: true),
+        orders: KeyValueModel(key: "orders",value: true),
+        periods: KeyValueModel(key: "periods",value: true),
+        support: KeyValueModel(key: "support",value: true),
       );
       NavigationService.pushNamedAndRemoveUntil(
         Routes.layout,

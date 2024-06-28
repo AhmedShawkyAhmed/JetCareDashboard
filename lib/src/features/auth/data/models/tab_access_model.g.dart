@@ -9,26 +9,67 @@ part of 'tab_access_model.dart';
 TabAccessModel _$TabAccessModelFromJson(Map<String, dynamic> json) =>
     TabAccessModel(
       id: (json['id'] as num?)?.toInt(),
-      crews: json['crews'] as bool?,
-      area: json['area'] as bool?,
-      corporateItems: json['corporate_items'] as bool?,
-      notifications: json['notifications'] as bool?,
-      items: json['items'] as bool?,
-      clients: json['clients'] as bool?,
-      periods: json['periods'] as bool?,
-      orders: json['orders'] as bool?,
-      equipment: json['equipment'] as bool?,
-      equipmentSchedule: json['equipment_schedule'] as bool?,
-      ads: json['ads'] as bool?,
-      category: json['category'] as bool?,
-      corporates: json['corporates'] as bool?,
-      extrasItems: json['extras_items'] as bool?,
-      governorate: json['governorate'] as bool?,
-      info: json['info'] as bool?,
-      moderatorId: (json['moderator_id'] as num?)?.toInt(),
-      moderators: json['moderators'] as bool?,
-      offers: json['offers'] as bool?,
-      support: json['support'] as bool?,
+      crews: json['crews'] == null
+          ? null
+          : KeyValueModel.fromJson(json['crews'] as Map<String, dynamic>),
+      area: json['area'] == null
+          ? null
+          : KeyValueModel.fromJson(json['area'] as Map<String, dynamic>),
+      corporateItems: json['corporate_items'] == null
+          ? null
+          : KeyValueModel.fromJson(
+              json['corporate_items'] as Map<String, dynamic>),
+      notifications: json['notifications'] == null
+          ? null
+          : KeyValueModel.fromJson(
+              json['notifications'] as Map<String, dynamic>),
+      items: json['items'] == null
+          ? null
+          : KeyValueModel.fromJson(json['items'] as Map<String, dynamic>),
+      clients: json['clients'] == null
+          ? null
+          : KeyValueModel.fromJson(json['clients'] as Map<String, dynamic>),
+      periods: json['periods'] == null
+          ? null
+          : KeyValueModel.fromJson(json['periods'] as Map<String, dynamic>),
+      orders: json['orders'] == null
+          ? null
+          : KeyValueModel.fromJson(json['orders'] as Map<String, dynamic>),
+      equipment: json['equipment'] == null
+          ? null
+          : KeyValueModel.fromJson(json['equipment'] as Map<String, dynamic>),
+      equipmentSchedule: json['equipment_schedule'] == null
+          ? null
+          : KeyValueModel.fromJson(
+              json['equipment_schedule'] as Map<String, dynamic>),
+      ads: json['ads'] == null
+          ? null
+          : KeyValueModel.fromJson(json['ads'] as Map<String, dynamic>),
+      category: json['category'] == null
+          ? null
+          : KeyValueModel.fromJson(json['category'] as Map<String, dynamic>),
+      corporates: json['corporates'] == null
+          ? null
+          : KeyValueModel.fromJson(json['corporates'] as Map<String, dynamic>),
+      extrasItems: json['extras_items'] == null
+          ? null
+          : KeyValueModel.fromJson(
+              json['extras_items'] as Map<String, dynamic>),
+      governorate: json['governorate'] == null
+          ? null
+          : KeyValueModel.fromJson(json['governorate'] as Map<String, dynamic>),
+      info: json['info'] == null
+          ? null
+          : KeyValueModel.fromJson(json['info'] as Map<String, dynamic>),
+      moderators: json['moderators'] == null
+          ? null
+          : KeyValueModel.fromJson(json['moderators'] as Map<String, dynamic>),
+      offers: json['offers'] == null
+          ? null
+          : KeyValueModel.fromJson(json['offers'] as Map<String, dynamic>),
+      support: json['support'] == null
+          ? null
+          : KeyValueModel.fromJson(json['support'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TabAccessModelToJson(TabAccessModel instance) {
@@ -41,25 +82,24 @@ Map<String, dynamic> _$TabAccessModelToJson(TabAccessModel instance) {
   }
 
   writeNotNull('id', instance.id);
-  writeNotNull('moderator_id', instance.moderatorId);
-  writeNotNull('orders', instance.orders);
-  writeNotNull('corporates', instance.corporates);
-  writeNotNull('clients', instance.clients);
-  writeNotNull('moderators', instance.moderators);
-  writeNotNull('crews', instance.crews);
-  writeNotNull('category', instance.category);
-  writeNotNull('offers', instance.offers);
-  writeNotNull('items', instance.items);
-  writeNotNull('corporate_items', instance.corporateItems);
-  writeNotNull('extras_items', instance.extrasItems);
-  writeNotNull('equipment', instance.equipment);
-  writeNotNull('equipment_schedule', instance.equipmentSchedule);
-  writeNotNull('ads', instance.ads);
-  writeNotNull('governorate', instance.governorate);
-  writeNotNull('area', instance.area);
-  writeNotNull('periods', instance.periods);
-  writeNotNull('support', instance.support);
-  writeNotNull('notifications', instance.notifications);
-  writeNotNull('info', instance.info);
+  writeNotNull('orders', instance.orders?.toJson());
+  writeNotNull('corporates', instance.corporates?.toJson());
+  writeNotNull('clients', instance.clients?.toJson());
+  writeNotNull('moderators', instance.moderators?.toJson());
+  writeNotNull('crews', instance.crews?.toJson());
+  writeNotNull('category', instance.category?.toJson());
+  writeNotNull('offers', instance.offers?.toJson());
+  writeNotNull('items', instance.items?.toJson());
+  writeNotNull('corporate_items', instance.corporateItems?.toJson());
+  writeNotNull('extras_items', instance.extrasItems?.toJson());
+  writeNotNull('equipment', instance.equipment?.toJson());
+  writeNotNull('equipment_schedule', instance.equipmentSchedule?.toJson());
+  writeNotNull('ads', instance.ads?.toJson());
+  writeNotNull('governorate', instance.governorate?.toJson());
+  writeNotNull('area', instance.area?.toJson());
+  writeNotNull('periods', instance.periods?.toJson());
+  writeNotNull('support', instance.support?.toJson());
+  writeNotNull('notifications', instance.notifications?.toJson());
+  writeNotNull('info', instance.info?.toJson());
   return val;
 }

@@ -105,53 +105,6 @@ class GlobalCubit extends Cubit<GlobalState> {
     }
   }
 
-  Future getItems() async {
-    try {
-      emit(ItemsLoadingState());
-      await networkService
-          .get(
-        url: EndPoints.getItemsMobile,
-      )
-          .then((value) {
-        itemsResponse = ItemsResponse.fromJson(value.data);
-        for (int i = 0; i < itemsResponse!.itemsModel!.length; i++) {
-          items.add(itemsResponse!.itemsModel![i].nameEn!);
-        }
-        emit(ItemsSuccessState());
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(ItemsErrorState());
-      printError(n.toString());
-    } catch (e) {
-      emit(ItemsErrorState());
-      printError(e.toString());
-    }
-  }
-
-  Future getPackages() async {
-    try {
-      emit(PackagesLoadingState());
-      await networkService
-          .get(
-        url: EndPoints.getPackagesMobile,
-      )
-          .then((value) {
-        packagesResponse = PackagesResponse.fromJson(value.data);
-        for (int i = 0; i < packagesResponse!.packagesModel!.length; i++) {
-          packages.add(packagesResponse!.packagesModel![i].nameEn);
-        }
-        emit(PackagesSuccessState());
-        printSuccess(value.data.toString());
-      });
-    } on DioError catch (n) {
-      emit(PackagesErrorState());
-      printError(n.toString());
-    } catch (e) {
-      emit(PackagesErrorState());
-      printError(e.toString());
-    }
-  }
 
   Future getItemsForPackages(
       {String? type, keyword, required VoidCallback afterSuccess}) async {

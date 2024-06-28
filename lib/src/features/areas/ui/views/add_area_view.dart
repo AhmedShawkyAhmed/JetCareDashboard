@@ -8,8 +8,8 @@ import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/features/areas/cubit/areas_cubit.dart';
 import 'package:jetboard/src/features/areas/data/models/area_model.dart';
-import 'package:jetboard/src/features/states/data/models/state_model.dart';
 import 'package:jetboard/src/features/areas/data/requests/area_request.dart';
+import 'package:jetboard/src/features/states/data/models/state_model.dart';
 import 'package:sizer/sizer.dart';
 
 class AddAreaView extends StatefulWidget {
@@ -45,6 +45,8 @@ class _AddAreaViewState extends State<AddAreaView> {
       priceController.text = widget.area!.price.toString();
       discountController.text = widget.area!.discount.toString();
       transportationController.text = widget.area!.transportation.toString();
+      selectedState = widget.cubit.states!
+          .firstWhere((item) => item.id == widget.area!.stateId);
     }
     super.initState();
   }
@@ -67,134 +69,140 @@ class _AddAreaViewState extends State<AddAreaView> {
         return AlertDialog(
           backgroundColor: AppColors.white,
           content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                DefaultText(
-                  text: "${widget.title} Area",
-                  align: TextAlign.center,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
-                    left: 3.w,
-                    right: 3.w,
+            child: SizedBox(
+              width: 30.w,
+              child: ListBody(
+                children: <Widget>[
+                  DefaultText(
+                    text: "${widget.title} Area",
+                    align: TextAlign.center,
                   ),
-                  child: DefaultTextField(
-                    validator: nameEnController.text,
-                    password: false,
-                    controller: nameEnController,
-                    height: 7.h,
-                    haveShadow: true,
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    color: AppColors.white,
-                    shadowColor: AppColors.black.withOpacity(0.05),
-                    hintText: 'English Name',
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
-                    left: 3.w,
-                    right: 3.w,
-                  ),
-                  child: DefaultTextField(
-                    validator: nameArController.text,
-                    password: false,
-                    controller: nameArController,
-                    height: 7.h,
-                    haveShadow: true,
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    color: AppColors.white,
-                    shadowColor: AppColors.black.withOpacity(0.05),
-                    hintText: 'Arabic Name',
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
-                    left: 3.w,
-                    right: 3.w,
-                  ),
-                  child: DefaultTextField(
-                    validator: priceController.text,
-                    password: false,
-                    height: 7.h,
-                    controller: priceController,
-                    haveShadow: true,
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    color: AppColors.white,
-                    shadowColor: AppColors.black.withOpacity(0.05),
-                    hintText: 'Price',
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
-                    left: 3.w,
-                    right: 3.w,
-                  ),
-                  child: DefaultTextField(
-                    validator: transportationController.text,
-                    password: false,
-                    height: 7.h,
-                    controller: transportationController,
-                    haveShadow: true,
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    color: AppColors.white,
-                    shadowColor: AppColors.black.withOpacity(0.05),
-                    hintText: 'Transportation',
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
-                    left: 3.w,
-                    right: 3.w,
-                  ),
-                  child: DefaultTextField(
-                    validator: discountController.text,
-                    password: false,
-                    height: 7.h,
-                    controller: discountController,
-                    haveShadow: true,
-                    spreadRadius: 2,
-                    blurRadius: 2,
-                    color: AppColors.white,
-                    shadowColor: AppColors.black.withOpacity(0.05),
-                    hintText: 'Discount',
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
-                    left: 3.w,
-                    right: 3.w,
-                  ),
-                  child: SizedBox(
-                    height: 4.h,
-                    child: DefaultDropdown<StateModel>(
-                      hint: "Governorate",
-                      showSearchBox: true,
-                      selectedItem: selectedState,
-                      items: widget.cubit.states ?? [],
-                      onChanged: (val) {
-                        setState(
-                          () {
-                            selectedState = val!;
-                            stateId = widget.cubit
-                                .states![widget.cubit.states!.indexOf(val)].id!;
-                            printSuccess(stateId.toString());
-                          },
-                        );
-                      },
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 3.w,
+                      right: 3.w,
+                    ),
+                    child: DefaultTextField(
+                      validator: nameEnController.text,
+                      password: false,
+                      controller: nameEnController,
+                      height: 5.h,
+                      haveShadow: true,
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      color: AppColors.white,
+                      shadowColor: AppColors.black.withOpacity(0.05),
+                      hintText: 'English Name',
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 3.w,
+                      right: 3.w,
+                    ),
+                    child: DefaultTextField(
+                      validator: nameArController.text,
+                      password: false,
+                      controller: nameArController,
+                      height: 5.h,
+                      haveShadow: true,
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      color: AppColors.white,
+                      shadowColor: AppColors.black.withOpacity(0.05),
+                      hintText: 'Arabic Name',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 3.w,
+                      right: 3.w,
+                    ),
+                    child: DefaultTextField(
+                      validator: priceController.text,
+                      password: false,
+                      height: 5.h,
+                      controller: priceController,
+                      haveShadow: true,
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      color: AppColors.white,
+                      shadowColor: AppColors.black.withOpacity(0.05),
+                      hintText: 'Price',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 3.w,
+                      right: 3.w,
+                    ),
+                    child: DefaultTextField(
+                      validator: transportationController.text,
+                      password: false,
+                      height: 5.h,
+                      controller: transportationController,
+                      haveShadow: true,
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      color: AppColors.white,
+                      shadowColor: AppColors.black.withOpacity(0.05),
+                      hintText: 'Transportation',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 3.w,
+                      right: 3.w,
+                    ),
+                    child: DefaultTextField(
+                      validator: discountController.text,
+                      password: false,
+                      height: 5.h,
+                      controller: discountController,
+                      haveShadow: true,
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      color: AppColors.white,
+                      shadowColor: AppColors.black.withOpacity(0.05),
+                      hintText: 'Discount',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 3.w,
+                      right: 3.w,
+                    ),
+                    child: SizedBox(
+                      height: 5.h,
+                      child: DefaultDropdown<StateModel>(
+                        hint: "Governorate",
+                        showSearchBox: true,
+                        selectedItem: selectedState,
+                        itemAsString: (StateModel? u) => u?.nameEn ?? "",
+                        items: widget.cubit.states ?? [],
+                        onChanged: (val) {
+                          setState(
+                            () {
+                              selectedState = val!;
+                              stateId = widget
+                                  .cubit
+                                  .states![widget.cubit.states!.indexOf(val)]
+                                  .id!;
+                              printSuccess(stateId.toString());
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           actionsAlignment: MainAxisAlignment.spaceEvenly,
@@ -262,23 +270,31 @@ class _AddAreaViewState extends State<AddAreaView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultAppButton(
-      width: 8.w,
-      height: 5.h,
-      offset: const Offset(0, 0),
-      spreadRadius: 2,
-      blurRadius: 2,
-      radius: 10,
-      gradientColors: const [
-        AppColors.green,
-        AppColors.lightGreen,
-      ],
-      fontSize: 4.sp,
-      haveShadow: false,
-      title: "Add",
-      onTap: () {
-        _show();
-      },
-    );
+    return widget.area == null
+        ? DefaultAppButton(
+            width: 8.w,
+            height: 5.h,
+            haveShadow: false,
+            offset: const Offset(0, 0),
+            spreadRadius: 2,
+            blurRadius: 2,
+            radius: 10,
+            gradientColors: const [
+              AppColors.green,
+              AppColors.lightGreen,
+            ],
+            fontSize: 4.sp,
+            title: "Add",
+            onTap: () {
+              _show();
+            },
+          )
+        : IconButton(
+            onPressed: () {
+              _show();
+            },
+            icon: const Icon(Icons.edit),
+            color: AppColors.grey,
+          );
   }
 }

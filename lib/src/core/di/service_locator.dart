@@ -22,6 +22,9 @@ import 'package:jetboard/src/features/info/cubit/info_cubit.dart';
 import 'package:jetboard/src/features/info/data/repo/info_repo.dart';
 import 'package:jetboard/src/features/info/service/info_web_service.dart';
 import 'package:jetboard/src/features/layout/cubit/layout_cubit.dart';
+import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
+import 'package:jetboard/src/features/moderators/data/repo/moderators_repo.dart';
+import 'package:jetboard/src/features/moderators/service/moderators_web_service.dart';
 import 'package:jetboard/src/features/notifications/cubit/notifications_cubit.dart';
 import 'package:jetboard/src/features/notifications/data/repo/notification_repo.dart';
 import 'package:jetboard/src/features/notifications/service/notifications_web_service.dart';
@@ -60,6 +63,7 @@ Future<void> initAppModule() async {
   instance.registerFactory<AreasCubit>(() => AreasCubit(instance()));
   instance.registerFactory<StatesCubit>(() => StatesCubit(instance()));
   instance.registerFactory<CalendarCubit>(() => CalendarCubit(instance()));
+  instance.registerFactory<ModeratorsCubit>(() => ModeratorsCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
@@ -72,6 +76,7 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<AreaRepo>(() => AreaRepo(instance()));
   instance.registerLazySingleton<StateRepo>(() => StateRepo(instance()));
   instance.registerLazySingleton<CalendarRepo>(() => CalendarRepo(instance()));
+  instance.registerLazySingleton<ModeratorsRepo>(() => ModeratorsRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
@@ -84,4 +89,5 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<AreasWebService>(() => AreasWebService(instance()));
   instance.registerLazySingleton<StatesWebService>(() => StatesWebService(instance()));
   instance.registerLazySingleton<CalendarWebService>(() => CalendarWebService(instance()));
+  instance.registerLazySingleton<ModeratorsWebService>(() => ModeratorsWebService(instance()));
 }

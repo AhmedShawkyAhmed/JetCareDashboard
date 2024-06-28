@@ -19,7 +19,7 @@ import 'package:jetboard/src/presentation/screens/extras/extras.dart';
 import 'package:jetboard/src/features/states/ui/screens/states.dart';
 import 'package:jetboard/src/features/info/ui/screens/info.dart';
 import 'package:jetboard/src/presentation/screens/items/items.dart';
-import 'package:jetboard/src/presentation/screens/moderators/moderators.dart';
+import 'package:jetboard/src/features/moderators/ui/screens/moderators.dart';
 import 'package:jetboard/src/features/notifications/ui/screens/notifications.dart';
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
 import 'package:jetboard/src/presentation/screens/packages/packages.dart';

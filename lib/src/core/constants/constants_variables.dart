@@ -1,4 +1,3 @@
-import 'package:jetboard/src/data/models/settings_model.dart';
 
 String dropItemsInfo = '';
 String? imageApp;
@@ -22,7 +21,6 @@ List<String> orderStatus = [
   'unassigned',
   'canceled'
 ];
-SettingsModel? settingsModelGlobal;
 
 List<String> yearList = [
   (DateTime.now().year - 4).toString(),

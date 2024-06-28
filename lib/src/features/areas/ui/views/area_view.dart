@@ -155,18 +155,10 @@ class _AreaViewState extends State<AreaView> {
               SizedBox(
                 width: 1.w,
               ),
-              IconButton(
-                onPressed: () {
-                  AddAreaView(
-                    title: "Update",
-                    cubit: widget.cubit,
-                    area: widget.cubit.areas![index],
-                  );
-                },
-                icon: const Icon(
-                  Icons.edit,
-                  color: AppColors.grey,
-                ),
+              AddAreaView(
+                title: "Update",
+                cubit: widget.cubit,
+                area: widget.cubit.areas![index],
               ),
               SizedBox(
                 width: 2.w,

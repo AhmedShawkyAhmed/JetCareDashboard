@@ -11,7 +11,9 @@ class EndPoints {
   static const login = "dashboard/login";
   static const updateFCM = "update_fcm";
   static const profile = "profile";
-  static const tabAccess = "get_access";
+  static const register = "register";
+  static const getTabAccess = "get_access";
+  static const getMyAccess = "get_my_access";
   static const logout = "logout";
 
   // ------------------- Home
@@ -73,6 +75,16 @@ class EndPoints {
   static const addCalendarPeriod = "add_calendar_period";
   static const deleteCalendarPeriod = "delete_calendar_period";
 
+  // ------------------- Moderators
+  static const getModerators = "get_moderators";
+  static const createAccess = "create_access";
+  static const updateAccess = "update_access";
+  static const activateAccount = "activate_account";
+  static const stopAccount = "stop_account";
+  static const deleteAccount = "delete_account";
+  static const updateAccount = "update_account";
+  static const userAdminComment = "user_admin_comment";
+
 
 
 
@@ -80,13 +92,8 @@ class EndPoints {
 
 
   static const adminLogin = "adminLogin";
-  static const register = "register";
-  static const updateAccount = "updateAccount";
-  static const deleteAccount = "deleteAccount";
   static const changeAccountStatus = "changeAccountStatus";
   static const getAccounts = "getAccounts";
-
-  static const userAdminComment = "userAdminComment";
 
   static const addItem = "addItem";
   static const updateItem = "updateItem";
@@ -130,10 +137,6 @@ class EndPoints {
   static const addCategoryItem = "addCategoryItem";
   static const deleteCategorySub = "deleteCategorySub";
 
-  static const createCalenderPeriod = "createCalenderPeriod";
-  static const deleteCalenderPeriod = "deleteCalenderPeriod";
-  static const getCalender = "getCalender";
-
   static const getSpaces = "getSpaces";
   static const addSpace = "addSpace";
   static const updateSpace = "updateSpace";
@@ -162,8 +165,4 @@ class EndPoints {
   static const getEquipmentSchedule = "getEquipmentSchedule";
   static const returnDate = "returnDate";
   static const assignEquipment = "assignEquipment";
-
-  static const createAccess = "createAccess";
-  static const updateAccess = "updateAccess";
-  static const getAccess = "getAccess";
 }

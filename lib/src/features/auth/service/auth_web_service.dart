@@ -26,7 +26,7 @@ abstract class AuthWebService {
   @GET(EndPoints.profile)
   Future<NetworkBaseModel<UserModel>> profile();
 
-  @GET(EndPoints.tabAccess)
+  @GET(EndPoints.getMyAccess)
   Future<NetworkBaseModel<TabAccessModel>> getTabAccess({
     @Query("moderator_id") int? id,
   });
