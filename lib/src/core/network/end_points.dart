@@ -96,6 +96,16 @@ class EndPoints {
   static const updateAccess = "update_access";
   static const getTabAccess = "get_access";
 
+  // ------------------- Equipments
+  static const getEquipment = "get_equipment";
+  static const addEquipment = "add_equipment";
+  static const deleteEquipment = "delete_equipment";
+
+  // ------------------- Equipments Schedule
+  static const getEquipmentSchedule = "get_equipment_schedule";
+  static const assignEquipment = "assign_equipment";
+  static const returnDate = "return_equipment";
+
 
 
 
@@ -165,11 +175,4 @@ class EndPoints {
   static const getMyAddresses = "getMyAddresses";
   static const addAddress = "addAddress";
   static const getCrewOfAreas = "getCrewOfAreas";
-
-  static const addEquipment = "addEquipment";
-  static const deleteEquipment = "deleteEquipment";
-  static const getEquipment = "getEquipment";
-  static const getEquipmentSchedule = "getEquipmentSchedule";
-  static const returnDate = "returnDate";
-  static const assignEquipment = "assignEquipment";
 }

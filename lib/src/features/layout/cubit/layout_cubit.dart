@@ -13,7 +13,7 @@ import 'package:jetboard/src/features/clients/ui/screens/clients.dart';
 import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';
 import 'package:jetboard/src/presentation/screens/corporates/corporates.dart';
 import 'package:jetboard/src/features/crew/ui/screens/crew.dart';
-import 'package:jetboard/src/presentation/screens/equipment/equipment.dart';
+import 'package:jetboard/src/features/equipments/ui/screens/equipment.dart';
 import 'package:jetboard/src/presentation/screens/equipment_schedule/equipment_schedule.dart';
 import 'package:jetboard/src/presentation/screens/extras/extras.dart';
 import 'package:jetboard/src/features/states/ui/screens/states.dart';

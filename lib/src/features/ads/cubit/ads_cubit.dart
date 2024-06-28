@@ -135,7 +135,7 @@ class AdsCubit extends Cubit<AdsState> {
   Future deleteAds({
     required int id,
   }) async {
-    emit(UpdateAdsLoading());
+    emit(DeleteAdsLoading());
     var response = await repo.deleteAds(
       id: id,
     );
@@ -144,10 +144,10 @@ class AdsCubit extends Cubit<AdsState> {
         if (ads != null) {
           ads!.removeWhere((item) => item.id == id);
         }
-        emit(UpdateAdsSuccess());
+        emit(DeleteAdsSuccess());
       },
       failure: (NetworkExceptions error) {
-        emit(UpdateAdsFailure());
+        emit(DeleteAdsFailure());
         error.showError();
       },
     );
