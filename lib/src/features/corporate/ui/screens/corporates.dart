@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/shared/views/mobile.dart';
+import 'package:jetboard/src/features/corporate/ui/screens/corporates_desktop.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
-import 'corporates_desktop.dart';
 
 class Corporates extends StatelessWidget {
   const Corporates({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenTypeLayout(
-      mobile: const MobileLayout(),
-      tablet: const MobileLayout(),
-      desktop: const CorporatesDesktop(),
+    return ScreenTypeLayout.builder(
+      mobile: (_) => const MobileLayout(),
+      tablet: (_) => const MobileLayout(),
+      desktop: (_) => const CorporatesDesktop(),
     );
   }
 }

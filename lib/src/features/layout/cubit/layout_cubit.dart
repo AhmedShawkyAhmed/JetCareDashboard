@@ -11,7 +11,7 @@ import 'package:jetboard/src/features/areas/ui/screens/areas.dart';
 import 'package:jetboard/src/features/calendar/ui/screens/calender.dart';
 import 'package:jetboard/src/presentation/screens/category/category.dart';
 import 'package:jetboard/src/features/clients/ui/screens/clients.dart';
-import 'package:jetboard/src/presentation/screens/corporates/corporates.dart';
+import 'package:jetboard/src/features/corporate/ui/screens/corporates.dart';
 import 'package:jetboard/src/features/crew/ui/screens/crew.dart';
 import 'package:jetboard/src/features/equipments/ui/screens/equipment.dart';
 import 'package:jetboard/src/features/equipment_schedule/ui/screens/equipment_schedule.dart';

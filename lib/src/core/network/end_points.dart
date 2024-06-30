@@ -106,7 +106,7 @@ class EndPoints {
   static const assignEquipment = "assign_equipment";
   static const returnEquipment = "return_equipment";
 
-  // ------------------- Shared
+  // ------------------- Items
   static const getItems = "get_items";
   static const getCorporates = "get_corporates";
   static const getExtras = "get_extras";
@@ -114,6 +114,12 @@ class EndPoints {
   static const updateItem = "update_item";
   static const changeItemStatus = "change_item_status";
   static const deleteItem = "delete_item";
+
+  // ------------------- Corporate
+  static const getCorporateOrders = "get_corporate_orders";
+  static const addCorporateOrder = "add_corporate_order";
+  static const corporateAdminComment = "corporate_admin_comment";
+  static const contactCorporate = "contact_corporate";
 
 
 
@@ -136,17 +142,7 @@ class EndPoints {
   static const getPackagesMobile = "getPackagesMobile";
   static const getPackageDetails = "getPackageDetails";
   static const getItemsMobile = "getItemsMobile";
-  static const addCorporateOrder = "addCorporateOrder";
   static const addToCart = "addToCart";
-
-  static const getDates = "getDates";
-  static const addDate = "addDate";
-  static const deleteDate = "deleteDate";
-  static const updateDate = "updateDate";
-
-  static const getCorporateOrders = "getCorporateOrders";
-  static const readCorporate = "readCorporate";
-  static const corporateAdminComment = "corporateAdminComment";
 
   static const addCategory = "addCategory";
   static const getCategories = "getCategories";
@@ -158,12 +154,6 @@ class EndPoints {
   static const deleteCategoryPackage = "deleteCategorySub";
   static const addCategoryItem = "addCategoryItem";
   static const deleteCategorySub = "deleteCategorySub";
-
-  static const getSpaces = "getSpaces";
-  static const addSpace = "addSpace";
-  static const updateSpace = "updateSpace";
-  static const deleteSpace = "deleteSpace";
-  static const changeSpaceStatus = "changeSpaceStatus";
 
   static const getOrders = "getOrders";
   static const assignOrder = "assignOrder";
