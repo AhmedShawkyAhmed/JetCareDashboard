@@ -6,7 +6,7 @@ import 'package:jetboard/src/features/items/cubit/items_cubit.dart';
 import 'package:jetboard/src/features/items/data/models/item_model.dart';
 import 'package:jetboard/src/features/items/data/requests/item_request.dart';
 import 'package:jetboard/src/features/items/ui/views/add_item_view.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class ItemsView extends StatefulWidget {

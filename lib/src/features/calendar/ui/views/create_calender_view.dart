@@ -13,7 +13,7 @@ import 'package:jetboard/src/features/calendar/cubit/calendar_cubit.dart';
 import 'package:jetboard/src/features/calendar/data/models/calendar_model.dart';
 import 'package:jetboard/src/features/calendar/data/requests/calendar_request.dart';
 import 'package:jetboard/src/features/periods/data/models/period_model.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateCalenderView extends StatefulWidget {

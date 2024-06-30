@@ -7,7 +7,7 @@ import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/features/support/cubit/support_cubit.dart';
 import 'package:jetboard/src/features/support/data/models/support_model.dart';
 import 'package:jetboard/src/features/support/data/requests/support_comment_request.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class SupportItemView extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
 import 'package:jetboard/src/features/periods/ui/views/add_period_view.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class PeriodView extends StatefulWidget {

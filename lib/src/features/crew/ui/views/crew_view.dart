@@ -5,7 +5,7 @@ import 'package:jetboard/src/core/shared/views/comment_view.dart';
 import 'package:jetboard/src/features/crew/cubit/crew_cubit.dart';
 import 'package:jetboard/src/features/crew/ui/views/add_crew_view.dart';
 import 'package:jetboard/src/features/crew/ui/views/crew_area.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class CrewView extends StatefulWidget {

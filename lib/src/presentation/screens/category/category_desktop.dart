@@ -14,7 +14,7 @@ import '../../../business_logic/global_cubit/global_cubit.dart';
 import '../../../core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import '../../../core/shared/views/loading_view.dart';
-import '../../views/row_data.dart';
+import '../../../core/shared/widgets/row_data.dart';
 import '../../views/view_category_items.dart';
 import '../../views/view_packages.dart';
 import '../../../core/shared/widgets/default_app_button.dart';

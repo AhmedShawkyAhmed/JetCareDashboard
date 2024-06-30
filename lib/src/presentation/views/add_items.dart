@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:sizer/sizer.dart';
