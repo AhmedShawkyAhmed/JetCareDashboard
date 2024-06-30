@@ -33,6 +33,9 @@ import 'package:jetboard/src/features/home/service/home_web_service.dart';
 import 'package:jetboard/src/features/info/cubit/info_cubit.dart';
 import 'package:jetboard/src/features/info/data/repo/info_repo.dart';
 import 'package:jetboard/src/features/info/service/info_web_service.dart';
+import 'package:jetboard/src/features/items/cubit/items_cubit.dart';
+import 'package:jetboard/src/features/items/data/repo/items_repo.dart';
+import 'package:jetboard/src/features/items/service/items_web_service.dart';
 import 'package:jetboard/src/features/layout/cubit/layout_cubit.dart';
 import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
 import 'package:jetboard/src/features/moderators/data/repo/moderators_repo.dart';
@@ -80,6 +83,7 @@ Future<void> initAppModule() async {
   instance.registerFactory<CrewCubit>(() => CrewCubit(instance()));
   instance.registerFactory<EquipmentCubit>(() => EquipmentCubit(instance()));
   instance.registerFactory<EquipmentScheduleCubit>(() => EquipmentScheduleCubit(instance()));
+  instance.registerFactory<ItemsCubit>(() => ItemsCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
@@ -97,6 +101,7 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<CrewRepo>(() => CrewRepo(instance()));
   instance.registerLazySingleton<EquipmentRepo>(() => EquipmentRepo(instance()));
   instance.registerLazySingleton<EquipmentScheduleRepo>(() => EquipmentScheduleRepo(instance()));
+  instance.registerLazySingleton<ItemsRepo>(() => ItemsRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
@@ -114,4 +119,5 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<CrewWebService>(() => CrewWebService(instance()));
   instance.registerLazySingleton<EquipmentWebService>(() => EquipmentWebService(instance()));
   instance.registerLazySingleton<EquipmentScheduleWebService>(() => EquipmentScheduleWebService(instance()));
+  instance.registerLazySingleton<ItemsWebService>(() => ItemsWebService(instance()));
 }

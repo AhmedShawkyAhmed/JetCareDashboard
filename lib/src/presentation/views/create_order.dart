@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
-import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
@@ -15,12 +14,9 @@ import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/cart_model.dart';
-import 'package:jetboard/src/data/models/items_model.dart';
-import 'package:jetboard/src/data/models/orders_model.dart';
 import 'package:jetboard/src/data/network/requests/address_request.dart';
 import 'package:jetboard/src/data/network/requests/order_request.dart';
 import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
-import 'package:jetboard/src/presentation/views/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateOrder extends StatefulWidget {
@@ -1015,331 +1011,332 @@ class _CreateOrderState extends State<CreateOrder> {
                       )
                     ],
                   ),
-                  Column(
-                    children: [
-                      BlocBuilder<ItemsCubit, ItemsState>(
-                        builder: (context, state) {
-                          return ItemsCubit.get(context)
-                                      .itemsResponse
-                                      ?.itemsModel ==
-                                  null
-                              ? SizedBox(
-                                  height: 4.h,
-                                  width: 30.w,
-                                  child: Center(
-                                    child: DefaultText(
-                                        text: "No Items Found !",
-                                        fontSize: 2.sp),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 30.w,
-                                  height: 4.h,
-                                  child: DefaultDropdown<ItemsModel>(
-                                    hint: "Items",
-                                    showSearchBox: true,
-                                    itemAsString: (ItemsModel? u) =>
-                                        ("${u?.price} EGP - ${u?.nameAr} "),
-                                    items: ItemsCubit.get(context)
-                                        .itemsResponse!
-                                        .itemsModel!,
-                                    onChanged: (val) {
-                                      showDialog<void>(
-                                        context: context,
-                                        barrierDismissible: true,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor: AppColors.white,
-                                            content: SingleChildScrollView(
-                                              child: ListBody(
-                                                children: <Widget>[
-                                                  const DefaultText(
-                                                    text:
-                                                        "Enter Space or Count !!",
-                                                    align: TextAlign.center,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 2.h,
-                                                  ),
-                                                  DefaultTextField(
-                                                    controller: spaceController,
-                                                    hintText: "Space or Count ",
-                                                    height: 5.h,
-                                                    password: false,
-                                                    haveShadow: false,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            actionsAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            actions: <Widget>[
-                                              DefaultAppButton(
-                                                title: "Add",
-                                                onTap: () {
-                                                  setState(() {
-                                                    count = int.parse(
-                                                        spaceController.text);
-                                                    total = total +
-                                                        double.parse((count *
-                                                                val!.price!)
-                                                            .toString());
-                                                    cartItemsIds.add(val.id!);
-                                                    cart.add(
-                                                      CartModel(
-                                                        id: val.id!,
-                                                        userId: 1,
-                                                        count: count,
-                                                        status: "cart",
-                                                        price: val.price!,
-                                                        item: Package(
-                                                          nameAr: val.nameAr,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  });
-                                                  spaceController.clear();
-                                                  Navigator.pop(context);
-                                                },
-                                                width: 10.w,
-                                                height: 4.h,
-                                                fontSize: 3.sp,
-                                                textColor: AppColors.white,
-                                                buttonColor: AppColors.primary,
-                                                isGradient: false,
-                                                radius: 10,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              DefaultAppButton(
-                                                title: "Cancel",
-                                                onTap: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                width: 10.w,
-                                                height: 4.h,
-                                                fontSize: 3.sp,
-                                                textColor: AppColors.mainColor,
-                                                buttonColor:
-                                                    AppColors.lightGrey,
-                                                isGradient: false,
-                                                radius: 10,
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                );
-                        },
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      // BlocBuilder<PackagesCubit, PackagesState>(
-                      //   builder: (context, state) {
-                      //     return PackagesCubit.get(context)
-                      //                     .getPackagesResponse
-                      //                     ?.packagesModel ==
-                      //                 null ||
-                      //             PackagesCubit.get(context)
-                      //                 .getPackagesResponse!
-                      //                 .packagesModel!
-                      //                 .isEmpty
-                      //         ? SizedBox(
-                      //             height: 4.h,
-                      //             width: 30.w,
-                      //             child: Center(
-                      //               child: DefaultText(
-                      //                   text: "No Package Found !",
-                      //                   fontSize: 2.sp),
-                      //             ),
-                      //           )
-                      //         : SizedBox(
-                      //             width: 30.w,
-                      //             height: 4.h,
-                      //             child: DefaultDropdown<PackagesModel>(
-                      //               hint: "Items",
-                      //               showSearchBox: true,
-                      //               itemAsString: (PackagesModel? u) =>
-                      //                   u?.nameAr ?? "",
-                      //               items: PackagesCubit.get(context)
-                      //                   .getPackagesResponse!
-                      //                   .packagesModel!,
-                      //               onChanged: (val) {
-                      //                 setState(() {
-                      //                   packageId = (val!.id == 0 ? 0 : val.id);
-                      //                   cart.add(
-                      //                     CartModel(
-                      //                       id: val.id,
-                      //                       userId: 1,
-                      //                       count: 1,
-                      //                       status: "cart",
-                      //                       price: val.price,
-                      //                       package: Package(
-                      //                         nameAr: val.nameAr,
-                      //                       ),
-                      //                     ),
-                      //                   );
-                      //                 });
-                      //               },
-                      //             ),
-                      //           );
-                      //   },
-                      // ),
-                      // SizedBox(
-                      //   height: 1.h,
-                      // ),
-                      Container(
-                        height: 35.h,
-                        width: 30.w,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: AppColors.mainColor.withOpacity(0.4)),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: cart.isEmpty
-                            ? Center(
-                                child: DefaultText(
-                                    text: "Cart is Empty !", fontSize: 3.sp),
-                              )
-                            : ListView.builder(
-                                itemCount: cart.length,
-                                itemBuilder: (context, index) => Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 1.h,
-                                    left: 0.5.w,
-                                    right: 0.5.w,
-                                    bottom: 1.h,
-                                  ),
-                                  child: RowData(
-                                    rowHeight: 5.h,
-                                    data: [
-                                      SizedBox(
-                                        width: 15.w,
-                                        child: Text(
-                                          cart[index].item == null
-                                              ? cart[index].package!.nameAr!
-                                              : cart[index].item!.nameAr!,
-                                          style: TextStyle(fontSize: 2.sp),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 8.w,
-                                        child: Text(
-                                          '${cart[index].price} * ${cart[index].count} = ${cart[index].count * cart[index].price} EGP',
-                                          style: TextStyle(fontSize: 2.sp),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            cart.removeAt(index);
-                                          });
-                                        },
-                                        icon: const Icon(Icons.delete),
-                                        color: AppColors.darkRed,
-                                      ),
-                                      SizedBox(
-                                        width: 1.w,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      DefaultTextField(
-                        password: false,
-                        controller: shippingController,
-                        height: 5.h,
-                        haveShadow: true,
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        horizontalPadding: 1,
-                        width: 30.w,
-                        color: AppColors.white,
-                        shadowColor: AppColors.black.withOpacity(0.05),
-                        hintText: 'Shipping Cost',
-                        onChange: (value) {
-                          setState(() {
-                            shipping = double.parse(
-                                shippingController.text == ""
-                                    ? "0"
-                                    : shippingController.text);
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 10.w,
-                            child: DefaultText(
-                                text: "Price :",
-                                align: TextAlign.left,
-                                fontSize: 3.sp),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                            child: DefaultText(
-                                text: "$total EGP",
-                                align: TextAlign.right,
-                                fontSize: 3.sp),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 10.w,
-                            child: DefaultText(
-                                text: "Shipping :",
-                                align: TextAlign.left,
-                                fontSize: 3.sp),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                            child: DefaultText(
-                                text: "$shipping EGP",
-                                align: TextAlign.right,
-                                fontSize: 3.sp),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 10.w,
-                            child: DefaultText(
-                                text: "Total :",
-                                align: TextAlign.left,
-                                fontSize: 3.sp),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                            child: DefaultText(
-                                text: "${total + shipping} EGP",
-                                align: TextAlign.right,
-                                fontSize: 3.sp),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  // todo
+                  // Column(
+                  //   children: [
+                  //     BlocBuilder<ItemsCubit, ItemsState>(
+                  //       builder: (context, state) {
+                  //         return ItemsCubit.get(context)
+                  //                     .itemsResponse
+                  //                     ?.itemsModel ==
+                  //                 null
+                  //             ? SizedBox(
+                  //                 height: 4.h,
+                  //                 width: 30.w,
+                  //                 child: Center(
+                  //                   child: DefaultText(
+                  //                       text: "No Items Found !",
+                  //                       fontSize: 2.sp),
+                  //                 ),
+                  //               )
+                  //             : SizedBox(
+                  //                 width: 30.w,
+                  //                 height: 4.h,
+                  //                 child: DefaultDropdown<ItemsModel>(
+                  //                   hint: "Items",
+                  //                   showSearchBox: true,
+                  //                   itemAsString: (ItemsModel? u) =>
+                  //                       ("${u?.price} EGP - ${u?.nameAr} "),
+                  //                   items: ItemsCubit.get(context)
+                  //                       .itemsResponse!
+                  //                       .itemsModel!,
+                  //                   onChanged: (val) {
+                  //                     showDialog<void>(
+                  //                       context: context,
+                  //                       barrierDismissible: true,
+                  //                       builder: (BuildContext context) {
+                  //                         return AlertDialog(
+                  //                           backgroundColor: AppColors.white,
+                  //                           content: SingleChildScrollView(
+                  //                             child: ListBody(
+                  //                               children: <Widget>[
+                  //                                 const DefaultText(
+                  //                                   text:
+                  //                                       "Enter Space or Count !!",
+                  //                                   align: TextAlign.center,
+                  //                                 ),
+                  //                                 SizedBox(
+                  //                                   height: 2.h,
+                  //                                 ),
+                  //                                 DefaultTextField(
+                  //                                   controller: spaceController,
+                  //                                   hintText: "Space or Count ",
+                  //                                   height: 5.h,
+                  //                                   password: false,
+                  //                                   haveShadow: false,
+                  //                                 ),
+                  //                               ],
+                  //                             ),
+                  //                           ),
+                  //                           actionsAlignment:
+                  //                               MainAxisAlignment.spaceEvenly,
+                  //                           actions: <Widget>[
+                  //                             DefaultAppButton(
+                  //                               title: "Add",
+                  //                               onTap: () {
+                  //                                 setState(() {
+                  //                                   count = int.parse(
+                  //                                       spaceController.text);
+                  //                                   total = total +
+                  //                                       double.parse((count *
+                  //                                               val!.price!)
+                  //                                           .toString());
+                  //                                   cartItemsIds.add(val.id!);
+                  //                                   cart.add(
+                  //                                     CartModel(
+                  //                                       id: val.id!,
+                  //                                       userId: 1,
+                  //                                       count: count,
+                  //                                       status: "cart",
+                  //                                       price: val.price!,
+                  //                                       item: Package(
+                  //                                         nameAr: val.nameAr,
+                  //                                       ),
+                  //                                     ),
+                  //                                   );
+                  //                                 });
+                  //                                 spaceController.clear();
+                  //                                 Navigator.pop(context);
+                  //                               },
+                  //                               width: 10.w,
+                  //                               height: 4.h,
+                  //                               fontSize: 3.sp,
+                  //                               textColor: AppColors.white,
+                  //                               buttonColor: AppColors.primary,
+                  //                               isGradient: false,
+                  //                               radius: 10,
+                  //                             ),
+                  //                             const SizedBox(
+                  //                               width: 10,
+                  //                             ),
+                  //                             DefaultAppButton(
+                  //                               title: "Cancel",
+                  //                               onTap: () {
+                  //                                 Navigator.pop(context);
+                  //                               },
+                  //                               width: 10.w,
+                  //                               height: 4.h,
+                  //                               fontSize: 3.sp,
+                  //                               textColor: AppColors.mainColor,
+                  //                               buttonColor:
+                  //                                   AppColors.lightGrey,
+                  //                               isGradient: false,
+                  //                               radius: 10,
+                  //                             ),
+                  //                           ],
+                  //                         );
+                  //                       },
+                  //                     );
+                  //                   },
+                  //                 ),
+                  //               );
+                  //       },
+                  //     ),
+                  //     SizedBox(
+                  //       height: 2.h,
+                  //     ),
+                  //     // BlocBuilder<PackagesCubit, PackagesState>(
+                  //     //   builder: (context, state) {
+                  //     //     return PackagesCubit.get(context)
+                  //     //                     .getPackagesResponse
+                  //     //                     ?.packagesModel ==
+                  //     //                 null ||
+                  //     //             PackagesCubit.get(context)
+                  //     //                 .getPackagesResponse!
+                  //     //                 .packagesModel!
+                  //     //                 .isEmpty
+                  //     //         ? SizedBox(
+                  //     //             height: 4.h,
+                  //     //             width: 30.w,
+                  //     //             child: Center(
+                  //     //               child: DefaultText(
+                  //     //                   text: "No Package Found !",
+                  //     //                   fontSize: 2.sp),
+                  //     //             ),
+                  //     //           )
+                  //     //         : SizedBox(
+                  //     //             width: 30.w,
+                  //     //             height: 4.h,
+                  //     //             child: DefaultDropdown<PackagesModel>(
+                  //     //               hint: "Items",
+                  //     //               showSearchBox: true,
+                  //     //               itemAsString: (PackagesModel? u) =>
+                  //     //                   u?.nameAr ?? "",
+                  //     //               items: PackagesCubit.get(context)
+                  //     //                   .getPackagesResponse!
+                  //     //                   .packagesModel!,
+                  //     //               onChanged: (val) {
+                  //     //                 setState(() {
+                  //     //                   packageId = (val!.id == 0 ? 0 : val.id);
+                  //     //                   cart.add(
+                  //     //                     CartModel(
+                  //     //                       id: val.id,
+                  //     //                       userId: 1,
+                  //     //                       count: 1,
+                  //     //                       status: "cart",
+                  //     //                       price: val.price,
+                  //     //                       package: Package(
+                  //     //                         nameAr: val.nameAr,
+                  //     //                       ),
+                  //     //                     ),
+                  //     //                   );
+                  //     //                 });
+                  //     //               },
+                  //     //             ),
+                  //     //           );
+                  //     //   },
+                  //     // ),
+                  //     // SizedBox(
+                  //     //   height: 1.h,
+                  //     // ),
+                  //     Container(
+                  //       height: 35.h,
+                  //       width: 30.w,
+                  //       decoration: BoxDecoration(
+                  //           border: Border.all(
+                  //               color: AppColors.mainColor.withOpacity(0.4)),
+                  //           borderRadius: BorderRadius.circular(10)),
+                  //       child: cart.isEmpty
+                  //           ? Center(
+                  //               child: DefaultText(
+                  //                   text: "Cart is Empty !", fontSize: 3.sp),
+                  //             )
+                  //           : ListView.builder(
+                  //               itemCount: cart.length,
+                  //               itemBuilder: (context, index) => Padding(
+                  //                 padding: EdgeInsets.only(
+                  //                   top: 1.h,
+                  //                   left: 0.5.w,
+                  //                   right: 0.5.w,
+                  //                   bottom: 1.h,
+                  //                 ),
+                  //                 child: RowData(
+                  //                   rowHeight: 5.h,
+                  //                   data: [
+                  //                     SizedBox(
+                  //                       width: 15.w,
+                  //                       child: Text(
+                  //                         cart[index].item == null
+                  //                             ? cart[index].package!.nameAr!
+                  //                             : cart[index].item!.nameAr!,
+                  //                         style: TextStyle(fontSize: 2.sp),
+                  //                         textAlign: TextAlign.center,
+                  //                       ),
+                  //                     ),
+                  //                     SizedBox(
+                  //                       width: 8.w,
+                  //                       child: Text(
+                  //                         '${cart[index].price} * ${cart[index].count} = ${cart[index].count * cart[index].price} EGP',
+                  //                         style: TextStyle(fontSize: 2.sp),
+                  //                         textAlign: TextAlign.center,
+                  //                       ),
+                  //                     ),
+                  //                     IconButton(
+                  //                       onPressed: () {
+                  //                         setState(() {
+                  //                           cart.removeAt(index);
+                  //                         });
+                  //                       },
+                  //                       icon: const Icon(Icons.delete),
+                  //                       color: AppColors.darkRed,
+                  //                     ),
+                  //                     SizedBox(
+                  //                       width: 1.w,
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //     ),
+                  //     SizedBox(
+                  //       height: 2.h,
+                  //     ),
+                  //     DefaultTextField(
+                  //       password: false,
+                  //       controller: shippingController,
+                  //       height: 5.h,
+                  //       haveShadow: true,
+                  //       spreadRadius: 2,
+                  //       blurRadius: 2,
+                  //       horizontalPadding: 1,
+                  //       width: 30.w,
+                  //       color: AppColors.white,
+                  //       shadowColor: AppColors.black.withOpacity(0.05),
+                  //       hintText: 'Shipping Cost',
+                  //       onChange: (value) {
+                  //         setState(() {
+                  //           shipping = double.parse(
+                  //               shippingController.text == ""
+                  //                   ? "0"
+                  //                   : shippingController.text);
+                  //         });
+                  //       },
+                  //     ),
+                  //     SizedBox(
+                  //       height: 2.h,
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: 10.w,
+                  //           child: DefaultText(
+                  //               text: "Price :",
+                  //               align: TextAlign.left,
+                  //               fontSize: 3.sp),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10.w,
+                  //           child: DefaultText(
+                  //               text: "$total EGP",
+                  //               align: TextAlign.right,
+                  //               fontSize: 3.sp),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     SizedBox(
+                  //       height: 2.h,
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: 10.w,
+                  //           child: DefaultText(
+                  //               text: "Shipping :",
+                  //               align: TextAlign.left,
+                  //               fontSize: 3.sp),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10.w,
+                  //           child: DefaultText(
+                  //               text: "$shipping EGP",
+                  //               align: TextAlign.right,
+                  //               fontSize: 3.sp),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     SizedBox(
+                  //       height: 2.h,
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: 10.w,
+                  //           child: DefaultText(
+                  //               text: "Total :",
+                  //               align: TextAlign.left,
+                  //               fontSize: 3.sp),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 10.w,
+                  //           child: DefaultText(
+                  //               text: "${total + shipping} EGP",
+                  //               align: TextAlign.right,
+                  //               fontSize: 3.sp),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ],

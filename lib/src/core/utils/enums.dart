@@ -9,6 +9,12 @@ enum Roles {
   client,
   crew,
 }
+
+enum ItemTypes{
+  item,
+  corporate,
+  extra,
+}
 //
 // enum OTPTypes{
 //   register,

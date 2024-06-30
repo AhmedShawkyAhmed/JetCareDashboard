@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/business_logic/item_cubit/items_cubit.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/core/constants/constants_variables.dart';
@@ -136,9 +135,9 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                     .getPackages(type: value == "All" ? " " : value);
                 package = value;
               } else if (widget.type == "item") {
-                ItemsCubit.get(context)
-                    .getItems(type: value == "All" ? " " : value);
-                item = value;
+                // ItemsCubit.get(context)
+                //     .getItems(type: value == "All" ? " " : value);
+                // item = value;
               } else {
                 widget.onChanged;
               }

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/utils/enums.dart';
 import 'package:jetboard/src/features/auth/ui/screens/login.dart';
 import 'package:jetboard/src/features/home/ui/screens/home.dart';
 import 'package:jetboard/src/features/layout/data/models/home_item_model.dart';
@@ -10,15 +11,13 @@ import 'package:jetboard/src/features/areas/ui/screens/areas.dart';
 import 'package:jetboard/src/features/calendar/ui/screens/calender.dart';
 import 'package:jetboard/src/presentation/screens/category/category.dart';
 import 'package:jetboard/src/features/clients/ui/screens/clients.dart';
-import 'package:jetboard/src/presentation/screens/corporate_items/corporate_items.dart';
 import 'package:jetboard/src/presentation/screens/corporates/corporates.dart';
 import 'package:jetboard/src/features/crew/ui/screens/crew.dart';
 import 'package:jetboard/src/features/equipments/ui/screens/equipment.dart';
 import 'package:jetboard/src/features/equipment_schedule/ui/screens/equipment_schedule.dart';
-import 'package:jetboard/src/presentation/screens/extras/extras.dart';
 import 'package:jetboard/src/features/states/ui/screens/states.dart';
 import 'package:jetboard/src/features/info/ui/screens/info.dart';
-import 'package:jetboard/src/presentation/screens/items/items.dart';
+import 'package:jetboard/src/features/items/ui/screens/items.dart';
 import 'package:jetboard/src/features/moderators/ui/screens/moderators.dart';
 import 'package:jetboard/src/features/notifications/ui/screens/notifications.dart';
 import 'package:jetboard/src/presentation/screens/orders/orders.dart';
@@ -108,7 +107,7 @@ class LayoutCubit extends Cubit<LayoutState> {
     ),
     HomeItemModel(
       title: "Items",
-      page: const Items(),
+      page: const Items(type: ItemTypes.item),
       icon: const Icon(
         Icons.list,
         color: AppColors.white,
@@ -116,7 +115,7 @@ class LayoutCubit extends Cubit<LayoutState> {
     ),
     HomeItemModel(
       title: "Corporate Items",
-      page: const CorporateItems(),
+      page: const Items(type: ItemTypes.corporate),
       icon: const Icon(
         Icons.list_alt,
         color: AppColors.white,
@@ -124,7 +123,7 @@ class LayoutCubit extends Cubit<LayoutState> {
     ),
     HomeItemModel(
       title: "Extras Items",
-      page: const ExtrasItems(),
+      page: const Items(type: ItemTypes.extra),
       icon: const Icon(
         Icons.add_chart_rounded,
         color: AppColors.white,

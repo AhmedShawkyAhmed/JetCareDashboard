@@ -106,6 +106,15 @@ class EndPoints {
   static const assignEquipment = "assign_equipment";
   static const returnEquipment = "return_equipment";
 
+  // ------------------- Shared
+  static const getItems = "get_items";
+  static const getCorporates = "get_corporates";
+  static const getExtras = "get_extras";
+  static const addItem = "add_item";
+  static const updateItem = "update_item";
+  static const changeItemStatus = "change_item_status";
+  static const deleteItem = "delete_item";
+
 
 
 
@@ -115,13 +124,6 @@ class EndPoints {
   static const adminLogin = "adminLogin";
   static const changeAccountStatus = "changeAccountStatus";
   static const getAccounts = "getAccounts";
-
-  static const addItem = "addItem";
-  static const updateItem = "updateItem";
-  static const changeItemStatus = "changeItemStatus";
-  static const deleteItem = "deleteItem";
-  static const getItems = "getItems";
-  static const getExtras = "getExtras";
 
   static const addPackage = "addPackage";
   static const addPackageItem = "addPackageItem";
@@ -134,7 +136,6 @@ class EndPoints {
   static const getPackagesMobile = "getPackagesMobile";
   static const getPackageDetails = "getPackageDetails";
   static const getItemsMobile = "getItemsMobile";
-  static const getCorporates = "getCorporates";
   static const addCorporateOrder = "addCorporateOrder";
   static const addToCart = "addToCart";
 

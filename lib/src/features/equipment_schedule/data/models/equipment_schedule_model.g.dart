@@ -17,6 +17,7 @@ EquipmentScheduleModel _$EquipmentScheduleModelFromJson(
           ? null
           : UserModel.fromJson(json['crew'] as Map<String, dynamic>),
       date: json['date'] as String?,
+      returned: json['returned'] as String?,
       createdAt: json['created_at'] as String?,
     );
 
@@ -34,6 +35,7 @@ Map<String, dynamic> _$EquipmentScheduleModelToJson(
   writeNotNull('equipment', instance.equipment?.toJson());
   writeNotNull('crew', instance.crew?.toJson());
   writeNotNull('date', instance.date);
+  writeNotNull('returned', instance.returned);
   writeNotNull('created_at', instance.createdAt);
   return val;
 }
