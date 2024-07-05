@@ -9,7 +9,7 @@ import 'package:jetboard/src/features/layout/data/models/home_item_model.dart';
 import 'package:jetboard/src/features/ads/ui/screens/ads.dart';
 import 'package:jetboard/src/features/areas/ui/screens/areas.dart';
 import 'package:jetboard/src/features/calendar/ui/screens/calender.dart';
-import 'package:jetboard/src/presentation/screens/category/category.dart';
+import 'package:jetboard/src/features/categories/ui/screens/category.dart';
 import 'package:jetboard/src/features/clients/ui/screens/clients.dart';
 import 'package:jetboard/src/features/corporate/ui/screens/corporates.dart';
 import 'package:jetboard/src/features/crew/ui/screens/crew.dart';

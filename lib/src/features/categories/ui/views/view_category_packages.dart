@@ -1,34 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jetboard/src/core/shared/widgets/row_data.dart';
+import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/views/loading_view.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
+import 'package:jetboard/src/features/categories/cubit/categories_cubit.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../business_logic/category_cubit/category_cubit.dart';
-import 'package:jetboard/src/core/resources/app_colors.dart';
+class ViewCategoryPackages extends StatefulWidget {
+  final CategoriesCubit cubit;
+  final int categoryId;
 
-class ViewPackages extends StatefulWidget {
-  const ViewPackages({
+  const ViewCategoryPackages({
+    required this.cubit,
+    required this.categoryId,
     super.key,
   });
 
   @override
-  State<ViewPackages> createState() => _ViewPackagesState();
+  State<ViewCategoryPackages> createState() => _ViewCategoryPackagesState();
 }
 
-class _ViewPackagesState extends State<ViewPackages> {
+class _ViewCategoryPackagesState extends State<ViewCategoryPackages> {
   List<bool> isChecked = List.generate(2000, (index) => false);
   List<int> itemsId = [];
 
   @override
+  void initState() {
+    widget.cubit.getCategoryDetails(id: widget.categoryId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //var cubitI = ItemsCubit.get(context);
-    var cubitC = CategoryCubit.get(context);
     return Scaffold(
       backgroundColor: AppColors.transparent,
       body: Container(
         decoration: BoxDecoration(
-            color: AppColors.white, borderRadius: BorderRadius.circular(15)),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
         padding: EdgeInsets.only(left: 1.w, top: 1.h),
         height: 80.h,
@@ -38,7 +50,7 @@ class _ViewPackagesState extends State<ViewPackages> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                NavigationService.pop();
               },
               icon: const Icon(Icons.close),
               color: AppColors.darkGrey.withOpacity(0.5),
@@ -53,9 +65,27 @@ class _ViewPackagesState extends State<ViewPackages> {
             SizedBox(
               height: 50.h,
               width: 57.w,
-              child: BlocBuilder<CategoryCubit, CategoryState>(
+              child: BlocBuilder<CategoriesCubit, CategoriesState>(
                 builder: (context, state) {
-                  if(cubitC.categoryPackagesList.isEmpty){
+                  if (widget.cubit.categoryDetails!.packages == null) {
+                    return SizedBox(
+                      height: 79.h,
+                      child: ListView.builder(
+                        itemCount: 6,
+                        itemBuilder: (context, index) => Padding(
+                          padding: EdgeInsets.only(
+                            top: 1.h,
+                            left: 2.8.w,
+                            right: 37,
+                          ),
+                          child: LoadingView(
+                            width: 90.w,
+                            height: 5.h,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (widget.cubit.categoryDetails!.packages!.isEmpty) {
                     return Center(
                       child: DefaultText(
                         text: "No Packages Found !",
@@ -64,11 +94,15 @@ class _ViewPackagesState extends State<ViewPackages> {
                     );
                   }
                   return ListView.builder(
-                    itemCount: cubitC.categoryPackagesList.length,
+                    itemCount: widget.cubit.categoryDetails!.packages!.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                            top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
+                          top: 2.h,
+                          left: 3.2.w,
+                          right: 2.5.w,
+                          bottom: 1.h,
+                        ),
                         child: RowData(
                           rowHeight: 8.h,
                           data: [
@@ -84,7 +118,8 @@ class _ViewPackagesState extends State<ViewPackages> {
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  cubitC.categoryPackagesList[index].id
+                                  widget.cubit.categoryDetails!.packages![index]
+                                      .id
                                       .toString(),
                                   style: TextStyle(fontSize: 3.sp),
                                 )
@@ -103,7 +138,8 @@ class _ViewPackagesState extends State<ViewPackages> {
                                     height: 0.5.h,
                                   ),
                                   Text(
-                                    cubitC.categoryPackagesList[index].nameEn!,
+                                    widget.cubit.categoryDetails!
+                                        .packages![index].nameEn!,
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
                                 ],
@@ -122,7 +158,8 @@ class _ViewPackagesState extends State<ViewPackages> {
                                     height: 0.5.h,
                                   ),
                                   Text(
-                                    cubitC.categoryPackagesList[index].nameAr!,
+                                    widget.cubit.categoryDetails!
+                                        .packages![index].nameAr!,
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
                                 ],
@@ -141,7 +178,8 @@ class _ViewPackagesState extends State<ViewPackages> {
                                     height: 0.5.h,
                                   ),
                                   Text(
-                                    cubitC.categoryPackagesList[index].price
+                                    widget.cubit.categoryDetails!
+                                        .packages![index].price
                                         .toString(),
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
@@ -161,7 +199,8 @@ class _ViewPackagesState extends State<ViewPackages> {
                                     height: 0.5.h,
                                   ),
                                   Text(
-                                    cubitC.categoryPackagesList[index].type!,
+                                    widget.cubit.categoryDetails!
+                                        .packages![index].type!,
                                     style: TextStyle(fontSize: 3.sp),
                                   ),
                                 ],
@@ -169,13 +208,10 @@ class _ViewPackagesState extends State<ViewPackages> {
                             ),
                             IconButton(
                               onPressed: () {
-                                cubitC.deleteCategoryPackages(
-                                    type: "package",
-                                    packagesItemsData:
-                                        cubitC.categoryPackagesList[index],
-                                    afterSuccess: () {
-                                      setState(() {});
-                                    });
+                                widget.cubit.deleteCategoryPackage(
+                                  id: widget.cubit.categoryDetails!
+                                      .packages![index].id!,
+                                );
                               },
                               icon: const Icon(
                                 Icons.delete,

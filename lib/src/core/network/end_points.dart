@@ -134,29 +134,27 @@ class EndPoints {
   static const addPackageItem = "add_package_item";
   static const deletePackageItem = "delete_package_item";
 
+  // ------------------- Categories
+  static const getCategories = "get_categories";
+  static const getCategoryDetails = "get_category_details";
+  static const addCategory = "add_category";
+  static const updateCategory = "update_category";
+  static const deleteCategory = "delete_category";
+  static const changeCategoryStatus = "change_category_status";
+  static const addCategoryPackage = "add_category_package";
+  static const addCategoryItem = "add_category_item";
+  static const deleteCategorySub = "delete_category_sub";
 
 
 
 
 
 
-  static const adminLogin = "adminLogin";
-  static const changeAccountStatus = "changeAccountStatus";
+
   static const getAccounts = "getAccounts";
 
-  static const getItemsMobile = "getItemsMobile";
   static const addToCart = "addToCart";
 
-  static const addCategory = "addCategory";
-  static const getCategories = "getCategories";
-  static const getCategoryDetails = "getCategoryDetails";
-  static const updateCategory = "updateCategory";
-  static const deleteCategory = "deleteCategory";
-  static const changeCategoryStatus = "changeCategoryStatus";
-  static const addCategoryPackage = "addCategoryPackage";
-  static const deleteCategoryPackage = "deleteCategorySub";
-  static const addCategoryItem = "addCategoryItem";
-  static const deleteCategorySub = "deleteCategorySub";
 
   static const getOrders = "getOrders";
   static const assignOrder = "assignOrder";

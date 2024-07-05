@@ -16,6 +16,13 @@ enum ItemTypes{
   extra,
   package,
 }
+
+enum SampleItem {
+  addPackage,
+  addItems,
+  viewPackage,
+  viewItems,
+}
 //
 // enum OTPTypes{
 //   register,
