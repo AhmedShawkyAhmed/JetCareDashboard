@@ -49,4 +49,5 @@ const _$ItemTypesEnumMap = {
   ItemTypes.item: 'item',
   ItemTypes.corporate: 'corporate',
   ItemTypes.extra: 'extra',
+  ItemTypes.package: 'package',
 };

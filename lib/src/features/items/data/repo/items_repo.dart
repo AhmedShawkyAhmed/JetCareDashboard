@@ -69,7 +69,7 @@ class ItemsRepo {
 
   Future<NetworkResult<NetworkBaseModel>> updateItem({
     required ItemRequest request,
-    required File image,
+    File? image,
   }) async {
     try {
       var response = await webService.updateItem(

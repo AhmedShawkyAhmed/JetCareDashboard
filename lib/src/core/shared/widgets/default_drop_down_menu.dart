@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
-import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:sizer/sizer.dart';
@@ -131,9 +130,9 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
               //   role = value;
               // }
               else if (widget.type == "package") {
-                PackagesCubit.get(context)
-                    .getPackages(type: value == "All" ? " " : value);
-                package = value;
+                // PackagesCubit.get(context)
+                //     .getPackages(type: value == "All" ? " " : value);
+                // package = value;
               } else if (widget.type == "item") {
                 // ItemsCubit.get(context)
                 //     .getItems(type: value == "All" ? " " : value);

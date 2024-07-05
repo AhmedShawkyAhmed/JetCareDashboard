@@ -46,6 +46,9 @@ import 'package:jetboard/src/features/moderators/service/moderators_web_service.
 import 'package:jetboard/src/features/notifications/cubit/notifications_cubit.dart';
 import 'package:jetboard/src/features/notifications/data/repo/notification_repo.dart';
 import 'package:jetboard/src/features/notifications/service/notifications_web_service.dart';
+import 'package:jetboard/src/features/packages/cubit/packages_cubit.dart';
+import 'package:jetboard/src/features/packages/data/repo/packages_repo.dart';
+import 'package:jetboard/src/features/packages/service/packages_web_service.dart';
 import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
 import 'package:jetboard/src/features/periods/data/repo/period_repo.dart';
 import 'package:jetboard/src/features/periods/service/period_web_service.dart';
@@ -88,6 +91,7 @@ Future<void> initAppModule() async {
   instance.registerFactory<EquipmentScheduleCubit>(() => EquipmentScheduleCubit(instance()));
   instance.registerFactory<ItemsCubit>(() => ItemsCubit(instance()));
   instance.registerFactory<CorporateCubit>(() => CorporateCubit(instance()));
+  instance.registerFactory<PackagesCubit>(() => PackagesCubit(instance()));
 
   // --------------------- Repo
   instance.registerLazySingleton<AdsRepo>(() => AdsRepo(instance()));
@@ -107,6 +111,7 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<EquipmentScheduleRepo>(() => EquipmentScheduleRepo(instance()));
   instance.registerLazySingleton<ItemsRepo>(() => ItemsRepo(instance()));
   instance.registerLazySingleton<CorporateRepo>(() => CorporateRepo(instance()));
+  instance.registerLazySingleton<PackagesRepo>(() => PackagesRepo(instance()));
 
   // --------------------- Web Service
   instance.registerLazySingleton<AdsWebService>(() => AdsWebService(instance()));
@@ -126,4 +131,5 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<EquipmentScheduleWebService>(() => EquipmentScheduleWebService(instance()));
   instance.registerLazySingleton<ItemsWebService>(() => ItemsWebService(instance()));
   instance.registerLazySingleton<CorporateWebService>(() => CorporateWebService(instance()));
+  instance.registerLazySingleton<PackagesWebService>(() => PackagesWebService(instance()));
 }

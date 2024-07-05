@@ -1,26 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'item_request.dart';
+part of 'package_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemRequest _$ItemRequestFromJson(Map<String, dynamic> json) => ItemRequest(
+PackageModel _$PackageModelFromJson(Map<String, dynamic> json) => PackageModel(
       id: (json['id'] as num?)?.toInt(),
+      hasShipping: json['has_shipping'] as bool?,
       nameAr: json['name_ar'] as String?,
       nameEn: json['name_en'] as String?,
-      price: json['price'] as num?,
-      isActive: json['is_active'] as bool?,
-      type: $enumDecodeNullable(_$ItemTypesEnumMap, json['type']),
       descriptionAr: json['description_ar'] as String?,
       descriptionEn: json['description_en'] as String?,
-      hasShipping: json['has_shipping'] as bool?,
-      quantity: json['quantity'] as num?,
-      unit: json['unit'] as String?,
+      image: json['image'] as String?,
+      type: json['type'] as String?,
+      price: json['price'] as num?,
+      isActive: json['is_active'] as bool?,
+      items: (json['items'] as List<dynamic>?)
+          ?.map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      packages: (json['packages'] as List<dynamic>?)
+          ?.map((e) => PackageModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$ItemRequestToJson(ItemRequest instance) {
+Map<String, dynamic> _$PackageModelToJson(PackageModel instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -30,22 +35,16 @@ Map<String, dynamic> _$ItemRequestToJson(ItemRequest instance) {
   }
 
   writeNotNull('id', instance.id);
+  writeNotNull('has_shipping', instance.hasShipping);
   writeNotNull('name_ar', instance.nameAr);
   writeNotNull('name_en', instance.nameEn);
   writeNotNull('description_ar', instance.descriptionAr);
   writeNotNull('description_en', instance.descriptionEn);
-  writeNotNull('unit', instance.unit);
+  writeNotNull('image', instance.image);
+  writeNotNull('type', instance.type);
   writeNotNull('price', instance.price);
-  writeNotNull('quantity', instance.quantity);
-  writeNotNull('type', _$ItemTypesEnumMap[instance.type]);
-  writeNotNull('has_shipping', instance.hasShipping);
   writeNotNull('is_active', instance.isActive);
+  writeNotNull('items', instance.items?.map((e) => e.toJson()).toList());
+  writeNotNull('packages', instance.packages?.map((e) => e.toJson()).toList());
   return val;
 }
-
-const _$ItemTypesEnumMap = {
-  ItemTypes.item: 'item',
-  ItemTypes.corporate: 'corporate',
-  ItemTypes.extra: 'extra',
-  ItemTypes.package: 'package',
-};

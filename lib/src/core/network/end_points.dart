@@ -121,6 +121,16 @@ class EndPoints {
   static const corporateAdminComment = "corporate_admin_comment";
   static const contactCorporate = "contact_corporate";
 
+  // ------------------- Packages
+  static const getAllPackages = "get_all_packages";
+  static const getPackageDetails = "get_package_details";
+  static const addPackage = "add_package";
+  static const updatePackage = "update_package";
+  static const changePackageStatus = "change_package_status";
+  static const deletePackage = "delete_package";
+  static const addPackageItem = "add_package_item";
+  static const deletePackageItem = "delete_package_item";
+
 
 
 
@@ -131,16 +141,6 @@ class EndPoints {
   static const changeAccountStatus = "changeAccountStatus";
   static const getAccounts = "getAccounts";
 
-  static const addPackage = "addPackage";
-  static const addPackageItem = "addPackageItem";
-  static const updatePackage = "updatePackage";
-  static const deletePackage = "deletePackage";
-  static const deletePackageItem = "deletePackageItem";
-  static const deletePackageInfo = "deletePackageInfo";
-  static const changePackageStatus = "changePackageStatus";
-  static const getAllPackages = "getAllPackages";
-  static const getPackagesMobile = "getPackagesMobile";
-  static const getPackageDetails = "getPackageDetails";
   static const getItemsMobile = "getItemsMobile";
   static const addToCart = "addToCart";
 

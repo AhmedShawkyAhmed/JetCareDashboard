@@ -14,6 +14,7 @@ enum ItemTypes{
   item,
   corporate,
   extra,
+  package,
 }
 //
 // enum OTPTypes{

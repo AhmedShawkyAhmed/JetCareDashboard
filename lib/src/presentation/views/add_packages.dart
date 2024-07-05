@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/network/requests/category_request.dart';
-import 'package:jetboard/src/core/shared/widgets/row_data.dart';
-import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../business_logic/category_cubit/category_cubit.dart';
-import '../../business_logic/packages_cubit/packages_cubit.dart';
 import '../../core/shared/widgets/default_app_button.dart';
 
 class AddPackages extends StatefulWidget {
@@ -30,7 +25,7 @@ class _AddPackagesState extends State<AddPackages> {
   @override
   Widget build(BuildContext context) {
     var cubitC = CategoryCubit.get(context);
-    var cubitP = PackagesCubit.get(context);
+    // var cubitP = PackagesCubit(instance());
     return Scaffold(
       backgroundColor: AppColors.transparent,
       body: Container(
@@ -60,142 +55,143 @@ class _AddPackagesState extends State<AddPackages> {
             SizedBox(
               height: 1.h,
             ),
-            SizedBox(
-              height: 55.h,
-              width: 57.w,
-              child: BlocBuilder<PackagesCubit, PackagesState>(
-                builder: (context, state) {
-                  if (cubitP.packageList.isEmpty) {
-                    return const Center(
-                      child: DefaultText(text: "No Packages Found"),
-                    );
-                  }
-                  return ListView.builder(
-                      itemCount: cubitP.packageList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                              top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
-                          child: RowData(
-                            rowHeight: 8.h,
-                            data: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'ID',
-                                    style: TextStyle(fontSize: 3.sp),
-                                  ),
-                                  SizedBox(
-                                    height: 0.5.h,
-                                  ),
-                                  Text(
-                                    cubitP.packageList[index].id.toString(),
-                                    style: TextStyle(fontSize: 3.sp),
-                                  )
-                                ],
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'English Name',
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 0.5.h,
-                                      ),
-                                      Text(
-                                        cubitP.packageList[index].nameEn,
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                    ],
-                                  )),
-                              Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'NameAr',
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 0.5.h,
-                                      ),
-                                      Text(
-                                        cubitP.packageList[index].nameAr,
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                    ],
-                                  )),
-                              Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Price',
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 0.5.h,
-                                      ),
-                                      Text(
-                                        cubitP.packageList[index].price
-                                            .toString(),
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                    ],
-                                  )),
-                              Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Type',
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                      SizedBox(
-                                        height: 0.5.h,
-                                      ),
-                                      Text(
-                                        cubitP.packageList[index].type,
-                                        style: TextStyle(fontSize: 3.sp),
-                                      ),
-                                    ],
-                                  )),
-                              Checkbox(
-                                value: packagesId
-                                        .contains(cubitP.packageList[index].id)
-                                    ? true
-                                    : isChecked[index],
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isChecked[index] = value!;
-                                    if (isChecked[index]) {
-                                      packagesId
-                                          .add(cubitP.packageList[index].id);
-                                    } else {
-                                      packagesId
-                                          .remove(cubitP.packageList[index].id);
-                                    }
-                                    printResponse(
-                                        packagesId.join(' - ').toString());
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                },
-              ),
-            ),
+            // todo packages
+            // SizedBox(
+            //   height: 55.h,
+            //   width: 57.w,
+            //   child: BlocBuilder<PackagesCubit, PackagesState>(
+            //     builder: (context, state) {
+            //       if (cubitP.packageList.isEmpty) {
+            //         return const Center(
+            //           child: DefaultText(text: "No Packages Found"),
+            //         );
+            //       }
+            //       return ListView.builder(
+            //           itemCount: cubitP.packageList.length,
+            //           itemBuilder: (context, index) {
+            //             return Padding(
+            //               padding: EdgeInsets.only(
+            //                   top: 2.h, left: 3.2.w, right: 2.5.w, bottom: 1.h),
+            //               child: RowData(
+            //                 rowHeight: 8.h,
+            //                 data: [
+            //                   Column(
+            //                     mainAxisAlignment: MainAxisAlignment.center,
+            //                     crossAxisAlignment: CrossAxisAlignment.start,
+            //                     children: [
+            //                       Text(
+            //                         'ID',
+            //                         style: TextStyle(fontSize: 3.sp),
+            //                       ),
+            //                       SizedBox(
+            //                         height: 0.5.h,
+            //                       ),
+            //                       Text(
+            //                         cubitP.packageList[index].id.toString(),
+            //                         style: TextStyle(fontSize: 3.sp),
+            //                       )
+            //                     ],
+            //                   ),
+            //                   Expanded(
+            //                       flex: 2,
+            //                       child: Column(
+            //                         mainAxisAlignment: MainAxisAlignment.center,
+            //                         children: [
+            //                           Text(
+            //                             'English Name',
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                           SizedBox(
+            //                             height: 0.5.h,
+            //                           ),
+            //                           Text(
+            //                             cubitP.packageList[index].nameEn,
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                         ],
+            //                       )),
+            //                   Expanded(
+            //                       flex: 2,
+            //                       child: Column(
+            //                         mainAxisAlignment: MainAxisAlignment.center,
+            //                         children: [
+            //                           Text(
+            //                             'NameAr',
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                           SizedBox(
+            //                             height: 0.5.h,
+            //                           ),
+            //                           Text(
+            //                             cubitP.packageList[index].nameAr,
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                         ],
+            //                       )),
+            //                   Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         mainAxisAlignment: MainAxisAlignment.center,
+            //                         children: [
+            //                           Text(
+            //                             'Price',
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                           SizedBox(
+            //                             height: 0.5.h,
+            //                           ),
+            //                           Text(
+            //                             cubitP.packageList[index].price
+            //                                 .toString(),
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                         ],
+            //                       )),
+            //                   Expanded(
+            //                       flex: 1,
+            //                       child: Column(
+            //                         mainAxisAlignment: MainAxisAlignment.center,
+            //                         children: [
+            //                           Text(
+            //                             'Type',
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                           SizedBox(
+            //                             height: 0.5.h,
+            //                           ),
+            //                           Text(
+            //                             cubitP.packageList[index].type,
+            //                             style: TextStyle(fontSize: 3.sp),
+            //                           ),
+            //                         ],
+            //                       )),
+            //                   Checkbox(
+            //                     value: packagesId
+            //                             .contains(cubitP.packageList[index].id)
+            //                         ? true
+            //                         : isChecked[index],
+            //                     onChanged: (bool? value) {
+            //                       setState(() {
+            //                         isChecked[index] = value!;
+            //                         if (isChecked[index]) {
+            //                           packagesId
+            //                               .add(cubitP.packageList[index].id);
+            //                         } else {
+            //                           packagesId
+            //                               .remove(cubitP.packageList[index].id);
+            //                         }
+            //                         printResponse(
+            //                             packagesId.join(' - ').toString());
+            //                       });
+            //                     },
+            //                   ),
+            //                 ],
+            //               ),
+            //             );
+            //           });
+            //     },
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.only(left: 25.w, top: 1.h),
               child: DefaultAppButton(

@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/business_logic/packages_cubit/packages_cubit.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
-import 'package:jetboard/src/core/shared/widgets/row_data.dart';
+import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
+import 'package:jetboard/src/features/packages/cubit/packages_cubit.dart';
+import 'package:jetboard/src/features/packages/data/requests/package_details_request.dart';
 import 'package:sizer/sizer.dart';
 
-class AddItems extends StatefulWidget {
+class AddPackageDetails extends StatefulWidget {
+  final PackagesCubit cubit;
   final int packageId;
 
-  const AddItems({
-    super.key,
+  const AddPackageDetails({
+    required this.cubit,
     required this.packageId,
+    super.key,
   });
 
   @override
-  State<AddItems> createState() => _AddItemsState();
+  State<AddPackageDetails> createState() => _AddPackageDetailsState();
 }
 
-class _AddItemsState extends State<AddItems> {
+class _AddPackageDetailsState extends State<AddPackageDetails> {
   List<bool> isChecked = List.generate(2000, (index) => false);
   TextEditingController nameArController = TextEditingController();
   TextEditingController nameEnController = TextEditingController();
@@ -26,13 +30,27 @@ class _AddItemsState extends State<AddItems> {
   List<String> nameEn = [];
 
   @override
+  void dispose() {
+    nameAr.clear();
+    nameEn.clear();
+    nameArController.clear();
+    nameEnController.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.transparent,
       body: Container(
         decoration: BoxDecoration(
-            color: AppColors.white, borderRadius: BorderRadius.circular(15)),
-        margin: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        margin: EdgeInsets.symmetric(
+          horizontal: 18.w,
+          vertical: 10.h,
+        ),
         padding: EdgeInsets.only(top: 1.h),
         height: 80.h,
         width: 80.w,
@@ -40,7 +58,7 @@ class _AddItemsState extends State<AddItems> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Add Items',
+              'Add Package Details',
               style: TextStyle(fontSize: 5.sp),
             ),
             SizedBox(
@@ -78,9 +96,10 @@ class _AddItemsState extends State<AddItems> {
                     height: 5.h,
                     width: 5.h,
                     decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(10.h)),
-                    child:const Center(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(10.h),
+                    ),
+                    child: const Center(
                       child: Icon(
                         Icons.save,
                         color: AppColors.white,
@@ -97,7 +116,11 @@ class _AddItemsState extends State<AddItems> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(
-                        top: 2.h, left: 2.w, right: 2.w, bottom: 1.h),
+                      top: 2.h,
+                      left: 2.w,
+                      right: 2.w,
+                      bottom: 1.h,
+                    ),
                     child: RowData(
                       rowHeight: 8.h,
                       data: [
@@ -212,13 +235,13 @@ class _AddItemsState extends State<AddItems> {
                     fontSize: 4.sp,
                     title: 'Save',
                     onTap: () {
-                      PackagesCubit.get(context).addPackagesItems(
-                        packageId: widget.packageId,
-                        nameAr: nameAr,
-                        nameEn: nameEn,
+                      widget.cubit.addPackageItem(
+                        request: PackageDetailsRequest(
+                          packageId: widget.packageId,
+                          nameAr: nameAr,
+                          nameEn: nameEn,
+                        ),
                       );
-
-                      Navigator.pop(context);
                     },
                   ),
                   DefaultAppButton(
@@ -233,13 +256,7 @@ class _AddItemsState extends State<AddItems> {
                     fontSize: 4.sp,
                     title: 'Cancel',
                     onTap: () {
-                      setState(() {
-                        nameAr.clear();
-                        nameEn.clear();
-                        nameArController.clear();
-                        nameEnController.clear();
-                        Navigator.pop(context);
-                      });
+                      NavigationService.pop();
                     },
                   ),
                 ],
