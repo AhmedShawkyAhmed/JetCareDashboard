@@ -4,6 +4,9 @@ import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/network/models/network_result.dart';
 import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
+import 'package:jetboard/src/features/clients/data/models/address_model.dart';
+import 'package:jetboard/src/features/clients/data/requests/address_request.dart';
 import 'package:jetboard/src/features/clients/service/clients_web_service.dart';
 
 class ClientsRepo {
@@ -88,6 +91,50 @@ class ClientsRepo {
       var response = await webService.deleteClient(
         id: id,
       );
+      return NetworkResult.success(response);
+    } on DioException catch (error) {
+      return NetworkResult.failure(NetworkExceptions.getException(error));
+    }
+  }
+
+  Future<NetworkResult<NetworkBaseModel<List<AddressModel>>>> getMyAddresses({
+    required int clientId,
+  }) async {
+    try {
+      var response = await webService.getMyAddresses(
+        userId: clientId,
+      );
+      return NetworkResult.success(response);
+    } on DioException catch (error) {
+      return NetworkResult.failure(NetworkExceptions.getException(error));
+    }
+  }
+
+  Future<NetworkResult<NetworkBaseModel<AddressModel>>> addAddress({
+    required AddressRequest request,
+  }) async {
+    try {
+      var response = await webService.addAddress(request: request);
+      return NetworkResult.success(response);
+    } on DioException catch (error) {
+      return NetworkResult.failure(NetworkExceptions.getException(error));
+    }
+  }
+
+  Future<NetworkResult<NetworkBaseModel<List<AreaModel>>>> getStates() async {
+    try {
+      var response = await webService.getStates();
+      return NetworkResult.success(response);
+    } on DioException catch (error) {
+      return NetworkResult.failure(NetworkExceptions.getException(error));
+    }
+  }
+
+  Future<NetworkResult<NetworkBaseModel<List<AreaModel>>>> getAreasOfState({
+    required int stateId,
+  }) async {
+    try {
+      var response = await webService.getAreasOfState(stateId: stateId);
       return NetworkResult.success(response);
     } on DioException catch (error) {
       return NetworkResult.failure(NetworkExceptions.getException(error));

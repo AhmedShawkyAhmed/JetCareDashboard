@@ -5,7 +5,7 @@ part 'address_request.g.dart';
 @JsonSerializable()
 class AddressRequest {
   int? id;
-  int? userId;
+  int userId;
   String? phone;
   String? address;
   int? stateId;
@@ -21,7 +21,7 @@ class AddressRequest {
     this.latitude,
     this.longitude,
     this.stateId,
-    this.userId,
+    required this.userId,
   });
 
   factory AddressRequest.fromJson(Map<String, dynamic> json) =>

@@ -34,3 +34,19 @@ class DeleteClientFailure extends ClientsState {}
 class UserAdminCommentLoading extends ClientsState {}
 class UserAdminCommentSuccess extends ClientsState {}
 class UserAdminCommentFailure extends ClientsState {}
+
+class GetMyAddressesLoading extends ClientsState {}
+class GetMyAddressesSuccess extends ClientsState {}
+class GetMyAddressesFailure extends ClientsState {}
+
+class AddAddressLoading extends ClientsState {}
+class AddAddressSuccess extends ClientsState {}
+class AddAddressFailure extends ClientsState {}
+
+class GetStatesLoading extends ClientsState {}
+class GetStatesSuccess extends ClientsState {}
+class GetStatesFailure extends ClientsState {}
+
+class GetAreasLoading extends ClientsState {}
+class GetAreasSuccess extends ClientsState {}
+class GetAreasFailure extends ClientsState {}

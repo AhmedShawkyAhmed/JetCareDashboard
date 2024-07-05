@@ -4,14 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/network_service.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
-import 'package:jetboard/src/data/models/user_model.dart';
 import 'package:jetboard/src/data/network/responses/crew_area_response.dart';
-import 'package:jetboard/src/data/network/responses/user_response.dart';
 
 import '../../data/models/items_model.dart';
 import '../../data/models/orders_model.dart';
 import '../../data/network/responses/items_response.dart';
-import '../../data/network/responses/packages_response.dart';
 
 part 'global_state.dart';
 
@@ -21,31 +18,12 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   static GlobalCubit get(context) => BlocProvider.of(context);
 
-  Future navigate({required VoidCallback afterSuccess}) async {
-    await Future.delayed(const Duration(milliseconds: 200), () {});
-    afterSuccess();
-  }
-
-  PackagesResponse? packagesResponse;
-  ItemsResponse? getItemsResponse, itemsResponse;
+  ItemsResponse? getItemsResponse;
   CrewAreaResponse? crewAreaResponse;
-  UserResponse? userResponse;
   int listCount = 0;
-  int selectedIndex = 0;
-  bool isShadow = true;
   bool isEdit = false;
-  bool isColorS = true;
-  List<String> packages = [];
-  List<String> items = [];
   List<User> crews = [];
-  List<UserModel> users = [];
   List<ItemsModel> itemListForPackages = [];
-
-  void isShadowE() {
-    isShadow = !isShadow;
-    emit(AppChangeShadowState());
-  }
-
 
   Future getCrews({
     required int areaId,
@@ -78,7 +56,6 @@ class GlobalCubit extends Cubit<GlobalState> {
       printError(e.toString());
     }
   }
-
 
   Future getItemsForPackages(
       {String? type, keyword, required VoidCallback afterSuccess}) async {

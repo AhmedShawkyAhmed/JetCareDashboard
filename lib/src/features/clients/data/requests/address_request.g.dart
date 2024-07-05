@@ -15,7 +15,7 @@ AddressRequest _$AddressRequestFromJson(Map<String, dynamic> json) =>
       latitude: json['latitude'] as String?,
       longitude: json['longitude'] as String?,
       stateId: (json['state_id'] as num?)?.toInt(),
-      userId: (json['user_id'] as num?)?.toInt(),
+      userId: (json['user_id'] as num).toInt(),
     );
 
 Map<String, dynamic> _$AddressRequestToJson(AddressRequest instance) {
@@ -28,7 +28,7 @@ Map<String, dynamic> _$AddressRequestToJson(AddressRequest instance) {
   }
 
   writeNotNull('id', instance.id);
-  writeNotNull('user_id', instance.userId);
+  val['user_id'] = instance.userId;
   writeNotNull('phone', instance.phone);
   writeNotNull('address', instance.address);
   writeNotNull('state_id', instance.stateId);

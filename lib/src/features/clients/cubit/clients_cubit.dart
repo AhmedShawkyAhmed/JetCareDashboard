@@ -7,7 +7,10 @@ import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
+import 'package:jetboard/src/features/clients/data/models/address_model.dart';
 import 'package:jetboard/src/features/clients/data/repo/clients_repo.dart';
+import 'package:jetboard/src/features/clients/data/requests/address_request.dart';
 
 part 'clients_state.dart';
 
@@ -16,6 +19,9 @@ class ClientsCubit extends Cubit<ClientsState> {
   final ClientsRepo repo;
 
   List<UserModel>? clients;
+  List<AddressModel> address = [];
+  List<AreaModel> states = [];
+  List<AreaModel> areas = [];
 
   bool pass = true;
 
@@ -118,8 +124,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     response.when(
       success: (NetworkBaseModel response) async {
         if (clients != null) {
-          clients!.firstWhere((item) => item.id == userId).isActive =
-          true;
+          clients!.firstWhere((item) => item.id == userId).isActive = true;
         }
         emit(ActivateAccountSuccess());
       },
@@ -140,8 +145,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     response.when(
       success: (NetworkBaseModel response) async {
         if (clients != null) {
-          clients!.firstWhere((item) => item.id == userId).isActive =
-          false;
+          clients!.firstWhere((item) => item.id == userId).isActive = false;
         }
         emit(StopAccountSuccess());
       },
@@ -188,6 +192,91 @@ class ClientsCubit extends Cubit<ClientsState> {
       failure: (NetworkExceptions error) {
         emit(DeleteClientFailure());
         error.showError();
+      },
+    );
+  }
+
+  Future getMyAddresses({
+    required int clientId,
+  }) async {
+    address.clear();
+    emit(GetMyAddressesLoading());
+    var response = await repo.getMyAddresses(clientId: clientId);
+    response.when(
+      success: (NetworkBaseModel response) async {
+        address = response.data;
+        emit(GetMyAddressesSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        error.showError();
+        emit(GetMyAddressesFailure());
+      },
+    );
+  }
+
+  Future addAddress({
+    required AddressRequest request,
+  }) async {
+    if (request.phone == null || request.phone == "") {
+      DefaultToast.showMyToast("Enter Phone Number");
+      return;
+    } else if (request.address == null || request.address == "") {
+      DefaultToast.showMyToast("Enter Address");
+      return;
+    } else if (request.stateId == null || request.stateId == 0) {
+      DefaultToast.showMyToast("Select State");
+      return;
+    } else if (request.areaId == null || request.areaId == 0) {
+      DefaultToast.showMyToast("Select Area");
+      return;
+    }
+    IndicatorView.showIndicator();
+    emit(AddAddressLoading());
+    var response = await repo.addAddress(request: request);
+    response.when(
+      success: (NetworkBaseModel response) async {
+        NavigationService.pop();
+        getMyAddresses(clientId: request.userId);
+        NavigationService.pop();
+        emit(AddAddressSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        error.showError();
+        emit(AddAddressFailure());
+      },
+    );
+  }
+
+  Future getStates() async {
+    states.clear();
+    emit(GetStatesLoading());
+    var response = await repo.getStates();
+    response.when(
+      success: (NetworkBaseModel response) async {
+        states = response.data;
+        emit(GetStatesSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        error.showError();
+        emit(GetStatesFailure());
+      },
+    );
+  }
+
+  Future getAreasOfState({
+    required int stateId,
+  }) async {
+    areas.clear();
+    emit(GetAreasLoading());
+    var response = await repo.getAreasOfState(stateId: stateId);
+    response.when(
+      success: (NetworkBaseModel response) async {
+        areas = response.data;
+        emit(GetAreasSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        error.showError();
+        emit(GetAreasFailure());
       },
     );
   }

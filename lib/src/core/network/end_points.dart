@@ -83,6 +83,9 @@ class EndPoints {
 
   // ------------------- Clients
   static const getClients = "get_clients";
+  static const getMyAddresses = "get_my_addresses";
+  static const addAddress = "add_address";
+  static const getStates = "get_states_mobile";
 
   // ------------------- Crew
   static const getCrew = "get_crew";
@@ -163,7 +166,5 @@ class EndPoints {
   static const createOrder = "createOrder";
   static const updateExtra = "updateExtra";
 
-  static const getMyAddresses = "getMyAddresses";
-  static const addAddress = "addAddress";
   static const getCrewOfAreas = "getCrewOfAreas";
 }

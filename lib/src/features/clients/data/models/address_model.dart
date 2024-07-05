@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jetcare/src/features/address/data/models/area_model.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
 
 part 'address_model.g.dart';
 

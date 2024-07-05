@@ -3,6 +3,9 @@ import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
+import 'package:jetboard/src/features/clients/data/models/address_model.dart';
+import 'package:jetboard/src/features/clients/data/requests/address_request.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'clients_web_service.g.dart';
@@ -45,5 +48,23 @@ abstract class ClientsWebService {
   @DELETE(EndPoints.deleteAccount)
   Future<NetworkBaseModel> deleteClient({
     @Query("id") int? id,
+  });
+
+  @GET(EndPoints.getMyAddresses)
+  Future<NetworkBaseModel<List<AddressModel>>> getMyAddresses({
+    @Query('user_id') int? userId,
+  });
+
+  @POST(EndPoints.addAddress)
+  Future<NetworkBaseModel<AddressModel>> addAddress({
+    @Body() AddressRequest? request,
+  });
+
+  @GET(EndPoints.getStates)
+  Future<NetworkBaseModel<List<AreaModel>>> getStates();
+
+  @GET(EndPoints.getAreasOfState)
+  Future<NetworkBaseModel<List<AreaModel>>> getAreasOfState({
+    @Query('state_id') int? stateId,
   });
 }
