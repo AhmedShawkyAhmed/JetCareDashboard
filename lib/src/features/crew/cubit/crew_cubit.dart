@@ -17,6 +17,7 @@ class CrewCubit extends Cubit<CrewState> {
   final CrewRepo repo;
 
   List<UserModel>? crew;
+  List<UserModel>? crewOfArea;
   List<CrewAreaModel>? crewAreas;
   List<int> areaIds = [];
   List<int> crewAreasIds = [];
@@ -214,6 +215,29 @@ class CrewCubit extends Cubit<CrewState> {
       },
       failure: (NetworkExceptions error) {
         emit(GetCrewAreaFailure());
+        error.showError();
+      },
+    );
+  }
+
+  Future getCrewOfAreas({
+    required int areaId,
+    required int periodId,
+    required String date,
+  }) async {
+    emit(GetCrewOfAreasLoading());
+    var response = await repo.getCrewOfAreas(
+      areaId: areaId,
+      periodId: periodId,
+      date: date,
+    );
+    response.when(
+      success: (NetworkBaseModel response) async {
+        crewOfArea = response.data;
+        emit(GetCrewOfAreasSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        emit(GetCrewOfAreasFailure());
         error.showError();
       },
     );

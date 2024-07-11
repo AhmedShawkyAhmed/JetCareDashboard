@@ -39,6 +39,10 @@ class GetCrewAreaLoading extends CrewState {}
 class GetCrewAreaSuccess extends CrewState {}
 class GetCrewAreaFailure extends CrewState {}
 
+class GetCrewOfAreasLoading extends CrewState {}
+class GetCrewOfAreasSuccess extends CrewState {}
+class GetCrewOfAreasFailure extends CrewState {}
+
 class AddCrewAreaLoading extends CrewState {}
 class AddCrewAreaSuccess extends CrewState {}
 class AddCrewAreaFailure extends CrewState {}

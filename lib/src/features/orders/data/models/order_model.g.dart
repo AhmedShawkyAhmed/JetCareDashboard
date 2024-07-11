@@ -8,11 +8,12 @@ part of 'order_model.dart';
 
 OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       id: (json['id'] as num?)?.toInt(),
-      status: json['status'] as String?,
+      status: $enumDecodeNullable(_$OrderStatusEnumMap, json['status']),
       createdAt: json['created_at'] as String?,
       total: json['total'] as num?,
       price: json['price'] as num?,
       shipping: json['shipping'] as num?,
+      extra: json['extra'] as num?,
       user: json['user'] == null
           ? null
           : UserModel.fromJson(json['user'] as Map<String, dynamic>),
@@ -42,6 +43,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
           ?.map((e) => CartItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       comment: json['comment'] as String?,
+      adminComment: json['admin_comment'] as String?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) {
@@ -54,13 +56,15 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) {
   }
 
   writeNotNull('id', instance.id);
-  writeNotNull('status', instance.status);
+  writeNotNull('status', _$OrderStatusEnumMap[instance.status]);
   writeNotNull('created_at', instance.createdAt);
   writeNotNull('date', instance.date);
   writeNotNull('comment', instance.comment);
+  writeNotNull('admin_comment', instance.adminComment);
   writeNotNull('total', instance.total);
   writeNotNull('price', instance.price);
   writeNotNull('shipping', instance.shipping);
+  writeNotNull('extra', instance.extra);
   writeNotNull('user', instance.user?.toJson());
   writeNotNull('crew', instance.crew?.toJson());
   writeNotNull('period', instance.period?.toJson());
@@ -72,3 +76,11 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) {
   writeNotNull('cart', instance.cart?.map((e) => e.toJson()).toList());
   return val;
 }
+
+const _$OrderStatusEnumMap = {
+  OrderStatus.assigned: 'assigned',
+  OrderStatus.unassigned: 'unassigned',
+  OrderStatus.accepted: 'accepted',
+  OrderStatus.completed: 'completed',
+  OrderStatus.canceled: 'canceled',
+};

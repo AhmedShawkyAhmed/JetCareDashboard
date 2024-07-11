@@ -106,6 +106,23 @@ class CrewRepo {
     }
   }
 
+  Future<NetworkResult<NetworkBaseModel<List<UserModel>>>> getCrewOfAreas({
+    required int areaId,
+    required int periodId,
+    required String date,
+  }) async {
+    try {
+      var response = await webService.getCrewOfAreas(
+        areaId: areaId,
+        periodId: periodId,
+        date: date,
+      );
+      return NetworkResult.success(response);
+    } on DioException catch (error) {
+      return NetworkResult.failure(NetworkExceptions.getException(error));
+    }
+  }
+
   Future<NetworkResult<NetworkBaseModel>> addAreaToCrew({
     required int crewId,
     required int areaId,

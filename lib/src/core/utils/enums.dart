@@ -40,13 +40,15 @@ enum SampleItem {
 //   about,
 // }
 //
-// enum OrderStatus{
-//   assigned,
-//   unassigned,
-//   accepted,
-//   completed,
-//   canceled,
-// }
+enum OrderStatus{
+  assigned,
+  unassigned,
+  accepted,
+  completed,
+  confirmed,
+  canceled,
+  rejected,
+}
 //
 // enum HomeViewType {
 //   loading,

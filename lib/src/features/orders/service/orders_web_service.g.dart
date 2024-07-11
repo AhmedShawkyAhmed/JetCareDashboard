@@ -21,9 +21,16 @@ class _OrdersWebService implements OrdersWebService {
   String? baseUrl;
 
   @override
-  Future<NetworkBaseModel<List<OrderModel>>> getOrders() async {
+  Future<NetworkBaseModel<List<OrderModel>>> getOrders({
+    String? keyword,
+    String? status,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'keyword': keyword,
+      r'status': status,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -90,7 +97,7 @@ class _OrdersWebService implements OrdersWebService {
   @override
   Future<NetworkBaseModel<dynamic>> updateOrderStatus({
     required int id,
-    required String status,
+    required OrderStatus status,
     String? reason,
   }) async {
     final _extra = <String, dynamic>{};
