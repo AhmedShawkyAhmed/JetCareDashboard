@@ -92,6 +92,41 @@ class ClientsCubit extends Cubit<ClientsState> {
     );
   }
 
+  Future addClientForOrder({
+    required RegisterRequest request,
+    required Function(UserModel) afterSuccess,
+  }) async {
+    if (request.name == "") {
+      DefaultToast.showMyToast("Please Enter the Full Name");
+      return;
+    } else if (request.phone == "" || request.phone.length < 11) {
+      DefaultToast.showMyToast("Please Enter Correct Phone Number");
+      return;
+    } else if (request.email == "") {
+      DefaultToast.showMyToast("Please Enter Correct Email Address");
+      return;
+    } else if (request.password == "" || request.password.length < 8) {
+      DefaultToast.showMyToast("Please Enter Password more than 8 Characters");
+      return;
+    }
+    IndicatorView.showIndicator();
+    emit(AddClientLoading());
+    var response = await repo.addClient(
+      request: request,
+    );
+    response.when(
+      success: (NetworkBaseModel response) async {
+        afterSuccess(response.data);
+        emit(AddClientSuccess());
+      },
+      failure: (NetworkExceptions error) {
+        emit(AddClientFailure());
+        NavigationService.pop();
+        error.showError();
+      },
+    );
+  }
+
   Future updateClient({
     required UserModel request,
   }) async {

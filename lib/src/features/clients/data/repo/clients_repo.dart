@@ -25,7 +25,7 @@ class ClientsRepo {
     }
   }
 
-  Future<NetworkResult<NetworkBaseModel>> addClient({
+  Future<NetworkResult<NetworkBaseModel<UserModel>>> addClient({
     required RegisterRequest request,
   }) async {
     try {

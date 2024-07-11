@@ -11,7 +11,7 @@ class OrderRequest {
   String date;
   String total;
   String price;
-  int shipping;
+  num shipping;
   List<int> cart;
   String? comment;
 

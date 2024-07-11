@@ -6,7 +6,7 @@ import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:jetboard/src/core/utils/enums.dart';
 import 'package:jetboard/src/features/orders/cubit/orders_cubit.dart';
 import 'package:jetboard/src/features/orders/ui/views/delete_order_view.dart';
-import 'package:jetboard/src/features/orders/ui/views/view_orders_detales.dart';
+import 'package:jetboard/src/features/orders/ui/views/view_orders_details.dart';
 import 'package:sizer/sizer.dart';
 
 class OrdersView extends StatefulWidget {

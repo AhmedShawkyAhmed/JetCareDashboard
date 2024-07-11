@@ -78,7 +78,7 @@ class _OrdersDesktopState extends State<OrdersDesktop> {
                         ),
                       ),
                       const Spacer(),
-                      const AddOrderView(),
+                      AddOrderView(cubit: cubit),
                     ],
                   ),
                 ),

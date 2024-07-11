@@ -10,7 +10,7 @@ OrderRequest _$OrderRequestFromJson(Map<String, dynamic> json) => OrderRequest(
       userId: (json['user_id'] as num).toInt(),
       total: json['total'] as String,
       price: json['price'] as String,
-      shipping: (json['shipping'] as num).toInt(),
+      shipping: json['shipping'] as num,
       addressId: json['address_id'] as num,
       periodId: json['period_id'] as num,
       date: json['date'] as String,

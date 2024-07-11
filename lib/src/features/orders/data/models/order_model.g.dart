@@ -82,5 +82,7 @@ const _$OrderStatusEnumMap = {
   OrderStatus.unassigned: 'unassigned',
   OrderStatus.accepted: 'accepted',
   OrderStatus.completed: 'completed',
+  OrderStatus.confirmed: 'confirmed',
   OrderStatus.canceled: 'canceled',
+  OrderStatus.rejected: 'rejected',
 };

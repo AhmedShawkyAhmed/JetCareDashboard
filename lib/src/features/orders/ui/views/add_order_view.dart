@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
+import 'package:jetboard/src/features/orders/cubit/orders_cubit.dart';
 import 'package:jetboard/src/features/orders/ui/views/create_order.dart';
 import 'package:sizer/sizer.dart';
 
 class AddOrderView extends StatefulWidget {
-  const AddOrderView({super.key});
+  final OrdersCubit cubit;
+
+  const AddOrderView({
+    required this.cubit,
+    super.key,
+  });
 
   @override
   State<AddOrderView> createState() => _AddOrderViewState();
@@ -18,7 +24,9 @@ class _AddOrderViewState extends State<AddOrderView> {
       context: NavigationService.context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return const CreateOrder();
+        return CreateOrder(
+          cubit: widget.cubit,
+        );
       },
     );
   }

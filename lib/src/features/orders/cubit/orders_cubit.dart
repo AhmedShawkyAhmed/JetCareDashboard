@@ -49,7 +49,10 @@ class OrdersCubit extends Cubit<OrdersState> {
     var response = await repo.createOrder(request: request);
     response.when(
       success: (NetworkBaseModel response) async {
+        getOrders();
         emit(CreateOrderSuccess());
+        NavigationService.pop();
+        NavigationService.pop();
       },
       failure: (NetworkExceptions error) {
         emit(CreateOrderFailure());

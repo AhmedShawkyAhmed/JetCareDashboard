@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:jetboard/src/business_logic/address_cubit/address_cubit.dart';
-import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
+import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
@@ -14,19 +14,36 @@ import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/data/models/cart_model.dart';
-import 'package:jetboard/src/data/network/requests/address_request.dart';
-import 'package:jetboard/src/data/network/requests/order_request.dart';
+import 'package:jetboard/src/features/areas/cubit/areas_cubit.dart';
+import 'package:jetboard/src/features/areas/data/models/area_model.dart';
 import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
+import 'package:jetboard/src/features/clients/data/models/address_model.dart';
+import 'package:jetboard/src/features/clients/data/requests/address_request.dart';
+import 'package:jetboard/src/features/orders/cubit/orders_cubit.dart';
+import 'package:jetboard/src/features/orders/data/requests/cart_request.dart';
+import 'package:jetboard/src/features/orders/data/requests/order_request.dart';
+import 'package:jetboard/src/features/orders/ui/views/add_address_view.dart';
+import 'package:jetboard/src/features/periods/cubit/period_cubit.dart';
+import 'package:jetboard/src/features/periods/data/models/period_model.dart';
+import 'package:jetboard/src/features/states/data/models/state_model.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateOrder extends StatefulWidget {
-  const CreateOrder({super.key});
+  final OrdersCubit cubit;
+
+  const CreateOrder({
+    required this.cubit,
+    super.key,
+  });
 
   @override
   State<CreateOrder> createState() => _CreateOrderState();
 }
 
 class _CreateOrderState extends State<CreateOrder> {
+  ClientsCubit clientsCubit = ClientsCubit(instance());
+  AreasCubit areasCubit = AreasCubit(instance());
+  PeriodCubit periodCubit = PeriodCubit(instance());
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -50,7 +67,6 @@ class _CreateOrderState extends State<CreateOrder> {
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.teal,
-              // primaryColorDark: Colors.teal,
               accentColor: Colors.teal,
             ),
             dialogBackgroundColor: Colors.white,
@@ -65,12 +81,9 @@ class _CreateOrderState extends State<CreateOrder> {
     }
   }
 
-  String period = "";
-  int periodId = 0;
-  String client = "";
-  int clientId = 0;
-  String address = "";
-  int addressId = 0;
+  PeriodModel? period;
+  UserModel? client;
+  AddressModel? address;
   bool newClient = true;
   int stateId = 0;
   int areaId = 0;
@@ -83,692 +96,422 @@ class _CreateOrderState extends State<CreateOrder> {
   List<int> cartItemsIds = [];
 
   @override
+  void dispose() {
+    nameController.clear();
+    emailController.clear();
+    phoneController.clear();
+    messageController.clear();
+    addressController.clear();
+    shippingController.clear();
+    stateId = 0;
+    areaId = 0;
+    period = null;
+    client = null;
+    address = null;
+    cartItemsIds.clear();
+    cart.clear();
+    price = 0;
+    count = 0;
+    total = 0;
+    shipping = 0;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.transparent,
-      body: Center(
-        child: Container(
-          width: 70.w,
-          height: 75.h,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 2.h,
-              ),
-              const DefaultText(
-                text: "Create New Order",
-                align: TextAlign.center,
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          DefaultAppButton(
-                            width: 8.w,
-                            height: 3.h,
-                            haveShadow: true,
-                            offset: const Offset(0, 0),
-                            spreadRadius: 2,
-                            blurRadius: 2,
-                            radius: 5,
-                            horizontalPadding: 0,
-                            isGradient: !newClient,
-                            gradientColors: const [
-                              AppColors.green,
-                              AppColors.lightGreen,
-                            ],
-                            fontSize: 3.sp,
-                            title: "Current Client",
-                            onTap: () {
-                              setState(() {
-                                newClient = false;
-                                printLog(newClient.toString());
-                              });
-                            },
-                          ),
-                          SizedBox(width: 2.w),
-                          DefaultAppButton(
-                            width: 8.w,
-                            height: 3.h,
-                            haveShadow: true,
-                            offset: const Offset(0, 0),
-                            spreadRadius: 2,
-                            blurRadius: 2,
-                            radius: 5,
-                            horizontalPadding: 0,
-                            isGradient: newClient,
-                            gradientColors: const [
-                              AppColors.green,
-                              AppColors.lightGreen,
-                            ],
-                            fontSize: 3.sp,
-                            title: "New Client",
-                            onTap: () {
-                              setState(() {
-                                newClient = true;
-                                printLog(newClient.toString());
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      if (newClient) ...[
-                        DefaultTextField(
-                          password: false,
-                          controller: nameController,
-                          height: 5.h,
-                          haveShadow: true,
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          horizontalPadding: 50,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'Client Name',
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        DefaultTextField(
-                          password: false,
-                          height: 5.h,
-                          controller: phoneController,
-                          haveShadow: true,
-                          spreadRadius: 2,
-                          horizontalPadding: 50,
-                          blurRadius: 2,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'Phone Number',
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        DefaultTextField(
-                          password: false,
-                          height: 5.h,
-                          controller: emailController,
-                          haveShadow: true,
-                          horizontalPadding: 50,
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'Email',
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        DefaultTextField(
-                          password: false,
-                          height: 5.h,
-                          controller: addressController,
-                          haveShadow: true,
-                          horizontalPadding: 50,
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: 'Address',
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => clientsCubit..getClients(),
+        ),
+        BlocProvider(
+          create: (context) => areasCubit..getAllStates(),
+        ),
+        BlocProvider(
+          create: (context) => periodCubit..getPeriods(),
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: AppColors.transparent,
+        body: Center(
+          child: Container(
+            width: 70.w,
+            height: 75.h,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 2.h,
+                ),
+                const DefaultText(
+                  text: "Create New Order",
+                  align: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
                         Row(
                           children: [
-                            // BlocBuilder<StatesCubit, StatesState>(
-                            //   builder: (context, state) {
-                            //     return StatesCubit.get(context)
-                            //                 .allStatesResponse
-                            //                 ?.statesList ==
-                            //             null
-                            //         ? SizedBox(
-                            //             height: 4.h,
-                            //             width: 12.w,
-                            //             child: Center(
-                            //               child: DefaultText(
-                            //                   text: "No Governorate Found !",
-                            //                   fontSize: 2.sp),
-                            //             ),
-                            //           )
-                            //         : SizedBox(
-                            //             width: 12.w,
-                            //             height: 4.h,
-                            //             child: DefaultDropdown<AreaModel>(
-                            //               hint: "Governorate",
-                            //               showSearchBox: true,
-                            //               itemAsString: (AreaModel? u) =>
-                            //                   u?.nameAr ?? "",
-                            //               items: StatesCubit.get(context)
-                            //                   .allStatesResponse!
-                            //                   .statesList!,
-                            //               onChanged: (val) {
-                            //                 setState(() {
-                            //                   // AreaCubit.get(context)
-                            //                   //     .getAllAreas(
-                            //                   //         stateId: val!.id == 0
-                            //                   //             ? 0
-                            //                   //             : val.id);
-                            //                   // stateId =
-                            //                   //     (val.id == 0 ? 0 : val.id)!;
-                            //                 });
-                            //               },
-                            //             ),
-                            //           );
-                            //   },
-                            // ),
-                            SizedBox(
-                              width: 4.h,
+                            DefaultAppButton(
+                              width: 8.w,
+                              height: 3.h,
+                              haveShadow: true,
+                              offset: const Offset(0, 0),
+                              spreadRadius: 2,
+                              blurRadius: 2,
+                              radius: 5,
+                              horizontalPadding: 0,
+                              isGradient: !newClient,
+                              gradientColors: const [
+                                AppColors.green,
+                                AppColors.lightGreen,
+                              ],
+                              fontSize: 3.sp,
+                              title: "Current Client",
+                              onTap: () {
+                                setState(() {
+                                  newClient = false;
+                                  printLog(newClient.toString());
+                                });
+                              },
                             ),
-                            // BlocBuilder<AreaCubit, AreaState>(
-                            //   builder: (context, state) {
-                            //     if (AreaCubit.get(context).areaList.isEmpty ||
-                            //         stateId == 0) {
-                            //       return SizedBox(
-                            //         height: 4.h,
-                            //         width: 12.w,
-                            //         child: Center(
-                            //           child: DefaultText(
-                            //               text: "Select Governorate First",
-                            //               fontSize: 2.sp),
-                            //         ),
-                            //       );
-                            //     }
-                            //     return SizedBox(
-                            //       height: 4.h,
-                            //       width: 12.w,
-                            //       child: DefaultDropdown<AreaModel>(
-                            //         hint: "Areas",
-                            //         showSearchBox: true,
-                            //         itemAsString: (AreaModel? u) =>
-                            //             u?.nameAr ?? "",
-                            //         items: AreaCubit.get(context).areaList,
-                            //         onChanged: (val) {
-                            //           setState(() {
-                            //             areaId = (val!.id == 0 ? 0 : val.id)!;
-                            //             printSuccess(areaId.toString());
-                            //           });
-                            //         },
-                            //       ),
-                            //     );
-                            //   },
-                            // ),
+                            SizedBox(width: 2.w),
+                            DefaultAppButton(
+                              width: 8.w,
+                              height: 3.h,
+                              haveShadow: true,
+                              offset: const Offset(0, 0),
+                              spreadRadius: 2,
+                              blurRadius: 2,
+                              radius: 5,
+                              horizontalPadding: 0,
+                              isGradient: newClient,
+                              gradientColors: const [
+                                AppColors.green,
+                                AppColors.lightGreen,
+                              ],
+                              fontSize: 3.sp,
+                              title: "New Client",
+                              onTap: () {
+                                setState(() {
+                                  newClient = true;
+                                  printLog(newClient.toString());
+                                });
+                              },
+                            ),
                           ],
                         ),
-                      ] else ...[
                         SizedBox(
-                          width: 26.w,
-                          height: 4.h,
-                          child: DefaultDropdown<String>(
-                            hint: "Client",
-                            showSearchBox: true,
-                            selectedItem: client,
-                            items: OrdersCubit.get(context).clients,
-                            onChanged: (val) {
-                              setState(() {
-                                client = val!;
-                                clientId = OrdersCubit.get(context)
-                                    .clientsResponse!
-                                    .userModel![OrdersCubit.get(context)
-                                        .clients
-                                        .indexOf(val)]
-                                    .id;
-                                phoneController.text = OrdersCubit.get(context)
-                                    .clientsResponse!
-                                    .userModel![OrdersCubit.get(context)
-                                        .clients
-                                        .indexOf(val)]
-                                    .phone;
-                                AddressCubit.get(context).getMyAddresses(
-                                  userId: clientId,
-                                  afterSuccess: () {},
-                                );
-                                printLog(clientId.toString());
-                              });
-                            },
-                          ),
+                          height: 2.h,
                         ),
-                        if (clientId != 0) ...[
+                        if (newClient) ...[
+                          DefaultTextField(
+                            password: false,
+                            controller: nameController,
+                            height: 5.h,
+                            haveShadow: true,
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            horizontalPadding: 50,
+                            color: AppColors.white,
+                            shadowColor: AppColors.black.withOpacity(0.05),
+                            hintText: 'Client Name',
+                          ),
                           SizedBox(
-                            width: 26.w,
-                            height: 4.h,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                top: 1.h,
-                              ),
-                              child: BlocBuilder<AddressCubit, AddressState>(
+                            height: 1.h,
+                          ),
+                          DefaultTextField(
+                            password: false,
+                            height: 5.h,
+                            controller: phoneController,
+                            haveShadow: true,
+                            spreadRadius: 2,
+                            horizontalPadding: 50,
+                            blurRadius: 2,
+                            color: AppColors.white,
+                            shadowColor: AppColors.black.withOpacity(0.05),
+                            hintText: 'Phone Number',
+                          ),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          DefaultTextField(
+                            password: false,
+                            height: 5.h,
+                            controller: emailController,
+                            haveShadow: true,
+                            horizontalPadding: 50,
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            color: AppColors.white,
+                            shadowColor: AppColors.black.withOpacity(0.05),
+                            hintText: 'Email',
+                          ),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          DefaultTextField(
+                            password: false,
+                            height: 5.h,
+                            controller: addressController,
+                            haveShadow: true,
+                            horizontalPadding: 50,
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            color: AppColors.white,
+                            shadowColor: AppColors.black.withOpacity(0.05),
+                            hintText: 'Address',
+                          ),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          Row(
+                            children: [
+                              BlocBuilder<AreasCubit, AreasState>(
                                 builder: (context, state) {
-                                  return AddressCubit.get(context)
-                                          .address
-                                          .isEmpty
-                                      ? DefaultAppButton(
-                                          width: 26.w,
+                                  return areasCubit.states == null
+                                      ? SizedBox(
                                           height: 4.h,
-                                          haveShadow: false,
-                                          horizontalPadding: 0,
-                                          offset: const Offset(0, 0),
-                                          buttonColor: AppColors.primary,
-                                          textColor: AppColors.white,
-                                          spreadRadius: 2,
-                                          blurRadius: 2,
-                                          radius: 6,
-                                          isGradient: false,
-                                          fontSize: 3.sp,
-                                          title: "Add Address",
-                                          onTap: () {
-                                            showDialog<void>(
-                                              context: context,
-                                              barrierDismissible: true,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  backgroundColor:
-                                                      AppColors.white,
-                                                  content:
-                                                      SingleChildScrollView(
-                                                    child: ListBody(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 1.h,
-                                                        ),
-                                                        DefaultTextField(
-                                                          password: false,
-                                                          height: 5.h,
-                                                          controller:
-                                                              addressController,
-                                                          haveShadow: true,
-                                                          horizontalPadding: 50,
-                                                          spreadRadius: 2,
-                                                          blurRadius: 2,
-                                                          color:
-                                                              AppColors.white,
-                                                          shadowColor: AppColors
-                                                              .black
-                                                              .withOpacity(
-                                                                  0.05),
-                                                          hintText: 'Address',
-                                                        ),
-                                                        SizedBox(
-                                                          height: 2.h,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            // BlocBuilder<
-                                                            //     StatesCubit,
-                                                            //     StatesState>(
-                                                            //   builder: (context,
-                                                            //       state) {
-                                                            //     return StatesCubit.get(context)
-                                                            //                 .allStatesResponse
-                                                            //                 ?.statesList ==
-                                                            //             null
-                                                            //         ? SizedBox(
-                                                            //             height:
-                                                            //                 4.h,
-                                                            //             width:
-                                                            //                 10.w,
-                                                            //             child:
-                                                            //                 Center(
-                                                            //               child: DefaultText(
-                                                            //                   text: "No Governorate Found !",
-                                                            //                   fontSize: 2.sp),
-                                                            //             ),
-                                                            //           )
-                                                            //         : SizedBox(
-                                                            //             width:
-                                                            //                 10.w,
-                                                            //             height:
-                                                            //                 4.h,
-                                                            //             child: DefaultDropdown<
-                                                            //                 AreaModel>(
-                                                            //               hint:
-                                                            //                   "Governorate",
-                                                            //               showSearchBox:
-                                                            //                   true,
-                                                            //               itemAsString: (AreaModel? u) =>
-                                                            //                   u?.nameAr ??
-                                                            //                   "",
-                                                            //               items:[],
-                                                            //               // items: StatesCubit.get(context)
-                                                            //               //     .allStatesResponse!
-                                                            //               //     .statesList!,
-                                                            //               onChanged:
-                                                            //                   (val) {
-                                                            //                 setState(() {
-                                                            //                   // AreaCubit.get(context).getAllAreas(stateId: val!.id == 0 ? 0 : val.id);
-                                                            //                   // stateId = (val.id == 0 ? 0 : val.id)!;
-                                                            //                 });
-                                                            //               },
-                                                            //             ),
-                                                            //           );
-                                                            //   },
-                                                            // ),
-                                                            SizedBox(
-                                                              width: 4.h,
-                                                            ),
-                                                            // BlocBuilder<
-                                                            //     AreaCubit,
-                                                            //     AreaState>(
-                                                            //   builder: (context,
-                                                            //       state) {
-                                                            //     if (AreaCubit.get(
-                                                            //                 context)
-                                                            //             .areaList
-                                                            //             .isEmpty ||
-                                                            //         stateId ==
-                                                            //             0) {
-                                                            //       return SizedBox(
-                                                            //         height: 4.h,
-                                                            //         width: 10.w,
-                                                            //         child:
-                                                            //             Center(
-                                                            //           child: DefaultText(
-                                                            //               text:
-                                                            //                   "Select Governorate First",
-                                                            //               fontSize:
-                                                            //                   2.sp),
-                                                            //         ),
-                                                            //       );
-                                                            //     }
-                                                            //     return SizedBox(
-                                                            //       height: 4.h,
-                                                            //       width: 10.w,
-                                                            //       child: DefaultDropdown<
-                                                            //           AreaModel>(
-                                                            //         hint:
-                                                            //             "Areas",
-                                                            //         showSearchBox:
-                                                            //             true,
-                                                            //         itemAsString:
-                                                            //             (AreaModel?
-                                                            //                     u) =>
-                                                            //                 u?.nameAr ??
-                                                            //                 "",
-                                                            //         items: AreaCubit.get(
-                                                            //                 context)
-                                                            //             .areaList,
-                                                            //         onChanged:
-                                                            //             (val) {
-                                                            //           setState(
-                                                            //               () {
-                                                            //             areaId = (val!.id ==
-                                                            //                     0
-                                                            //                 ? 0
-                                                            //                 : val.id)!;
-                                                            //             printSuccess(
-                                                            //                 areaId.toString());
-                                                            //           });
-                                                            //         },
-                                                            //       ),
-                                                            //     );
-                                                            //   },
-                                                            // ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  actionsAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  actions: <Widget>[
-                                                    DefaultAppButton(
-                                                      title: "Save",
-                                                      onTap: () {
-                                                        if (addressController
-                                                                .text ==
-                                                            "") {
-                                                          DefaultToast.showMyToast(
-                                                              "Please Enter the Address");
-                                                        } else if (stateId ==
-                                                            0) {
-                                                          DefaultToast.showMyToast(
-                                                              "Please Select Governorate");
-                                                        } else if (areaId ==
-                                                            0) {
-                                                          DefaultToast.showMyToast(
-                                                              "Please Select Area");
-                                                        } else {
-                                                          AddressCubit.get(
-                                                                  context)
-                                                              .addAddress(
-                                                            addressRequest:
-                                                                AddressRequest(
-                                                              userId: clientId,
-                                                              phone:
-                                                                  phoneController
-                                                                      .text,
-                                                              latitude: "0.0",
-                                                              longitude: "0.0",
-                                                              stateId: stateId,
-                                                              areaId: areaId,
-                                                              address:
-                                                                  addressController
-                                                                      .text,
-                                                            ),
-                                                            afterSuccess: () {
-                                                              AddressCubit.get(
-                                                                      context)
-                                                                  .getMyAddresses(
-                                                                userId:
-                                                                    clientId,
-                                                                afterSuccess:
-                                                                    () {
-                                                                  addressController
-                                                                      .clear();
-                                                                  stateId = 0;
-                                                                  areaId = 0;
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                              );
-                                                            },
-                                                          );
-                                                        }
-                                                      },
-                                                      width: 10.w,
-                                                      height: 4.h,
-                                                      fontSize: 3.sp,
-                                                      textColor:
-                                                          AppColors.white,
-                                                      buttonColor:
-                                                          AppColors.primary,
-                                                      isGradient: false,
-                                                      radius: 10,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    DefaultAppButton(
-                                                      title: "Cancel",
-                                                      onTap: () {
-                                                        phoneController.clear();
-                                                        addressController
-                                                            .clear();
-                                                        stateId = 0;
-                                                        areaId = 0;
-                                                        Navigator.pop(context);
-                                                      },
-                                                      width: 10.w,
-                                                      height: 4.h,
-                                                      fontSize: 3.sp,
-                                                      textColor:
-                                                          AppColors.mainColor,
-                                                      buttonColor:
-                                                          AppColors.lightGrey,
-                                                      isGradient: false,
-                                                      radius: 10,
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
+                                          width: 12.w,
+                                          child: Center(
+                                            child: DefaultText(
+                                              text: "No Governorate Found !",
+                                              fontSize: 2.sp,
+                                            ),
+                                          ),
                                         )
-                                      : DefaultDropdown<String>(
-                                          hint: "Order Address",
-                                          showSearchBox: true,
-                                          selectedItem: address,
-                                          items:
-                                              AddressCubit.get(context).address,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              address = val!;
-                                              addressId = AddressCubit.get(
-                                                      context)
-                                                  .addressResponse!
-                                                  .address![
-                                                      AddressCubit.get(context)
-                                                          .address
-                                                          .indexOf(val)]
-                                                  .id!;
-                                              printLog(addressId.toString());
-                                            });
-                                          },
+                                      : SizedBox(
+                                          width: 12.w,
+                                          height: 4.h,
+                                          child: DefaultDropdown<StateModel>(
+                                            hint: "Governorate",
+                                            showSearchBox: true,
+                                            itemAsString: (StateModel? u) =>
+                                                u?.nameAr ?? "",
+                                            items: areasCubit.states!,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                areasCubit.getAreasOfState(
+                                                    stateId: val!.id == 0
+                                                        ? 0
+                                                        : val.id!);
+                                                stateId =
+                                                    (val.id == 0 ? 0 : val.id)!;
+                                              });
+                                            },
+                                          ),
                                         );
                                 },
                               ),
-                            ),
+                              SizedBox(
+                                width: 4.h,
+                              ),
+                              BlocBuilder<AreasCubit, AreasState>(
+                                builder: (context, state) {
+                                  if (areasCubit.areasOfStates!.isEmpty ||
+                                      stateId == 0) {
+                                    return SizedBox(
+                                      height: 4.h,
+                                      width: 12.w,
+                                      child: Center(
+                                        child: DefaultText(
+                                          text: "Select Governorate First",
+                                          fontSize: 2.sp,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return SizedBox(
+                                    height: 4.h,
+                                    width: 12.w,
+                                    child: DefaultDropdown<AreaModel>(
+                                      hint: "Areas",
+                                      showSearchBox: true,
+                                      itemAsString: (AreaModel? u) =>
+                                          u?.nameAr ?? "",
+                                      items: areasCubit.areasOfStates!,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          areaId = (val!.id == 0 ? 0 : val.id)!;
+                                          printSuccess(areaId.toString());
+                                        });
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ] else ...[
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: 1.h,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Select User to get Address',
-                                  style: TextStyle(
-                                    fontSize: 3.sp,
+                          BlocBuilder<ClientsCubit, ClientsState>(
+                              builder: (context, state) {
+                            return SizedBox(
+                              width: 26.w,
+                              height: 4.h,
+                              child: DefaultDropdown<UserModel>(
+                                hint: "Client",
+                                showSearchBox: true,
+                                selectedItem: client,
+                                itemAsString: (UserModel? u) => u?.name ?? "",
+                                items: clientsCubit.clients!,
+                                onChanged: (val) {
+                                  setState(() {
+                                    client = val!;
+                                    phoneController.text = client?.phone ?? "";
+                                    clientsCubit.getMyAddresses(
+                                      clientId: client!.id!,
+                                    );
+                                  });
+                                },
+                              ),
+                            );
+                          }),
+                          if (client!.id != 0) ...[
+                            BlocBuilder<ClientsCubit, ClientsState>(
+                                builder: (context, state) {
+                              return SizedBox(
+                                width: 26.w,
+                                height: 4.h,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 1.h,
+                                  ),
+                                  child:
+                                      BlocBuilder<ClientsCubit, ClientsState>(
+                                    builder: (context, state) {
+                                      return clientsCubit.address.isEmpty
+                                          ? AddAddressView(
+                                              client: client!,
+                                              areasCubit: areasCubit,
+                                              clientsCubit: clientsCubit,
+                                              ordersCubit: widget.cubit,
+                                            )
+                                          : DefaultDropdown<AddressModel>(
+                                              hint: "Order Address",
+                                              showSearchBox: true,
+                                              selectedItem: address,
+                                              itemAsString: (AddressModel? u) =>
+                                                  u?.address ?? "",
+                                              items: clientsCubit.address,
+                                              onChanged: (val) {
+                                                setState(() {
+                                                  address = val!;
+                                                });
+                                              },
+                                            );
+                                    },
                                   ),
                                 ),
-                              ],
+                              );
+                            }),
+                          ] else ...[
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 1.h,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Select User to get Address',
+                                    style: TextStyle(
+                                      fontSize: 3.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+                          ],
                         ],
-                      ],
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          selectDate(context);
-                        },
-                        child: DefaultTextField(
-                          controller: dateController,
-                          height: 5.h,
-                          haveShadow: true,
-                          enabled: false,
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          horizontalPadding: 50,
-                          color: AppColors.white,
-                          shadowColor: AppColors.black.withOpacity(0.05),
-                          hintText: "Choose Date",
-                          password: false,
+                        SizedBox(
+                          height: 1.h,
                         ),
-                      ),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      SizedBox(
-                        width: 26.w,
-                        height: 4.h,
-                        child: DefaultDropdown<String>(
-                          hint: "Period",
-                          showSearchBox: true,
-                          selectedItem: period,
-                          items: OrdersCubit.get(context).periods,
-                          onChanged: (val) {
-                            setState(() {
-                              period = val!;
-                              // periodId = OrdersCubit.get(context)
-                              //     .periodResponse!
-                              //     .periodModel![OrdersCubit.get(context)
-                              //         .periods
-                              //         .indexOf(val)]
-                              //     .id!;
-                              printLog(periodId.toString());
-                            });
+                        GestureDetector(
+                          onTap: () {
+                            selectDate(context);
                           },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 1.h, right: 50, left: 50),
-                        child: SizedBox(
-                          height: 14.h,
                           child: DefaultTextField(
-                            password: false,
-                            controller: messageController,
-                            height: 20.h,
-                            keyboardType: TextInputType.multiline,
-                            fontSize: 3.sp,
+                            controller: dateController,
+                            height: 5.h,
                             haveShadow: true,
+                            enabled: false,
                             spreadRadius: 2,
                             blurRadius: 2,
-                            maxLine: 7,
-                            collapsed: true,
+                            horizontalPadding: 50,
                             color: AppColors.white,
                             shadowColor: AppColors.black.withOpacity(0.05),
-                            hintText: 'Comment',
+                            hintText: "Choose Date",
+                            password: false,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        children: [
-                          DefaultAppButton(
-                            title: "Create",
-                            onTap: newClient
-                                ? () {
-                                    if (nameController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Enter Client Name");
-                                    } else if (phoneController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Enter Phone Number");
-                                    } else if (addressController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Enter the Address");
-                                    } else if (stateId == 0) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Governorate");
-                                    } else if (areaId == 0) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Area");
-                                    } else if (shippingController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Enter the Shipping Cost");
-                                    } else if (dateController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Date");
-                                    } else if (periodId == 0) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Period");
-                                    } else if (cartItemsIds.isEmpty) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Items");
-                                    } else {
-                                      IndicatorView.showIndicator();
-                                      ClientsCubit(instance()).addClient(
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        BlocBuilder<PeriodCubit, PeriodState>(
+                          builder: (context, state) {
+                            return SizedBox(
+                              width: 26.w,
+                              height: 4.h,
+                              child: DefaultDropdown<PeriodModel>(
+                                hint: "Period",
+                                showSearchBox: true,
+                                selectedItem: period,
+                                itemAsString: (PeriodModel? u) =>
+                                    "${u?.from} - ${u?.to}",
+                                items: periodCubit.periods ?? [],
+                                onChanged: (val) {
+                                  setState(() {
+                                    period = val!;
+                                    printLog(period?.id.toString());
+                                  });
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 1.h,
+                            right: 50,
+                            left: 50,
+                          ),
+                          child: SizedBox(
+                            height: 14.h,
+                            child: DefaultTextField(
+                              password: false,
+                              controller: messageController,
+                              height: 20.h,
+                              keyboardType: TextInputType.multiline,
+                              fontSize: 3.sp,
+                              haveShadow: true,
+                              spreadRadius: 2,
+                              blurRadius: 2,
+                              maxLine: 7,
+                              collapsed: true,
+                              color: AppColors.white,
+                              shadowColor: AppColors.black.withOpacity(0.05),
+                              hintText: 'Comment',
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        Row(
+                          children: [
+                            DefaultAppButton(
+                              title: "Create",
+                              onTap: newClient
+                                  ? () {
+                                      clientsCubit.addClientForOrder(
                                         request: RegisterRequest(
                                           phone: phoneController.text,
                                           email: emailController.text == ""
@@ -778,568 +521,464 @@ class _CreateOrderState extends State<CreateOrder> {
                                           role: "client",
                                           name: nameController.text,
                                         ),
-
-                                        // TODO
-                                        // afterSuccess: () {
-                                        //   AddressCubit.get(context).addAddress(
-                                        //     addressRequest: AddressRequest(
-                                        //       userId: ClientsCubit.get(context)
-                                        //           .addUserResponse!
-                                        //           .userModell!
-                                        //           .id,
-                                        //       stateId: stateId,
-                                        //       areaId: areaId,
-                                        //       address: addressController.text,
-                                        //       phone: phoneController.text,
-                                        //       latitude: "0",
-                                        //       longitude: "0",
-                                        //     ),
-                                        //     afterSuccess: () {
-                                        //       for (int c = 0;
-                                        //           c < cartItemsIds.length;
-                                        //           c++) {
-                                        //         OrdersCubit.get(context)
-                                        //             .addToCart(
-                                        //           userId:
-                                        //               ClientsCubit.get(context)
-                                        //                   .addUserResponse!
-                                        //                   .userModell!
-                                        //                   .id,
-                                        //           count: cart[c].count.toInt(),
-                                        //           price:
-                                        //               cart[c].price.toDouble(),
-                                        //           itemId: cart[c].id,
-                                        //           afterSuccess: () {
-                                        //             cart.removeAt(0);
-                                        //             if (cart.isEmpty) {
-                                        //               OrdersCubit.get(context)
-                                        //                   .createOrder(
-                                        //                 orderRequest:
-                                        //                     OrderRequest(
-                                        //                   userId: ClientsCubit
-                                        //                           .get(context)
-                                        //                       .addUserResponse!
-                                        //                       .userModell!
-                                        //                       .id,
-                                        //                   total:
-                                        //                       (total + shipping)
-                                        //                           .toString(),
-                                        //                   price:
-                                        //                       total.toString(),
-                                        //                   comment:
-                                        //                       messageController
-                                        //                           .text,
-                                        //                   shipping: shipping
-                                        //                       .toString(),
-                                        //                   addressId: AddressCubit
-                                        //                           .get(context)
-                                        //                       .addAddressResponse!
-                                        //                       .addressModel!
-                                        //                       .id!,
-                                        //                   periodId: periodId,
-                                        //                   date: dateController
-                                        //                       .text,
-                                        //                 ),
-                                        //                 afterSuccess: () {
-                                        //                   OrdersCubit.get(
-                                        //                           context)
-                                        //                       .getOrders();
-                                        //                   nameController
-                                        //                       .clear();
-                                        //                   emailController
-                                        //                       .clear();
-                                        //                   phoneController
-                                        //                       .clear();
-                                        //                   messageController
-                                        //                       .clear();
-                                        //                   addressController
-                                        //                       .clear();
-                                        //                   shippingController
-                                        //                       .clear();
-                                        //                   stateId = 0;
-                                        //                   areaId = 0;
-                                        //                   periodId = 0;
-                                        //                   period = "";
-                                        //                   client = "";
-                                        //                   clientId = 0;
-                                        //                   address = "";
-                                        //                   addressId = 0;
-                                        //                   cartItemsIds.clear();
-                                        //                   cart.clear();
-                                        //                   price = 0;
-                                        //                   count = 0;
-                                        //                   total = 0;
-                                        //                   shipping = 0;
-                                        //                   Navigator.pop(
-                                        //                       context);
-                                        //                   Navigator.pop(
-                                        //                       context);
-                                        //                 },
-                                        //               );
-                                        //             }
-                                        //           },
-                                        //         );
-                                        //       }
-                                        //     },
-                                        //   );
-                                        // },
-                                      );
-                                    }
-                                  }
-                                : () {
-                                    if (clientId == 0) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Client");
-                                    } else if (addressId == 0) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Address");
-                                    } else if (shippingController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Enter the Shipping Cost");
-                                    } else if (dateController.text == "") {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Date");
-                                    } else if (periodId == 0) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Period");
-                                    } else if (cartItemsIds.isEmpty) {
-                                      DefaultToast.showMyToast(
-                                          "Please Select Items");
-                                    } else {
-                                      IndicatorView.showIndicator();
-                                      for (int c = 0;
-                                          c < cartItemsIds.length;
-                                          c++) {
-                                        OrdersCubit.get(context).addToCart(
-                                          userId: clientId,
-                                          count: cart[c].count.toInt(),
-                                          price: cart[c].price.toDouble(),
-                                          itemId: cart[c].id,
-                                          afterSuccess: () {
+                                        afterSuccess: (user) {
+                                          clientsCubit
+                                              .addAddress(
+                                            request: AddressRequest(
+                                              userId: user.id!,
+                                              stateId: stateId,
+                                              areaId: areaId,
+                                              address: addressController.text,
+                                              phone: phoneController.text,
+                                              latitude: "0",
+                                              longitude: "0",
+                                            ),
+                                          )
+                                              .then((value) {
+                                            for (int c = 0;
+                                                c < cartItemsIds.length;
+                                                c++) {
+                                              widget.cubit.addToCart(
+                                                request: CartRequest(
+                                                  userId: user.id!,
+                                                  count: cart[c].count.toInt(),
+                                                  price:
+                                                      cart[c].price.toDouble(),
+                                                  itemId: cart[c].id,
+                                                ),
+                                              );
+                                            }
                                             cart.removeAt(0);
                                             if (cart.isEmpty) {
-                                              OrdersCubit.get(context)
-                                                  .createOrder(
-                                                orderRequest: OrderRequest(
-                                                  userId: clientId,
+                                              widget.cubit.createOrder(
+                                                request: OrderRequest(
+                                                  userId: user.id!,
                                                   total: (total + shipping)
                                                       .toString(),
                                                   price: total.toString(),
                                                   comment:
                                                       messageController.text,
-                                                  shipping: shipping.toString(),
-                                                  addressId: addressId,
-                                                  periodId: periodId,
+                                                  shipping: shipping,
+                                                  addressId: address!.id!,
+                                                  periodId: period!.id!,
                                                   date: dateController.text,
+                                                  cart: cartItemsIds,
                                                 ),
-                                                afterSuccess: () {
-                                                  OrdersCubit.get(context)
-                                                      .getOrders();
-                                                  nameController.clear();
-                                                  emailController.clear();
-                                                  phoneController.clear();
-                                                  messageController.clear();
-                                                  addressController.clear();
-                                                  shippingController.clear();
-                                                  stateId = 0;
-                                                  areaId = 0;
-                                                  periodId = 0;
-                                                  period = "";
-                                                  client = "";
-                                                  clientId = 0;
-                                                  address = "";
-                                                  addressId = 0;
-                                                  cartItemsIds.clear();
-                                                  cart.clear();
-                                                  price = 0;
-                                                  count = 0;
-                                                  total = 0;
-                                                  shipping = 0;
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                },
                                               );
                                             }
-                                          },
-                                        );
-                                      }
+                                          });
+                                        },
+                                      );
                                     }
-                                  },
-                            width: 10.w,
-                            height: 4.h,
-                            fontSize: 3.sp,
-                            textColor: AppColors.white,
-                            buttonColor: AppColors.primary,
-                            isGradient: false,
-                            radius: 10,
-                          ),
-                          SizedBox(width: 2.w),
-                          DefaultAppButton(
-                            title: "Cancel",
-                            onTap: () {
-                              nameController.clear();
-                              emailController.clear();
-                              phoneController.clear();
-                              messageController.clear();
-                              addressController.clear();
-                              shippingController.clear();
-                              stateId = 0;
-                              areaId = 0;
-                              periodId = 0;
-                              period = "";
-                              client = "";
-                              clientId = 0;
-                              address = "";
-                              addressId = 0;
-                              cartItemsIds.clear();
-                              cart.clear();
-                              price = 0;
-                              count = 0;
-                              total = 0;
-                              shipping = 0;
-                              Navigator.pop(context);
-                            },
-                            width: 10.w,
-                            height: 4.h,
-                            fontSize: 3.sp,
-                            textColor: AppColors.mainColor,
-                            buttonColor: AppColors.lightGrey,
-                            isGradient: false,
-                            radius: 10,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  // todo
-                  // Column(
-                  //   children: [
-                  //     BlocBuilder<ItemsCubit, ItemsState>(
-                  //       builder: (context, state) {
-                  //         return ItemsCubit.get(context)
-                  //                     .itemsResponse
-                  //                     ?.itemsModel ==
-                  //                 null
-                  //             ? SizedBox(
-                  //                 height: 4.h,
-                  //                 width: 30.w,
-                  //                 child: Center(
-                  //                   child: DefaultText(
-                  //                       text: "No Items Found !",
-                  //                       fontSize: 2.sp),
-                  //                 ),
-                  //               )
-                  //             : SizedBox(
-                  //                 width: 30.w,
-                  //                 height: 4.h,
-                  //                 child: DefaultDropdown<ItemsModel>(
-                  //                   hint: "Items",
-                  //                   showSearchBox: true,
-                  //                   itemAsString: (ItemsModel? u) =>
-                  //                       ("${u?.price} EGP - ${u?.nameAr} "),
-                  //                   items: ItemsCubit.get(context)
-                  //                       .itemsResponse!
-                  //                       .itemsModel!,
-                  //                   onChanged: (val) {
-                  //                     showDialog<void>(
-                  //                       context: context,
-                  //                       barrierDismissible: true,
-                  //                       builder: (BuildContext context) {
-                  //                         return AlertDialog(
-                  //                           backgroundColor: AppColors.white,
-                  //                           content: SingleChildScrollView(
-                  //                             child: ListBody(
-                  //                               children: <Widget>[
-                  //                                 const DefaultText(
-                  //                                   text:
-                  //                                       "Enter Space or Count !!",
-                  //                                   align: TextAlign.center,
-                  //                                 ),
-                  //                                 SizedBox(
-                  //                                   height: 2.h,
-                  //                                 ),
-                  //                                 DefaultTextField(
-                  //                                   controller: spaceController,
-                  //                                   hintText: "Space or Count ",
-                  //                                   height: 5.h,
-                  //                                   password: false,
-                  //                                   haveShadow: false,
-                  //                                 ),
-                  //                               ],
-                  //                             ),
-                  //                           ),
-                  //                           actionsAlignment:
-                  //                               MainAxisAlignment.spaceEvenly,
-                  //                           actions: <Widget>[
-                  //                             DefaultAppButton(
-                  //                               title: "Add",
-                  //                               onTap: () {
-                  //                                 setState(() {
-                  //                                   count = int.parse(
-                  //                                       spaceController.text);
-                  //                                   total = total +
-                  //                                       double.parse((count *
-                  //                                               val!.price!)
-                  //                                           .toString());
-                  //                                   cartItemsIds.add(val.id!);
-                  //                                   cart.add(
-                  //                                     CartModel(
-                  //                                       id: val.id!,
-                  //                                       userId: 1,
-                  //                                       count: count,
-                  //                                       status: "cart",
-                  //                                       price: val.price!,
-                  //                                       item: Package(
-                  //                                         nameAr: val.nameAr,
-                  //                                       ),
-                  //                                     ),
-                  //                                   );
-                  //                                 });
-                  //                                 spaceController.clear();
-                  //                                 Navigator.pop(context);
-                  //                               },
-                  //                               width: 10.w,
-                  //                               height: 4.h,
-                  //                               fontSize: 3.sp,
-                  //                               textColor: AppColors.white,
-                  //                               buttonColor: AppColors.primary,
-                  //                               isGradient: false,
-                  //                               radius: 10,
-                  //                             ),
-                  //                             const SizedBox(
-                  //                               width: 10,
-                  //                             ),
-                  //                             DefaultAppButton(
-                  //                               title: "Cancel",
-                  //                               onTap: () {
-                  //                                 Navigator.pop(context);
-                  //                               },
-                  //                               width: 10.w,
-                  //                               height: 4.h,
-                  //                               fontSize: 3.sp,
-                  //                               textColor: AppColors.mainColor,
-                  //                               buttonColor:
-                  //                                   AppColors.lightGrey,
-                  //                               isGradient: false,
-                  //                               radius: 10,
-                  //                             ),
-                  //                           ],
-                  //                         );
-                  //                       },
-                  //                     );
-                  //                   },
-                  //                 ),
-                  //               );
-                  //       },
-                  //     ),
-                  //     SizedBox(
-                  //       height: 2.h,
-                  //     ),
-                  //     // BlocBuilder<PackagesCubit, PackagesState>(
-                  //     //   builder: (context, state) {
-                  //     //     return PackagesCubit.get(context)
-                  //     //                     .getPackagesResponse
-                  //     //                     ?.packagesModel ==
-                  //     //                 null ||
-                  //     //             PackagesCubit.get(context)
-                  //     //                 .getPackagesResponse!
-                  //     //                 .packagesModel!
-                  //     //                 .isEmpty
-                  //     //         ? SizedBox(
-                  //     //             height: 4.h,
-                  //     //             width: 30.w,
-                  //     //             child: Center(
-                  //     //               child: DefaultText(
-                  //     //                   text: "No Package Found !",
-                  //     //                   fontSize: 2.sp),
-                  //     //             ),
-                  //     //           )
-                  //     //         : SizedBox(
-                  //     //             width: 30.w,
-                  //     //             height: 4.h,
-                  //     //             child: DefaultDropdown<PackagesModel>(
-                  //     //               hint: "Items",
-                  //     //               showSearchBox: true,
-                  //     //               itemAsString: (PackagesModel? u) =>
-                  //     //                   u?.nameAr ?? "",
-                  //     //               items: PackagesCubit.get(context)
-                  //     //                   .getPackagesResponse!
-                  //     //                   .packagesModel!,
-                  //     //               onChanged: (val) {
-                  //     //                 setState(() {
-                  //     //                   packageId = (val!.id == 0 ? 0 : val.id);
-                  //     //                   cart.add(
-                  //     //                     CartModel(
-                  //     //                       id: val.id,
-                  //     //                       userId: 1,
-                  //     //                       count: 1,
-                  //     //                       status: "cart",
-                  //     //                       price: val.price,
-                  //     //                       package: Package(
-                  //     //                         nameAr: val.nameAr,
-                  //     //                       ),
-                  //     //                     ),
-                  //     //                   );
-                  //     //                 });
-                  //     //               },
-                  //     //             ),
-                  //     //           );
-                  //     //   },
-                  //     // ),
-                  //     // SizedBox(
-                  //     //   height: 1.h,
-                  //     // ),
-                  //     Container(
-                  //       height: 35.h,
-                  //       width: 30.w,
-                  //       decoration: BoxDecoration(
-                  //           border: Border.all(
-                  //               color: AppColors.mainColor.withOpacity(0.4)),
-                  //           borderRadius: BorderRadius.circular(10)),
-                  //       child: cart.isEmpty
-                  //           ? Center(
-                  //               child: DefaultText(
-                  //                   text: "Cart is Empty !", fontSize: 3.sp),
-                  //             )
-                  //           : ListView.builder(
-                  //               itemCount: cart.length,
-                  //               itemBuilder: (context, index) => Padding(
-                  //                 padding: EdgeInsets.only(
-                  //                   top: 1.h,
-                  //                   left: 0.5.w,
-                  //                   right: 0.5.w,
-                  //                   bottom: 1.h,
-                  //                 ),
-                  //                 child: RowData(
-                  //                   rowHeight: 5.h,
-                  //                   data: [
-                  //                     SizedBox(
-                  //                       width: 15.w,
-                  //                       child: Text(
-                  //                         cart[index].item == null
-                  //                             ? cart[index].package!.nameAr!
-                  //                             : cart[index].item!.nameAr!,
-                  //                         style: TextStyle(fontSize: 2.sp),
-                  //                         textAlign: TextAlign.center,
-                  //                       ),
-                  //                     ),
-                  //                     SizedBox(
-                  //                       width: 8.w,
-                  //                       child: Text(
-                  //                         '${cart[index].price} * ${cart[index].count} = ${cart[index].count * cart[index].price} EGP',
-                  //                         style: TextStyle(fontSize: 2.sp),
-                  //                         textAlign: TextAlign.center,
-                  //                       ),
-                  //                     ),
-                  //                     IconButton(
-                  //                       onPressed: () {
-                  //                         setState(() {
-                  //                           cart.removeAt(index);
-                  //                         });
-                  //                       },
-                  //                       icon: const Icon(Icons.delete),
-                  //                       color: AppColors.darkRed,
-                  //                     ),
-                  //                     SizedBox(
-                  //                       width: 1.w,
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 2.h,
-                  //     ),
-                  //     DefaultTextField(
-                  //       password: false,
-                  //       controller: shippingController,
-                  //       height: 5.h,
-                  //       haveShadow: true,
-                  //       spreadRadius: 2,
-                  //       blurRadius: 2,
-                  //       horizontalPadding: 1,
-                  //       width: 30.w,
-                  //       color: AppColors.white,
-                  //       shadowColor: AppColors.black.withOpacity(0.05),
-                  //       hintText: 'Shipping Cost',
-                  //       onChange: (value) {
-                  //         setState(() {
-                  //           shipping = double.parse(
-                  //               shippingController.text == ""
-                  //                   ? "0"
-                  //                   : shippingController.text);
-                  //         });
-                  //       },
-                  //     ),
-                  //     SizedBox(
-                  //       height: 2.h,
-                  //     ),
-                  //     Row(
-                  //       children: [
-                  //         SizedBox(
-                  //           width: 10.w,
-                  //           child: DefaultText(
-                  //               text: "Price :",
-                  //               align: TextAlign.left,
-                  //               fontSize: 3.sp),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 10.w,
-                  //           child: DefaultText(
-                  //               text: "$total EGP",
-                  //               align: TextAlign.right,
-                  //               fontSize: 3.sp),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     SizedBox(
-                  //       height: 2.h,
-                  //     ),
-                  //     Row(
-                  //       children: [
-                  //         SizedBox(
-                  //           width: 10.w,
-                  //           child: DefaultText(
-                  //               text: "Shipping :",
-                  //               align: TextAlign.left,
-                  //               fontSize: 3.sp),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 10.w,
-                  //           child: DefaultText(
-                  //               text: "$shipping EGP",
-                  //               align: TextAlign.right,
-                  //               fontSize: 3.sp),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     SizedBox(
-                  //       height: 2.h,
-                  //     ),
-                  //     Row(
-                  //       children: [
-                  //         SizedBox(
-                  //           width: 10.w,
-                  //           child: DefaultText(
-                  //               text: "Total :",
-                  //               align: TextAlign.left,
-                  //               fontSize: 3.sp),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 10.w,
-                  //           child: DefaultText(
-                  //               text: "${total + shipping} EGP",
-                  //               align: TextAlign.right,
-                  //               fontSize: 3.sp),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
-                ],
-              ),
-            ],
+                                  : () {
+                                      if (client?.id == null) {
+                                        DefaultToast.showMyToast(
+                                            "Please Select Client");
+                                      } else if (address?.id == null) {
+                                        DefaultToast.showMyToast(
+                                            "Please Select Address");
+                                      } else if (shippingController.text ==
+                                          "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Enter the Shipping Cost");
+                                      } else if (dateController.text == "") {
+                                        DefaultToast.showMyToast(
+                                            "Please Select Date");
+                                      } else if (period?.id == null) {
+                                        DefaultToast.showMyToast(
+                                            "Please Select Period");
+                                      } else if (cartItemsIds.isEmpty) {
+                                        DefaultToast.showMyToast(
+                                            "Please Select Items");
+                                      } else {
+                                        IndicatorView.showIndicator();
+                                        for (int c = 0;
+                                            c < cartItemsIds.length;
+                                            c++) {
+                                          widget.cubit.addToCart(
+                                            request: CartRequest(
+                                              userId: client!.id!,
+                                              count: cart[c].count.toInt(),
+                                              price: cart[c].price.toDouble(),
+                                              itemId: cart[c].id,
+                                            ),
+                                          );
+                                        }
+                                        cart.removeAt(0);
+                                        if (cart.isEmpty) {
+                                          widget.cubit.createOrder(
+                                            request: OrderRequest(
+                                              userId: client!.id!,
+                                              total:
+                                                  (total + shipping).toString(),
+                                              price: total.toString(),
+                                              comment: messageController.text,
+                                              shipping: shipping,
+                                              addressId: address!.id!,
+                                              periodId: period!.id!,
+                                              date: dateController.text,
+                                              cart: cartItemsIds,
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                              width: 10.w,
+                              height: 4.h,
+                              fontSize: 3.sp,
+                              textColor: AppColors.white,
+                              buttonColor: AppColors.primary,
+                              isGradient: false,
+                              radius: 10,
+                            ),
+                            SizedBox(width: 2.w),
+                            DefaultAppButton(
+                              title: "Cancel",
+                              onTap: () {
+                                NavigationService.pop();
+                              },
+                              width: 10.w,
+                              height: 4.h,
+                              fontSize: 3.sp,
+                              textColor: AppColors.mainColor,
+                              buttonColor: AppColors.lightGrey,
+                              isGradient: false,
+                              radius: 10,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    // todo
+                    // Column(
+                    //   children: [
+                    //     BlocBuilder<ItemsCubit, ItemsState>(
+                    //       builder: (context, state) {
+                    //         return ItemsCubit.get(context)
+                    //                     .itemsResponse
+                    //                     ?.itemsModel ==
+                    //                 null
+                    //             ? SizedBox(
+                    //                 height: 4.h,
+                    //                 width: 30.w,
+                    //                 child: Center(
+                    //                   child: DefaultText(
+                    //                       text: "No Items Found !",
+                    //                       fontSize: 2.sp),
+                    //                 ),
+                    //               )
+                    //             : SizedBox(
+                    //                 width: 30.w,
+                    //                 height: 4.h,
+                    //                 child: DefaultDropdown<ItemsModel>(
+                    //                   hint: "Items",
+                    //                   showSearchBox: true,
+                    //                   itemAsString: (ItemsModel? u) =>
+                    //                       ("${u?.price} EGP - ${u?.nameAr} "),
+                    //                   items: ItemsCubit.get(context)
+                    //                       .itemsResponse!
+                    //                       .itemsModel!,
+                    //                   onChanged: (val) {
+                    //                     showDialog<void>(
+                    //                       context: context,
+                    //                       barrierDismissible: true,
+                    //                       builder: (BuildContext context) {
+                    //                         return AlertDialog(
+                    //                           backgroundColor: AppColors.white,
+                    //                           content: SingleChildScrollView(
+                    //                             child: ListBody(
+                    //                               children: <Widget>[
+                    //                                 const DefaultText(
+                    //                                   text:
+                    //                                       "Enter Space or Count !!",
+                    //                                   align: TextAlign.center,
+                    //                                 ),
+                    //                                 SizedBox(
+                    //                                   height: 2.h,
+                    //                                 ),
+                    //                                 DefaultTextField(
+                    //                                   controller: spaceController,
+                    //                                   hintText: "Space or Count ",
+                    //                                   height: 5.h,
+                    //                                   password: false,
+                    //                                   haveShadow: false,
+                    //                                 ),
+                    //                               ],
+                    //                             ),
+                    //                           ),
+                    //                           actionsAlignment:
+                    //                               MainAxisAlignment.spaceEvenly,
+                    //                           actions: <Widget>[
+                    //                             DefaultAppButton(
+                    //                               title: "Add",
+                    //                               onTap: () {
+                    //                                 setState(() {
+                    //                                   count = int.parse(
+                    //                                       spaceController.text);
+                    //                                   total = total +
+                    //                                       double.parse((count *
+                    //                                               val!.price!)
+                    //                                           .toString());
+                    //                                   cartItemsIds.add(val.id!);
+                    //                                   cart.add(
+                    //                                     CartModel(
+                    //                                       id: val.id!,
+                    //                                       userId: 1,
+                    //                                       count: count,
+                    //                                       status: "cart",
+                    //                                       price: val.price!,
+                    //                                       item: Package(
+                    //                                         nameAr: val.nameAr,
+                    //                                       ),
+                    //                                     ),
+                    //                                   );
+                    //                                 });
+                    //                                 spaceController.clear();
+                    //                                 Navigator.pop(context);
+                    //                               },
+                    //                               width: 10.w,
+                    //                               height: 4.h,
+                    //                               fontSize: 3.sp,
+                    //                               textColor: AppColors.white,
+                    //                               buttonColor: AppColors.primary,
+                    //                               isGradient: false,
+                    //                               radius: 10,
+                    //                             ),
+                    //                             const SizedBox(
+                    //                               width: 10,
+                    //                             ),
+                    //                             DefaultAppButton(
+                    //                               title: "Cancel",
+                    //                               onTap: () {
+                    //                                 Navigator.pop(context);
+                    //                               },
+                    //                               width: 10.w,
+                    //                               height: 4.h,
+                    //                               fontSize: 3.sp,
+                    //                               textColor: AppColors.mainColor,
+                    //                               buttonColor:
+                    //                                   AppColors.lightGrey,
+                    //                               isGradient: false,
+                    //                               radius: 10,
+                    //                             ),
+                    //                           ],
+                    //                         );
+                    //                       },
+                    //                     );
+                    //                   },
+                    //                 ),
+                    //               );
+                    //       },
+                    //     ),
+                    //     SizedBox(
+                    //       height: 2.h,
+                    //     ),
+                    //     // BlocBuilder<PackagesCubit, PackagesState>(
+                    //     //   builder: (context, state) {
+                    //     //     return PackagesCubit.get(context)
+                    //     //                     .getPackagesResponse
+                    //     //                     ?.packagesModel ==
+                    //     //                 null ||
+                    //     //             PackagesCubit.get(context)
+                    //     //                 .getPackagesResponse!
+                    //     //                 .packagesModel!
+                    //     //                 .isEmpty
+                    //     //         ? SizedBox(
+                    //     //             height: 4.h,
+                    //     //             width: 30.w,
+                    //     //             child: Center(
+                    //     //               child: DefaultText(
+                    //     //                   text: "No Package Found !",
+                    //     //                   fontSize: 2.sp),
+                    //     //             ),
+                    //     //           )
+                    //     //         : SizedBox(
+                    //     //             width: 30.w,
+                    //     //             height: 4.h,
+                    //     //             child: DefaultDropdown<PackagesModel>(
+                    //     //               hint: "Items",
+                    //     //               showSearchBox: true,
+                    //     //               itemAsString: (PackagesModel? u) =>
+                    //     //                   u?.nameAr ?? "",
+                    //     //               items: PackagesCubit.get(context)
+                    //     //                   .getPackagesResponse!
+                    //     //                   .packagesModel!,
+                    //     //               onChanged: (val) {
+                    //     //                 setState(() {
+                    //     //                   packageId = (val!.id == 0 ? 0 : val.id);
+                    //     //                   cart.add(
+                    //     //                     CartModel(
+                    //     //                       id: val.id,
+                    //     //                       userId: 1,
+                    //     //                       count: 1,
+                    //     //                       status: "cart",
+                    //     //                       price: val.price,
+                    //     //                       package: Package(
+                    //     //                         nameAr: val.nameAr,
+                    //     //                       ),
+                    //     //                     ),
+                    //     //                   );
+                    //     //                 });
+                    //     //               },
+                    //     //             ),
+                    //     //           );
+                    //     //   },
+                    //     // ),
+                    //     // SizedBox(
+                    //     //   height: 1.h,
+                    //     // ),
+                    //     Container(
+                    //       height: 35.h,
+                    //       width: 30.w,
+                    //       decoration: BoxDecoration(
+                    //           border: Border.all(
+                    //               color: AppColors.mainColor.withOpacity(0.4)),
+                    //           borderRadius: BorderRadius.circular(10)),
+                    //       child: cart.isEmpty
+                    //           ? Center(
+                    //               child: DefaultText(
+                    //                   text: "Cart is Empty !", fontSize: 3.sp),
+                    //             )
+                    //           : ListView.builder(
+                    //               itemCount: cart.length,
+                    //               itemBuilder: (context, index) => Padding(
+                    //                 padding: EdgeInsets.only(
+                    //                   top: 1.h,
+                    //                   left: 0.5.w,
+                    //                   right: 0.5.w,
+                    //                   bottom: 1.h,
+                    //                 ),
+                    //                 child: RowData(
+                    //                   rowHeight: 5.h,
+                    //                   data: [
+                    //                     SizedBox(
+                    //                       width: 15.w,
+                    //                       child: Text(
+                    //                         cart[index].item == null
+                    //                             ? cart[index].package!.nameAr!
+                    //                             : cart[index].item!.nameAr!,
+                    //                         style: TextStyle(fontSize: 2.sp),
+                    //                         textAlign: TextAlign.center,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(
+                    //                       width: 8.w,
+                    //                       child: Text(
+                    //                         '${cart[index].price} * ${cart[index].count} = ${cart[index].count * cart[index].price} EGP',
+                    //                         style: TextStyle(fontSize: 2.sp),
+                    //                         textAlign: TextAlign.center,
+                    //                       ),
+                    //                     ),
+                    //                     IconButton(
+                    //                       onPressed: () {
+                    //                         setState(() {
+                    //                           cart.removeAt(index);
+                    //                         });
+                    //                       },
+                    //                       icon: const Icon(Icons.delete),
+                    //                       color: AppColors.darkRed,
+                    //                     ),
+                    //                     SizedBox(
+                    //                       width: 1.w,
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //     ),
+                    //     SizedBox(
+                    //       height: 2.h,
+                    //     ),
+                    //     DefaultTextField(
+                    //       password: false,
+                    //       controller: shippingController,
+                    //       height: 5.h,
+                    //       haveShadow: true,
+                    //       spreadRadius: 2,
+                    //       blurRadius: 2,
+                    //       horizontalPadding: 1,
+                    //       width: 30.w,
+                    //       color: AppColors.white,
+                    //       shadowColor: AppColors.black.withOpacity(0.05),
+                    //       hintText: 'Shipping Cost',
+                    //       onChange: (value) {
+                    //         setState(() {
+                    //           shipping = double.parse(
+                    //               shippingController.text == ""
+                    //                   ? "0"
+                    //                   : shippingController.text);
+                    //         });
+                    //       },
+                    //     ),
+                    //     SizedBox(
+                    //       height: 2.h,
+                    //     ),
+                    //     Row(
+                    //       children: [
+                    //         SizedBox(
+                    //           width: 10.w,
+                    //           child: DefaultText(
+                    //               text: "Price :",
+                    //               align: TextAlign.left,
+                    //               fontSize: 3.sp),
+                    //         ),
+                    //         SizedBox(
+                    //           width: 10.w,
+                    //           child: DefaultText(
+                    //               text: "$total EGP",
+                    //               align: TextAlign.right,
+                    //               fontSize: 3.sp),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     SizedBox(
+                    //       height: 2.h,
+                    //     ),
+                    //     Row(
+                    //       children: [
+                    //         SizedBox(
+                    //           width: 10.w,
+                    //           child: DefaultText(
+                    //               text: "Shipping :",
+                    //               align: TextAlign.left,
+                    //               fontSize: 3.sp),
+                    //         ),
+                    //         SizedBox(
+                    //           width: 10.w,
+                    //           child: DefaultText(
+                    //               text: "$shipping EGP",
+                    //               align: TextAlign.right,
+                    //               fontSize: 3.sp),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     SizedBox(
+                    //       height: 2.h,
+                    //     ),
+                    //     Row(
+                    //       children: [
+                    //         SizedBox(
+                    //           width: 10.w,
+                    //           child: DefaultText(
+                    //               text: "Total :",
+                    //               align: TextAlign.left,
+                    //               fontSize: 3.sp),
+                    //         ),
+                    //         SizedBox(
+                    //           width: 10.w,
+                    //           child: DefaultText(
+                    //               text: "${total + shipping} EGP",
+                    //               align: TextAlign.right,
+                    //               fontSize: 3.sp),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
