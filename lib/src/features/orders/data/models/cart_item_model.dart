@@ -7,17 +7,19 @@ part 'cart_item_model.g.dart';
 @JsonSerializable()
 class CartItemModel {
   int? id;
-  num? count;
-  num? price;
-  String? status;
+  int? userId;
+  num count;
+  num price;
+  String status;
   PackageModel? package;
   ItemModel? item;
 
   CartItemModel({
     this.id,
-    this.status,
-    this.price,
-    this.count,
+    this.userId,
+    required this.status,
+    required this.price,
+    required this.count,
     this.package,
     this.item,
   });

@@ -9,9 +9,10 @@ part of 'cart_item_model.dart';
 CartItemModel _$CartItemModelFromJson(Map<String, dynamic> json) =>
     CartItemModel(
       id: (json['id'] as num?)?.toInt(),
-      status: json['status'] as String?,
-      price: json['price'] as num?,
-      count: json['count'] as num?,
+      userId: (json['user_id'] as num?)?.toInt(),
+      status: json['status'] as String,
+      price: json['price'] as num,
+      count: json['count'] as num,
       package: json['package'] == null
           ? null
           : PackageModel.fromJson(json['package'] as Map<String, dynamic>),
@@ -30,9 +31,10 @@ Map<String, dynamic> _$CartItemModelToJson(CartItemModel instance) {
   }
 
   writeNotNull('id', instance.id);
-  writeNotNull('count', instance.count);
-  writeNotNull('price', instance.price);
-  writeNotNull('status', instance.status);
+  writeNotNull('user_id', instance.userId);
+  val['count'] = instance.count;
+  val['price'] = instance.price;
+  val['status'] = instance.status;
   writeNotNull('package', instance.package?.toJson());
   writeNotNull('item', instance.item?.toJson());
   return val;

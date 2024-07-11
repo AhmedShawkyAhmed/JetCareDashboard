@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/di/service_locator.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/views/indicator_view.dart';
+import 'package:jetboard/src/core/shared/widgets/toast.dart';
 import 'package:jetboard/src/core/utils/enums.dart';
 import 'package:jetboard/src/features/notifications/cubit/notifications_cubit.dart';
 import 'package:jetboard/src/features/notifications/data/requests/notification_request.dart';
@@ -40,6 +44,46 @@ class OrdersCubit extends Cubit<OrdersState> {
         error.showError();
       },
     );
+  }
+
+  Future createOrderForUser({
+    required CartRequest request,
+    required OrderRequest orderRequest,
+  }) async {
+    if (orderRequest.userId == 0) {
+      DefaultToast.showMyToast("Please Select Client");
+      return;
+    } else if (orderRequest.addressId == 0) {
+      DefaultToast.showMyToast("Please Select Address");
+      return;
+    } else if (orderRequest.shipping == -1) {
+      DefaultToast.showMyToast("Please Enter the Shipping Cost");
+      return;
+    } else if (orderRequest.date == "") {
+      DefaultToast.showMyToast("Please Select Date");
+      return;
+    } else if (orderRequest.periodId == 0) {
+      DefaultToast.showMyToast("Please Select Period");
+      return;
+    } else if (orderRequest.cart.isEmpty) {
+      DefaultToast.showMyToast("Please Select Items");
+      return;
+    }
+    for (int c = 0; c < orderRequest.cart.length; c++) {
+      addToCart(
+        request: CartRequest(
+          userId: request.userId,
+          count: request.cart![c].count.toInt(),
+          price: request.cart![c].price.toDouble(),
+          itemId: request.cart![c].id,
+        ),
+      );
+    }
+    if (request.cart!.isEmpty) {
+      createOrder(
+        request: orderRequest,
+      );
+    }
   }
 
   Future createOrder({
@@ -169,6 +213,7 @@ class OrdersCubit extends Cubit<OrdersState> {
   Future addToCart({
     required CartRequest request,
   }) async {
+    IndicatorView.showIndicator();
     emit(AddToCartLoading());
     var response = await repo.addToCart(
       request: request,

@@ -8,8 +8,8 @@ part of 'cart_request.dart';
 
 CartRequest _$CartRequestFromJson(Map<String, dynamic> json) => CartRequest(
       userId: (json['user_id'] as num).toInt(),
-      count: json['count'] as num,
-      price: json['price'] as num,
+      count: json['count'] as num?,
+      price: json['price'] as num?,
       itemId: json['item_id'] as num?,
       packageId: json['package_id'] as num?,
     );
@@ -27,7 +27,7 @@ Map<String, dynamic> _$CartRequestToJson(CartRequest instance) {
 
   writeNotNull('package_id', instance.packageId);
   writeNotNull('item_id', instance.itemId);
-  val['count'] = instance.count;
-  val['price'] = instance.price;
+  writeNotNull('count', instance.count);
+  writeNotNull('price', instance.price);
   return val;
 }

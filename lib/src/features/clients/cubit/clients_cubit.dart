@@ -11,6 +11,9 @@ import 'package:jetboard/src/features/areas/data/models/area_model.dart';
 import 'package:jetboard/src/features/clients/data/models/address_model.dart';
 import 'package:jetboard/src/features/clients/data/repo/clients_repo.dart';
 import 'package:jetboard/src/features/clients/data/requests/address_request.dart';
+import 'package:jetboard/src/features/orders/cubit/orders_cubit.dart';
+import 'package:jetboard/src/features/orders/data/requests/cart_request.dart';
+import 'package:jetboard/src/features/orders/data/requests/order_request.dart';
 
 part 'clients_state.dart';
 
@@ -94,37 +97,63 @@ class ClientsCubit extends Cubit<ClientsState> {
 
   Future addClientForOrder({
     required RegisterRequest request,
-    required Function(UserModel) afterSuccess,
+    required AddressRequest addressRequest,
+    required bool isNewClient,
+    required OrdersCubit ordersCubit,
+    required CartRequest cartRequest,
+    required OrderRequest orderRequest,
   }) async {
-    if (request.name == "") {
-      DefaultToast.showMyToast("Please Enter the Full Name");
-      return;
-    } else if (request.phone == "" || request.phone.length < 11) {
-      DefaultToast.showMyToast("Please Enter Correct Phone Number");
-      return;
-    } else if (request.email == "") {
-      DefaultToast.showMyToast("Please Enter Correct Email Address");
-      return;
-    } else if (request.password == "" || request.password.length < 8) {
-      DefaultToast.showMyToast("Please Enter Password more than 8 Characters");
-      return;
+    if (isNewClient) {
+      if (request.name == "") {
+        DefaultToast.showMyToast("Please Enter the Full Name");
+        return;
+      } else if (request.phone == "" || request.phone.length < 11) {
+        DefaultToast.showMyToast("Please Enter Correct Phone Number");
+        return;
+      } else if (request.email == "") {
+        DefaultToast.showMyToast("Please Enter Correct Email Address");
+        return;
+      } else if (request.password == "" || request.password.length < 8) {
+        DefaultToast.showMyToast(
+            "Please Enter Password more than 8 Characters");
+        return;
+      }
+      IndicatorView.showIndicator();
+      emit(AddClientLoading());
+      var response = await repo.addClient(
+        request: request,
+      );
+      response.when(
+        success: (NetworkBaseModel response) async {
+          await addAddress(
+            request: AddressRequest(
+              userId: response.data.id!,
+              stateId: addressRequest.stateId,
+              areaId: addressRequest.areaId,
+              address: addressRequest.address,
+              phone: addressRequest.phone,
+              latitude: addressRequest.latitude,
+              longitude: addressRequest.longitude,
+            ),
+          );
+          emit(AddClientSuccess());
+          await ordersCubit.createOrderForUser(
+            request: cartRequest,
+            orderRequest: orderRequest,
+          );
+        },
+        failure: (NetworkExceptions error) {
+          emit(AddClientFailure());
+          NavigationService.pop();
+          error.showError();
+        },
+      );
+    } else {
+      await ordersCubit.createOrderForUser(
+        request: cartRequest,
+        orderRequest: orderRequest,
+      );
     }
-    IndicatorView.showIndicator();
-    emit(AddClientLoading());
-    var response = await repo.addClient(
-      request: request,
-    );
-    response.when(
-      success: (NetworkBaseModel response) async {
-        afterSuccess(response.data);
-        emit(AddClientSuccess());
-      },
-      failure: (NetworkExceptions error) {
-        emit(AddClientFailure());
-        NavigationService.pop();
-        error.showError();
-      },
-    );
   }
 
   Future updateClient({
