@@ -18,21 +18,21 @@ abstract class StatesWebService {
 
   @POST(EndPoints.addState)
   Future<NetworkBaseModel> addState({
-    @Body() StateRequest? request,
+    @Body() required StateRequest request,
   });
 
   @POST(EndPoints.updateState)
   Future<NetworkBaseModel> updateState({
-    @Body() StateRequest? request,
+    @Body() required StateRequest request,
   });
 
   @POST(EndPoints.changeStateStatus)
   Future<NetworkBaseModel> changeStateStatus({
-    @Body() StateRequest? request,
+    @Body() required StateRequest request,
   });
 
   @DELETE(EndPoints.deleteState)
   Future<NetworkBaseModel> deleteState({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

@@ -58,13 +58,13 @@ class _StatesWebService implements StatesWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> addState({StateRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> addState(
+      {required StateRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -90,13 +90,13 @@ class _StatesWebService implements StatesWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> updateState({StateRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> updateState(
+      {required StateRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -123,13 +123,12 @@ class _StatesWebService implements StatesWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> changeStateStatus(
-      {StateRequest? request}) async {
+      {required StateRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -155,10 +154,9 @@ class _StatesWebService implements StatesWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteState({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteState({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

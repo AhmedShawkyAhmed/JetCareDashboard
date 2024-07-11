@@ -58,13 +58,13 @@ class _PeriodWebService implements PeriodWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> addPeriod({PeriodRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> addPeriod(
+      {required PeriodRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -91,13 +91,12 @@ class _PeriodWebService implements PeriodWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> updatePeriod(
-      {PeriodRequest? request}) async {
+      {required PeriodRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -124,13 +123,12 @@ class _PeriodWebService implements PeriodWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> changePeriodStatus(
-      {PeriodRequest? request}) async {
+      {required PeriodRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -156,10 +154,9 @@ class _PeriodWebService implements PeriodWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deletePeriod({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deletePeriod({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

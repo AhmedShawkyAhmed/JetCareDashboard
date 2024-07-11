@@ -22,14 +22,14 @@ abstract class PackagesWebService {
 
   @GET(EndPoints.getPackageDetails)
   Future<NetworkBaseModel<PackageDetailsModel>> getPackageDetails({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 
   @POST(EndPoints.addPackage)
   @MultiPart()
   Future<NetworkBaseModel<PackageModel>> addPackage({
-    @Body() PackageRequest? request,
-    @Part(name: "image") File? image,
+    @Body() required PackageRequest request,
+    @Part(name: "image") required File image,
   });
 
   @POST(EndPoints.updatePackage)
@@ -41,21 +41,21 @@ abstract class PackagesWebService {
 
   @POST(EndPoints.changePackageStatus)
   Future<NetworkBaseModel> changePackageStatus({
-    @Body() PackageRequest? request,
+    @Body() required PackageRequest request,
   });
 
   @DELETE(EndPoints.deletePackage)
   Future<NetworkBaseModel> deletePackage({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 
   @POST(EndPoints.addPackageItem)
   Future<NetworkBaseModel> addPackageItem({
-    @Body() PackageDetailsRequest? request,
+    @Body() required PackageDetailsRequest request,
   });
 
   @DELETE(EndPoints.deletePackageItem)
   Future<NetworkBaseModel> deletePackageItem({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

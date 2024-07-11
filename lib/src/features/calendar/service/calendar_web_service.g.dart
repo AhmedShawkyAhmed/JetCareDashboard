@@ -64,13 +64,12 @@ class _CalendarWebService implements CalendarWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> addCalendarPeriod(
-      {CalendarRequest? request}) async {
+      {required CalendarRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -96,10 +95,10 @@ class _CalendarWebService implements CalendarWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteCalendarPeriod({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteCalendarPeriod(
+      {required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

@@ -58,13 +58,12 @@ class _CrewWebService implements CrewWebService {
 
   @override
   Future<NetworkBaseModel<UserModel>> addCrew(
-      {RegisterRequest? request}) async {
+      {required RegisterRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<UserModel>>(Options(
       method: 'POST',
@@ -90,13 +89,13 @@ class _CrewWebService implements CrewWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> updateCrew({UserModel? request}) async {
+  Future<NetworkBaseModel<dynamic>> updateCrew(
+      {required UserModel request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -122,13 +121,12 @@ class _CrewWebService implements CrewWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> activateAccount({int? userId}) async {
+  Future<NetworkBaseModel<dynamic>> activateAccount(
+      {required int userId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {'user_id': userId};
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -154,13 +152,11 @@ class _CrewWebService implements CrewWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> stopAccount({int? userId}) async {
+  Future<NetworkBaseModel<dynamic>> stopAccount({required int userId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {'user_id': userId};
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -187,18 +183,16 @@ class _CrewWebService implements CrewWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> userAdminComment({
-    int? userId,
-    String? adminComment,
+    required int userId,
+    required String adminComment,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'user_id': userId,
       'admin_comment': adminComment,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -224,10 +218,9 @@ class _CrewWebService implements CrewWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteCrew({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteCrew({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -256,10 +249,9 @@ class _CrewWebService implements CrewWebService {
 
   @override
   Future<NetworkBaseModel<List<CrewAreaModel>>> getCrewAreas(
-      {int? crewId}) async {
+      {required int crewId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'crew_id': crewId};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -292,19 +284,60 @@ class _CrewWebService implements CrewWebService {
   }
 
   @override
+  Future<NetworkBaseModel<List<UserModel>>> getCrewOfAreas({
+    required int areaId,
+    required int periodId,
+    required String date,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'area_id': areaId,
+      r'period_id': periodId,
+      r'date': date,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<NetworkBaseModel<List<UserModel>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'get_crew_of_areas',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = NetworkBaseModel<List<UserModel>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<UserModel>(
+                  (i) => UserModel.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
   Future<NetworkBaseModel<dynamic>> addAreaToCrew({
-    int? crewId,
-    int? areaId,
+    required int crewId,
+    required int areaId,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'crew_id': crewId,
       'area_id': areaId,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'GET',
@@ -330,10 +363,9 @@ class _CrewWebService implements CrewWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteCrewArea({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteCrewArea({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

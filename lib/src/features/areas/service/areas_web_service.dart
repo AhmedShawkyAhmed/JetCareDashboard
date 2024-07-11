@@ -22,26 +22,26 @@ abstract class AreasWebService {
 
   @GET(EndPoints.getAreasOfState)
   Future<NetworkBaseModel<List<AreaModel>>> getAreasOfState({
-    @Query("state_id") int? stateId,
+    @Query("state_id") required int stateId,
   });
 
   @POST(EndPoints.addArea)
   Future<NetworkBaseModel> addArea({
-    @Body() AreaRequest? request,
+    @Body() required AreaRequest request,
   });
 
   @POST(EndPoints.updateArea)
   Future<NetworkBaseModel> updateArea({
-    @Body() AreaRequest? request,
+    @Body() required AreaRequest request,
   });
 
   @POST(EndPoints.changeAreaStatus)
   Future<NetworkBaseModel> changeAreaStatus({
-    @Body() AreaRequest? request,
+    @Body() required AreaRequest request,
   });
 
   @DELETE(EndPoints.deleteArea)
   Future<NetworkBaseModel> deleteArea({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

@@ -13,7 +13,7 @@ abstract class SupportWebService {
 
   @POST(EndPoints.supportComment)
   Future<NetworkBaseModel> supportComment({
-    @Body() SupportCommentRequest? request,
+    @Body() required SupportCommentRequest request,
   });
 
   @GET(EndPoints.getSupport)
@@ -23,6 +23,6 @@ abstract class SupportWebService {
 
   @DELETE(EndPoints.deleteSupport)
   Future<NetworkBaseModel> deleteSupport({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

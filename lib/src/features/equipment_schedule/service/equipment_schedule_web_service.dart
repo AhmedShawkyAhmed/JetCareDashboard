@@ -17,14 +17,14 @@ abstract class EquipmentScheduleWebService {
 
   @POST(EndPoints.assignEquipment)
   Future<NetworkBaseModel> assignEquipment({
-    @Field("equipment_id") int? equipmentId,
-    @Field("crew_id") int? crewId,
-    @Field("date") String? date,
+    @Field("equipment_id") required int equipmentId,
+    @Field("crew_id") required int crewId,
+    @Field("date") required String date,
   });
 
   @POST(EndPoints.returnEquipment)
   Future<NetworkBaseModel> returnEquipment({
-    @Field("id") int? id,
-    @Field("date") String? date,
+    @Field("id") required int id,
+    @Field("date") required String date,
   });
 }

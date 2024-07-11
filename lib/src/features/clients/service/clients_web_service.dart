@@ -21,43 +21,43 @@ abstract class ClientsWebService {
 
   @POST(EndPoints.register)
   Future<NetworkBaseModel<UserModel>> addClient({
-    @Body() RegisterRequest? request,
+    @Body() required RegisterRequest request,
   });
 
   @POST(EndPoints.updateAccount)
   Future<NetworkBaseModel> updateClient({
-    @Body() UserModel? request,
+    @Body() required UserModel request,
   });
 
   @POST(EndPoints.activateAccount)
   Future<NetworkBaseModel> activateAccount({
-    @Field("user_id") int? userId,
+    @Field("user_id") required int userId,
   });
 
   @POST(EndPoints.stopAccount)
   Future<NetworkBaseModel> stopAccount({
-    @Field("user_id") int? userId,
+    @Field("user_id") required int userId,
   });
 
   @POST(EndPoints.userAdminComment)
   Future<NetworkBaseModel> userAdminComment({
-    @Field("user_id") int? userId,
-    @Field("admin_comment") String? adminComment,
+    @Field("user_id") required int userId,
+    @Field("admin_comment") required String adminComment,
   });
 
   @DELETE(EndPoints.deleteAccount)
   Future<NetworkBaseModel> deleteClient({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 
   @GET(EndPoints.getMyAddresses)
   Future<NetworkBaseModel<List<AddressModel>>> getMyAddresses({
-    @Query('user_id') int? userId,
+    @Query('user_id') required int userId,
   });
 
   @POST(EndPoints.addAddress)
   Future<NetworkBaseModel<AddressModel>> addAddress({
-    @Body() AddressRequest? request,
+    @Body() required AddressRequest request,
   });
 
   @GET(EndPoints.getStates)
@@ -65,6 +65,6 @@ abstract class ClientsWebService {
 
   @GET(EndPoints.getAreasOfState)
   Future<NetworkBaseModel<List<AreaModel>>> getAreasOfState({
-    @Query('state_id') int? stateId,
+    @Query('state_id') required int stateId,
   });
 }

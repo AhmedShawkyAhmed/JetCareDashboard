@@ -18,21 +18,21 @@ abstract class PeriodWebService {
 
   @POST(EndPoints.addPeriod)
   Future<NetworkBaseModel> addPeriod({
-    @Body() PeriodRequest? request,
+    @Body() required PeriodRequest request,
   });
 
   @POST(EndPoints.updatePeriod)
   Future<NetworkBaseModel> updatePeriod({
-    @Body() PeriodRequest? request,
+    @Body() required PeriodRequest request,
   });
 
   @POST(EndPoints.changePeriodStatus)
   Future<NetworkBaseModel> changePeriodStatus({
-    @Body() PeriodRequest? request,
+    @Body() required PeriodRequest request,
   });
 
   @DELETE(EndPoints.deletePeriod)
   Future<NetworkBaseModel> deletePeriod({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

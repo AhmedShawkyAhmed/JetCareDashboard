@@ -18,17 +18,17 @@ abstract class CorporateWebService {
 
   @POST(EndPoints.addCorporateOrder)
   Future<NetworkBaseModel<CorporateOrderModel>> addCorporateOrder({
-    @Body() CorporateOrderRequest? request,
+    @Body() required CorporateOrderRequest request,
   });
 
   @POST(EndPoints.corporateAdminComment)
   Future<NetworkBaseModel> corporateAdminComment({
-    @Field("id") int? id,
-    @Field("admin_comment") String? adminComment,
+    @Field("id") required int id,
+    @Field("admin_comment") required String adminComment,
   });
 
   @POST(EndPoints.contactCorporate)
   Future<NetworkBaseModel> contactCorporate({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

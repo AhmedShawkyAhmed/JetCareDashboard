@@ -51,7 +51,7 @@ class AuthRepo {
 
   Future<NetworkResult<NetworkBaseModel<TabAccessModel>>> getTabAccess() async {
     try {
-      var response = await webService.getTabAccess(id: Globals.userData.id);
+      var response = await webService.getTabAccess(id: Globals.userData.id!);
       return NetworkResult.success(response);
     } on DioException catch (error) {
       return NetworkResult.failure(NetworkExceptions.getException(error));

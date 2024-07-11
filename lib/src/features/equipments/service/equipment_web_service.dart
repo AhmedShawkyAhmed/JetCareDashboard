@@ -18,12 +18,12 @@ abstract class EquipmentWebService {
 
   @POST(EndPoints.addEquipment)
   Future<NetworkBaseModel<EquipmentModel>> addEquipment({
-    @Field("code") String? code,
-    @Field("name") String? name,
+    @Field("code") required String code,
+    @Field("name") required String name,
   });
 
   @DELETE(EndPoints.deleteEquipment)
   Future<NetworkBaseModel> deleteEquipment({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

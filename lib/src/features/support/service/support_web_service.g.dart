@@ -22,13 +22,12 @@ class _SupportWebService implements SupportWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> supportComment(
-      {SupportCommentRequest? request}) async {
+      {required SupportCommentRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -91,10 +90,9 @@ class _SupportWebService implements SupportWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteSupport({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteSupport({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

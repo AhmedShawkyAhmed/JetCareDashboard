@@ -21,13 +21,13 @@ class _AuthWebService implements AuthWebService {
   String? baseUrl;
 
   @override
-  Future<NetworkBaseModel<UserModel>> login({LoginRequest? request}) async {
+  Future<NetworkBaseModel<UserModel>> login(
+      {required LoginRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<UserModel>>(Options(
       method: 'POST',
@@ -53,13 +53,12 @@ class _AuthWebService implements AuthWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> fcm({FCMRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> fcm({required FCMRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -115,10 +114,10 @@ class _AuthWebService implements AuthWebService {
   }
 
   @override
-  Future<NetworkBaseModel<TabAccessModel>> getTabAccess({int? id}) async {
+  Future<NetworkBaseModel<TabAccessModel>> getTabAccess(
+      {required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'moderator_id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

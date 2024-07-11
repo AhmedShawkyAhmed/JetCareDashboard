@@ -19,11 +19,11 @@ abstract class CalendarWebService {
 
   @POST(EndPoints.addCalendarPeriod)
   Future<NetworkBaseModel> addCalendarPeriod({
-    @Body() CalendarRequest? request,
+    @Body() required CalendarRequest request,
   });
 
   @DELETE(EndPoints.deleteCalendarPeriod)
   Future<NetworkBaseModel> deleteCalendarPeriod({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

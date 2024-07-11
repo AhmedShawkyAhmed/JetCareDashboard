@@ -17,16 +17,16 @@ abstract class NotificationsWebService {
 
   @POST(EndPoints.notifyUser)
   Future<NetworkBaseModel> notifyUser({
-    @Body() NotificationRequest? request,
+    @Body() required NotificationRequest request,
   });
 
   @POST(EndPoints.notifyAll)
   Future<NetworkBaseModel> notifyAll({
-    @Body() NotificationRequest? request,
+    @Body() required NotificationRequest request,
   });
 
   @POST(EndPoints.saveNotification)
   Future<NetworkBaseModel> saveNotification({
-    @Body() NotificationRequest? request,
+    @Body() required NotificationRequest request,
   });
 }

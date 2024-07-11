@@ -58,20 +58,18 @@ class _EquipmentScheduleWebService implements EquipmentScheduleWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> assignEquipment({
-    int? equipmentId,
-    int? crewId,
-    String? date,
+    required int equipmentId,
+    required int crewId,
+    required String date,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'equipment_id': equipmentId,
       'crew_id': crewId,
       'date': date,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -98,18 +96,16 @@ class _EquipmentScheduleWebService implements EquipmentScheduleWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> returnEquipment({
-    int? id,
-    String? date,
+    required int id,
+    required String date,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'id': id,
       'date': date,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',

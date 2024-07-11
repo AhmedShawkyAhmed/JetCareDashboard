@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/shared/models/user_model.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/features/moderators/data/models/moderator_access_model.dart';
 import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
-import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'moderators_web_service.g.dart';
@@ -21,47 +21,47 @@ abstract class ModeratorsWebService {
 
   @GET(EndPoints.getTabAccess)
   Future<NetworkBaseModel<ModeratorAccessModel>> getTabAccess({
-    @Query("moderator_id") int? id,
+    @Query("moderator_id") required int id,
   });
 
   @POST(EndPoints.register)
   Future<NetworkBaseModel<UserModel>> addModerator({
-    @Body() RegisterRequest? request,
+    @Body() required RegisterRequest request,
   });
 
   @POST(EndPoints.updateAccount)
   Future<NetworkBaseModel> updateModerator({
-    @Body() UserModel? request,
+    @Body() required UserModel request,
   });
 
   @POST(EndPoints.createAccess)
   Future<NetworkBaseModel> createAccess({
-    @Field("moderator_id") int? moderatorId,
+    @Field("moderator_id") required int moderatorId,
   });
 
   @POST(EndPoints.updateAccess)
   Future<NetworkBaseModel> updateAccess({
-    @Body() AccessRequest? request,
+    @Body() required AccessRequest request,
   });
 
   @POST(EndPoints.activateAccount)
   Future<NetworkBaseModel> activateAccount({
-    @Field("user_id") int? userId,
+    @Field("user_id") required int userId,
   });
 
   @POST(EndPoints.stopAccount)
   Future<NetworkBaseModel> stopAccount({
-    @Field("user_id") int? userId,
+    @Field("user_id") required int userId,
   });
 
   @POST(EndPoints.userAdminComment)
   Future<NetworkBaseModel> userAdminComment({
-    @Field("user_id") int? userId,
-    @Field("admin_comment") String? adminComment,
+    @Field("user_id") required int userId,
+    @Field("admin_comment") required String adminComment,
   });
 
   @DELETE(EndPoints.deleteAccount)
   Future<NetworkBaseModel> deleteModerator({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

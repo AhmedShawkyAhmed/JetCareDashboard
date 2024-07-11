@@ -59,13 +59,12 @@ class _ClientsWebService implements ClientsWebService {
 
   @override
   Future<NetworkBaseModel<UserModel>> addClient(
-      {RegisterRequest? request}) async {
+      {required RegisterRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<UserModel>>(Options(
       method: 'POST',
@@ -91,13 +90,13 @@ class _ClientsWebService implements ClientsWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> updateClient({UserModel? request}) async {
+  Future<NetworkBaseModel<dynamic>> updateClient(
+      {required UserModel request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -123,13 +122,12 @@ class _ClientsWebService implements ClientsWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> activateAccount({int? userId}) async {
+  Future<NetworkBaseModel<dynamic>> activateAccount(
+      {required int userId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {'user_id': userId};
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -155,13 +153,11 @@ class _ClientsWebService implements ClientsWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> stopAccount({int? userId}) async {
+  Future<NetworkBaseModel<dynamic>> stopAccount({required int userId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {'user_id': userId};
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -188,18 +184,16 @@ class _ClientsWebService implements ClientsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> userAdminComment({
-    int? userId,
-    String? adminComment,
+    required int userId,
+    required String adminComment,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'user_id': userId,
       'admin_comment': adminComment,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -225,10 +219,9 @@ class _ClientsWebService implements ClientsWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteClient({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteClient({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -257,10 +250,9 @@ class _ClientsWebService implements ClientsWebService {
 
   @override
   Future<NetworkBaseModel<List<AddressModel>>> getMyAddresses(
-      {int? userId}) async {
+      {required int userId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'user_id': userId};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -294,13 +286,12 @@ class _ClientsWebService implements ClientsWebService {
 
   @override
   Future<NetworkBaseModel<AddressModel>> addAddress(
-      {AddressRequest? request}) async {
+      {required AddressRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<AddressModel>>(Options(
       method: 'POST',
@@ -362,10 +353,9 @@ class _ClientsWebService implements ClientsWebService {
 
   @override
   Future<NetworkBaseModel<List<AreaModel>>> getAreasOfState(
-      {int? stateId}) async {
+      {required int stateId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'state_id': stateId};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

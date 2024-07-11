@@ -58,10 +58,10 @@ class _CategoriesWebService implements CategoriesWebService {
   }
 
   @override
-  Future<NetworkBaseModel<CategoryModel>> getCategoryDetails({int? id}) async {
+  Future<NetworkBaseModel<CategoryModel>> getCategoryDetails(
+      {required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -90,15 +90,14 @@ class _CategoriesWebService implements CategoriesWebService {
 
   @override
   Future<NetworkBaseModel<CategoryModel>> addCategory({
-    CategoryRequest? request,
-    File? image,
+    required CategoryRequest request,
+    required File image,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<CategoryModel>>(Options(
       method: 'POST',
@@ -162,13 +161,12 @@ class _CategoriesWebService implements CategoriesWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> changeCategoryStatus(
-      {CategoryRequest? request}) async {
+      {required CategoryRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -194,10 +192,9 @@ class _CategoriesWebService implements CategoriesWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteCategory({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteCategory({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -226,13 +223,12 @@ class _CategoriesWebService implements CategoriesWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> addCategoryPackage(
-      {CategoryItemRequest? request}) async {
+      {required CategoryItemRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -259,13 +255,12 @@ class _CategoriesWebService implements CategoriesWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> addCategoryItem(
-      {CategoryItemRequest? request}) async {
+      {required CategoryItemRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -291,10 +286,9 @@ class _CategoriesWebService implements CategoriesWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteCategorySub({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteCategorySub({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

@@ -22,14 +22,14 @@ abstract class CategoriesWebService {
 
   @GET(EndPoints.getCategoryDetails)
   Future<NetworkBaseModel<CategoryModel>> getCategoryDetails({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 
   @POST(EndPoints.addCategory)
   @MultiPart()
   Future<NetworkBaseModel<CategoryModel>> addCategory({
-    @Body() CategoryRequest? request,
-    @Part(name: "image") File? image,
+    @Body() required CategoryRequest request,
+    @Part(name: "image") required File image,
   });
 
   @POST(EndPoints.updateCategory)
@@ -41,26 +41,26 @@ abstract class CategoriesWebService {
 
   @POST(EndPoints.changeCategoryStatus)
   Future<NetworkBaseModel> changeCategoryStatus({
-    @Body() CategoryRequest? request,
+    @Body() required CategoryRequest request,
   });
 
   @DELETE(EndPoints.deleteCategory)
   Future<NetworkBaseModel> deleteCategory({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 
   @POST(EndPoints.addCategoryPackage)
   Future<NetworkBaseModel> addCategoryPackage({
-    @Body() CategoryItemRequest? request,
+    @Body() required CategoryItemRequest request,
   });
 
   @POST(EndPoints.addCategoryItem)
   Future<NetworkBaseModel> addCategoryItem({
-    @Body() CategoryItemRequest? request,
+    @Body() required CategoryItemRequest request,
   });
 
   @DELETE(EndPoints.deleteCategorySub)
   Future<NetworkBaseModel> deleteCategorySub({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

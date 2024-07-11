@@ -238,13 +238,13 @@ class _InfoWebService implements InfoWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> addInfo({InfoRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> addInfo(
+      {required InfoRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -270,13 +270,13 @@ class _InfoWebService implements InfoWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> updateInfo({InfoRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> updateInfo(
+      {required InfoRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -302,10 +302,9 @@ class _InfoWebService implements InfoWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteInfo({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteInfo({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

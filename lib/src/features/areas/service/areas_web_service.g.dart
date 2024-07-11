@@ -94,10 +94,9 @@ class _AreasWebService implements AreasWebService {
 
   @override
   Future<NetworkBaseModel<List<AreaModel>>> getAreasOfState(
-      {int? stateId}) async {
+      {required int stateId}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'state_id': stateId};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -130,13 +129,13 @@ class _AreasWebService implements AreasWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> addArea({AreaRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> addArea(
+      {required AreaRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -162,13 +161,13 @@ class _AreasWebService implements AreasWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> updateArea({AreaRequest? request}) async {
+  Future<NetworkBaseModel<dynamic>> updateArea(
+      {required AreaRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -195,13 +194,12 @@ class _AreasWebService implements AreasWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> changeAreaStatus(
-      {AreaRequest? request}) async {
+      {required AreaRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -227,10 +225,9 @@ class _AreasWebService implements AreasWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteArea({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteArea({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

@@ -131,15 +131,14 @@ class _ItemsWebService implements ItemsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> addItem({
-    ItemRequest? request,
-    File? image,
+    required ItemRequest request,
+    required File image,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -203,13 +202,12 @@ class _ItemsWebService implements ItemsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> changeItemStatus(
-      {ItemRequest? request}) async {
+      {required ItemRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -235,10 +233,9 @@ class _ItemsWebService implements ItemsWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteItem({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteItem({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

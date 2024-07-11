@@ -31,8 +31,8 @@ abstract class ItemsWebService {
   @POST(EndPoints.addItem)
   @MultiPart()
   Future<NetworkBaseModel> addItem({
-    @Body() ItemRequest? request,
-    @Part(name: "image") File? image,
+    @Body() required ItemRequest request,
+    @Part(name: "image") required File image,
   });
 
   @POST(EndPoints.updateItem)
@@ -44,11 +44,11 @@ abstract class ItemsWebService {
 
   @POST(EndPoints.changeItemStatus)
   Future<NetworkBaseModel> changeItemStatus({
-    @Body() ItemRequest? request,
+    @Body() required ItemRequest request,
   });
 
   @DELETE(EndPoints.deleteItem)
   Future<NetworkBaseModel> deleteItem({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

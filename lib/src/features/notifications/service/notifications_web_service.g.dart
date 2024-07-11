@@ -57,13 +57,12 @@ class _NotificationsWebService implements NotificationsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> notifyUser(
-      {NotificationRequest? request}) async {
+      {required NotificationRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -90,13 +89,12 @@ class _NotificationsWebService implements NotificationsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> notifyAll(
-      {NotificationRequest? request}) async {
+      {required NotificationRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -123,13 +121,12 @@ class _NotificationsWebService implements NotificationsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> saveNotification(
-      {NotificationRequest? request}) async {
+      {required NotificationRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',

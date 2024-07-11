@@ -58,15 +58,14 @@ class _AdsWebService implements AdsWebService {
 
   @override
   Future<NetworkBaseModel<AdsModel>> addAds({
-    AdsRequest? request,
-    File? image,
+    required AdsRequest request,
+    required File image,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<AdsModel>>(Options(
       method: 'POST',
@@ -130,13 +129,12 @@ class _AdsWebService implements AdsWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> changeAdStatus(
-      {AdsRequest? request}) async {
+      {required AdsRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -162,10 +160,9 @@ class _AdsWebService implements AdsWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteAds({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteAds({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

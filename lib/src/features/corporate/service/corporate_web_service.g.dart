@@ -59,13 +59,12 @@ class _CorporateWebService implements CorporateWebService {
 
   @override
   Future<NetworkBaseModel<CorporateOrderModel>> addCorporateOrder(
-      {CorporateOrderRequest? request}) async {
+      {required CorporateOrderRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<CorporateOrderModel>>(Options(
       method: 'POST',
@@ -92,18 +91,16 @@ class _CorporateWebService implements CorporateWebService {
 
   @override
   Future<NetworkBaseModel<dynamic>> corporateAdminComment({
-    int? id,
-    String? adminComment,
+    required int id,
+    required String adminComment,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'id': id,
       'admin_comment': adminComment,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<dynamic>>(Options(
       method: 'POST',
@@ -129,10 +126,9 @@ class _CorporateWebService implements CorporateWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> contactCorporate({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> contactCorporate({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

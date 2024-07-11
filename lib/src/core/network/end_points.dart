@@ -92,6 +92,7 @@ class EndPoints {
   static const addAreaToCrew = "add_area_to_crew";
   static const deleteCrewArea = "delete_crew_area";
   static const getCrewAreas = "get_crew_areas";
+  static const getCrewOfAreas = "get_crew_of_areas";
 
   // ------------------- Moderators
   static const getModerators = "get_moderators";
@@ -145,6 +146,16 @@ class EndPoints {
   static const addCategoryItem = "add_category_item";
   static const deleteCategorySub = "delete_category_sub";
 
+  // ------------------- Orders
+  static const getOrders = "get_orders";
+  static const createOrder = "create_order";
+  static const updateOrderStatus = "update_order_status";
+  static const updateAdminComment = "update_admin_comment";
+  static const assignOrder = "assign_order";
+  static const addExtraFees = "add_extra_fees";
+  static const addToCart = "add_to_cart";
+  static const deleteOrder = "delete_order";
+
 
 
 
@@ -153,16 +164,6 @@ class EndPoints {
 
   static const getAccounts = "getAccounts";
 
-  static const addToCart = "addToCart";
-
-
-  static const getOrders = "getOrders";
-  static const assignOrder = "assignOrder";
-  static const deleteOrder = "deleteOrder";
-  static const updateOrderStatus = "updateOrderStatus";
-  static const updateAdminComment = "updateAdminComment";
-  static const createOrder = "createOrder";
   static const updateExtra = "updateExtra";
 
-  static const getCrewOfAreas = "getCrewOfAreas";
 }

@@ -59,18 +59,16 @@ class _EquipmentWebService implements EquipmentWebService {
 
   @override
   Future<NetworkBaseModel<EquipmentModel>> addEquipment({
-    String? code,
-    String? name,
+    required String code,
+    required String name,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = {
       'code': code,
       'name': name,
     };
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<NetworkBaseModel<EquipmentModel>>(Options(
       method: 'POST',
@@ -96,10 +94,9 @@ class _EquipmentWebService implements EquipmentWebService {
   }
 
   @override
-  Future<NetworkBaseModel<dynamic>> deleteEquipment({int? id}) async {
+  Future<NetworkBaseModel<dynamic>> deleteEquipment({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

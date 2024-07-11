@@ -21,8 +21,8 @@ abstract class AdsWebService {
   @POST(EndPoints.addAds)
   @MultiPart()
   Future<NetworkBaseModel<AdsModel>> addAds({
-    @Body() AdsRequest? request,
-    @Part(name: "image") File? image,
+    @Body() required AdsRequest request,
+    @Part(name: "image") required File image,
   });
 
   @POST(EndPoints.updateAds)
@@ -34,11 +34,11 @@ abstract class AdsWebService {
 
   @POST(EndPoints.changeAdStatus)
   Future<NetworkBaseModel> changeAdStatus({
-    @Body() AdsRequest? request,
+    @Body() required AdsRequest request,
   });
 
   @DELETE(EndPoints.deleteAds)
   Future<NetworkBaseModel> deleteAds({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }

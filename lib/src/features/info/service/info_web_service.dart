@@ -34,16 +34,16 @@ abstract class InfoWebService {
 
   @POST(EndPoints.addInfo)
   Future<NetworkBaseModel> addInfo({
-    @Body() InfoRequest? request,
+    @Body() required InfoRequest request,
   });
 
   @POST(EndPoints.updateInfo)
   Future<NetworkBaseModel> updateInfo({
-    @Body() InfoRequest? request,
+    @Body() required InfoRequest request,
   });
 
   @DELETE(EndPoints.deleteInfo)
   Future<NetworkBaseModel> deleteInfo({
-    @Query("id") int? id,
+    @Query("id") required int id,
   });
 }
