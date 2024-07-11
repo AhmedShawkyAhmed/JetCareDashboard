@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/views/comment_view.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:jetboard/src/features/clients/cubit/clients_cubit.dart';
 import 'package:jetboard/src/features/clients/ui/views/add_client_view.dart';
-import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class ClientsView extends StatefulWidget {

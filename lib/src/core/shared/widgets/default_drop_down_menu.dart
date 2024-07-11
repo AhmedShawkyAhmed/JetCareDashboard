@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:jetboard/src/business_logic/orders_cubit/orders_cubit.dart';
 import 'package:jetboard/src/core/constants/constants_variables.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:sizer/sizer.dart';
@@ -98,32 +97,32 @@ class _DefaultDropDownMenuState extends State<DefaultDropDownMenu> {
                 // );
                 year = value;
               } else if (widget.type == "status") {
-                OrdersCubit.get(context).updateOrderStatus(
-                  orderId: widget.orderId!,
-                  status: value,
-                  afterSuccess: () {
-                    setState(() {
-                      OrdersCubit.get(context)
-                          .ordersList[widget.index!]
-                          .status = value;
-                    });
-                    // NotificationCubit.get(context).notifyUser(
-                    //   id: widget.userId!,
-                    //   title: "الطلبات",
-                    //   message:
-                    //       "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
-                    //   afterSuccess: () {
-                    //     NotificationCubit.get(context).saveNotification(
-                    //       id: widget.userId!,
-                    //       title: "الطلبات",
-                    //       message:
-                    //           "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
-                    //       afterSuccess: () {},
-                    //     );
-                    //   },
-                    // );
-                  },
-                );
+                // OrdersCubit.get(context).updateOrderStatus(
+                //   orderId: widget.orderId!,
+                //   status: value,
+                //   afterSuccess: () {
+                //     setState(() {
+                //       OrdersCubit.get(context)
+                //           .ordersList[widget.index!]
+                //           .status = value;
+                //     });
+                //     // NotificationCubit.get(context).notifyUser(
+                //     //   id: widget.userId!,
+                //     //   title: "الطلبات",
+                //     //   message:
+                //     //       "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
+                //     //   afterSuccess: () {
+                //     //     NotificationCubit.get(context).saveNotification(
+                //     //       id: widget.userId!,
+                //     //       title: "الطلبات",
+                //     //       message:
+                //     //           "تم تغيير حالة طلبك رقم ${widget.orderId!} إلي $value",
+                //     //       afterSuccess: () {},
+                //     //     );
+                //     //   },
+                //     // );
+                //   },
+                // );
               }
               // else if (widget.type == "role") {
               //   UsersCubit.get(context).getUser(type: value == "All"?" ":value);

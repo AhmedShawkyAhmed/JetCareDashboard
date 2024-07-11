@@ -3,9 +3,9 @@ import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/network/models/network_result.dart';
 import 'package:jetboard/src/core/shared/models/user_model.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/features/moderators/data/models/moderator_access_model.dart';
 import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
-import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/features/moderators/service/moderators_web_service.dart';
 
 class ModeratorsRepo {

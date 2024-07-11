@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
 import 'package:jetboard/src/core/shared/views/comment_view.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
 import 'package:jetboard/src/features/moderators/ui/views/add_moderator_view.dart';
 import 'package:jetboard/src/features/moderators/ui/views/moderator_access_view.dart';
-import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class ModeratorView extends StatefulWidget {

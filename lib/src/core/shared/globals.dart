@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/core/utils/shared_methods.dart';
 import 'package:jetboard/src/features/auth/data/models/tab_access_model.dart';
-import 'package:jetboard/src/core/shared/models/user_model.dart';
 
 class Globals {
   Globals._();

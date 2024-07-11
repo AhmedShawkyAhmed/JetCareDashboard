@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/models/user_model.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/widgets/default_app_button.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text_field.dart';
-import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/features/moderators/cubit/moderators_cubit.dart';
-import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:sizer/sizer.dart';
 
 class AddModeratorView extends StatefulWidget {

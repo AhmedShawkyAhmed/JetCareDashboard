@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/network/end_points.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
+import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:jetboard/src/features/ads/cubit/ads_cubit.dart';
 import 'package:jetboard/src/features/ads/ui/views/add_ads_view.dart';
-import 'package:jetboard/src/core/shared/widgets/row_data.dart';
 import 'package:sizer/sizer.dart';
 
 class AdsView extends StatefulWidget {

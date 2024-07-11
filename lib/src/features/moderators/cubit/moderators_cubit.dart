@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/network/models/network_base_model.dart';
 import 'package:jetboard/src/core/network/models/network_exceptions.dart';
 import 'package:jetboard/src/core/services/navigation_service.dart';
+import 'package:jetboard/src/core/shared/models/user_model.dart';
+import 'package:jetboard/src/core/shared/requests/register_request.dart';
 import 'package:jetboard/src/core/shared/views/indicator_view.dart';
 import 'package:jetboard/src/core/shared/widgets/toast.dart';
-import 'package:jetboard/src/core/shared/models/user_model.dart';
 import 'package:jetboard/src/features/moderators/data/models/moderator_access_model.dart';
 import 'package:jetboard/src/features/moderators/data/repo/moderators_repo.dart';
 import 'package:jetboard/src/features/moderators/data/requests/access_request.dart';
-import 'package:jetboard/src/core/shared/requests/register_request.dart';
 
 part 'moderators_state.dart';
 

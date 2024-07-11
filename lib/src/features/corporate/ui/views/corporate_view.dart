@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jetboard/src/core/resources/app_colors.dart';
 import 'package:jetboard/src/core/shared/views/comment_view.dart';
 import 'package:jetboard/src/core/shared/widgets/default_text.dart';
-import 'package:jetboard/src/features/corporate/cubit/corporate_cubit.dart';
 import 'package:jetboard/src/core/shared/widgets/row_data.dart';
+import 'package:jetboard/src/features/corporate/cubit/corporate_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 class CorporateView extends StatefulWidget {
